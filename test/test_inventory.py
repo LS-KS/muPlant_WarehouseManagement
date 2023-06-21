@@ -1,5 +1,6 @@
+import pytest
+from src.model.DataModel import Cup, Product, Pallet
 
-from src.model.DataModel import Cup, Product
 
 def testProductWithCup():
     prod1 = Product(1, "Banana")
@@ -18,3 +19,30 @@ def testProductWithCup():
     prod2.withCup(cup1)
     assert cup1.product == prod2
     assert cup2.product == prod2
+
+
+def testProductCupPallet():
+    prod1 = Product(1, "Banana")
+    cup1 = Cup(1, prod1)
+
+    prod2 = Product(2, "Apple")
+    cup2 = Cup(2, prod2)
+
+    pallet = Pallet()
+    pallet.setSlotA(cup1)
+    pallet.setSlotB(cup2)
+    assert pallet.slotA == cup1
+    assert pallet.slotB == cup2
+    assert cup1.storage == pallet
+    assert cup2.storage == pallet
+
+    pallet.setSlotA(cup2)
+    assert pallet.slotA == cup2
+    assert pallet.slotB is None
+    assert cup1.storage is None
+    assert cup2.storage == pallet
+    pallet.setSlotB(cup2)
+    assert pallet.slotA is None
+    assert pallet.slotB == cup2
+    assert cup1.storage == None
+    assert cup1.storage is None

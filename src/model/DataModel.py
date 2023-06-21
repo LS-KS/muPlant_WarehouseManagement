@@ -87,16 +87,6 @@ class Cup:
         if product != None:
             product.withCup(self)
 
-    def setStorage(self, storage):
-        if storage is None:
-            if not self.storage.cup == None:
-                self.storage.setCup(None)
-                self.storage = storage
-        elif not self.storage == None and self.storage.cup == self:
-            self.storage.setCup(None)
-            self.storage = storage
-        else
-            self.storage = storage
 
     def getID(self):
         """
@@ -148,15 +138,102 @@ class Cup:
                 self.product.withoutCup(self)
             self.product = product
 
+    def setStorage(self, storage):
+        """
+        Sets the storage stored the cup is stored in.
+        Note, that the Cup cannot now the exact spot of the storage item.
+        Therefor if storage is instance of Pallet, use Pallets setSlotA(Cup) / setSlotb(Cup) methods
+        storage can be Mobile Robot, Pallet or Gripper
+
+        :param storage:
+        :return: Cup
+        """
+        if self.storage == storage:
+            return self
+        oldValue = self.storage
+        if self.storage is not None:
+            self.storage = None
+            if not isinstance(oldValue, Pallet):
+                oldValue.setCup(None)
+        self.storage = storage
+        if storage is not None and not isinstance(storage, Pallet):
+            storage.setCup(self)
+
+        return self
+
 
 class Pallet:
+    """
+    Implements Pallet class from µPlant which stores up tp two cups.
+    Cup objects are stored in slotA and slotB and shall be set by corresponding methods.
+    last revision: 21.06.20223
+
+    :param storage: The storage object in which the pallet is stored (Workbench, Gripper, Inventory)
+    :param slotA: slot for a Cup object which represents the slot in the front of storage bar.
+    :param slotB: slot for a Cup object which represents the slot in the rear of storage bar.    """
     def __init__(self):
+        """
+        Initializes a new instance of the Pallet class with all attributes as None.
+
+        :param storage: The storage object in which the pallet is stored (Workbench, Gripper, Inventory)
+        :param slotA: slot for a Cup object which represents the slot in the front of storage bar.
+        :param slotB: slot for a Cup object which represents the slot in the rear of storage bar.
+        """
         self.storage = None
         self.slotA = None
         self.slotB = None
 
-    def removeCup(self, cup):
+
     def setSlotA(self, cup):
+        """
+        Sets or removes a Cup obeject in the front slot of this pallet object.
+        If the slot already has a cup,
+        calls the setStorage method on the existing cup with None as param before setting the new cup.
+
+        If the new cup is not None and is not already associated with this Pallet object,
+        adds this Pallet object storage object of the new cup.
+
+        If the new cup is None and this Pallet object is associated with an existing cup,
+        calls the setStorage method on the existing cup before setting the new cup to None.
+
+        :param cup: The new cup to store in the cup
+        :type cup: Cup
+        """
+        if self.slotA == cup:
+            return self
+        oldValue = self.slotA
         if self.slotA is not None:
-            if self.slotA
+            self.slotA = None
+            oldValue.setStorage(None)
         self.slotA = cup
+        if cup.storage is not self:
+            cup.setStorage(self)
+        if self.slotA == self.slotB:
+            self.slotB = None
+
+    def setSlotB(self, cup):
+        """
+        Sets or removes a Cup obeject in the rear slot of this pallet object.
+        If the slot already has a cup,
+        calls the setStorage method on the existing cup with None as param before setting the new cup.
+
+        If the new cup is not None and is not already associated with this Pallet object,
+        adds this Pallet object storage object of the new cup.
+
+        If the new cup is None and this Pallet object is associated with an existing cup,
+        calls the setStorage method on the existing cup before setting the new cup to None.
+
+        :param cup: The new cup to store in the cup
+        :type cup: Cup
+        """
+        if self.slotB == cup:
+            return self
+        oldValue = self.slotB
+        if self.slotB is not None:
+            self.slotB = None
+            oldValue.setStorage(None)
+        self.slotB = cup
+        if cup.storage is not self:
+            cup.setStorage(self)
+        if self.slotB == self.slotA:
+            self.slotA = None
