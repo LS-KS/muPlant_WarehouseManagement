@@ -63,3 +63,29 @@ def testStorageELement():
     assert element.pallet == pallet2
     assert pallet1.location == None
     assert pallet2.location == element
+
+def testCupProductPalletStorageElement():
+    product1 = Product(1, "Bananensaft")
+    product2 = Product(2, "Kirschsaft")
+    cup1 = Cup(1,product1)
+    cup2 = Cup(2,product2)
+    pallet1 = Pallet()
+    pallet1.setSlotA(cup1)
+    pallet2 = Pallet()
+    pallet2.setSlotB(cup2)
+    element1 = StorageElement(1,1)
+    element1.setPallet(pallet1)
+    element2 = StorageElement(1,2)
+    element2.setPallet(pallet2)
+    assert cup1.location == pallet1
+    assert pallet1.location == element1
+    assert cup2.location == pallet2
+    assert pallet2.location == element2
+    element2.setPallet(None)
+    assert element2.pallet is None
+    assert pallet2.location is None
+    element2.setPallet(pallet1)
+    assert pallet1.location == element2
+    assert element2.pallet == pallet1
+    assert element1.pallet is None
+    assert pallet2.location is None

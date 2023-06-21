@@ -240,13 +240,39 @@ class Pallet:
     def setLocation(self, storageElement):
         if self.location == storageElement:
             return self
-        if storageElement is not None:
-            if self.location is not None:
-                raise ValueError("In this spot is actually already a pallet object!")
+        oldValue = self.location
+        if oldValue is not None:
+            oldValue.setPallet(None)
         self.location = storageElement
+        if storageElement is not None:
+            if storageElement.pallet is not self:
+                storageElement.setPallet(self)
 
 class StorageElement:
+    """
+    StorageElement represents a slot in µPlant storage bar, so there are 18 static objects.
+    Each usually holds one or none pallet object which should be also the same.
+    :param row: represents the storage bar row
+    :type row: int
+    :param col: represents the storage bar column
+    :type col: int
+    :param pallet: stores the pallet or nothing
+    :type pallet: Pallet
+    :param inventory: parent class of StorageElement
+    :type inventory: Inventory
+    """
     def __init__(self, row, col, inventory =None):
+        """
+        initialize the storage element object.
+        :param row: represents the storage bar row
+        :type row: int
+        :param col: represents the storage bar column
+        :type col: int
+        :param pallet: stores the pallet or nothing
+        :type pallet: Pallet
+        :param inventory: parent class of StorageElement
+        :type inventory: Inventory
+        """
         self.row = row
         self.col = col
         self.pallet = None
@@ -255,11 +281,11 @@ class StorageElement:
     def setPallet(self, pallet):
         """
         Sets or removes a Pallet object in location spot of the storage bar.
-        If the storagElement already has a pallet object,
+        If the storage element already has a pallet object,
         calls the setLocation method on the existing pallet with None as param before setting the new pallet.
 
         If the new pallet is not None and is not already associated with this storage element object,
-        adds this storageelement object location object of the new pallet.
+        adds this storage element object location object of the new pallet.
 
         If the new pallet is None and this storage element object is associated with an existing pallet,
         it throws a ValueError.
@@ -272,6 +298,7 @@ class StorageElement:
         if self.pallet is not None and pallet is not None:
             raise ValueError("In this spot is actually already a pallet object!")
         oldValue = self.pallet
+        self.pallet = None
         if oldValue is not None:
             oldValue.setLocation(None)
         self.pallet = pallet
