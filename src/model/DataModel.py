@@ -58,7 +58,6 @@ class Product:
         if cup.product == self:
             cup.setProduct(None)
 
-
 class Cup:
     """
     Implements Cup class from µPlant which exists in two sizes.
@@ -80,10 +79,11 @@ class Cup:
         :type id: int
         :param product: The product stored in the cup
         :type product: Product
+        :param location: the location object where the cup is stored (Pallet, MobileRobot, Gripper)
         """
         self.id = id
         self.product = product
-        self.storage = None
+        self.location = None
         if product != None:
             product.withCup(self)
 
@@ -138,29 +138,28 @@ class Cup:
                 self.product.withoutCup(self)
             self.product = product
 
-    def setStorage(self, storage):
+    def setLocation(self, location):
         """
         Sets the storage stored the cup is stored in.
         Note, that the Cup cannot now the exact spot of the storage item.
         Therefor if storage is instance of Pallet, use Pallets setSlotA(Cup) / setSlotb(Cup) methods
         storage can be Mobile Robot, Pallet or Gripper
 
-        :param storage:
+        :param location:
         :return: Cup
         """
-        if self.storage == storage:
+        if self.location == location:
             return self
-        oldValue = self.storage
-        if self.storage is not None:
+        oldValue = self.location
+        if self.location is not None:
             self.storage = None
             if not isinstance(oldValue, Pallet):
                 oldValue.setCup(None)
-        self.storage = storage
-        if storage is not None and not isinstance(storage, Pallet):
-            storage.setCup(self)
+        self.location = location
+        if location is not None and not isinstance(location, Pallet):
+            location.setCup(self)
 
         return self
-
 
 class Pallet:
     """
@@ -168,18 +167,18 @@ class Pallet:
     Cup objects are stored in slotA and slotB and shall be set by corresponding methods.
     last revision: 21.06.20223
 
-    :param storage: The storage object in which the pallet is stored (Workbench, Gripper, Inventory)
+    :param location: The location object in which the pallet is stored (Workbench, Gripper, Inventory)
     :param slotA: slot for a Cup object which represents the slot in the front of storage bar.
     :param slotB: slot for a Cup object which represents the slot in the rear of storage bar.    """
     def __init__(self):
         """
         Initializes a new instance of the Pallet class with all attributes as None.
 
-        :param storage: The storage object in which the pallet is stored (Workbench, Gripper, Inventory)
+        :param location: The location object in which the pallet is stored (Workbench, Gripper, Inventory)
         :param slotA: slot for a Cup object which represents the slot in the front of storage bar.
         :param slotB: slot for a Cup object which represents the slot in the rear of storage bar.
         """
-        self.storage = None
+        self.location = None
         self.slotA = None
         self.slotB = None
 
@@ -188,13 +187,13 @@ class Pallet:
         """
         Sets or removes a Cup obeject in the front slot of this pallet object.
         If the slot already has a cup,
-        calls the setStorage method on the existing cup with None as param before setting the new cup.
+        calls the setLocation method on the existing cup with None as param before setting the new cup.
 
         If the new cup is not None and is not already associated with this Pallet object,
-        adds this Pallet object storage object of the new cup.
+        adds this Pallet object location object of the new cup.
 
         If the new cup is None and this Pallet object is associated with an existing cup,
-        calls the setStorage method on the existing cup before setting the new cup to None.
+        calls the setLocation method on the existing cup before setting the new cup to None.
 
         :param cup: The new cup to store in the cup
         :type cup: Cup
@@ -204,10 +203,10 @@ class Pallet:
         oldValue = self.slotA
         if self.slotA is not None:
             self.slotA = None
-            oldValue.setStorage(None)
+            oldValue.setLocation(None)
         self.slotA = cup
-        if cup.storage is not self:
-            cup.setStorage(self)
+        if cup.location is not self:
+            cup.setLocation(self)
         if self.slotA == self.slotB:
             self.slotB = None
 
@@ -215,13 +214,13 @@ class Pallet:
         """
         Sets or removes a Cup obeject in the rear slot of this pallet object.
         If the slot already has a cup,
-        calls the setStorage method on the existing cup with None as param before setting the new cup.
+        calls the setLocation method on the existing cup with None as param before setting the new cup.
 
         If the new cup is not None and is not already associated with this Pallet object,
-        adds this Pallet object storage object of the new cup.
+        adds this Pallet object location object of the new cup.
 
         If the new cup is None and this Pallet object is associated with an existing cup,
-        calls the setStorage method on the existing cup before setting the new cup to None.
+        calls the setLocation method on the existing cup before setting the new cup to None.
 
         :param cup: The new cup to store in the cup
         :type cup: Cup
@@ -231,9 +230,39 @@ class Pallet:
         oldValue = self.slotB
         if self.slotB is not None:
             self.slotB = None
-            oldValue.setStorage(None)
+            oldValue.setLocation(None)
         self.slotB = cup
-        if cup.storage is not self:
-            cup.setStorage(self)
+        if cup.location is not self:
+            cup.setLocation(self)
         if self.slotB == self.slotA:
             self.slotA = None
+
+class StorageElement:
+    def __init__(self, row, col, inventory =None):
+        self.row = row
+        self.col = col
+        self.pallet = None
+        self.inventory = inventory
+
+    def setPallet(self, pallet):
+        """
+        Sets or removes a Pallet object in location spot of the storage bar.
+        If the storagelement already has a pallet object,
+        calls the setLocation method on the existing pallet with None as param before setting the new pallet.
+
+        If the new pallet is not None and is not already associated with this storage element object,
+        adds this storageelement object location object of the new pallet.
+
+        If the new pallet is None and this storage element object is associated with an existing pallet,
+        it throws a ValueError.
+
+        :param pallet: The new pallet object to store in
+        :type pallet: Pallet
+        """
+        if self.pallet == pallet:
+            return self
+        if self.pallet is not None:
+            raise ValueError("In this spot is actually already a pallet object!")
+        self.pallet = pallet
+        if pallet.location is not self:
+            pallet.setLocation(self)
