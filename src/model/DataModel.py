@@ -72,7 +72,7 @@ class Cup:
     :type product: Product
     """
 
-    def __init__(self, id: int, product: Product = None):
+    def __init__(self, id: int, product = None):
         """
         Initializes a new instance of the Cup class.
 
@@ -83,8 +83,20 @@ class Cup:
         """
         self.id = id
         self.product = product
+        self.storage = None
         if product != None:
             product.withCup(self)
+
+    def setStorage(self, storage):
+        if storage is None:
+            if not self.storage.cup == None:
+                self.storage.setCup(None)
+                self.storage = storage
+        elif not self.storage == None and self.storage.cup == self:
+            self.storage.setCup(None)
+            self.storage = storage
+        else
+            self.storage = storage
 
     def getID(self):
         """
@@ -135,3 +147,16 @@ class Cup:
             if self.product is not None and self in self.product.cups:
                 self.product.withoutCup(self)
             self.product = product
+
+
+class Pallet:
+    def __init__(self):
+        self.storage = None
+        self.slotA = None
+        self.slotB = None
+
+    def removeCup(self, cup):
+    def setSlotA(self, cup):
+        if self.slotA is not None:
+            if self.slotA
+        self.slotA = cup
