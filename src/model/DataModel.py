@@ -1,3 +1,64 @@
+class Inventory:
+
+    def __init__(self, controller):
+        self.pallets = []
+        self.invController = controller
+    def initializePallets(self):
+        pass
+
+class MobileRobot:
+    def __init__(self):
+        self.cup = None
+
+    def setCup(self, cup):
+        pass
+
+class Workbench:
+    def __init__(self):
+        self.k1 = None
+        self.k2 = None
+
+    def setK1(self, pallet):
+        pass
+
+    def setK2(self, pallet):
+        pass
+
+class Gripper:
+    """
+    Implements Gripper data class from µPlant industrial robotic arm.
+    Gripper stores a cup or a pallet object while transport operation is in progress.
+    Idea is to prevent data loss if program interruption occurs whilst progress.
+    last revision: 21.06.20223
+
+    :param object: Stores either cup object or pallet object (or None)
+    :type id: Cup or Pallet (or None)
+    """
+    def __init__(self):
+        """
+        initialize data object with None value
+        """
+        self.object = None
+
+    def setObject(self, object):
+        """
+        takes a Cup or Pallet data object.
+
+        :param object:
+        :return:
+        """
+        if self.object == object:
+            return self
+        if self.object is not None and object is not None:
+            raise ValueError("In this spot is actually already occupied!")
+        oldValue = self.object
+        self.object = None
+        if oldValue is not None:
+            oldValue.setLocation(None)
+        self.object = object
+        if object is not None:
+            if object.location is not self:
+                object.setLocation(self)
 
 class Product:
     """
