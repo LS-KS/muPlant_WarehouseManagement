@@ -237,6 +237,14 @@ class Pallet:
         if self.slotB == self.slotA:
             self.slotA = None
 
+    def setLocation(self, storageElement):
+        if self.location == storageElement:
+            return self
+        if storageElement is not None:
+            if self.location is not None:
+                raise ValueError("In this spot is actually already a pallet object!")
+        self.location = storageElement
+
 class StorageElement:
     def __init__(self, row, col, inventory =None):
         self.row = row
@@ -247,7 +255,7 @@ class StorageElement:
     def setPallet(self, pallet):
         """
         Sets or removes a Pallet object in location spot of the storage bar.
-        If the storagelement already has a pallet object,
+        If the storagElement already has a pallet object,
         calls the setLocation method on the existing pallet with None as param before setting the new pallet.
 
         If the new pallet is not None and is not already associated with this storage element object,
@@ -261,8 +269,12 @@ class StorageElement:
         """
         if self.pallet == pallet:
             return self
-        if self.pallet is not None:
+        if self.pallet is not None and pallet is not None:
             raise ValueError("In this spot is actually already a pallet object!")
+        oldValue = self.pallet
+        if oldValue is not None:
+            oldValue.setLocation(None)
         self.pallet = pallet
-        if pallet.location is not self:
-            pallet.setLocation(self)
+        if pallet is not None:
+            if pallet.location is not self:
+                pallet.setLocation(self)
