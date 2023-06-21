@@ -1,5 +1,5 @@
 import pytest
-from src.model.DataModel import Cup, Product, Pallet,StorageElement
+from src.model.DataModel import Cup, Product, Pallet,StorageElement, Gripper
 
 
 def testProductWithCup():
@@ -48,7 +48,7 @@ def testProductCupPallet():
     assert cup1.location is None
 
 
-def testStorageELement():
+def testStorageElement():
     element = StorageElement(1,1)
     pallet1 = Pallet()
     pallet2 = Pallet()
@@ -89,3 +89,18 @@ def testCupProductPalletStorageElement():
     assert element2.pallet == pallet1
     assert element1.pallet is None
     assert pallet2.location is None
+
+def testGripper():
+    prod = Product(1, "Kiwi")
+    cup = Cup(1, prod)
+    pallet = Pallet()
+    pallet.setSlotA(cup)
+    sE = StorageElement(1,1)
+    sE.setPallet(pallet)
+    gripper = Gripper()
+    gripper.setObject(pallet)
+    assert gripper.object == pallet
+    assert pallet.location == gripper
+    assert sE.pallet == None
+    assert pallet.slotA == cup
+    assert cup.product == prod

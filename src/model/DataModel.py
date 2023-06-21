@@ -43,8 +43,10 @@ class Gripper:
     def setObject(self, object):
         """
         takes a Cup or Pallet data object.
-
+        raises an ValueError if gripper already has an object.
+        calls objects setLocation function to set gripper as objects location
         :param object:
+        :type object: Cup, Pallet or None
         :return:
         """
         if self.object == object:
@@ -306,8 +308,13 @@ class Pallet:
             oldValue.setPallet(None)
         self.location = storageElement
         if storageElement is not None:
-            if storageElement.pallet is not self:
-                storageElement.setPallet(self)
+            if isinstance(storageElement, StorageElement):
+                if storageElement.pallet is not self:
+                    storageElement.setPallet(self)
+            elif isinstance(storageElement, Gripper):
+                if storageElement.object is not self:
+                    storageElement.setObject(self)
+
 
 class StorageElement:
     """
