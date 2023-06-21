@@ -240,10 +240,13 @@ class Pallet:
     def setLocation(self, storageElement):
         if self.location == storageElement:
             return self
-        if storageElement is not None:
-            if self.location is not None:
-                raise ValueError("In this spot is actually already a pallet object!")
+        oldValue = self.location
+        if oldValue is not None:
+            oldValue.setPallet(None)
         self.location = storageElement
+        if storageElement is not None:
+            if storageElement.pallet is not self:
+                storageElement.setPallet(self)
 
 class StorageElement:
     def __init__(self, row, col, inventory =None):
@@ -272,6 +275,7 @@ class StorageElement:
         if self.pallet is not None and pallet is not None:
             raise ValueError("In this spot is actually already a pallet object!")
         oldValue = self.pallet
+        self.pallet = None
         if oldValue is not None:
             oldValue.setLocation(None)
         self.pallet = pallet
