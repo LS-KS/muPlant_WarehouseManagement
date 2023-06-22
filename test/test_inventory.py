@@ -3,14 +3,26 @@ from src.model.DataModel import Cup, Product, Pallet,StorageElement, Gripper
 
 
 def testProductWithCup():
+    """
+    Testcase for consistency of Product and Cup classes.
+    First initializes product and cup object while cup gets product with initialization.
+    calls products withoutCup method and asserts all necessary changes.
+
+    Afterwards a product change with two cups and two products is tested
+    :return:
+    """
     prod1 = Product(1, "Banana")
     cup1 = Cup(3, prod1)
     assert 3 == cup1.id
     assert prod1 == cup1.getProduct()
     assert prod1.cups == [cup1]
+
+    #delete cup from products cups list
     prod1.withoutCup(cup1)
     assert prod1.cups == []
     assert cup1.getProduct() == None
+
+    #test product change
     prod2 = Product(2, "Apple")
     cup2 = Cup(2)
     prod2.withCup(cup2)
@@ -22,6 +34,12 @@ def testProductWithCup():
 
 
 def testProductCupPallet():
+    """
+    Testcase for consistency of Product and Cup together with Pallet classes.
+
+    :return:
+    """
+
     prod1 = Product(1, "Banana")
     cup1 = Cup(1, prod1)
 
@@ -49,6 +67,10 @@ def testProductCupPallet():
 
 
 def testStorageElement():
+    """
+    Testcase for Pallet StorageElement combination
+    :return:
+    """
     element = StorageElement(1,1)
     pallet1 = Pallet()
     pallet2 = Pallet()
@@ -65,6 +87,11 @@ def testStorageElement():
     assert pallet2.location == element
 
 def testCupProductPalletStorageElement():
+    """
+    Testcase for all classes: Cup, Product, Pallet and StorageElement
+    :return:
+    """
+
     product1 = Product(1, "Bananensaft")
     product2 = Product(2, "Kirschsaft")
     cup1 = Cup(1,product1)
@@ -91,6 +118,10 @@ def testCupProductPalletStorageElement():
     assert pallet2.location is None
 
 def testGripper():
+    """
+    Gripper class testcase
+    :return:
+    """
     prod = Product(1, "Kiwi")
     cup = Cup(1, prod)
     pallet = Pallet()

@@ -14,12 +14,49 @@ class MobileRobot:
         pass
 
 class Workbench:
+    """
+    Implements Workbench class from µPlant.
+    Workbench stores up to two palette items.
+    last revision: 20.06.20223
+    :param k1: stores pallet on K1 slot
+    :type k1: Pallet
+    :param k2: stores pallet on K2 slot
+    :type k2: Pallet
+    """
     def __init__(self):
+        """
+        Initialize all paarameters with None value
+        """
+
         self.k1 = None
         self.k2 = None
 
     def setK1(self, pallet):
-        pass
+        """
+        Sets or removes a Pallet object in location spot k1.
+        Raises an ValueError if K1 is already occupied
+
+        If the new pallet is not None and is not already associated with this storage element object,
+        adds this storage element object location object of the new pallet.
+
+        If the new pallet is None and this storage element object is associated with an existing pallet,
+        it throws a ValueError.
+
+        :param pallet: The new pallet object to store in
+        :type pallet: Pallet
+        """
+        if self.pallet == pallet:
+            return self
+        if self.pallet is not None and pallet is not None:
+            raise ValueError("In this spot is actually already a pallet object!")
+        oldValue = self.pallet
+        self.pallet = None
+        if oldValue is not None:
+            oldValue.setLocation(None)
+        self.pallet = pallet
+        if pallet is not None:
+            if pallet.location is not self:
+                pallet.setLocation(self)
 
     def setK2(self, pallet):
         pass
@@ -314,7 +351,6 @@ class Pallet:
             elif isinstance(storageElement, Gripper):
                 if storageElement.object is not self:
                     storageElement.setObject(self)
-
 
 class StorageElement:
     """
