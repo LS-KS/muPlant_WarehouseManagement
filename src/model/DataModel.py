@@ -36,7 +36,7 @@ class Workbench:
         Sets or removes a Pallet object in location spot k1.
         Raises an ValueError if K1 is already occupied
 
-        If the new pallet is not None and is not already associated with this storage element object,
+        If the new pallet is not None and is not already associated with this slot,
         adds this storage element object location object of the new pallet.
 
         If the new pallet is None and this storage element object is associated with an existing pallet,
@@ -45,21 +45,49 @@ class Workbench:
         :param pallet: The new pallet object to store in
         :type pallet: Pallet
         """
-        if self.pallet == pallet:
+        if self.k1 == pallet:
             return self
-        if self.pallet is not None and pallet is not None:
+        if self.k1 is not None and pallet is not None:
             raise ValueError("In this spot is actually already a pallet object!")
-        oldValue = self.pallet
-        self.pallet = None
+        oldValue = self.k1
+        self.k1 = None
         if oldValue is not None:
             oldValue.setLocation(None)
-        self.pallet = pallet
+        self.k1 = pallet
         if pallet is not None:
             if pallet.location is not self:
                 pallet.setLocation(self)
+            if self.k1 == self.k2:
+                self.k2 = None
 
     def setK2(self, pallet):
-        pass
+        """
+        Sets or removes a Pallet object in location spot k2.
+        Raises an ValueError if K2 is already occupied
+
+        If the new pallet is not None and is not already associated with this slot,
+        adds this storage element object location object of the new pallet.
+
+        If the new pallet is None and this storage element object is associated with an existing pallet,
+        it throws a ValueError.
+
+        :param pallet: The new pallet object to store in
+        :type pallet: Pallet
+        """
+        if self.k2 == pallet:
+            return self
+        if self.k2 is not None and pallet is not None:
+            raise ValueError("In this spot is actually already a pallet object!")
+        oldValue = self.k2
+        self.k2 = None
+        if oldValue is not None:
+            oldValue.setLocation(None)
+        self.k2 = pallet
+        if pallet is not None:
+            if pallet.location is not self:
+                pallet.setLocation(self)
+            if self.k1 == self.k2:
+                self.k1 = None
 
 class Gripper:
     """
@@ -342,7 +370,15 @@ class Pallet:
             return self
         oldValue = self.location
         if oldValue is not None:
-            oldValue.setPallet(None)
+            if isinstance(oldValue, StorageElement):
+                oldValue.setPallet(None)
+            if isinstance(oldValue, Gripper):
+                oldValue.setObject(None)
+            if isinstance(oldValue, Workbench):
+                if oldValue.k1 == self:
+                    oldValue.setK1(None)
+                if oldValue.k2 == self:
+                    oldValue.setK2(None)
         self.location = storageElement
         if storageElement is not None:
             if isinstance(storageElement, StorageElement):

@@ -1,6 +1,13 @@
 import pytest
-from src.model.DataModel import Cup, Product, Pallet,StorageElement, Gripper
+from src.model.DataModel import Cup, Product, Pallet,StorageElement, Gripper, Workbench, MobileRobot
+"""
+This module contains tests for the consistency of Datamodel classes. 
+The tests check if the methods of these classes work as expected and if the interactions between these classes are 
+likely consistent.
 
+date: 21.06.2023
+lines coverage: 82% (fine)
+"""
 
 def testProductWithCup():
     """
@@ -31,7 +38,6 @@ def testProductWithCup():
     prod2.withCup(cup1)
     assert cup1.product == prod2
     assert cup2.product == prod2
-
 
 def testProductCupPallet():
     """
@@ -64,7 +70,6 @@ def testProductCupPallet():
     assert pallet.slotB == cup2
     assert cup1.location == None
     assert cup1.location is None
-
 
 def testStorageElement():
     """
@@ -135,3 +140,28 @@ def testGripper():
     assert sE.pallet == None
     assert pallet.slotA == cup
     assert cup.product == prod
+
+def testWorkbench():
+    """
+    Testcase for Workbench methods.
+    creates two products and one workbench objects.
+    Then shifts Pallets around.
+    :return:
+    """
+    pallet1 = Pallet()
+    pallet2 = Pallet()
+    workbench = Workbench()
+    workbench.setK1(pallet1)
+    workbench.setK2(pallet2)
+    assert workbench.k1 == pallet1
+    assert workbench.k2 == pallet2
+    with pytest.raises(ValueError) as info:
+        workbench.setK1(pallet2)
+    assert workbench.k1 == pallet1
+    workbench.setK1(None)
+    workbench.setK1(pallet2)
+    assert workbench.k1 == pallet2
+    assert workbench.k2 == None
+    workbench.setK2(pallet2)
+    assert workbench.k1 == None
+    assert workbench.k2 == pallet2
