@@ -7,11 +7,36 @@ class Inventory:
         pass
 
 class MobileRobot:
+    """
+    Implements Mobile Robot class from µPlant.
+    can store up to one cup in two different sizes.
+    last revision: 21.06.20223
+    :param cup: stores cup on mobile Robot
+    :type cup: Cup
+    """
     def __init__(self):
+        """
+        Initializes cup field with None value
+        """
         self.cup = None
 
     def setCup(self, cup):
-        pass
+        """
+        sets Cup on mobile Robot.
+
+        :param cup:
+        :return:
+        """
+        if self.cup == cup:
+            return self
+        oldValue = self.cup
+        if self.cup is not None:
+            self.cup = None
+            oldValue.setLocation(None)
+        self.cup = cup
+        if cup is not None:
+            if cup.location is not self:
+                cup.setLocation(self)
 
 class Workbench:
     """
@@ -281,11 +306,20 @@ class Cup:
         oldValue = self.location
         if self.location is not None:
             self.storage = None
-            if not isinstance(oldValue, Pallet):
+            if isinstance(oldValue, Pallet):
+                pass
+            if isinstance(oldValue, Gripper):
+                oldValue.setObject(None)
+            if isinstance(oldValue, MobileRobot):
                 oldValue.setCup(None)
         self.location = location
-        if location is not None and not isinstance(location, Pallet):
-            location.setCup(self)
+        if location is not None:
+            if isinstance(location, Pallet):
+                pass
+            if isinstance(location, Gripper):
+                location.setObject(self)
+            if isinstance(location, MobileRobot):
+                location.setCup(self)
 
         return self
 

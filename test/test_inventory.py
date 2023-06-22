@@ -165,3 +165,24 @@ def testWorkbench():
     workbench.setK2(pallet2)
     assert workbench.k1 == None
     assert workbench.k2 == pallet2
+
+def testMobileRobotGripper():
+    """
+    Testcase for Mobile Robot together with a Cup object and Gripper objects.
+    passes the cup around and asserts changes.
+    :return:
+    """
+    mobi = MobileRobot()
+    grip = Gripper()
+    cup = Cup(1, Product(1, "Banana"))
+    mobi.setCup(cup)
+    assert mobi.cup == cup
+    assert cup.location == mobi
+    grip.setObject(cup)
+    assert cup.location == grip
+    assert grip.object == cup
+    assert mobi.cup == None
+    mobi.setCup(cup)
+    assert cup.location == mobi
+    assert grip.object == None
+    assert mobi.cup == cup
