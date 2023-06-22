@@ -1,5 +1,5 @@
 import pytest
-from src.model.DataModel import Cup, Product, Pallet,StorageElement, Gripper, Workbench, MobileRobot
+from src.model.DataModel import Cup, Product, Pallet,StorageElement, Gripper, Workbench, MobileRobot, Inventory
 """
 This module contains tests for the consistency of Datamodel classes. 
 The tests check if the methods of these classes work as expected and if the interactions between these classes are 
@@ -186,3 +186,29 @@ def testMobileRobotGripper():
     assert cup.location == mobi
     assert grip.object == None
     assert mobi.cup == cup
+
+def testInventoryGripper():
+    grip = Gripper()
+    inv = Inventory(None)
+    pallet = Pallet()
+    grip.setObject(pallet)
+    assert grip.object == pallet
+    assert pallet.location == grip
+    assert len(inv.pallets) == 3
+    assert len(inv.pallets[0]) == 6
+    inv.setStoragePallet(1,1,pallet)
+    assert inv.pallets[1][1].pallet == pallet
+    assert grip.object == None
+    assert pallet.location == inv.pallets[1][1]
+    grip.setObject(pallet)
+    assert grip.object == pallet
+    assert inv.pallets[1][1].pallet == None
+    inv.setStoragePallet(0,0,pallet)
+    assert inv.pallets[0][0].pallet == pallet
+    assert grip.object == None
+    assert pallet.location == inv.pallets[0][0]
+    inv.setStoragePallet(1,1,pallet)
+    assert inv.pallets[1][1].pallet == pallet
+    assert pallet.location == inv.pallets[1][1]
+    assert inv.pallets[0][0].pallet == None
+

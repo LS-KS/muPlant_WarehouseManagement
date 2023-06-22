@@ -1,10 +1,51 @@
 class Inventory:
+    """
+    Implements the storage rack in µPlant.
+    holds an 2D List which represents row col in the factory.
+    Each array slot holds a StorageElement which can hold a pallet.
+    This way pallets don't have to bear their location.
 
+    :param pallets: 2D List
+    :type pallets: StorageElement
+    :param invController : InventoryController
+    """
     def __init__(self, controller):
+        """
+        Initialize inventory object and fills pallets array with StorageElements
+        :param controller:
+        """
         self.pallets = []
         self.invController = controller
-    def initializePallets(self):
-        pass
+        for row in range(3):
+            self.pallets.append([])
+            for col in range(6):
+                self.pallets[row].append(StorageElement(row=row, col=col, inventory=self))
+
+    def getStoragePallet(self, row, col):
+        """
+        :param row:
+        :param col:
+        :return: Returns Pallet object at given position
+        """
+        return self.pallets[row][col].pallet
+    def setStoragePallet(self, row, col, pallet):
+        """
+        Sets a pallet into the storage at given position.
+        Throws ValueError if storage Position is not empty.
+        Calls SetLocation method of pallet.
+        :param row:
+        :param col:
+        :param pallet:
+        :return:
+        """
+        if self.pallets[row][col].pallet == pallet:
+            return self
+        if self.pallets[row][col].pallet is not None:
+            raise ValueError
+        self.pallets[row][col].pallet = pallet
+        if pallet is not None:
+            if pallet.location is not self.pallets[row][col]:
+                pallet.setLocation(self.pallets[row][col])
 
 class MobileRobot:
     """
