@@ -19,3 +19,48 @@ Controller
 
 .. automodule:: src.controller.invController
     :members:
+
+Service
+-------
+
+Nothing to see here yet
+
+ViewModel
+---------
+
+.. automodule:: src.viewmodel.productlistViewModel
+    :members:
+
+.. automodule:: src.viewmodel.productSummaryViewModel
+    :members:
+
+.. automodule:: src.viewmodel.storageViewModel
+    :members:
+
+View
+----
+
+Nothing to see here... yet
+
+
+Constants
+---------
+
+.. literalinclude:: ../src/constants/Constants.py
+
+Data Files
+----------
+
+Produkte.db:
+Speichert alle möglichen Produktvarianten mit Id und Bezeichnung
+
+.. literalinclude:: ../src/data/Produkte.db
+
+StorageData.db
+Speichert ein Abbild des Regalinhalts.
+
+.. literalinclude:: ../src/data/StorageData.db
+
+CommissData.db
+Speichert aktuelle Kommissionsaufträge
+.. literalinclude:: ../src/data/CommissData.db

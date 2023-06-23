@@ -7,18 +7,25 @@ from src.viewmodel.productSummaryViewModel import ProductSummaryViewModel
 class invController:
     """
     Controller class which gives access to DataModel module to remain consistent Data.
+
     :param inventory: holds 2D array of StorageElements which can hold a pallet.
-    :type inventory; DataModel.Inventory
+    :type inventory: DataModel.Inventory
+
     :param mobileRobot: represents a mobileRobot in docking station.
     :type mobileRobot: DataModel.MobileRobot
+
     :param gripper: represents gripper on IRB140, can hold either one cup or pallet
     :type gripper: DataModel.Gripper
+
     :param workbench: represents physical workbench with two slots for a pallet.
     :type workbench: DataModel.Workbench
     """
+
     def __init__(self):
         """
+
         create objects of every DataModel entity which is a physical unit.
+
         """
         self.inventory = Inventory(self)
         self.mobileRobot = MobileRobot()
@@ -46,15 +53,51 @@ class invController:
 
         self.populateViewModels(productList, storageData)
 
+    def dumpStorage(self):
+        """
+
+        Saves the data from StorageViewModel to file.
+
+        :return: None
+
+        """
+        if self.storageViewModel == None:
+            raise ValueError(" Model not set. cannot dump data to file")
+        else:
+            FILE = None
+            try:
+                with open(self.constants.STORAGEDATAWRITE, 'w', encoding='utf-8-sig') as FILE:
+                    FILE.write("# Row,Col:IsPalletPresent:CupID_a,ProductID_a|CupID_b,ProductID_b\n\n")
+                    rows = self.storageViewModel.rowCount()
+                    for row in range(rows):
+                        r = row
+                        for col in range (6):
+                            storage = self.storageViewModel.storageData[row][col]
+                            c = col
+                            p = storage[0]
+                            cA = storage[1]
+                            pA = storage[2]
+                            cB = storage[4]
+                            pB = storage[5]
+                            FILE.write(f"{r},{c}:{int(p)}:{cA},{pA}|{cB},{pB}\n")
+                        FILE.write("\n")
+            except FileNotFoundError("Storagefile not found"):
+                return None
+            finally:
+                if FILE != None:
+                    FILE.close()
+            #self.eventcontroller.writeEvent("USER", f"\n Manual Storage Override saved to local File \n")
 
     def populateInventory(self, storageData, productList):
         """
         Takes storageData variable to create pallet objects with corresponding cups and products.
+
         :param storageData:
         :type storageData: List of StorageData objects
         :param productList: List of all possible products
         :type productList: List of Product objects
         :return:
+
         """
         for element in storageData:
             if element.isPallet:
@@ -151,14 +194,17 @@ class invController:
 
     def populateViewModels(self, productList, storageData):
         """
+
         Now since data from StorageData.db and Produkte.db is loaded and transformed, it
         can be used to populate viewmodels storageViewModel.
         However, for QAbstractTableModel storageData has to be transformed into table struct.
 
         :param productList:  list of products from loadData method without product quantity
         :type productList: list of ProductData objects.
+
         :param storageData: product, cup and pallet data stored in storage rack.
         :type storageData: list of StorageData objects
+
         :return None
 
         """
@@ -178,8 +224,8 @@ class invController:
         self.storageViewModel = StorageViewModel(storageData=tableData)
         self.populateProductlistViewModel(productList, storageData)
         '''
-                create sortable and filterable viewModel 
-                '''
+        create sortable and filterable viewModel 
+        '''
         self.productSummaryViewModel = ProductSummaryViewModel(self.productlistViewModel)
 
     def populateProductlistViewModel(self, productList, storageData):
@@ -189,12 +235,13 @@ class invController:
         For this the ProductData class from ProductListViewModel is used due to
         Product doesn't store quantity information.
         Then set data to controller's ProductListViewModel
+
         :param productList:  list of products from loadData method
         :type productList: list of Product objects.
         :param storageData: product, cup and pallet data stored in storage rack.
         :type storageData: list of StorageData objects
-
         :return: None
+
         """
         productDataList = [] # different to productList due to Product doesn't contain quantity information (senseless)
         for product in productList:
@@ -207,17 +254,19 @@ class invController:
                     product.quantity += 1
         '''
             
-            productList is used to populate productListViewModel
+        productList is used to populate productListViewModel
             
-            '''
+        '''
         self.productlistViewModel = ProductListViewModel(productDataList)
 
     def productFromID(self, id, productList):
         """
+
         Finds Product object from given id and returns the object.
         raises ValueError if no product is found
+
         :param id: id of Product object that is searched
-        :type id : int
+        :type id: int
         :param productList:
         :type productList: List of Product objects
         :return: Product object

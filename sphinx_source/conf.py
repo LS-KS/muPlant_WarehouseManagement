@@ -22,7 +22,7 @@ extensions = [ 'sphinx.ext.autodoc','sphinx.ext.viewcode', 'sphinx_copybutton']
 
 templates_path = ['_templates']
 exclude_patterns = []
-
+modindex_common_prefix = ['src.']
 
 
 # -- Options for HTML output -------------------------------------------------

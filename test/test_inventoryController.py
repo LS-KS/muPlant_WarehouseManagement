@@ -36,3 +36,8 @@ def testViewModelInit():
     assert isinstance(iC.productlistViewModel, ProductListViewModel)
     assert isinstance(iC.storageViewModel, StorageViewModel)
     assert isinstance(iC.productSummaryViewModel, ProductSummaryViewModel)
+
+def testDumpToFile():
+    iC = invController()
+    iC.dumpStorage()
+    assert True

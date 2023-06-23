@@ -12,20 +12,26 @@ class StorageViewModel(QtCore.QAbstractTableModel):
 
     def __init__(self, storageData, parent=None):
         """
+
         Init QAbstractTableModel class and writes data given to constructor
+
         :param storageData: Data holded in viewModel.
         :type storageData: StorageData
         :param parent:  Must be set but is (almost?) always None.
+
         """
         super().__init__(parent)
         self.storageData = storageData
 
     def rowCount(self, parent=QModelIndex()):
         """
+
         Must be implemented.
+
         :param parent:
         :type parent: QModelIndex
         :return: returns number of rows from data at given index
+
         """
         return len(self.storageData)
 
@@ -33,6 +39,7 @@ class StorageViewModel(QtCore.QAbstractTableModel):
         """
 
         Must be implemented.
+
         :param parent:
         :type parent: QModelIndex
         :return:  returns number of columns in model.
@@ -42,8 +49,11 @@ class StorageViewModel(QtCore.QAbstractTableModel):
 
     def roleNames(self):
         """
+
         Must be implemented.
+
         :return: returns a dictionary of roles to index in data.
+
         """
         roles = {
             QtCore.Qt.UserRole + 1: b'isPallet',
@@ -63,6 +73,7 @@ class StorageViewModel(QtCore.QAbstractTableModel):
         """
 
         Returns Data from viewmodel.
+
         :param index: Used to index into the model
         :type index: QModelIndex
         :param role: Rolename used to get data from index
@@ -96,9 +107,10 @@ class StorageViewModel(QtCore.QAbstractTableModel):
         return None
 
     def setData(self, index, value, role):
-
         """
+
         Writes data to an index and returns the old value if success
+
         :param index: Index at which data shall be changed
         :type index: QModelIndex
         :param value: New value to be written at index
@@ -106,6 +118,7 @@ class StorageViewModel(QtCore.QAbstractTableModel):
         :param role: Rolename to be written to
         :return: returns False if writing was not successful. Otherwise, it returns the old value.
                 Important Note: If isPallet is written, it maybe returns False in any case.
+
         """
         row = index.row()
         col = index.column()
@@ -141,6 +154,7 @@ class StorageViewModel(QtCore.QAbstractTableModel):
 # Data class for Inventory:
 class StorageData:
     """
+
     Basic subclass which represents a spot in Storage visualisation.
 
     :param row: represents row in storage rack

@@ -10,7 +10,7 @@ Welcome to µPlant Warehouse Management's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-    modules
+   modules
 
 
 
