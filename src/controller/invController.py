@@ -37,12 +37,31 @@ class invController:
 
         """
         # load product data from Produkte.db
-        productList = self.loadProductListData()
+        productList = self.loadProductList()
 
         # load Inventory from StorageData.db
         storageData = self.loadStorageData(productList)
 
+        self.populateInventory(storageData, productList)
+
         self.populateViewModels(productList, storageData)
+
+
+    def populateInventory(self, storageData, productList):
+        """
+        Takes storageData variable to create pallet objects with corresponding cups and products.
+        :param storageData:
+        :type storageData: List of StorageData objects
+        :param productList: List of all possible products
+        :type productList: List of Product objects
+        :return:
+        """
+        for element in storageData:
+            if element.isPallet:
+                pallet = Pallet()
+                pallet.setSlotA(Cup(element.a_CupID, self.productFromID(element.a_ProductID, productList)))
+                pallet.setSlotB(Cup(element.b_CupID, self.productFromID(element.b_ProductID, productList)))
+                self.inventory.setStoragePallet(element.row, element.col, pallet)
 
     def loadStorageData(self, productList):
         """
@@ -99,7 +118,7 @@ class invController:
             file.close()
         return storageData
 
-    def loadProductListData(self):
+    def loadProductList(self):
         """
 
         Opens file with path from constants.
@@ -121,7 +140,7 @@ class invController:
                 product_data = line.strip().split(';')
                 product_id = int(product_data[0])
                 product_name = str(product_data[1])
-                productList.append(ProductData(id=product_id, name=product_name))
+                productList.append(Product(id=product_id, name=product_name))
         except FileNotFoundError:
             print("Error: could't find product list file 'Produkte.db'")
         except FileExistsError:
@@ -167,16 +186,21 @@ class invController:
         """
 
         Loop over storageData to calculate existing product quantities.
+        For this the ProductData class from ProductListViewModel is used due to
+        Product doesn't store quantity information.
         Then set data to controller's ProductListViewModel
-        :param productList:  list of products from loadData method without product quantity
-        :type productList: list of ProductData objects.
+        :param productList:  list of products from loadData method
+        :type productList: list of Product objects.
         :param storageData: product, cup and pallet data stored in storage rack.
         :type storageData: list of StorageData objects
 
         :return: None
         """
+        productDataList = [] # different to productList due to Product doesn't contain quantity information (senseless)
+        for product in productList:
+            productDataList.append(ProductData(product.id, product.name, 0))
         for stock in storageData:
-            for product in productList:
+            for product in productDataList:
                 if stock.a_ProductID == product.id:
                     product.quantity += 1
                 if stock.b_ProductID == product.id:
@@ -186,4 +210,20 @@ class invController:
             productList is used to populate productListViewModel
             
             '''
-        self.productlistViewModel = ProductListViewModel(productList)
+        self.productlistViewModel = ProductListViewModel(productDataList)
+
+    def productFromID(self, id, productList):
+        """
+        Finds Product object from given id and returns the object.
+        raises ValueError if no product is found
+        :param id: id of Product object that is searched
+        :type id : int
+        :param productList:
+        :type productList: List of Product objects
+        :return: Product object
+
+        """
+        for product in productList:
+            if product.id == id:
+                return product
+        raise ValueError(f"Id {id} not found!")

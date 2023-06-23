@@ -28,7 +28,7 @@ def testInit():
 
 def testViewModelInit():
     """
-    Note: ViewModel cannot be tested with pytest!
+    Note: ViewModel cannot be tested with pytest since it's C++ code!
     Only initialization can be testet. If initialization is done correctly, their values in invController will be other than None
     :return:
     """
