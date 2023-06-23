@@ -37,27 +37,22 @@ class invController:
 
         """
         # load product data from Produkte.db
-        FILE = self.constants.PRODUCTLIST
-        productList = []
-        try:
-            # Open product file and read lines to list.
-            # Avoid u\ufeff prefix in data by set encoding to utf8-8-sig (source: stackoverflow)
-            with open(FILE, 'r', encoding='utf-8-sig') as file:
-                list = file.readlines()
-
-            for line in list:
-                # Split the line by ';' to get the id and name
-                product_data = line.strip().split(';')
-                product_id = int(product_data[0])
-                product_name = str(product_data[1])
-                productList.append(ProductData(id=product_id, name=product_name))
-        except FileNotFoundError:
-            print("Error: could't find product list file 'Produkte.db'")
-        except FileExistsError:
-            print("Error: file 'Produkte.db' doesn't exist")
-        finally: file.close()
+        productList = self.loadProductListData()
 
         # load Inventory from StorageData.db
+        storageData = self.loadStorageData(productList)
+
+        self.populateViewModels(productList, storageData)
+
+    def loadStorageData(self, productList):
+        """
+
+        :param productList: List of product data without quantities
+        :type productList: List of ProductData objects
+        :return: storageData
+        :type storageData: List of StorageData objects.
+
+        """
         FILE = self.constants.STORAGEDATA
         storageData = []
         try:
@@ -66,11 +61,11 @@ class invController:
             with open(FILE, 'r', encoding='utf-8-sig') as file:
                 list = file.readlines()
 
-            list = [line for line in list if line != '\n'] # remove empty lines
-            list = list[1:] # remove first line
+            list = [line for line in list if line != '\n']  # remove empty lines
+            list = list[1:]  # remove first line
 
             for line in list:
-                splitData = line.strip().split(',') # strip and split to get raw data
+                splitData = line.strip().split(',')  # strip and split to get raw data
                 splitData[1] = splitData[1].strip().split(':')
                 splitData[2] = splitData[2].strip().split('|')
                 # map the split data to Inevntory Data
@@ -93,8 +88,8 @@ class invController:
                         break
                 # append data to storageData for QAbstractTableModel
                 storageData.append(
-                StorageData(row=row, col=col, isPallet=isPallet, a_CupID=a_CupID, a_ProductID=a_ProductID,
-                              b_CupID=b_CupID, b_ProductID=b_ProductID, a_Name=a_Name, b_Name=b_Name))
+                    StorageData(row=row, col=col, isPallet=isPallet, a_CupID=a_CupID, a_ProductID=a_ProductID,
+                                b_CupID=b_CupID, b_ProductID=b_ProductID, a_Name=a_Name, b_Name=b_Name))
                 # print(f"Row: {row}\t Col: {col}\t isPallet: {isPallet}\t Cup_A: {a_CupID}\t ProductA: {a_ProductID}, {a_Name}\t Cup_B: {b_CupID}\t ProductB: {b_ProductID}, {b_Name} ")
         except FileNotFoundError:
             print("Error: could't find product list file 'StorageData.db'")
@@ -102,14 +97,53 @@ class invController:
             print("Error: file 'StorageData.db' doesn't exist")
         finally:
             file.close()
+        return storageData
 
-        '''
-        
+    def loadProductListData(self):
+        """
+
+        Opens file with path from constants.
+        transforms data to object-oriented data
+
+        :return: productList
+
+        """
+        FILE = self.constants.PRODUCTLIST
+        productList = []
+        try:
+            # Open product file and read lines to list.
+            # Avoid u\ufeff prefix in data by set encoding to utf8-8-sig (source: stackoverflow)
+            with open(FILE, 'r', encoding='utf-8-sig') as file:
+                list = file.readlines()
+
+            for line in list:
+                # Split the line by ';' to get the id and name
+                product_data = line.strip().split(';')
+                product_id = int(product_data[0])
+                product_name = str(product_data[1])
+                productList.append(ProductData(id=product_id, name=product_name))
+        except FileNotFoundError:
+            print("Error: could't find product list file 'Produkte.db'")
+        except FileExistsError:
+            print("Error: file 'Produkte.db' doesn't exist")
+        finally:
+            file.close()
+        return productList
+
+    def populateViewModels(self, productList, storageData):
+        """
         Now since data from StorageData.db and Produkte.db is loaded and transformed, it
         can be used to populate viewmodels storageViewModel.
-        However for QAbstractTableModel storageData has to be transformed into table struct.
-        
-        '''
+        However, for QAbstractTableModel storageData has to be transformed into table struct.
+
+        :param productList:  list of products from loadData method without product quantity
+        :type productList: list of ProductData objects.
+        :param storageData: product, cup and pallet data stored in storage rack.
+        :type storageData: list of StorageData objects
+        :return None
+
+        """
+
         # storageData is now a abject oriented data.
         # to use a TableModel the data must be set in row/col - values
         cols = 6
@@ -123,27 +157,33 @@ class invController:
                                                element.b_CupID, element.b_ProductID, element.b_Name, element.row,
                                                element.col]
         self.storageViewModel = StorageViewModel(storageData=tableData)
+        self.populateProductlistViewModel(productList, storageData)
+        '''
+                create sortable and filterable viewModel 
+                '''
+        self.productSummaryViewModel = ProductSummaryViewModel(self.productlistViewModel)
 
-        '''
-        
-        Loop over storageData to calculate existing product quantities. 
-        
-        '''
+    def populateProductlistViewModel(self, productList, storageData):
+        """
+
+        Loop over storageData to calculate existing product quantities.
+        Then set data to controller's ProductListViewModel
+        :param productList:  list of products from loadData method without product quantity
+        :type productList: list of ProductData objects.
+        :param storageData: product, cup and pallet data stored in storage rack.
+        :type storageData: list of StorageData objects
+
+        :return: None
+        """
         for stock in storageData:
             for product in productList:
                 if stock.a_ProductID == product.id:
                     product.quantity += 1
                 if stock.b_ProductID == product.id:
                     product.quantity += 1
-
         '''
-        
-        productList is used to populate productListViewModel
-        
-        '''
+            
+            productList is used to populate productListViewModel
+            
+            '''
         self.productlistViewModel = ProductListViewModel(productList)
-
-        '''
-        create sortable and filterable viewModel 
-        '''
-        self.productSummaryViewModel = ProductSummaryViewModel(self.productlistViewModel)
