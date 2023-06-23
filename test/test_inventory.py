@@ -5,8 +5,9 @@ This module contains tests for the consistency of Datamodel classes.
 The tests check if the methods of these classes work as expected and if the interactions between these classes are 
 likely consistent.
 
+last run:
 date: 21.06.2023
-lines coverage: 82% (fine)
+lines covered: 88% (fine)
 """
 
 def testProductWithCup():

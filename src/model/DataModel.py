@@ -6,13 +6,17 @@ class Inventory:
     This way pallets don't have to bear their location.
 
     :param pallets: 2D List
+
     :type pallets: StorageElement
+
     :param invController : InventoryController
+
     """
     def __init__(self, controller):
         """
         Initialize inventory object and fills pallets array with StorageElements
         :param controller:
+
         """
         self.pallets = []
         self.invController = controller
