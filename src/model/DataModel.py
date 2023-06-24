@@ -365,7 +365,11 @@ class Cup:
                 location.setObject(self)
             if isinstance(location, MobileRobot):
                 location.setCup(self)
-
+        if isinstance(oldValue, Pallet):
+            if oldValue.slotA == self:
+                oldValue.slotA = None
+            if oldValue.slotB == self:
+                oldValue.slotB = None
         return self
 
 class Pallet:

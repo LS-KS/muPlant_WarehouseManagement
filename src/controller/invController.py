@@ -20,7 +20,6 @@ class invController:
     :param workbench: represents physical workbench with two slots for a pallet.
     :type workbench: DataModel.Workbench
     """
-
     def __init__(self):
         """
 
@@ -36,29 +35,139 @@ class invController:
         self.productlistViewModel = None
         self.productSummaryViewModel = None
         self.__loadData()
+    def movePalletToK1(self, pallet: Pallet) -> bool:
+        """
 
-    def moveItem(self, item, start, destination) -> bool:
+        Moves a pallet to Workbench's K1 slot.
+
+        :param pallet: The pallet which shall be transported
+        :type: Pallet object
+        :raises ValueError: if destination is not None
+        :return: True if successful, False if not
+
         """
-        Moves an item from start to gripper and from gripper to destination.
-        Not Implemented: Creates all necessary Commands for ABB controller.
-        :param item: The item which shall be moved
-        :type item: :class: Cup
-        :param start: start location object
-        :type start: :class: MobileRobot, :class: Workbench, :class: StorageElement, :class: Pallet
-        :param destination: destination location object
-        :type destination: :class: '~src.model.DataModel.MobileRobot', :class: Workbench, :class: StorageElement, :class: Pallet
-        :raises ValueError: If start location is not actual location or destination is not empty.
-        :return: True if movement was successful, False if not
-        """
-        if item.location == destination:
+        if not isinstance(pallet, Pallet):
+            return False
+        if pallet == self.workbench.k1:
             return True
-        if item.location is not start:
-            raise ValueError(f"Start location error: startlocation {item.location} is not identical with {start}! "
-                             f"Most likely a programming error!")
-        if isinstance(destination, StorageElement) and destination.pallet is not None:
-            raise ValueError(f"Destination is not empy!")
+        if self.workbench.k1 is not None:
+            raise ValueError("Pallet can not be transprted to K1 because destination is not empty!")
+        pallet.setLocation(self.gripper)
+        # ToDo: Hier Kommando an ABB Roboter einfügen und warten bis Meldung kommt, dass Kommando ausgeführt wurde.
+        self.workbench.setK1(pallet)
+        return True
+    def moveCupToK1(self, cup: Cup) -> bool:
+        """
+        Moves a cup to Workbench's K1 slot.
 
+        :param cup: The cup which shall be transported
+        :type: Cup object
+        :raises ValueError: if the destination has no pallet or existing pallet has no empty cup place
+        :return: True if successful
+        """
+        if not isinstance(cup, Cup):
+            return False
+        if cup == self.workbench.k1.slotA or cup == self.workbench.k1.slotB:
+            return True
+        if self.workbench.k1.slotA is not None:
+            if self.workbench.k1.slotB is not None:
+                raise ValueError("Pallet can not be transprted to K1 because destination is not empty!")
+            else:
+                self.gripper.setObject(cup)
+                # ToDo: Hier Kommando an ABB Roboter einfügen und warten bis Meldung kommt, dass Kommando ausgeführt wurde.
+                self.workbench.k1.setSlotB(cup)
+                return True
+        else:
+            self.gripper.setObject(cup)
+            # ToDo: Hier Kommando an ABB Roboter einfügen und warten bis Meldung kommt, dass Kommando ausgeführt wurde.
+            self.workbench.k1.setSlotA(cup)
+            return True
 
+    def movePalletToK2(self, pallet: Pallet) -> bool:
+        """
+        Moves a pallet to Workbench's K2 slot.
+
+        :param pallet: The pallet which shall be transported
+        :type: Pallet object
+        :return: True if successful, False if not
+
+        """
+        if not isinstance(pallet, Pallet):
+            return False
+        if pallet == self.workbench.k2:
+            return True
+        if self.workbench.k2 is not None:
+            raise ValueError("Pallet can not be transprted to K2 because destination is not empty!")
+        pallet.setLocation(self.gripper)
+        # ToDo: Hier Kommando an ABB Roboter einfügen und warten bis Meldung kommt, dass Kommando ausgeführt wurde.
+        self.workbench.setK2(pallet)
+        return True
+    def moveCupToK2(self, cup: Cup) -> bool:
+        """
+        Moves a cup to Workbench's K2 slot.
+
+        :param cup: The cup which shall be transported
+        :type: Cup object
+        :raises ValueError: if the destination has no pallet or existing pallet has no empty cup place
+        :return: True if successful
+        """
+        if not isinstance(cup, Cup):
+            return False
+
+        if self.workbench.k2.slotA is not None:
+            if cup == self.workbench.k2.slotA:
+                return True
+            if self.workbench.k2.slotB is not None:
+                if cup == self.workbench.k2.slotB:
+                    return True
+                raise ValueError("Pallet can not be transprted to K1 because destination is not empty!")
+            else:
+                self.gripper.setObject(cup)
+                # ToDo: Hier Kommando an ABB Roboter einfügen und warten bis Meldung kommt, dass Kommando ausgeführt wurde.
+                self.workbench.k2.setSlotB(cup)
+                return True
+        else:
+            self.gripper.setObject(cup)
+            # ToDo: Hier Kommando an ABB Roboter einfügen und warten bis Meldung kommt, dass Kommando ausgeführt wurde.
+            self.workbench.k2.setSlotA(cup)
+            return True
+    def moveCupToMobileRobot(self, cup:Cup) -> bool:
+        """
+        Moves a Cup object to the mobile Robot
+        not implemented: Creates all necessary commands
+        :param cup:
+        :return: True if transport was successful
+        :raises ValueError: if Mobile Robot is not empty
+        """
+        if self.mobileRobot.cup == cup:
+            return True
+        if self.mobileRobot.cup is not None:
+            raise ValueError("Mobile Robot is not empty!")
+        self.gripper.setObject(cup)
+        # ToDo: Hier Kommando an ABB Roboter einfügen und warten bis Meldung kommt, dass Kommando ausgeführt wurde.
+        self.mobileRobot.setCup(cup)
+        return True
+    def movePalletToStorage(self, pallet: Pallet, row: int, col: int) -> bool:
+        """
+        places a Pallet object in inventory at given position.
+        not implemented: Creates all necessary commands to ABB controller
+
+        :param pallet: pallet which shall be transported
+        :type pallet: Pallet
+        :param row:
+        :type row: int
+        :param col:
+        :type col: int
+        :return: True if successful
+
+        """
+        if self.inventory.getStoragePallet(row, col) is not None:
+            raise ValueError( "Target destination is not empty!")
+        else:
+            self.gripper.setObject(pallet)
+            # ToDo: Hier Kommando an ABB Roboter einfügen und warten bis Meldung kommt, dass Kommando ausgeführt wurde.
+            self.inventory.setStoragePallet(row, col, pallet)
+            return True
     def __loadData(self):
         """
         Load a productList with product ID and name to have appropriate product data.
@@ -74,7 +183,6 @@ class invController:
         self.__populateInventory(storageData, productList)
 
         self.__populateViewModels(productList, storageData)
-
     def _dumpStorage(self):
         """
 
@@ -109,7 +217,6 @@ class invController:
                 if FILE != None:
                     FILE.close()
             #self.eventcontroller.writeEvent("USER", f"\n Manual Storage Override saved to local File \n")
-
     def __populateInventory(self, storageData, productList):
         """
         Takes storageData variable to create pallet objects with corresponding cups and products.
@@ -127,7 +234,6 @@ class invController:
                 pallet.setSlotA(Cup(element.a_CupID, self.__productFromID(element.a_ProductID, productList)))
                 pallet.setSlotB(Cup(element.b_CupID, self.__productFromID(element.b_ProductID, productList)))
                 self.inventory.setStoragePallet(element.row, element.col, pallet)
-
     def __loadStorageData(self, productList) -> list[StorageData]:
         """
 
@@ -182,7 +288,6 @@ class invController:
         finally:
             file.close()
         return storageData
-
     def __loadProductList(self) -> list[Product]:
         """
         Opens file with path from constants.
@@ -212,12 +317,11 @@ class invController:
         finally:
             file.close()
         return productList
-
     def __populateViewModels(self, productList, storageData):
         """
 
         Now since data from StorageData.db and Produkte.db is loaded and transformed, it
-        can be used to populate viewmodels storageViewModel.
+        can be used to populate viewModels storageViewModel.
         However, for QAbstractTableModel storageData has to be transformed into table struct.
 
         :param productList:  list of products from loadData method without product quantity
@@ -248,7 +352,6 @@ class invController:
         create sortable and filterable viewModel 
         '''
         self.productSummaryViewModel = ProductSummaryViewModel(self.productlistViewModel)
-
     def __populateProductlistViewModel(self, productList, storageData):
         """
 
@@ -279,7 +382,6 @@ class invController:
             
         '''
         self.productlistViewModel = ProductListViewModel(productDataList)
-
     def __productFromID(self, id, productList):
         """
 
