@@ -37,11 +37,27 @@ class invController:
         self.productSummaryViewModel = None
         self.__loadData()
 
-    def movePallet(self, pallet, start, destination) -> bool:
-        pass
+    def moveItem(self, item, start, destination) -> bool:
+        """
+        Moves an item from start to gripper and from gripper to destination.
+        Not Implemented: Creates all necessary Commands for ABB controller.
+        :param item: The item which shall be moved
+        :type item: :class: Cup
+        :param start: start location object
+        :type start: :class: MobileRobot, :class: Workbench, :class: StorageElement, :class: Pallet
+        :param destination: destination location object
+        :type destination: :class: MobileRobot, :class: Workbench, :class: StorageElement, :class: Pallet
+        :raises ValueError: If start location is not actual location or destination is not empty.
+        :return: True if movement was successful, False if not
+        """
+        if item.location == destination:
+            return True
+        if item.location is not start:
+            raise ValueError(f"Start location error: startlocation {item.location} is not identical with {start}! "
+                             f"Most likely a programming error!")
+        if isinstance(destination, StorageElement) and destination.pallet is not None:
+            raise ValueError(f"Destination is not empy!")
 
-    def moveCup(self, cup, start, destination) -> bool:
-        pass
 
     def __loadData(self):
         """
