@@ -34,6 +34,7 @@ class invController:
         self.storageViewModel = None
         self.productlistViewModel = None
         self.productSummaryViewModel = None
+        self.eventlogService = None
         self.__loadData()
     def movePalletToK1(self, pallet: Pallet) -> bool:
         """
