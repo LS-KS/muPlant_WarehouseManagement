@@ -46,7 +46,7 @@ class invController:
         :param start: start location object
         :type start: :class: MobileRobot, :class: Workbench, :class: StorageElement, :class: Pallet
         :param destination: destination location object
-        :type destination: :class: ~DataModel.MobileRobot, :class: Workbench, :class: StorageElement, :class: Pallet
+        :type destination: :class: '~src.model.DataModel.MobileRobot', :class: Workbench, :class: StorageElement, :class: Pallet
         :raises ValueError: If start location is not actual location or destination is not empty.
         :return: True if movement was successful, False if not
         """
