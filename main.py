@@ -13,5 +13,7 @@ also OPC UA is implemented.
 Uses  PySide6 with PyQt6.5.1 for GUI implementation
 '''
 
-from src.model.DataModel import Cup
-cup = Cup(id = 5, product =6)
+
+if __name__ == '__main__':
+
+    pass

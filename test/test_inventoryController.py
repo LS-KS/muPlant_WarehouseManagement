@@ -39,5 +39,5 @@ def testViewModelInit():
 
 def testDumpToFile():
     iC = invController()
-    iC.dumpStorage()
+    iC._dumpStorage()
     assert True

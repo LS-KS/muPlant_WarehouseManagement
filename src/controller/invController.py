@@ -35,25 +35,31 @@ class invController:
         self.storageViewModel = None
         self.productlistViewModel = None
         self.productSummaryViewModel = None
-        self.loadData()
+        self.__loadData()
 
-    def loadData(self):
+    def movePallet(self, pallet, start, destination) -> bool:
+        pass
+
+    def moveCup(self, cup, start, destination) -> bool:
+        pass
+
+    def __loadData(self):
         """
         Load a productList with product ID and name to have appropriate product data.
         Load Storage Data from another File to populate pallets array and viemodel
 
         """
         # load product data from Produkte.db
-        productList = self.loadProductList()
+        productList = self.__loadProductList()
 
         # load Inventory from StorageData.db
-        storageData = self.loadStorageData(productList)
+        storageData = self.__loadStorageData(productList)
 
-        self.populateInventory(storageData, productList)
+        self.__populateInventory(storageData, productList)
 
-        self.populateViewModels(productList, storageData)
+        self.__populateViewModels(productList, storageData)
 
-    def dumpStorage(self):
+    def _dumpStorage(self):
         """
 
         Saves the data from StorageViewModel to file.
@@ -88,7 +94,7 @@ class invController:
                     FILE.close()
             #self.eventcontroller.writeEvent("USER", f"\n Manual Storage Override saved to local File \n")
 
-    def populateInventory(self, storageData, productList):
+    def __populateInventory(self, storageData, productList):
         """
         Takes storageData variable to create pallet objects with corresponding cups and products.
 
@@ -102,17 +108,17 @@ class invController:
         for element in storageData:
             if element.isPallet:
                 pallet = Pallet()
-                pallet.setSlotA(Cup(element.a_CupID, self.productFromID(element.a_ProductID, productList)))
-                pallet.setSlotB(Cup(element.b_CupID, self.productFromID(element.b_ProductID, productList)))
+                pallet.setSlotA(Cup(element.a_CupID, self.__productFromID(element.a_ProductID, productList)))
+                pallet.setSlotB(Cup(element.b_CupID, self.__productFromID(element.b_ProductID, productList)))
                 self.inventory.setStoragePallet(element.row, element.col, pallet)
 
-    def loadStorageData(self, productList):
+    def __loadStorageData(self, productList) -> list[StorageData]:
         """
 
         :param productList: List of product data without quantities
         :type productList: List of ProductData objects
         :return: storageData
-        :type storageData: List of StorageData objects.
+        :rtype storageData: List of StorageData objects.
 
         """
         FILE = self.constants.STORAGEDATA
@@ -161,13 +167,12 @@ class invController:
             file.close()
         return storageData
 
-    def loadProductList(self):
+    def __loadProductList(self) -> list[Product]:
         """
-
         Opens file with path from constants.
         transforms data to object-oriented data
-
         :return: productList
+        :rtype: list of Product
 
         """
         FILE = self.constants.PRODUCTLIST
@@ -192,7 +197,7 @@ class invController:
             file.close()
         return productList
 
-    def populateViewModels(self, productList, storageData):
+    def __populateViewModels(self, productList, storageData):
         """
 
         Now since data from StorageData.db and Produkte.db is loaded and transformed, it
@@ -222,13 +227,13 @@ class invController:
                                                element.b_CupID, element.b_ProductID, element.b_Name, element.row,
                                                element.col]
         self.storageViewModel = StorageViewModel(storageData=tableData)
-        self.populateProductlistViewModel(productList, storageData)
+        self.__populateProductlistViewModel(productList, storageData)
         '''
         create sortable and filterable viewModel 
         '''
         self.productSummaryViewModel = ProductSummaryViewModel(self.productlistViewModel)
 
-    def populateProductlistViewModel(self, productList, storageData):
+    def __populateProductlistViewModel(self, productList, storageData):
         """
 
         Loop over storageData to calculate existing product quantities.
@@ -259,7 +264,7 @@ class invController:
         '''
         self.productlistViewModel = ProductListViewModel(productDataList)
 
-    def productFromID(self, id, productList):
+    def __productFromID(self, id, productList):
         """
 
         Finds Product object from given id and returns the object.
