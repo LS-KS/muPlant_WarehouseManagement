@@ -1,20 +1,7 @@
 from PySide6.QtCore import Signal, Slot, QObject
 from datetime import datetime
 
-def createMessage(source, message):
-    """
 
-    Creates a string from provided source-string and source-message.
-
-    :param source: Can be any String
-    :type source: str
-    :param message: Can be any string
-    :type message: str
-    :return: formatted message
-
-    """
-    time = datetime.now()
-    return f"[{time}] [{source}]: {message}"
 
 
 
@@ -33,6 +20,21 @@ class EventlogService (QObject):
         self.messages = []
         self.newSignal= Signal(str)
 
+    def createMessage(self,source, message):
+        """
+
+        Creates a string from provided source-string and source-message.
+
+        :param source: Can be any String
+        :type source: str
+        :param message: Can be any string
+        :type message: str
+        :return: formatted message
+
+        """
+        time = datetime.now()
+        return f"[{time}] [{source}]: {message}"
+
     @Slot(str, str)
     def writeEvent(self, source, message):
         """
@@ -44,6 +46,6 @@ class EventlogService (QObject):
         :return: None
         """
         #print("Eventcontroller: "+message)
-        msg = createMessage(source, message)
+        msg = self.createMessage(source, message)
         self.messages.append(msg)
         self.newSignal.emit(msg)

@@ -176,3 +176,5 @@ cython_debug/
 *.aux
 latexmkrc
 latexmkjarc
+*.DS_Store
+*.autosave

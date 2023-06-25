@@ -23,7 +23,8 @@ Controller
 Service
 -------
 
-Nothing to see here yet
+.. automodule:: src.service.EventlogService
+   :members:
 
 ViewModel
 ---------
@@ -40,7 +41,7 @@ ViewModel
 View
 ----
 
-Nothing to see here... yet
+.. literalinclude:: ../src/view/main.qml
 
 
 Constants
