@@ -8,12 +8,12 @@ import QtQuick.Dialogs
   Create ApplicationWindow object as base which stores all other elements
   */
 
-ApplicationWindow {
+Window {
     property bool init: false
     id: mainWindow
-    width: Screen.width
+    width: Screen.width/1.5
     minimumWidth : 480
-    height: Screen.height
+    height: Screen.height/1.5
     minimumHeight: 200
     visible: true
     title: qsTr("Warehouse Management")
@@ -33,6 +33,11 @@ ApplicationWindow {
         }
     }
     MenuBar{
+        id: menuBar
+        height: 40
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
         Menu {
             title: qsTr("&File")
             Action { text: qsTr("&Help...") }
@@ -55,5 +60,11 @@ ApplicationWindow {
                 }
             }
         }
+    }
+    ProcessView{
+        id: processView
+        width: parent.width/2
+        height: parent.height/2
+        anchors.top: menuBar.bottom
     }
 }
