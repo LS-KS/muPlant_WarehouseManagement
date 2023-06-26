@@ -17,8 +17,10 @@ class EventlogService (QObject):
         """
         Initialize class
         """
+        super().__init__()
         self.messages = []
-        self.newSignal= Signal(str)
+
+    newSignal = Signal(str)
 
     def createMessage(self,source, message):
         """

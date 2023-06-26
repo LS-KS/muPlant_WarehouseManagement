@@ -11,9 +11,9 @@ import QtQuick.Dialogs
 ApplicationWindow {
     property bool init: false
     id: mainWindow
-    width: Screen.width
+    width: Screen.width/1.5
     minimumWidth : 480
-    height: Screen.height
+    height: Screen.height/1.5
     minimumHeight: 200
     visible: true
     title: qsTr("Warehouse Management")
@@ -33,6 +33,11 @@ ApplicationWindow {
         }
     }
     MenuBar{
+        id: menuBar
+        height: 40
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
         Menu {
             title: qsTr("&File")
             Action { text: qsTr("&Help...") }
@@ -55,5 +60,39 @@ ApplicationWindow {
                 }
             }
         }
+    }
+    HeaderLine{
+        id: headerLine
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: menuBar.bottom
+        }
+    }
+    ProcessView{
+        id: processView
+        width: parent.width/2
+        height: parent.height*0.6
+        anchors.top: headerLine.bottom
+    }
+
+    EventView{
+        id: eventlog
+        width: mainWindow.width/2
+        anchors{
+            left: mainWindow.left
+            right: processView.right
+            top: processView.bottom
+            bottom: mainWindow.bottom
+        }
+    }
+
+    StorageView{
+        width: Screen.width /2
+        height: Screen.height
+        anchors.top: headerLine.bottom
+        anchors.left: processView.right
+        anchors.bottom: mainWindow.bottom
+        anchors.right: mainWindow.right
     }
 }

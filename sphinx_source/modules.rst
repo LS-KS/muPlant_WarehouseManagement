@@ -13,39 +13,98 @@ Data Model
 
 .. automodule:: src.model.DataModel
     :members:
+    :undoc-members:
+    :show-inheritance:
 
 Controller
 ----------
 
 .. automodule:: src.controller.invController
     :members:
+    :undoc-members:
+    :show-inheritance:
 
 Service
 -------
 
 .. automodule:: src.service.EventlogService
-   :members:
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 ViewModel
 ---------
 
 .. automodule:: src.viewmodel.productlistViewModel
     :members:
+    :undoc-members:
+    :show-inheritance:
 
 .. automodule:: src.viewmodel.productSummaryViewModel
     :members:
+    :undoc-members:
+    :show-inheritance:
 
 .. automodule:: src.viewmodel.storageViewModel
     :members:
+    :undoc-members:
+    :show-inheritance:
 
 View
 ----
+Die Nachfolgenden Dateien stellen den Quellcode für das GUI dar.
+
+Hauptfenster:
+main.qml
 
 .. literalinclude:: ../src/view/main.qml
+
+Banner mit Logo und Programmtitel:
+HeaderLine.qml
+
+.. literalinclude:: ../src/view/HeaderLine.qml
+
+
+Ansicht mit mobilem Roboter inklusive Becher und Sensoren:
+TurtleView.qml
+
+.. literalinclude:: ../src/view/TurtleView.qml
+
+Ansicht eines Bechers mit ID und Produktname
+CupView.qml
+
+.. literalinclude:: ../src/view/CupView.qml
+
+Ansicht einer Palette mit Becher:
+PalletteView.qml
+
+.. literalinclude:: ../src/view/PalletteView.qml
+
+Alternative Ansicht einer Palette mit zwei Becher:
+ProductView.qml
+
+.. literalinclude:: ../src/view/ProductView.qml
+
+Visualisierung des Anlagenschemas der Lagerzelle:
+ProcessView.qml
+
+.. literalinclude:: ../src/view/ProcessView.qml
+
+Visualisierung des gesamten Lagerregals:
+StorageView.qml
+
+.. literalinclude:: ../src/view/StorageView.qml
+
+Visualisierung des Eventloggers:
+EventView.qml
+
+.. literalinclude:: ../src/view/EventView.qml
 
 
 Constants
 ---------
+
+Speichert alle URI's zu Dateien und PlugIn's
 
 .. literalinclude:: ../src/constants/Constants.py
 

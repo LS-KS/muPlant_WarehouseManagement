@@ -15,7 +15,7 @@ Uses  PySide6 with PyQt6.5.1 for GUI implementation
 import sys
 from pathlib import Path
 from PySide6.QtGui import QGuiApplication
-from PySide6.QtQml import QQmlApplicationEngine
+from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterType
 from src.controller.invController import invController
 from src.service.EventlogService import EventlogService
 
@@ -25,14 +25,16 @@ if __name__ == '__main__':
 
     # create inventoryController with included Data Model and sets itself and viewModels  as rootContext
     inventoryController = invController()
+
     engine.rootContext().setContextProperty("inventoryController", inventoryController)
-    engine.rootContext().setContextProperty("storageModel", inventoryController.storageViewModel)
-    engine.rootContext().setContextProperty("productlistModel", inventoryController.productlistViewModel)
-    engine.rootContext().setContextProperty("productSummaryModel", inventoryController.productSummaryViewModel)
+    engine.rootContext().setContextProperty('storageModel', inventoryController.storageViewModel)
+    engine.rootContext().setContextProperty('productListModel', inventoryController.productlistViewModel)
+    engine.rootContext().setContextProperty('productSummaryModel', inventoryController.productSummaryViewModel)
 
     # creates EventlogService object and sets itself as rootContext
     eventlogService = EventlogService()
     inventoryController.eventlogService = eventlogService
+    engine.rootContext().setContextProperty("eventLogController", eventlogService)
 
     # define load main.qml file to start application
     qml_file = Path(__file__).resolve().parent / "src" / "view" / "main.qml"

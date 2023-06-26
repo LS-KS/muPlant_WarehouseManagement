@@ -3,8 +3,10 @@ from src.constants.Constants import Constants
 from src.viewmodel.storageViewModel import StorageViewModel, StorageData
 from src.viewmodel.productlistViewModel import ProductListViewModel,ProductData
 from src.viewmodel.productSummaryViewModel import ProductSummaryViewModel
+from PySide6.QtCore import Signal, Slot, QObject
+from PySide6.QtCore import Qt
 
-class invController:
+class invController(QObject):
     """
     Controller class which gives access to DataModel module to remain consistent Data.
 
@@ -20,12 +22,19 @@ class invController:
     :param workbench: represents physical workbench with two slots for a pallet.
     :type workbench: DataModel.Workbench
     """
-    def __init__(self):
+
+    # Signal can be captured in qml file with Connections - syntax and handling on signal called 'onRowClicked'
+    transmitData = Signal(str, int, int)
+    productSelected = Signal(str)
+    idSwapped = Signal(int, int)
+
+    def __init__(self, parent=None):
         """
 
         create objects of every DataModel entity which is a physical unit.
 
         """
+        super().__init__(parent)
         self.inventory = Inventory(self)
         self.mobileRobot = MobileRobot()
         self.gripper = Gripper()
@@ -36,6 +45,103 @@ class invController:
         self.productSummaryViewModel = None
         self.eventlogService = None
         self.__loadData()
+
+    @Slot(str)
+    def selectRow(self, message):
+        """
+        @Slot(str)
+        Takes a product ID as argument and emits it as signal productSelected.
+        :param message: product id
+        :type message: str
+        :return: None
+        """
+        self.productSelected.emit(message)
+    @Slot(str, str)
+    def loadStorage(self, storage: str, slot: str):
+        """
+        @Slot(str, str)
+        This method takes data from EditDialog qml file when the user wants to
+        override the storage entry.
+        Decodes Storage ID 'L1' to L'18' in row / col and checks for ValueErrors.
+        Uses invControllers transmitData signal to return productslot, cup ID and productListindex.
+        :param storage:
+        :type storage: str
+        :param slot:
+        :type slot: str
+        :return: uses Qt Signal object to return productslot, cup ID and productListIndex.
+        """
+
+        if storage != "":
+            number = int(storage[1:]) # extracts the integer from storage string
+            row = (number - 1) // 6
+            col = (number - 1) % 6
+            if not 0 <= row <= 2:
+                raise ValueError("Error could not decode storage(row)")
+            if not 0 <= col <= 5:
+                raise ValueError("Error could not decode storage(col)")
+            if slot == "a":
+                cupRole = Qt.UserRole + 2
+                prodRole = Qt.UserRole + 3
+            elif slot == "b":
+                cupRole = Qt.UserRole + 5
+                prodRole = Qt.UserRole + 6
+            else:
+                raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
+            index = self.storageViewModel.createIndex(row, col)
+            product = self.storageViewModel.data(index, prodRole)
+            print(f"index: {index}, product: {product}")
+            productlistIndex = self.productlistViewModel.indexOf(product)
+            cup = self.storageViewModel.data(index, cupRole)
+            self.transmitData.emit(slot, cup, product)
+    @Slot(str, str, int, int)
+    def changeStorage(self, storage, slot, cupID, productID):
+        """
+        @Slot(str, str, int, int)
+        This method takes data from manual storage override in EditDialog.qml.
+        Decodes Storage ID 'L1' to L'18' in row / col and checks for ValueErrors.
+        Changes StorageViewModel object of invController and calls _dumpStorage() to save
+        changes to file.
+
+        :param storage: String like "L17"
+        :type storage: str
+        :param slot: palette slot 'a' (front) or 'b' (rear)
+        :type slot: int
+        :param cupID: cup ID
+        :type cupID: int
+        :param productID: product ID
+        :type productID: int
+        :return: None
+        """
+
+        number = int(storage[1:])
+        row = (number - 1) // 6
+        col = (number - 1) % 6
+        if not 0 <= row <= 2:
+            raise ValueError("Error could not decode storage(row)")
+        if not 0 <= col <= 5:
+            raise ValueError("Error could not decode storage(col)")
+        if slot == "a":
+            print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
+            roleCup = Qt.UserRole + 2
+            roleProduct = Qt.UserRole + 3
+            roleName = Qt.UserRole + 4
+        elif slot == "b":
+            print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
+            roleCup = Qt.UserRole + 5
+            roleProduct = Qt.UserRole + 6
+            roleName = Qt.UserRole + 7
+        else:
+            raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
+
+        index = self.storageViewModel.createIndex(row, col)
+        cup = self.storageViewModel.setData(index, cupID, role=roleCup)
+        product = self.storageViewModel.setData(index, productID, role=roleProduct)
+        name = self.storageViewModel.setData(index, self.findProductName(productID), role=roleName)
+        self.storageViewModel.dataChanged.emit(index, index, [roleCup, roleProduct, roleName])
+        self.idSwapped.emit(product, productID)
+        self.eventlogService.writeEvent("USER",
+                                        f"\n*** ATTENTION ***\n\n!!! INVENTORY OVERRIDE !!!\n\nLocation: {storage} - {slot}\nCup: {cup} --> {cupID}\nProduct: {product} --> {productID}\n\n*** DANGER ***\n\nThe storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.\n\n*** THIS IS A LIFE-THREATENING SITUATION ***\n\n>>>>> CHANGES ARE PERMANENT <<<<<\n\n_____\n")
+        self._dumpStorage()
     def movePalletToK1(self, pallet: Pallet) -> bool:
         """
 
@@ -83,7 +189,6 @@ class invController:
             # ToDo: Hier Kommando an ABB Roboter einfügen und warten bis Meldung kommt, dass Kommando ausgeführt wurde.
             self.workbench.k1.setSlotA(cup)
             return True
-
     def movePalletToK2(self, pallet: Pallet) -> bool:
         """
         Moves a pallet to Workbench's K2 slot.
@@ -169,6 +274,19 @@ class invController:
             # ToDo: Hier Kommando an ABB Roboter einfügen und warten bis Meldung kommt, dass Kommando ausgeführt wurde.
             self.inventory.setStoragePallet(row, col, pallet)
             return True
+    def findProductName(self, id: int):
+        """
+        Method to get product Name from productListModel.
+        It is used to emit the changed name for StorageView.qml
+        :param id:
+        :type id: int
+        :return: product name to corresponding index
+        :rtype str
+        """
+        for index, product in enumerate(self.productlistViewModel.products):
+            if product.id == id:
+                return product.name
+        return None
     def __loadData(self):
         """
         Load a productList with product ID and name to have appropriate product data.

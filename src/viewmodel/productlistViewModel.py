@@ -65,7 +65,7 @@ class ProductListViewModel(QtCore.QAbstractListModel):
             return f"Column {section}"
         return f"Row {section}"
 
-    def rowCount(self, parent: QModelIndex()):
+    def rowCount(self, parent: QModelIndex() = None):
         """
 
         returns number of rows at index
