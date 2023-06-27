@@ -11,9 +11,9 @@ import QtQuick.Dialogs
 ApplicationWindow {
     property bool init: false
     id: mainWindow
-    width: Screen.width/1.5
+    width: Screen.width
     minimumWidth : 480
-    height: Screen.height/1.5
+    height: Screen.height
     minimumHeight: 200
     visible: true
     title: qsTr("Warehouse Management")
@@ -33,11 +33,6 @@ ApplicationWindow {
         }
     }
     MenuBar{
-        id: menuBar
-        height: 40
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
         Menu {
             title: qsTr("&File")
             Action { text: qsTr("&Help...") }
