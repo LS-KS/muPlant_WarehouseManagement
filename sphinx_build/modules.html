@@ -1,0 +1,1942 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Main File &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to µPlant Warehouse Management’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="main-file">
+<h1>Main File<a class="headerlink" href="#main-file" title="Permalink to this heading">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">µPlant WareHouse Management Software.</span>
+<span class="sd">Bachelor Thesis 2023</span>
+<span class="sd">Author: L.Schink</span>
+<span class="sd">Date Project Start: 20.06.2023</span>
+<span class="sd">Language : Python 3.11</span>
+
+<span class="sd">This Software implements warehouse logic from heterogene modular autonomic production site.</span>
+<span class="sd">The warehouse works autonomous while receiving orders from modbus TCP/IP.</span>
+<span class="sd">also OPC UA is implemented.</span>
+
+<span class="sd">Uses  PySide6 with PyQt6.5.1 for GUI implementation</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtGui</span> <span class="kn">import</span> <span class="n">QGuiApplication</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtQml</span> <span class="kn">import</span> <span class="n">QQmlApplicationEngine</span><span class="p">,</span> <span class="n">qmlRegisterType</span>
+<span class="kn">from</span> <span class="nn">src.controller.invController</span> <span class="kn">import</span> <span class="n">invController</span>
+<span class="kn">from</span> <span class="nn">src.service.EventlogService</span> <span class="kn">import</span> <span class="n">EventlogService</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">QGuiApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">QQmlApplicationEngine</span><span class="p">()</span>
+
+    <span class="c1"># create inventoryController with included Data Model and sets itself and viewModels  as rootContext</span>
+    <span class="n">inventoryController</span> <span class="o">=</span> <span class="n">invController</span><span class="p">()</span>
+
+    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;inventoryController&quot;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="p">)</span>
+    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;storageModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">storageViewModel</span><span class="p">)</span>
+    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productListModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productlistViewModel</span><span class="p">)</span>
+    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productSummaryModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productSummaryViewModel</span><span class="p">)</span>
+
+    <span class="c1"># creates EventlogService object and sets itself as rootContext</span>
+    <span class="n">eventlogService</span> <span class="o">=</span> <span class="n">EventlogService</span><span class="p">()</span>
+    <span class="n">inventoryController</span><span class="o">.</span><span class="n">eventlogService</span> <span class="o">=</span> <span class="n">eventlogService</span>
+    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;eventLogController&quot;</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">)</span>
+
+    <span class="c1"># define load main.qml file to start application</span>
+    <span class="n">qml_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;view&quot;</span> <span class="o">/</span> <span class="s2">&quot;main.qml&quot;</span>
+    <span class="n">engine</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">qml_file</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">engine</span><span class="o">.</span><span class="n">rootObjects</span><span class="p">():</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">())</span>
+
+
+</pre></div>
+</div>
+</section>
+<section id="module-src.model.DataModel">
+<span id="data-model"></span><h1>Data Model<a class="headerlink" href="#module-src.model.DataModel" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.DataModel.Cup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Cup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Cup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Implements Cup class from µPlant which exists in two sizes.
+Only small size matters for warehouse management so size will be ignored.
+Cup stores an id and product.
+last revision: 20.06.20223</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – The id of the cup</p></li>
+<li><p><strong>product</strong> (<a class="reference internal" href="#src.model.DataModel.Product" title="src.model.DataModel.Product"><em>Product</em></a>) – The product stored in the cup</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Cup.getID">
+<span class="sig-name descname"><span class="pre">getID</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Cup.getID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.getID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the id of the cup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The id of the cup</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Cup.getProduct">
+<span class="sig-name descname"><span class="pre">getProduct</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Cup.getProduct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.getProduct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the product stored in the cup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The product stored in the cup</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#src.model.DataModel.Product" title="src.model.DataModel.Product">Product</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Cup.setID">
+<span class="sig-name descname"><span class="pre">setID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Cup.setID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.setID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the id of the cup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>int</em>) – The new id of the cup</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Cup.setLocation">
+<span class="sig-name descname"><span class="pre">setLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Cup.setLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.setLocation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the storage stored the cup is stored in.
+Note, that the Cup cannot now the exact spot of the storage item.
+Therefor if storage is instance of Pallet, use Pallets setSlotA(Cup) / setSlotb(Cup) methods
+storage can be Mobile Robot, Pallet or Gripper</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>location</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Cup</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Cup.setProduct">
+<span class="sig-name descname"><span class="pre">setProduct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Cup.setProduct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.setProduct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the product stored in the cup. If the cup already has a product,
+calls the withoutCup method on the existing product before setting the new product.</p>
+<p>If the new product is not None and is not already associated with this Cup object,
+adds this Cup object to the cups list of the new product.</p>
+<p>If the new product is None and this Cup object is associated with an existing product,
+calls the withoutCup method on the existing product before setting the new product to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>product</strong> (<a class="reference internal" href="#src.model.DataModel.Product" title="src.model.DataModel.Product"><em>Product</em></a>) – The new product to store in the cup</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.DataModel.Gripper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Gripper</span></span><a class="reference internal" href="_modules/src/model/DataModel.html#Gripper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Gripper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Implements Gripper data class from µPlant industrial robotic arm.
+Gripper stores a cup or a pallet object while transport operation is in progress.
+Idea is to prevent data loss if program interruption occurs whilst progress.
+last revision: 21.06.20223</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>object</strong> – Stores either cup object or pallet object (or None)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Gripper.setObject">
+<span class="sig-name descname"><span class="pre">setObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Gripper.setObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Gripper.setObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>takes a Cup or Pallet data object.
+raises an ValueError if gripper already has an object.
+calls objects setLocation function to set gripper as objects location
+:param object:
+:type object: Cup, Pallet or None
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.DataModel.Inventory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">controller</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Inventory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Implements the storage rack in µPlant.
+holds an 2D List which represents row col in the factory.
+Each array slot holds a StorageElement which can hold a pallet.
+This way pallets don’t have to bear their location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pallets</strong> (<a class="reference internal" href="#src.model.DataModel.StorageElement" title="src.model.DataModel.StorageElement"><em>StorageElement</em></a>) – 2D List</p>
+</dd>
+</dl>
+<p>:param invController : InventoryController</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Inventory.getStoragePallet">
+<span class="sig-name descname"><span class="pre">getStoragePallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Inventory.getStoragePallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Inventory.getStoragePallet" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row</strong> – </p></li>
+<li><p><strong>col</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns Pallet object at given position</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Inventory.setStoragePallet">
+<span class="sig-name descname"><span class="pre">setStoragePallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Inventory.setStoragePallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Inventory.setStoragePallet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a pallet into the storage at given position.
+Throws ValueError if storage Position is not empty.
+Calls SetLocation method of pallet.
+:param row:
+:param col:
+:param pallet:
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.DataModel.MobileRobot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">MobileRobot</span></span><a class="reference internal" href="_modules/src/model/DataModel.html#MobileRobot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.MobileRobot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Implements Mobile Robot class from µPlant.
+can store up to one cup in two different sizes.
+last revision: 21.06.20223
+:param cup: stores cup on mobile Robot
+:type cup: Cup</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.MobileRobot.setCup">
+<span class="sig-name descname"><span class="pre">setCup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#MobileRobot.setCup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.MobileRobot.setCup" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets Cup on mobile Robot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cup</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.DataModel.Pallet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Pallet</span></span><a class="reference internal" href="_modules/src/model/DataModel.html#Pallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Pallet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Implements Pallet class from µPlant which stores up tp two cups.
+Cup objects are stored in slotA and slotB and shall be set by corresponding methods.
+last revision: 21.06.20223</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>location</strong> – The location object in which the pallet is stored (Workbench, Gripper, Inventory)</p></li>
+<li><p><strong>slotA</strong> – slot for a Cup object which represents the slot in the front of storage bar.</p></li>
+<li><p><strong>slotB</strong> – slot for a Cup object which represents the slot in the rear of storage bar.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Pallet.setLocation">
+<span class="sig-name descname"><span class="pre">setLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storageElement</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Pallet.setLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Pallet.setLocation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Pallet.setSlotA">
+<span class="sig-name descname"><span class="pre">setSlotA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Pallet.setSlotA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Pallet.setSlotA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets or removes a Cup obeject in the front slot of this pallet object.
+If the slot already has a cup,
+calls the setLocation method on the existing cup with None as param before setting the new cup.</p>
+<p>If the new cup is not None and is not already associated with this Pallet object,
+adds this Pallet object location object of the new cup.</p>
+<p>If the new cup is None and this Pallet object is associated with an existing cup,
+calls the setLocation method on the existing cup before setting the new cup to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cup</strong> (<a class="reference internal" href="#src.model.DataModel.Cup" title="src.model.DataModel.Cup"><em>Cup</em></a>) – The new cup to store in the cup</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Pallet.setSlotB">
+<span class="sig-name descname"><span class="pre">setSlotB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Pallet.setSlotB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Pallet.setSlotB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets or removes a Cup obeject in the rear slot of this pallet object.
+If the slot already has a cup,
+calls the setLocation method on the existing cup with None as param before setting the new cup.</p>
+<p>If the new cup is not None and is not already associated with this Pallet object,
+adds this Pallet object location object of the new cup.</p>
+<p>If the new cup is None and this Pallet object is associated with an existing cup,
+calls the setLocation method on the existing cup before setting the new cup to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cup</strong> (<a class="reference internal" href="#src.model.DataModel.Cup" title="src.model.DataModel.Cup"><em>Cup</em></a>) – The new cup to store in the cup</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.DataModel.Product">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Product" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Implements Product class from µPlant.
+Cup stores an id and name beside a list of Cups filled with the product.
+last revision: 20.06.20223</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – The id of the product</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – The name of the product</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Product.withCup">
+<span class="sig-name descname"><span class="pre">withCup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Product.withCup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Product.withCup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a Cup object to the cups list if it is not already in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cup</strong> (<a class="reference internal" href="#src.model.DataModel.Cup" title="src.model.DataModel.Cup"><em>Cup</em></a>) – The Cup object to add to the cups list</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The instance of the Product class on which the method was called</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#src.model.DataModel.Product" title="src.model.DataModel.Product">Product</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If cup is not an instance of the Cup class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Product.withoutCup">
+<span class="sig-name descname"><span class="pre">withoutCup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Product.withoutCup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Product.withoutCup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a Cup object from the cups list if it is not already removed from the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cup</strong> (<a class="reference internal" href="#src.model.DataModel.Cup" title="src.model.DataModel.Cup"><em>Cup</em></a>) – The Cup object to add to the cups list</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The instance of the Product class on which the method was called</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#src.model.DataModel.Product" title="src.model.DataModel.Product">Product</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If cup is not an instance of the Cup class</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">StorageElement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inventory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#StorageElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.StorageElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>StorageElement represents a slot in µPlant storage bar, so there are 18 static objects.
+Each usually holds one or none pallet object which should be also the same.
+:param row: represents the storage bar row
+:type row: int
+:param col: represents the storage bar column
+:type col: int
+:param pallet: stores the pallet or nothing
+:type pallet: Pallet
+:param inventory: parent class of StorageElement
+:type inventory: Inventory</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.setPallet">
+<span class="sig-name descname"><span class="pre">setPallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#StorageElement.setPallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.StorageElement.setPallet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets or removes a Pallet object in location spot of the storage bar.
+If the storage element already has a pallet object,
+calls the setLocation method on the existing pallet with None as param before setting the new pallet.</p>
+<p>If the new pallet is not None and is not already associated with this storage element object,
+adds this storage element object location object of the new pallet.</p>
+<p>If the new pallet is None and this storage element object is associated with an existing pallet,
+it throws a ValueError.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pallet</strong> (<a class="reference internal" href="#src.model.DataModel.Pallet" title="src.model.DataModel.Pallet"><em>Pallet</em></a>) – The new pallet object to store in</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.DataModel.Workbench">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Workbench</span></span><a class="reference internal" href="_modules/src/model/DataModel.html#Workbench"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Workbench" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Implements Workbench class from µPlant.
+Workbench stores up to two palette items.
+last revision: 20.06.20223
+:param k1: stores pallet on K1 slot
+:type k1: Pallet
+:param k2: stores pallet on K2 slot
+:type k2: Pallet</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Workbench.setK1">
+<span class="sig-name descname"><span class="pre">setK1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Workbench.setK1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Workbench.setK1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets or removes a Pallet object in location spot k1.
+Raises an ValueError if K1 is already occupied</p>
+<p>If the new pallet is not None and is not already associated with this slot,
+adds this storage element object location object of the new pallet.</p>
+<p>If the new pallet is None and this storage element object is associated with an existing pallet,
+it throws a ValueError.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pallet</strong> (<a class="reference internal" href="#src.model.DataModel.Pallet" title="src.model.DataModel.Pallet"><em>Pallet</em></a>) – The new pallet object to store in</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Workbench.setK2">
+<span class="sig-name descname"><span class="pre">setK2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Workbench.setK2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Workbench.setK2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets or removes a Pallet object in location spot k2.
+Raises an ValueError if K2 is already occupied</p>
+<p>If the new pallet is not None and is not already associated with this slot,
+adds this storage element object location object of the new pallet.</p>
+<p>If the new pallet is None and this storage element object is associated with an existing pallet,
+it throws a ValueError.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pallet</strong> (<a class="reference internal" href="#src.model.DataModel.Pallet" title="src.model.DataModel.Pallet"><em>Pallet</em></a>) – The new pallet object to store in</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-src.controller.invController">
+<span id="controller"></span><h1>Controller<a class="headerlink" href="#module-src.controller.invController" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.controller.invController.invController">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.controller.invController.</span></span><span class="sig-name descname"><span class="pre">invController</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.changeStorage">
+<span class="sig-name descname"><span class="pre">changeStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cupID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">productID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController.changeStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.changeStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;Slot(str, str, int, int)
+This method takes data from manual storage override in EditDialog.qml.
+Decodes Storage ID ‘L1’ to L’18’ in row / col and checks for ValueErrors.
+Changes StorageViewModel object of invController and calls _dumpStorage() to save
+changes to file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<em>str</em>) – String like “L17”</p></li>
+<li><p><strong>slot</strong> (<em>int</em>) – palette slot ‘a’ (front) or ‘b’ (rear)</p></li>
+<li><p><strong>cupID</strong> (<em>int</em>) – cup ID</p></li>
+<li><p><strong>productID</strong> (<em>int</em>) – product ID</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.findProductName">
+<span class="sig-name descname"><span class="pre">findProductName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController.findProductName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.findProductName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to get product Name from productListModel.
+It is used to emit the changed name for StorageView.qml
+:param id:
+:type id: int
+:return: product name to corresponding index
+:rtype str</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.invController.invController.idSwapped">
+<span class="sig-name descname"><span class="pre">idSwapped</span></span><a class="headerlink" href="#src.controller.invController.invController.idSwapped" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.loadStorage">
+<span class="sig-name descname"><span class="pre">loadStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController.loadStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.loadStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;Slot(str, str)
+This method takes data from EditDialog qml file when the user wants to
+override the storage entry.
+Decodes Storage ID ‘L1’ to L’18’ in row / col and checks for ValueErrors.
+Uses invControllers transmitData signal to return productslot, cup ID and productListindex.
+:param storage:
+:type storage: str
+:param slot:
+:type slot: str
+:return: uses Qt Signal object to return productslot, cup ID and productListIndex.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.moveCupToK1">
+<span class="sig-name descname"><span class="pre">moveCupToK1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.model.DataModel.Cup" title="src.model.DataModel.Cup"><span class="pre">Cup</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/controller/invController.html#invController.moveCupToK1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.moveCupToK1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves a cup to Workbench’s K1 slot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cup</strong> – The cup which shall be transported</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Cup object</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – if the destination has no pallet or existing pallet has no empty cup place</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if successful</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.moveCupToK2">
+<span class="sig-name descname"><span class="pre">moveCupToK2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.model.DataModel.Cup" title="src.model.DataModel.Cup"><span class="pre">Cup</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/controller/invController.html#invController.moveCupToK2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.moveCupToK2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves a cup to Workbench’s K2 slot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cup</strong> – The cup which shall be transported</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Cup object</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – if the destination has no pallet or existing pallet has no empty cup place</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if successful</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.moveCupToMobileRobot">
+<span class="sig-name descname"><span class="pre">moveCupToMobileRobot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.model.DataModel.Cup" title="src.model.DataModel.Cup"><span class="pre">Cup</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/controller/invController.html#invController.moveCupToMobileRobot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.moveCupToMobileRobot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves a Cup object to the mobile Robot
+not implemented: Creates all necessary commands
+:param cup:
+:return: True if transport was successful
+:raises ValueError: if Mobile Robot is not empty</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.movePalletToK1">
+<span class="sig-name descname"><span class="pre">movePalletToK1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pallet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.model.DataModel.Pallet" title="src.model.DataModel.Pallet"><span class="pre">Pallet</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/controller/invController.html#invController.movePalletToK1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.movePalletToK1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves a pallet to Workbench’s K1 slot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pallet</strong> – The pallet which shall be transported</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Pallet object</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – if destination is not None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if successful, False if not</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.movePalletToK2">
+<span class="sig-name descname"><span class="pre">movePalletToK2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pallet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.model.DataModel.Pallet" title="src.model.DataModel.Pallet"><span class="pre">Pallet</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/controller/invController.html#invController.movePalletToK2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.movePalletToK2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves a pallet to Workbench’s K2 slot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pallet</strong> – The pallet which shall be transported</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Pallet object</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if successful, False if not</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.movePalletToStorage">
+<span class="sig-name descname"><span class="pre">movePalletToStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pallet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.model.DataModel.Pallet" title="src.model.DataModel.Pallet"><span class="pre">Pallet</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/controller/invController.html#invController.movePalletToStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.movePalletToStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>places a Pallet object in inventory at given position.
+not implemented: Creates all necessary commands to ABB controller</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pallet</strong> (<a class="reference internal" href="#src.model.DataModel.Pallet" title="src.model.DataModel.Pallet"><em>Pallet</em></a>) – pallet which shall be transported</p></li>
+<li><p><strong>row</strong> (<em>int</em>) – </p></li>
+<li><p><strong>col</strong> (<em>int</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if successful</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.invController.invController.productSelected">
+<span class="sig-name descname"><span class="pre">productSelected</span></span><a class="headerlink" href="#src.controller.invController.invController.productSelected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.selectRow">
+<span class="sig-name descname"><span class="pre">selectRow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController.selectRow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.selectRow" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;Slot(str)
+Takes a product ID as argument and emits it as signal productSelected.
+:param message: product id
+:type message: str
+:return: None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.invController.invController.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;invController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitData(QString,int,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=productSelected(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=idSwapped(int,int),</span> <span class="pre">parameters=int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Slot,</span> <span class="pre">signature=selectRow(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadStorage(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeStorage(QString,QString,int,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">int</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.invController.invController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.invController.invController.transmitData">
+<span class="sig-name descname"><span class="pre">transmitData</span></span><a class="headerlink" href="#src.controller.invController.invController.transmitData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-src.service.EventlogService">
+<span id="service"></span><h1>Service<a class="headerlink" href="#module-src.service.EventlogService" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.service.EventlogService.EventlogService">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.EventlogService.</span></span><span class="sig-name descname"><span class="pre">EventlogService</span></span><a class="reference internal" href="_modules/src/service/EventlogService.html#EventlogService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.EventlogService.EventlogService" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.EventlogService.EventlogService.createMessage">
+<span class="sig-name descname"><span class="pre">createMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/EventlogService.html#EventlogService.createMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.EventlogService.EventlogService.createMessage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a string from provided source-string and source-message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>str</em>) – Can be any String</p></li>
+<li><p><strong>message</strong> (<em>str</em>) – Can be any string</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>formatted message</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.EventlogService.EventlogService.newSignal">
+<span class="sig-name descname"><span class="pre">newSignal</span></span><a class="headerlink" href="#src.service.EventlogService.EventlogService.newSignal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.EventlogService.EventlogService.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;EventlogService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=newSignal(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Slot,</span> <span class="pre">signature=writeEvent(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.EventlogService.EventlogService.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.EventlogService.EventlogService.writeEvent">
+<span class="sig-name descname"><span class="pre">writeEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/EventlogService.html#EventlogService.writeEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.EventlogService.EventlogService.writeEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>obtains two strings, creates an event message from it and emits the formatted string as signal.
+:param source: can be any string
+:type source: str
+:param message: can be any string
+:type message: str
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-src.viewmodel.productlistViewModel">
+<span id="viewmodel"></span><h1>ViewModel<a class="headerlink" href="#module-src.viewmodel.productlistViewModel" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.viewmodel.productlistViewModel.</span></span><span class="sig-name descname"><span class="pre">ProductData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A simple subclass to provide product id, name and stored quantity to qml engine
+by productlistViewModel and productSummaryViewModel</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.viewmodel.productlistViewModel.</span></span><span class="sig-name descname"><span class="pre">ProductListViewModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">products</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QAbstractListModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an appropriate value for the requested data.
+If the view requests an invalid index, an invalid variant is returned.
+Any valid index that corresponds to a string in the list causes that
+string to be returned
+:param index: index used to obtain data from model
+:type index: QModelIndex
+:param role: used to obtain field value from data at index
+:type role: QtUserRole +1 per column
+:return: returns data at index and role or None if not successful</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.headerData">
+<span class="sig-name descname"><span class="pre">headerData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">section</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ItemDataRole.DisplayRole</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.headerData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.headerData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the appropriate header string depending on the orientation of
+the header and the section. If anything other than the display role is
+requested, we return an invalid variant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>section</strong> – </p></li>
+<li><p><strong>orientation</strong> – </p></li>
+<li><p><strong>role</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.indexOf">
+<span class="sig-name descname"><span class="pre">indexOf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">productID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.indexOf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.indexOf" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>productID</strong> (<em>int</em>) – product ID</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>returns index of given product ID</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.roleNames">
+<span class="sig-name descname"><span class="pre">roleNames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.roleNames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.roleNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemendted.
+Creates a dictionary with rolenames and roles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>returns a Dictionary containing roles and rolenames</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.rowCount">
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x10dfcd800&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns number of rows at index
+:param parent:
+:type: QModelIndex
+:return: number of rows
+:type return: int</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;ProductListViewModel&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QAbstractListModel&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-src.viewmodel.productSummaryViewModel"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.viewmodel.productSummaryViewModel.ProductSummaryViewModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.viewmodel.productSummaryViewModel.</span></span><span class="sig-name descname"><span class="pre">ProductSummaryViewModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productSummaryViewModel.html#ProductSummaryViewModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productSummaryViewModel.ProductSummaryViewModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QSortFilterProxyModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.productSummaryViewModel.ProductSummaryViewModel.filterAcceptsRow">
+<span class="sig-name descname"><span class="pre">filterAcceptsRow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sourceRow</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sourceParent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productSummaryViewModel.html#ProductSummaryViewModel.filterAcceptsRow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productSummaryViewModel.ProductSummaryViewModel.filterAcceptsRow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the filter logic.
+First sets the index of the sourceModel and determines the quantity field to filter.
+:param sourceRow:
+:param sourceParent:
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.productSummaryViewModel.ProductSummaryViewModel.setShowZero">
+<span class="sig-name descname"><span class="pre">setShowZero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productSummaryViewModel.html#ProductSummaryViewModel.setShowZero"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productSummaryViewModel.ProductSummaryViewModel.setShowZero" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slot to either show or hide products with zero quantity
+:param bool: True = Show zero quantity, False = Hide zero quantity
+:type bool: bool
+:return: None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.productSummaryViewModel.ProductSummaryViewModel.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;ProductSummaryViewModel&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QSortFilterProxyModel&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#121</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setShowZero(bool),</span> <span class="pre">parameters=bool</span> <span class="pre">)</span></em><a class="headerlink" href="#src.viewmodel.productSummaryViewModel.ProductSummaryViewModel.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-src.viewmodel.storageViewModel"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.viewmodel.storageViewModel.</span></span><span class="sig-name descname"><span class="pre">StorageData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isPallet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_CupID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_ProductID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_Name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b_CupID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b_ProductID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b_Name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/storageViewModel.html#StorageData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Basic subclass which represents a spot in Storage visualisation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row</strong> (<em>int</em>) – represents row in storage rack</p></li>
+<li><p><strong>col</strong> (<em>int</em>) – represents column in storage rack</p></li>
+<li><p><strong>isPallet</strong> (<em>bool</em>) – True: Pallet is in spot, False: No pallet in spot</p></li>
+<li><p><strong>a_CupID</strong> (<em>int</em>) – Cup ID in front of pallet</p></li>
+<li><p><strong>a_ProductID</strong> (<em>int</em>) – Product ID in front of pallet</p></li>
+<li><p><strong>a_Name</strong> (<em>str</em>) – Name of product in front of pallet</p></li>
+<li><p><strong>b_CupID</strong> (<em>int</em>) – Cup ID in rear of pallet</p></li>
+<li><p><strong>b_ProductID</strong> (<em>int</em>) – Product ID in rear of pallet</p></li>
+<li><p><strong>b_Name</strong> (<em>str</em>) – Name of product in rear of pallet</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageData.a_CupID">
+<span class="sig-name descname"><span class="pre">a_CupID</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageData.a_CupID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageData.a_Name">
+<span class="sig-name descname"><span class="pre">a_Name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageData.a_Name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageData.a_ProductID">
+<span class="sig-name descname"><span class="pre">a_ProductID</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageData.a_ProductID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageData.b_CupID">
+<span class="sig-name descname"><span class="pre">b_CupID</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageData.b_CupID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageData.b_Name">
+<span class="sig-name descname"><span class="pre">b_Name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageData.b_Name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageData.b_ProductID">
+<span class="sig-name descname"><span class="pre">b_ProductID</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageData.b_ProductID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageData.col">
+<span class="sig-name descname"><span class="pre">col</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageData.col" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageData.isPallet">
+<span class="sig-name descname"><span class="pre">isPallet</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageData.isPallet" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageData.row">
+<span class="sig-name descname"><span class="pre">row</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageData.row" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageViewModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.viewmodel.storageViewModel.</span></span><span class="sig-name descname"><span class="pre">StorageViewModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storageData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/storageViewModel.html#StorageViewModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageViewModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QAbstractTableModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageViewModel.columnCount">
+<span class="sig-name descname"><span class="pre">columnCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent=&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/storageViewModel.html#StorageViewModel.columnCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageViewModel.columnCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>parent</strong> (<em>QModelIndex</em>) – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>returns number of columns in model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageViewModel.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/storageViewModel.html#StorageViewModel.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageViewModel.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns Data from viewmodel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>QModelIndex</em>) – Used to index into the model</p></li>
+<li><p><strong>role</strong> (<em>QtUserRole +1 byte for each field</em>) – Rolename used to get data from index</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>returns model data in field or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageViewModel.roleNames">
+<span class="sig-name descname"><span class="pre">roleNames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/storageViewModel.html#StorageViewModel.roleNames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageViewModel.roleNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>returns a dictionary of roles to index in data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageViewModel.rowCount">
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent=&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/storageViewModel.html#StorageViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>parent</strong> (<em>QModelIndex</em>) – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>returns number of rows from data at given index</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageViewModel.setData">
+<span class="sig-name descname"><span class="pre">setData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/storageViewModel.html#StorageViewModel.setData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageViewModel.setData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes data to an index and returns the old value if success</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>QModelIndex</em>) – Index at which data shall be changed</p></li>
+<li><p><strong>value</strong> (<em>int for any ID</em><em>, </em><em>string for products names and bool for pallet existance</em>) – New value to be written at index</p></li>
+<li><p><strong>role</strong> – Rolename to be written to</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>returns False if writing was not successful. Otherwise, it returns the old value.
+Important Note: If isPallet is written, it maybe returns False in any case.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.storageViewModel.StorageViewModel.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;StorageViewModel&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QAbstractTableModel&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.viewmodel.storageViewModel.StorageViewModel.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="view">
+<h1>View<a class="headerlink" href="#view" title="Permalink to this heading">¶</a></h1>
+<p>Die Nachfolgenden Dateien stellen den Quellcode für das GUI dar.</p>
+<p>Hauptfenster:
+main.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QtQuick</span>
+<span class="kn">import</span> <span class="nn">QtQuick.Window</span>
+<span class="kn">import</span> <span class="nn">QtQuick.Controls</span> <span class="mf">2.15</span>
+<span class="kn">import</span> <span class="nn">QtQuick.Controls.Material</span> <span class="mf">2.15</span>
+<span class="kn">import</span> <span class="nn">QtQuick.Dialogs</span>
+
+<span class="o">/*</span>
+  <span class="n">Create</span> <span class="n">ApplicationWindow</span> <span class="nb">object</span> <span class="k">as</span> <span class="n">base</span> <span class="n">which</span> <span class="n">stores</span> <span class="nb">all</span> <span class="n">other</span> <span class="n">elements</span>
+  <span class="o">*/</span>
+
+<span class="n">ApplicationWindow</span> <span class="p">{</span>
+    <span class="nb">property</span> <span class="nb">bool</span> <span class="n">init</span><span class="p">:</span> <span class="n">false</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">mainWindow</span>
+    <span class="n">width</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mf">1.5</span>
+    <span class="n">minimumWidth</span> <span class="p">:</span> <span class="mi">480</span>
+    <span class="n">height</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">height</span><span class="o">/</span><span class="mf">1.5</span>
+    <span class="n">minimumHeight</span><span class="p">:</span> <span class="mi">200</span>
+    <span class="n">visible</span><span class="p">:</span> <span class="n">true</span>
+    <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Warehouse Management&quot;</span><span class="p">)</span>
+    <span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#BDBDBD&quot;</span>
+    <span class="n">Dialog</span> <span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">aboutDialog</span>
+        <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;About&quot;</span>
+        <span class="n">width</span> <span class="p">:</span> <span class="mi">400</span>
+        <span class="n">height</span><span class="p">:</span> <span class="mi">400</span>
+        <span class="n">Text</span> <span class="p">{</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">centerIn</span><span class="p">:</span> <span class="n">parent</span>
+            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Copyright 2023, Lennart Schink&quot;</span>
+        <span class="p">}</span>
+        <span class="n">Button</span> <span class="p">{</span>
+            <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Close&quot;</span><span class="p">)</span>
+            <span class="n">onClicked</span><span class="p">:</span> <span class="n">aboutDialog</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">MenuBar</span><span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">menuBar</span>
+        <span class="n">height</span><span class="p">:</span> <span class="mi">40</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
+        <span class="n">Menu</span> <span class="p">{</span>
+            <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;File&quot;</span><span class="p">)</span>
+            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Help...&quot;</span><span class="p">)</span> <span class="p">}</span>
+            <span class="n">MenuSeparator</span> <span class="p">{</span> <span class="p">}</span>
+            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Settings...&quot;</span><span class="p">)</span> <span class="p">}</span>
+            <span class="n">MenuSeparator</span> <span class="p">{</span> <span class="p">}</span>
+            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Quit&quot;</span><span class="p">)</span> <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">Menu</span> <span class="p">{</span>
+            <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Tools&quot;</span><span class="p">)</span>
+            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;RFID &amp;Server&quot;</span><span class="p">)</span> <span class="p">}</span>
+            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Camera Application&quot;</span><span class="p">)</span> <span class="p">}</span>
+            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Show Productlist&quot;</span><span class="p">)}</span>
+        <span class="p">}</span>
+        <span class="n">Menu</span> <span class="p">{</span>
+            <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;About&quot;</span><span class="p">)</span>
+            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;About&quot;</span><span class="p">)</span>
+                <span class="n">onTriggered</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="n">aboutDialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">HeaderLine</span><span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">headerLine</span>
+        <span class="n">anchors</span> <span class="p">{</span>
+            <span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+            <span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+            <span class="n">top</span><span class="p">:</span> <span class="n">menuBar</span><span class="o">.</span><span class="n">bottom</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">ProcessView</span><span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">processView</span>
+        <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">height</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">height</span><span class="o">*</span><span class="mf">0.6</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">bottom</span>
+    <span class="p">}</span>
+
+    <span class="n">EventView</span><span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">eventlog</span>
+        <span class="n">width</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">anchors</span><span class="p">{</span>
+            <span class="n">left</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">left</span>
+            <span class="n">right</span><span class="p">:</span> <span class="n">processView</span><span class="o">.</span><span class="n">right</span>
+            <span class="n">top</span><span class="p">:</span> <span class="n">processView</span><span class="o">.</span><span class="n">bottom</span>
+            <span class="n">bottom</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">bottom</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">StorageView</span><span class="p">{</span>
+        <span class="n">width</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span><span class="mi">2</span>
+        <span class="n">height</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">height</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">bottom</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">processView</span><span class="o">.</span><span class="n">right</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">bottom</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">right</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Banner mit Logo und Programmtitel:
+HeaderLine.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QtQuick</span> <span class="mf">2.15</span>
+
+
+<span class="n">Rectangle</span> <span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">headerLine</span>
+        <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span>
+        <span class="n">height</span><span class="p">:</span> <span class="mi">100</span>
+        <span class="n">color</span> <span class="p">:</span> <span class="s2">&quot;white&quot;</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span> <span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">left</span> <span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+
+        <span class="n">Image</span> <span class="p">{</span>
+            <span class="nb">id</span><span class="p">:</span> <span class="n">uniKassel</span>
+            <span class="n">source</span><span class="p">:</span> <span class="s2">&quot;../assets/logo_unikassel.jpg&quot;</span>
+            <span class="n">antialiasing</span><span class="p">:</span> <span class="n">true</span>
+            <span class="n">height</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span><span class="mi">10</span>
+            <span class="n">fillMode</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">PreserveAspectFit</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">left</span> <span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">top</span> <span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">margins</span><span class="p">:</span> <span class="mi">5</span>
+        <span class="p">}</span>
+
+        <span class="n">Image</span> <span class="p">{</span>
+            <span class="nb">id</span><span class="p">:</span> <span class="n">mrt</span>
+            <span class="n">source</span><span class="p">:</span> <span class="s2">&quot;../assets/logo_mrt.png&quot;</span>
+            <span class="n">antialiasing</span><span class="p">:</span> <span class="n">true</span>
+            <span class="n">height</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span><span class="mi">10</span>
+            <span class="n">fillMode</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">PreserveAspectFit</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">horizontalCenter</span> <span class="p">:</span> <span class="n">uniKassel</span><span class="o">.</span><span class="n">horizontalCenter</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">top</span> <span class="p">:</span> <span class="n">uniKassel</span><span class="o">.</span><span class="n">bottom</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">margins</span><span class="p">:</span> <span class="mi">5</span>
+        <span class="p">}</span>
+
+        <span class="n">Text</span> <span class="p">{</span>
+            <span class="nb">id</span><span class="p">:</span> <span class="n">titleText</span>
+            <span class="n">width</span><span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">height</span><span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">height</span>
+            <span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#607d8b&quot;</span>
+            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;μPlant Model Factory: Warehouse&quot;</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">left</span> <span class="p">:</span> <span class="n">uniKassel</span><span class="o">.</span><span class="n">right</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">top</span> <span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">top</span>
+            <span class="n">horizontalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignHCenter</span>
+            <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
+            <span class="n">minimumPointSize</span><span class="p">:</span> <span class="mi">9</span>
+            <span class="n">minimumPixelSize</span><span class="p">:</span> <span class="mi">6</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">pointSize</span><span class="p">:</span> <span class="mi">20</span>
+            <span class="n">textFormat</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AutoText</span>
+            <span class="n">fontSizeMode</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">HorizontalFit</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">kerning</span><span class="p">:</span> <span class="n">true</span>
+            <span class="n">style</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">Raised</span>
+            <span class="n">styleColor</span><span class="p">:</span> <span class="s2">&quot;#607d8b&quot;</span>
+        <span class="p">}</span>
+
+        <span class="n">Image</span> <span class="p">{</span>
+            <span class="nb">id</span><span class="p">:</span> <span class="n">muPlant</span>
+            <span class="n">source</span><span class="p">:</span> <span class="s2">&quot;../assets/logo_uPlant.png&quot;</span>
+            <span class="n">antialiasing</span><span class="p">:</span> <span class="n">true</span>
+            <span class="n">height</span><span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span><span class="mi">10</span>
+            <span class="n">fillMode</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">PreserveAspectFit</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">right</span> <span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">right</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">top</span> <span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">top</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">margins</span><span class="p">:</span> <span class="mi">5</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Ansicht mit mobilem Roboter inklusive Becher und Sensoren:
+TurtleView.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>import QtQuick
+
+Rectangle {
+    id: rectangle
+    width: 400
+    height: 400
+    color: &quot;transparent&quot;
+
+    Image {
+        id: turtleBase
+        y: 255
+        height: rectangle.height*0.4
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        source: &quot;../assets/TurtleBase.svg&quot;
+        anchors.leftMargin: 0
+        anchors.bottomMargin: 0
+        anchors.rightMargin: 0
+        fillMode: Image.PreserveAspectFit
+    }
+
+    CupView {
+        id: cupVisu
+        y: 125
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottomMargin: rectangle.height*0.3
+        height: 0.3*rectangle.height
+        width: 0.3*rectangle.width
+    }
+
+    Image {
+        property bool turtlePresent: false
+        id: sensorSymbolleft
+        y: 296
+        anchors.left: parent.left
+        source: turtlePresent? &quot;../assets/SensorSymbolBlue.svg&quot; :  &quot;../assets/SensorSymbol.svg&quot;
+        anchors.leftMargin: 0
+        fillMode: Image.PreserveAspectFit
+        MouseArea {
+            id: leftSensorMouse
+            anchors.fill: parent
+            hoverEnabled: true
+
+            onEntered: sensorSymbolleft.turtlePresent = true
+            onExited: sensorSymbolleft.turtlePresent = false
+        }
+    }
+
+    Image {
+        property bool turtlePresent: false
+        id: sensorSymbolright
+        x: 329
+        y: 296
+        anchors.right: parent.right
+        source: turtlePresent? &quot;../assets/SensorSymbolBlue.svg&quot; :  &quot;../assets/SensorSymbol.svg&quot;
+        anchors.rightMargin: 0
+        asynchronous: false
+        mipmap: false
+        smooth: true
+        mirror: true
+        fillMode: Image.PreserveAspectFit
+        MouseArea {
+            id: rightSensorMouse
+            anchors.fill: parent
+            hoverEnabled: true
+
+            onEntered: sensorSymbolright.turtlePresent = true
+            onExited: sensorSymbolright.turtlePresent = false
+        }
+    }
+    Image {
+        id: rfidicon
+        width: 60
+        anchors.bottom: cupVisu.top
+        anchors.bottomMargin: 20
+        source: &quot;../assets/rfid-icon.svg&quot;
+        anchors.horizontalCenter: turtleVisu.horizontalCenter
+        anchors.topMargin: 100
+        fillMode: Image.PreserveAspectFit
+    }
+}
+</pre></div>
+</div>
+<p>Ansicht eines Bechers mit ID und Produktname
+CupView.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QtQuick</span>
+<span class="kn">import</span> <span class="nn">QtQuick.Layouts</span> <span class="mf">1.15</span>
+
+<span class="n">Rectangle</span> <span class="p">{</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">rectangle</span>
+    <span class="n">width</span><span class="p">:</span>  <span class="mi">200</span>
+    <span class="n">height</span><span class="p">:</span> <span class="mi">150</span>
+    <span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#E1F5FE&quot;</span>
+    <span class="n">border</span><span class="o">.</span><span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#0D47A1&quot;</span>
+    <span class="n">border</span><span class="o">.</span><span class="n">width</span><span class="p">:</span> <span class="mi">2</span>
+
+    <span class="n">ColumnLayout</span> <span class="p">{</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="n">Row</span> <span class="p">{</span>
+            <span class="nb">id</span><span class="p">:</span> <span class="n">row</span>
+            <span class="n">Layout</span><span class="o">.</span><span class="n">alignment</span><span class="p">:</span> <span class="n">Qt</span><span class="o">.</span><span class="n">AlignHCenter</span> <span class="o">|</span> <span class="n">Qt</span><span class="o">.</span><span class="n">AlignVCenter</span>
+            <span class="n">Text</span> <span class="p">{</span>
+                <span class="nb">id</span><span class="p">:</span> <span class="n">name</span>
+                <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;muPlant Spezial&quot;</span><span class="p">)</span>
+                <span class="n">horizontalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignHCenter</span>
+                <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">Row</span> <span class="p">{</span>
+            <span class="n">Layout</span><span class="o">.</span><span class="n">alignment</span><span class="p">:</span> <span class="n">Qt</span><span class="o">.</span><span class="n">AlignHCenter</span> <span class="o">|</span> <span class="n">Qt</span><span class="o">.</span><span class="n">AlignVCenter</span>
+            <span class="n">Text</span> <span class="p">{</span>
+                <span class="nb">id</span><span class="p">:</span> <span class="n">itemId</span>
+                <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Cup: 25&quot;</span><span class="p">)</span>
+                <span class="n">horizontalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignHCenter</span>
+                <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Ansicht einer Palette mit Becher:
+PalletteView.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QtQuick</span>
+<span class="kn">import</span> <span class="nn">QtQuick.Layouts</span> <span class="mf">1.15</span>
+
+<span class="n">Rectangle</span> <span class="p">{</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">baseRect</span>
+    <span class="n">width</span><span class="p">:</span> <span class="mi">220</span>
+    <span class="n">height</span><span class="p">:</span> <span class="mi">300</span>
+    <span class="n">radius</span> <span class="p">:</span> <span class="mi">10</span>
+    <span class="n">border</span><span class="o">.</span><span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#000&quot;</span>
+    <span class="n">ColumnLayout</span><span class="p">{</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">:</span> <span class="mi">5</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">:</span> <span class="mi">5</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">bottomMargin</span><span class="p">:</span> <span class="mi">5</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">topMargin</span><span class="p">:</span> <span class="mi">5</span>
+
+        <span class="n">Row</span><span class="p">{</span>
+            <span class="nb">id</span><span class="p">:</span> <span class="n">row</span>
+            <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
+            <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
+            <span class="n">Layout</span><span class="o">.</span><span class="n">alignment</span><span class="p">:</span> <span class="n">Qt</span><span class="o">.</span><span class="n">AlignHCenter</span> <span class="o">|</span> <span class="n">Qt</span><span class="o">.</span><span class="n">AlignVCenter</span>
+            <span class="n">CupView</span> <span class="p">{</span>
+                <span class="nb">id</span><span class="p">:</span> <span class="n">a_Cup</span>
+                <span class="n">width</span><span class="p">:</span> <span class="n">baseRect</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span><span class="mi">10</span>
+                <span class="n">height</span><span class="p">:</span> <span class="n">baseRect</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span><span class="mf">0.5</span><span class="o">-</span><span class="mi">10</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">Row</span><span class="p">{</span>
+            <span class="nb">id</span><span class="p">:</span> <span class="n">row1</span>
+            <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
+            <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
+            <span class="n">Layout</span><span class="o">.</span><span class="n">alignment</span><span class="p">:</span> <span class="n">Qt</span><span class="o">.</span><span class="n">AlignHCenter</span> <span class="o">|</span> <span class="n">Qt</span><span class="o">.</span><span class="n">AlignVCenter</span>
+            <span class="n">CupView</span> <span class="p">{</span>
+                <span class="nb">id</span><span class="p">:</span> <span class="n">b_Cup</span>
+                <span class="n">width</span><span class="p">:</span> <span class="n">baseRect</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span><span class="mi">10</span>
+                <span class="n">height</span><span class="p">:</span> <span class="n">baseRect</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span><span class="mf">0.5</span> <span class="o">-</span><span class="mi">10</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Alternative Ansicht einer Palette mit zwei Becher:
+ProductView.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Controls.Material 2.15
+import QtQuick.Layouts 1.15
+
+
+
+Rectangle {
+    id: productSlot
+    width: 200
+    height: 400
+    radius: 10
+    border.width: 2
+    border.color: &quot;#546E7A&quot;
+
+    property string name: &quot;ProductSlot&quot;
+    property string cupA: &quot;&quot;
+    property string prodA: &quot;&quot;
+    property string nameA: &quot;&quot;
+    property string cupB: &quot;&quot;
+    property string prodB: &quot;&quot;
+    property string nameB: &quot;&quot;
+
+
+    Text {
+        id: title
+        text: name
+        width: parent.width
+        height: 20
+        verticalAlignment: Text.AlignVCenter
+        minimumPixelSize: 6
+        horizontalAlignment: Text.AlignHCenter
+        anchors{
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            leftMargin: 10
+            topMargin: 5
+        }
+
+        fontSizeMode: Text.HorizontalFit
+        font.bold: true
+    }
+
+    Rectangle {
+        id: greySpace
+        height: parent.height
+        width: parent.width
+        anchors {
+            top: title.bottom
+            left: parent.left
+            bottom: parent.bottom
+            right: parent.right
+            margins: 5
+        }
+        radius: 5
+        color: &quot;#607D8B&quot;
+        border.width: 1
+        border.color: &quot;#263238&quot;
+        ColumnLayout{
+            anchors.fill: parent
+            spacing: 2
+            // Rectangle holding Product A
+            Rectangle{
+                id: productSlotA
+                implicitHeight: parent.height/2-10
+                implicitWidth: parent.width
+                color: selected ? &quot;#4FC3F7&quot;: &quot;white&quot;
+                border.color: &quot;#546E7A&quot;
+                border.width: 2
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                activeFocusOnTab: true
+                radius: 5
+                property bool selected: false
+                ColumnLayout{
+                   anchors.fill: parent
+                   Text{
+                       text:&quot;Cup ID: &quot;+cupA
+                       horizontalAlignment: Text.AlignHCenter
+                       verticalAlignment: Text.AlignVCenter
+                       Layout.fillHeight: true
+                       Layout.fillWidth: true
+                   }
+                   Text{
+                       text:nameA
+                       horizontalAlignment: Text.AlignHCenter
+                       verticalAlignment: Text.AlignVCenter
+                       Layout.fillHeight: true
+                       Layout.fillWidth: true
+                   }
+
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if (!productSlotA.selected){
+                           inventoryController.selectRow(prodA)
+                        }
+
+                    }
+
+                }
+            }
+            // Rectangle holds Product B
+            Rectangle{
+                id: productSlotB
+                implicitHeight: parent.height/2-10
+                implicitWidth: parent.width
+                color: selected ? &quot;#4FC3F7&quot;: &quot;white&quot;
+                border.color: &quot;#546E7A&quot;
+                border.width: 2
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                radius: 5
+                property bool selected: false
+                ColumnLayout{
+                   anchors.fill: parent
+                   Text{
+                       text:&quot;Cup ID: &quot;+cupB
+                       horizontalAlignment: Text.AlignHCenter
+                       verticalAlignment: Text.AlignVCenter
+                       Layout.fillHeight: true
+                       Layout.fillWidth: true
+                   }
+
+                   Text{
+                       text:nameB
+                       horizontalAlignment: Text.AlignHCenter
+                       verticalAlignment: Text.AlignVCenter
+                       Layout.fillHeight: true
+                       Layout.fillWidth: true
+                   }
+
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if (!productSlotB.selected){
+                           inventoryController.selectRow(prodB)
+                        }
+
+                    }
+
+                }
+            }
+
+        }
+        //Connect to InventoryController.py&#39;s InventoryController and change color of selected Product.
+        Connections{
+            target: inventoryController
+            function onProductSelected(message){
+                if (prodA === message){
+                    productSlotA.selected = true
+                }else{
+                    productSlotA.selected = false
+                }
+                if (prodB === message){
+                    productSlotB.selected = true
+                }else{
+                    productSlotB.selected = false
+                }
+            }
+        }
+    }
+}
+
+</pre></div>
+</div>
+<p>Visualisierung des Anlagenschemas der Lagerzelle:
+ProcessView.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QtQuick</span> <span class="mf">2.0</span>
+
+
+<span class="n">Rectangle</span><span class="p">{</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">rectangle</span>
+
+    <span class="n">Image</span> <span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">robot_ref_img</span>
+        <span class="n">x</span><span class="p">:</span> <span class="mi">143</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
+        <span class="n">source</span><span class="p">:</span> <span class="s2">&quot;../assets/robot_ref_img.png&quot;</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">bottomMargin</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">topMargin</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">:</span> <span class="mi">20</span>
+        <span class="n">fillMode</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">PreserveAspectFit</span>
+
+
+        <span class="n">CupView</span> <span class="p">{</span>
+            <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">4</span>
+            <span class="n">height</span><span class="p">:</span> <span class="mf">0.75</span><span class="o">*</span><span class="n">width</span>
+            <span class="nb">id</span><span class="p">:</span> <span class="n">gripperCup</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">:</span> <span class="mi">10</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">topMargin</span><span class="p">:</span> <span class="mi">10</span>
+
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">Image</span> <span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">kommissionTable</span>
+        <span class="n">y</span><span class="p">:</span> <span class="mi">348</span>
+        <span class="n">width</span><span class="p">:</span> <span class="mi">400</span>
+        <span class="n">height</span><span class="p">:</span> <span class="mi">120</span>
+        <span class="n">source</span><span class="p">:</span> <span class="s2">&quot;../assets/KommissionTable.svg&quot;</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
+        <span class="n">fillMode</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">PreserveAspectFit</span>
+
+        <span class="n">PalletteView</span><span class="p">{</span>
+            <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span><span class="mi">20</span>
+            <span class="nb">id</span><span class="p">:</span> <span class="n">k1</span>
+            <span class="n">height</span><span class="p">:</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">width</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">:</span> <span class="mi">10</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">bottomMargin</span><span class="p">:</span> <span class="o">-</span><span class="mi">20</span>
+
+        <span class="p">}</span>
+        <span class="n">PalletteView</span><span class="p">{</span>
+            <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span><span class="mi">20</span>
+            <span class="nb">id</span><span class="p">:</span> <span class="n">k2</span>
+            <span class="n">height</span><span class="p">:</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">width</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">:</span> <span class="mi">10</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">bottomMargin</span><span class="p">:</span> <span class="o">-</span><span class="mi">20</span>
+
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">TurtleView</span><span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">turtleVisu</span>
+        <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">*</span><span class="mf">0.4</span>
+        <span class="n">anchors</span> <span class="p">{</span>
+            <span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+            <span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Visualisierung des gesamten Lagerregals:
+StorageView.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QtQuick</span> <span class="mf">2.15</span>
+<span class="kn">import</span> <span class="nn">QtQuick.Layouts</span> <span class="mf">1.15</span>
+<span class="kn">import</span> <span class="nn">QtQuick.Controls</span> <span class="mf">2.15</span>
+<span class="kn">import</span> <span class="nn">QtQuick.Controls.Material</span> <span class="mf">2.15</span>
+<span class="kn">import</span> <span class="nn">QtQuick.Dialogs</span>
+
+<span class="n">Rectangle</span><span class="p">{</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">storageRect</span>
+    <span class="n">color</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span>
+    <span class="n">border</span><span class="o">.</span><span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#546E7A&quot;</span>
+    <span class="n">border</span><span class="o">.</span><span class="n">width</span><span class="p">:</span> <span class="mi">2</span>
+    <span class="n">radius</span><span class="p">:</span> <span class="mi">10</span>
+    <span class="n">width</span><span class="p">:</span> <span class="mi">600</span>
+    <span class="n">height</span><span class="p">:</span> <span class="mi">400</span>
+    <span class="n">EditDialog</span><span class="p">{</span>
+        <span class="o">//</span><span class="n">Dialog</span> <span class="n">to</span> <span class="n">edit</span> <span class="n">storage</span> <span class="n">data</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">editDialog</span>
+    <span class="p">}</span>
+    <span class="n">Rectangle</span><span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">titleRect</span>
+        <span class="n">height</span><span class="p">:</span> <span class="mi">25</span>
+        <span class="n">anchors</span><span class="p">{</span>
+            <span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+            <span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+            <span class="n">top</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
+            <span class="n">leftMargin</span><span class="p">:</span> <span class="mi">20</span>
+            <span class="n">rightMargin</span><span class="p">:</span> <span class="mi">20</span>
+            <span class="n">topMargin</span><span class="p">:</span> <span class="mi">5</span>
+        <span class="p">}</span>
+        <span class="n">RowLayout</span><span class="p">{</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
+            <span class="n">Text</span> <span class="p">{</span>
+                <span class="nb">id</span><span class="p">:</span> <span class="n">title</span>
+                <span class="n">height</span><span class="p">:</span> <span class="mi">40</span>
+                <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Storage&quot;</span><span class="p">)</span>
+                <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
+                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
+                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
+                <span class="n">font</span><span class="o">.</span><span class="n">pixelSize</span><span class="p">:</span> <span class="mi">12</span>
+                <span class="n">font</span><span class="o">.</span><span class="n">bold</span><span class="p">:</span> <span class="n">true</span>
+            <span class="p">}</span>
+
+            <span class="n">Image</span> <span class="p">{</span>
+                <span class="nb">id</span><span class="p">:</span> <span class="n">setImage</span>
+                <span class="n">source</span><span class="p">:</span> <span class="s2">&quot;../assets/gear.png&quot;</span>
+                <span class="n">fillMode</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">PreserveAspectFit</span>
+                <span class="n">height</span><span class="p">:</span> <span class="n">title</span><span class="o">.</span><span class="n">height</span>
+                <span class="n">width</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">PreserveAspectFit</span>
+                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
+                <span class="n">MouseArea</span><span class="p">{</span>
+                    <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
+                    <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="n">editDialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="o">//</span> <span class="n">TableView</span> <span class="n">holds</span> <span class="n">objects</span> <span class="n">of</span> <span class="n">StorageData</span><span class="o">.</span><span class="n">db</span> <span class="n">which</span> <span class="ow">is</span> <span class="n">read</span> <span class="ow">in</span> <span class="n">InventoryModel</span>
+    <span class="n">TableView</span> <span class="p">{</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">storageModel</span>
+        <span class="n">anchors</span><span class="p">{</span>
+            <span class="n">top</span><span class="p">:</span> <span class="n">titleRect</span><span class="o">.</span><span class="n">bottom</span>
+            <span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+            <span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+            <span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
+        <span class="p">}</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">margins</span><span class="p">:</span> <span class="mi">10</span>
+        <span class="n">columnSpacing</span><span class="p">:</span> <span class="mi">10</span>
+        <span class="n">rowSpacing</span><span class="p">:</span> <span class="mi">5</span>
+        <span class="n">clip</span><span class="p">:</span> <span class="n">true</span>
+        <span class="n">delegate</span><span class="p">:</span> <span class="n">ProductView</span><span class="p">{</span>
+            <span class="n">cupA</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">a_CupID</span>
+            <span class="n">prodA</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">a_ProductID</span>
+            <span class="n">nameA</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">a_Name</span>
+            <span class="n">cupB</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">b_CupID</span>
+            <span class="n">prodB</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">b_ProductID</span>
+            <span class="n">nameB</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">b_Name</span>
+            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;L&quot;</span><span class="o">+</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span> <span class="o">+</span><span class="n">model</span><span class="o">.</span><span class="n">row</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
+            <span class="n">implicitHeight</span><span class="p">:</span> <span class="mi">150</span>
+            <span class="n">implicitWidth</span><span class="p">:</span> <span class="mi">150</span>
+            <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
+            <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
+        <span class="p">}</span>
+        <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
+        <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Visualisierung des Eventloggers:
+EventView.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QtQuick</span> <span class="mf">2.15</span>
+<span class="kn">import</span> <span class="nn">QtQuick.Controls</span> <span class="mf">2.15</span>
+<span class="kn">import</span> <span class="nn">QtQuick.Layouts</span> <span class="mf">1.15</span>
+<span class="kn">import</span> <span class="nn">QtQuick.Controls.Material</span> <span class="mf">2.15</span>
+<span class="o">/*</span>
+  <span class="n">This</span> <span class="n">Qml</span> <span class="n">file</span> <span class="n">implements</span> <span class="n">a</span> <span class="n">basic</span> <span class="n">eventlogger</span> <span class="n">textarea</span><span class="o">.</span>
+  <span class="n">It</span> <span class="n">uses</span> <span class="n">the</span> <span class="n">EventLogController</span><span class="o">.</span>
+  <span class="o">*/</span>
+<span class="n">Rectangle</span><span class="p">{</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">eventWindow</span>
+    <span class="n">width</span><span class="p">:</span> <span class="mi">640</span>
+    <span class="n">height</span><span class="p">:</span> <span class="mi">400</span>
+
+    <span class="n">Rectangle</span> <span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">pane</span>
+        <span class="n">radius</span><span class="p">:</span> <span class="mi">10</span>
+        <span class="n">border</span><span class="o">.</span><span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#546E7A&quot;</span>
+        <span class="n">border</span><span class="o">.</span><span class="n">width</span><span class="p">:</span> <span class="mi">2</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
+        <span class="nb">property</span> <span class="n">string</span> <span class="n">dateTimeFormat</span><span class="p">:</span> <span class="s2">&quot;yyyy-MM-dd hh:mm:ss&quot;</span>
+
+        <span class="n">Text</span> <span class="p">{</span>
+            <span class="nb">id</span><span class="p">:</span> <span class="n">eventLogTitle</span>
+            <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Event Log:&quot;</span><span class="p">)</span>
+            <span class="n">horizontalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignHCenter</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
+            <span class="n">height</span><span class="p">:</span> <span class="mi">30</span>
+            <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
+        <span class="p">}</span>
+
+        <span class="n">ScrollView</span> <span class="p">{</span>
+            <span class="nb">id</span><span class="p">:</span> <span class="n">eventScrollView</span>
+            <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">eventLogTitle</span><span class="o">.</span><span class="n">bottom</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">margins</span><span class="p">:</span> <span class="mi">10</span>
+
+            <span class="n">TextArea</span> <span class="p">{</span>
+                <span class="nb">id</span><span class="p">:</span> <span class="n">eventLogTextArea</span>
+                <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span>
+                <span class="n">height</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">height</span>
+                <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
+                <span class="n">readOnly</span><span class="p">:</span> <span class="n">true</span>
+
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">Button</span> <span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span><span class="n">clearButton</span>
+        <span class="n">width</span><span class="p">:</span> <span class="mi">100</span>
+        <span class="n">height</span><span class="p">:</span> <span class="mi">30</span>
+        <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;clear&quot;</span>
+        <span class="n">anchors</span> <span class="p">{</span>
+            <span class="n">top</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
+            <span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+            <span class="n">margins</span><span class="p">:</span> <span class="mi">10</span>
+        <span class="p">}</span>
+        <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
+            <span class="n">eventLogTextArea</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+    <span class="n">Connections</span><span class="p">{</span>
+        <span class="n">target</span><span class="p">:</span> <span class="n">eventLogController</span>
+        <span class="n">function</span> <span class="n">onNewSignal</span><span class="p">(</span><span class="n">message</span><span class="p">){</span>
+            <span class="n">eventLogTextArea</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">message</span><span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span> <span class="n">eventLogTextArea</span><span class="o">.</span><span class="n">text</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</pre></div>
+</div>
+</section>
+<section id="constants">
+<h1>Constants<a class="headerlink" href="#constants" title="Permalink to this heading">¶</a></h1>
+<p>Speichert alle URI’s zu Dateien und PlugIn’s</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file provides all constant URL data.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="k">class</span> <span class="nc">Constants</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">PRODUCTLIST</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span> <span class="o">/</span> <span class="s2">&quot;Produkte.db&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">STORAGEDATA</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span> <span class="o">/</span> <span class="s2">&quot;StorageData.db&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">STORAGEDATAWRITE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span> <span class="o">/</span> <span class="s2">&quot;StorageDataWrite.db&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">COMMISSDATA</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span> <span class="o">/</span> <span class="s2">&quot;Commissdata.db&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CAMAPP_QML</span> <span class="o">=</span> <span class="s2">&quot;../cameraApplication/qml/CameraAppMain.qml&quot;</span>
+
+
+
+
+
+</pre></div>
+</div>
+</section>
+<section id="data-files">
+<h1>Data Files<a class="headerlink" href="#data-files" title="Permalink to this heading">¶</a></h1>
+<p>Produkte.db:
+Speichert alle möglichen Produktvarianten mit Id und Bezeichnung</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">;</span><span class="n">Kein</span> <span class="n">Becher</span>
+<span class="mi">1</span><span class="p">;</span><span class="n">Leerer</span> <span class="n">Becher</span>
+<span class="mi">2</span><span class="p">;</span><span class="n">Wasser</span> 
+<span class="mi">3</span><span class="p">;</span><span class="n">Grüner</span> <span class="n">Tee</span>
+<span class="mi">4</span><span class="p">;</span><span class="n">Schwarzer</span> <span class="n">Tee</span> 
+<span class="mi">5</span><span class="p">;</span><span class="n">Erdbeere</span>
+<span class="mi">6</span><span class="p">;</span><span class="n">Mango</span>
+<span class="mi">7</span><span class="p">;</span><span class="n">Chinesische</span> <span class="n">Haselnuss</span>
+<span class="mi">8</span><span class="p">;</span><span class="n">Pfirsich</span>
+<span class="mi">9</span><span class="p">;</span><span class="n">Kiwi</span>
+<span class="mi">10</span><span class="p">;</span><span class="n">Wassermelone</span>
+<span class="mi">11</span><span class="p">;</span><span class="n">Honigmelone</span>
+<span class="mi">12</span><span class="p">;</span><span class="n">Kokos</span>
+<span class="mi">13</span><span class="p">;</span><span class="n">Passionsfrucht</span>
+<span class="mi">14</span><span class="p">;</span><span class="n">Birne</span>
+<span class="mi">15</span><span class="p">;</span><span class="n">Blaubeere</span>
+<span class="mi">16</span><span class="p">;</span><span class="n">Schoko</span>
+<span class="mi">17</span><span class="p">;</span><span class="n">Vanille</span>
+<span class="mi">18</span><span class="p">;</span><span class="n">Karamell</span>
+<span class="mi">19</span><span class="p">;</span><span class="n">Apfel</span>
+<span class="mi">20</span><span class="p">;</span><span class="n">Grüner</span> <span class="n">Apfel</span>
+<span class="mi">21</span><span class="p">;</span><span class="n">Traube</span>
+<span class="mi">22</span><span class="p">;</span><span class="n">Waldmeister</span>
+<span class="mi">23</span><span class="p">;</span><span class="n">Papaya</span>
+<span class="mi">24</span><span class="p">;</span><span class="n">Pfefferminz</span> 
+<span class="mi">25</span><span class="p">;</span><span class="n">Holunder</span>
+<span class="mi">26</span><span class="p">;</span><span class="n">Mandel</span>
+<span class="mi">27</span><span class="p">;</span><span class="n">Ananas</span>
+<span class="mi">28</span><span class="p">;</span><span class="n">Kaffee</span>
+<span class="mi">29</span><span class="p">;</span><span class="n">Blutorange</span>
+<span class="mi">30</span><span class="p">;</span><span class="n">Zitrone</span>
+<span class="mi">31</span><span class="p">;</span><span class="n">Fanta</span>
+<span class="mi">32</span><span class="p">;</span><span class="n">Sprite</span>
+<span class="mi">33</span><span class="p">;</span><span class="n">Cola</span>
+</pre></div>
+</div>
+<p>StorageData.db
+Speichert ein Abbild des Regalinhalts.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Row,Col:IsPalletPresent:CupID_a,ProductID_a|CupID_b,ProductID_b</span>
+
+<span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">123</span><span class="p">,</span><span class="mi">12</span>
+<span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+<span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+<span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+<span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+<span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+
+<span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+<span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+<span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+<span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">15</span><span class="p">,</span><span class="mi">23</span><span class="o">|</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span>
+<span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+<span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+
+<span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+<span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+<span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+<span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+<span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+<span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+
+</pre></div>
+</div>
+<p>CommissData.db
+Speichert aktuelle Kommissionsaufträge
+.. literalinclude:: ../src/data/CommissData.db</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">µPlant Warehouse Management</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Main File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-src.model.DataModel">Data Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.DataModel.Cup"><code class="docutils literal notranslate"><span class="pre">Cup</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.DataModel.Gripper"><code class="docutils literal notranslate"><span class="pre">Gripper</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.DataModel.Inventory"><code class="docutils literal notranslate"><span class="pre">Inventory</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.DataModel.MobileRobot"><code class="docutils literal notranslate"><span class="pre">MobileRobot</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.DataModel.Pallet"><code class="docutils literal notranslate"><span class="pre">Pallet</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.DataModel.Product"><code class="docutils literal notranslate"><span class="pre">Product</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.DataModel.StorageElement"><code class="docutils literal notranslate"><span class="pre">StorageElement</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.DataModel.Workbench"><code class="docutils literal notranslate"><span class="pre">Workbench</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#module-src.controller.invController">Controller</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#src.controller.invController.invController"><code class="docutils literal notranslate"><span class="pre">invController</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#module-src.service.EventlogService">Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#src.service.EventlogService.EventlogService"><code class="docutils literal notranslate"><span class="pre">EventlogService</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#module-src.viewmodel.productlistViewModel">ViewModel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#src.viewmodel.productlistViewModel.ProductData"><code class="docutils literal notranslate"><span class="pre">ProductData</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.viewmodel.productlistViewModel.ProductListViewModel"><code class="docutils literal notranslate"><span class="pre">ProductListViewModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.viewmodel.productSummaryViewModel.ProductSummaryViewModel"><code class="docutils literal notranslate"><span class="pre">ProductSummaryViewModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.viewmodel.storageViewModel.StorageData"><code class="docutils literal notranslate"><span class="pre">StorageData</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.viewmodel.storageViewModel.StorageViewModel"><code class="docutils literal notranslate"><span class="pre">StorageViewModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#view">View</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#constants">Constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#data-files">Data Files</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to µPlant Warehouse Management’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Lennart Schink.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/modules.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

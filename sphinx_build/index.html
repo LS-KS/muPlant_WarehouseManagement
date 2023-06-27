@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Welcome to µPlant Warehouse Management’s documentation! &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Main File" href="modules.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="welcome-to-plant-warehouse-management-s-documentation">
+<h1>Welcome to µPlant Warehouse Management’s documentation!<a class="headerlink" href="#welcome-to-plant-warehouse-management-s-documentation" title="Permalink to this heading">¶</a></h1>
+<section id="readme">
+<h2>README<a class="headerlink" href="#readme" title="Permalink to this heading">¶</a></h2>
+<section id="getting-started">
+<h3>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">¶</a></h3>
+<p>Use</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>to install all necessary python packages.</p>
+</section>
+<section id="updating-code-documentation">
+<h3>Updating code documentation<a class="headerlink" href="#updating-code-documentation" title="Permalink to this heading">¶</a></h3>
+<p>to update HTML export use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sphinx-build<span class="w"> </span>-b<span class="w"> </span>html<span class="w"> </span>sphinx_source<span class="w"> </span>sphinx_build
+</pre></div>
+</div>
+<p>to update PDF export use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>latexpdf
+</pre></div>
+</div>
+<p>Adding content:</p>
+<ul class="simple">
+<li><p>New RST files can be registered in index.rst file’s toc-tree</p></li>
+<li><p>New Modules can be included with autodoc module in modules.rst</p></li>
+</ul>
+<p>Updating python packages:</p>
+<p>As long as using venv use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>freeze<span class="w"> </span>&gt;<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>to update requirements.txt</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Main File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#module-src.model.DataModel">Data Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.model.DataModel.Cup"><code class="docutils literal notranslate"><span class="pre">Cup</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.model.DataModel.Gripper"><code class="docutils literal notranslate"><span class="pre">Gripper</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.model.DataModel.Inventory"><code class="docutils literal notranslate"><span class="pre">Inventory</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.model.DataModel.MobileRobot"><code class="docutils literal notranslate"><span class="pre">MobileRobot</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.model.DataModel.Pallet"><code class="docutils literal notranslate"><span class="pre">Pallet</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.model.DataModel.Product"><code class="docutils literal notranslate"><span class="pre">Product</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.model.DataModel.StorageElement"><code class="docutils literal notranslate"><span class="pre">StorageElement</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.model.DataModel.Workbench"><code class="docutils literal notranslate"><span class="pre">Workbench</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#module-src.controller.invController">Controller</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.controller.invController.invController"><code class="docutils literal notranslate"><span class="pre">invController</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#module-src.service.EventlogService">Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.service.EventlogService.EventlogService"><code class="docutils literal notranslate"><span class="pre">EventlogService</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#module-src.viewmodel.productlistViewModel">ViewModel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.viewmodel.productlistViewModel.ProductData"><code class="docutils literal notranslate"><span class="pre">ProductData</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.viewmodel.productlistViewModel.ProductListViewModel"><code class="docutils literal notranslate"><span class="pre">ProductListViewModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.viewmodel.productSummaryViewModel.ProductSummaryViewModel"><code class="docutils literal notranslate"><span class="pre">ProductSummaryViewModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.viewmodel.storageViewModel.StorageData"><code class="docutils literal notranslate"><span class="pre">StorageData</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#src.viewmodel.storageViewModel.StorageViewModel"><code class="docutils literal notranslate"><span class="pre">StorageViewModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#view">View</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#constants">Constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#data-files">Data Files</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">µPlant Warehouse Management</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Main File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#module-src.model.DataModel">Data Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#module-src.controller.invController">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#module-src.service.EventlogService">Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#module-src.viewmodel.productlistViewModel">ViewModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#view">View</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#constants">Constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#data-files">Data Files</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="modules.html" title="next chapter">Main File</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Lennart Schink.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
