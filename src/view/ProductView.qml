@@ -14,6 +14,7 @@ Rectangle {
     border.color: "#1F82B2"
 
     property string name: "ProductSlot"
+    property bool withPallet: false
     property string cupA: ""
     property string prodA: ""
     property string nameA: ""
@@ -43,7 +44,7 @@ Rectangle {
     }
 
     Rectangle {
-        id: greySpace
+        id: pallet
         height: parent.height
         width: parent.width
         anchors {

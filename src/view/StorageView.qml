@@ -12,7 +12,7 @@ Rectangle{
     radius: 10
     width: 600
     height: 400
-    EditDialog{
+    StorageDialog{
         //Dialog to edit storage data
         id: editDialog
     }
