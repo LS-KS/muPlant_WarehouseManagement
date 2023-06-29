@@ -11,7 +11,7 @@ Rectangle {
     height: 400
     radius: 10
     border.width: 2
-    border.color: "#546E7A"
+    border.color: "#1F82B2"
 
     property string name: "ProductSlot"
     property string cupA: ""
@@ -54,9 +54,9 @@ Rectangle {
             margins: 5
         }
         radius: 5
-        color: "#607D8B"
+        color: "#81B8D4"
         border.width: 1
-        border.color: "#263238"
+        border.color: "#1F82B2"
         ColumnLayout{
             anchors.fill: parent
             spacing: 2
@@ -65,8 +65,8 @@ Rectangle {
                 id: productSlotA
                 implicitHeight: parent.height/2-10
                 implicitWidth: parent.width
-                color: selected ? "#4FC3F7": "white"
-                border.color: "#546E7A"
+                color: selected ? "#81B8D4": "white"
+                border.color: "#1F82B2"
                 border.width: 2
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -107,8 +107,8 @@ Rectangle {
                 id: productSlotB
                 implicitHeight: parent.height/2-10
                 implicitWidth: parent.width
-                color: selected ? "#4FC3F7": "white"
-                border.color: "#546E7A"
+                color: selected ? "#81B8D4": "white"
+                border.color: "#1F82B2"
                 border.width: 2
                 Layout.fillHeight: true
                 Layout.fillWidth: true

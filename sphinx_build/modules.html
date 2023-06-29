@@ -16,7 +16,7 @@
     <script src="_static/copybutton.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Welcome to µPlant Warehouse Management’s documentation!" href="index.html" />
+    <link rel="prev" title="README" href="readme.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -478,13 +478,14 @@ it throws a ValueError.</p>
 <dd><p>&#64;Slot(str, str, int, int)
 This method takes data from manual storage override in EditDialog.qml.
 Decodes Storage ID ‘L1’ to L’18’ in row / col and checks for ValueErrors.
+checks if the inventory must be changed and performs the change.
 Changes StorageViewModel object of invController and calls _dumpStorage() to save
 changes to file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>storage</strong> (<em>str</em>) – String like “L17”</p></li>
-<li><p><strong>slot</strong> (<em>int</em>) – palette slot ‘a’ (front) or ‘b’ (rear)</p></li>
+<li><p><strong>slot</strong> (<em>str</em>) – palette slot ‘a’ (front) or ‘b’ (rear)</p></li>
 <li><p><strong>cupID</strong> (<em>int</em>) – cup ID</p></li>
 <li><p><strong>productID</strong> (<em>int</em>) – product ID</p></li>
 </ul>
@@ -518,12 +519,18 @@ It is used to emit the changed name for StorageView.qml
 This method takes data from EditDialog qml file when the user wants to
 override the storage entry.
 Decodes Storage ID ‘L1’ to L’18’ in row / col and checks for ValueErrors.
-Uses invControllers transmitData signal to return productslot, cup ID and productListindex.
-:param storage:
-:type storage: str
-:param slot:
-:type slot: str
-:return: uses Qt Signal object to return productslot, cup ID and productListIndex.</p>
+Uses invControllers transmitData signal to return product, slot, cup ID and productList index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<em>str</em>) – </p></li>
+<li><p><strong>slot</strong> (<em>str</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>uses Qt Signal object to return productslot, cup ID and productListIndex.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -782,7 +789,7 @@ Creates a dictionary with rolenames and roles.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.rowCount">
-<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x10dfcd800&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x110fee780&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns number of rows at index
 :param parent:
 :type: QModelIndex
@@ -999,9 +1006,9 @@ main.qml</p>
 <span class="n">ApplicationWindow</span> <span class="p">{</span>
     <span class="nb">property</span> <span class="nb">bool</span> <span class="n">init</span><span class="p">:</span> <span class="n">false</span>
     <span class="nb">id</span><span class="p">:</span> <span class="n">mainWindow</span>
-    <span class="n">width</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mf">1.5</span>
+    <span class="n">width</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">width</span>
     <span class="n">minimumWidth</span> <span class="p">:</span> <span class="mi">480</span>
-    <span class="n">height</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">height</span><span class="o">/</span><span class="mf">1.5</span>
+    <span class="n">height</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">height</span>
     <span class="n">minimumHeight</span><span class="p">:</span> <span class="mi">200</span>
     <span class="n">visible</span><span class="p">:</span> <span class="n">true</span>
     <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Warehouse Management&quot;</span><span class="p">)</span>
@@ -1022,10 +1029,6 @@ main.qml</p>
     <span class="p">}</span>
     <span class="n">MenuBar</span><span class="p">{</span>
         <span class="nb">id</span><span class="p">:</span> <span class="n">menuBar</span>
-        <span class="n">height</span><span class="p">:</span> <span class="mi">40</span>
-        <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
-        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
-        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
         <span class="n">Menu</span> <span class="p">{</span>
             <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;File&quot;</span><span class="p">)</span>
             <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Help...&quot;</span><span class="p">)</span> <span class="p">}</span>
@@ -1125,7 +1128,7 @@ HeaderLine.qml</p>
             <span class="nb">id</span><span class="p">:</span> <span class="n">titleText</span>
             <span class="n">width</span><span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span>
             <span class="n">height</span><span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">height</span>
-            <span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#607d8b&quot;</span>
+            <span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#1F82B2&quot;</span>
             <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;μPlant Model Factory: Warehouse&quot;</span>
             <span class="n">anchors</span><span class="o">.</span><span class="n">left</span> <span class="p">:</span> <span class="n">uniKassel</span><span class="o">.</span><span class="n">right</span>
             <span class="n">anchors</span><span class="o">.</span><span class="n">top</span> <span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">top</span>
@@ -1252,7 +1255,7 @@ CupView.qml</p>
     <span class="n">width</span><span class="p">:</span>  <span class="mi">200</span>
     <span class="n">height</span><span class="p">:</span> <span class="mi">150</span>
     <span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#E1F5FE&quot;</span>
-    <span class="n">border</span><span class="o">.</span><span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#0D47A1&quot;</span>
+    <span class="n">border</span><span class="o">.</span><span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#1F82B2&quot;</span>
     <span class="n">border</span><span class="o">.</span><span class="n">width</span><span class="p">:</span> <span class="mi">2</span>
 
     <span class="n">ColumnLayout</span> <span class="p">{</span>
@@ -1295,7 +1298,7 @@ PalletteView.qml</p>
     <span class="n">width</span><span class="p">:</span> <span class="mi">220</span>
     <span class="n">height</span><span class="p">:</span> <span class="mi">300</span>
     <span class="n">radius</span> <span class="p">:</span> <span class="mi">10</span>
-    <span class="n">border</span><span class="o">.</span><span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#000&quot;</span>
+    <span class="n">border</span><span class="o">.</span><span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#1F82B2&quot;</span>
     <span class="n">ColumnLayout</span><span class="p">{</span>
         <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
         <span class="n">anchors</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">:</span> <span class="mi">5</span>
@@ -1344,7 +1347,7 @@ Rectangle {
     height: 400
     radius: 10
     border.width: 2
-    border.color: &quot;#546E7A&quot;
+    border.color: &quot;#1F82B2&quot;
 
     property string name: &quot;ProductSlot&quot;
     property string cupA: &quot;&quot;
@@ -1387,9 +1390,9 @@ Rectangle {
             margins: 5
         }
         radius: 5
-        color: &quot;#607D8B&quot;
+        color: &quot;#81B8D4&quot;
         border.width: 1
-        border.color: &quot;#263238&quot;
+        border.color: &quot;#1F82B2&quot;
         ColumnLayout{
             anchors.fill: parent
             spacing: 2
@@ -1398,8 +1401,8 @@ Rectangle {
                 id: productSlotA
                 implicitHeight: parent.height/2-10
                 implicitWidth: parent.width
-                color: selected ? &quot;#4FC3F7&quot;: &quot;white&quot;
-                border.color: &quot;#546E7A&quot;
+                color: selected ? &quot;#81B8D4&quot;: &quot;white&quot;
+                border.color: &quot;#1F82B2&quot;
                 border.width: 2
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -1440,8 +1443,8 @@ Rectangle {
                 id: productSlotB
                 implicitHeight: parent.height/2-10
                 implicitWidth: parent.width
-                color: selected ? &quot;#4FC3F7&quot;: &quot;white&quot;
-                border.color: &quot;#546E7A&quot;
+                color: selected ? &quot;#81B8D4&quot;: &quot;white&quot;
+                border.color: &quot;#1F82B2&quot;
                 border.width: 2
                 Layout.fillHeight: true
                 Layout.fillWidth: true
@@ -1585,7 +1588,7 @@ StorageView.qml</p>
 <span class="n">Rectangle</span><span class="p">{</span>
     <span class="nb">id</span><span class="p">:</span> <span class="n">storageRect</span>
     <span class="n">color</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span>
-    <span class="n">border</span><span class="o">.</span><span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#546E7A&quot;</span>
+    <span class="n">border</span><span class="o">.</span><span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#1F82B2&quot;</span>
     <span class="n">border</span><span class="o">.</span><span class="n">width</span><span class="p">:</span> <span class="mi">2</span>
     <span class="n">radius</span><span class="p">:</span> <span class="mi">10</span>
     <span class="n">width</span><span class="p">:</span> <span class="mi">600</span>
@@ -1684,7 +1687,7 @@ EventView.qml</p>
     <span class="n">Rectangle</span> <span class="p">{</span>
         <span class="nb">id</span><span class="p">:</span> <span class="n">pane</span>
         <span class="n">radius</span><span class="p">:</span> <span class="mi">10</span>
-        <span class="n">border</span><span class="o">.</span><span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#546E7A&quot;</span>
+        <span class="n">border</span><span class="o">.</span><span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#1F82B2&quot;</span>
         <span class="n">border</span><span class="o">.</span><span class="n">width</span><span class="p">:</span> <span class="mi">2</span>
         <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
         <span class="nb">property</span> <span class="n">string</span> <span class="n">dateTimeFormat</span><span class="p">:</span> <span class="s2">&quot;yyyy-MM-dd hh:mm:ss&quot;</span>
@@ -1860,6 +1863,7 @@ Speichert aktuelle Kommissionsaufträge
 <h3>Navigation</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Main File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#module-src.model.DataModel">Data Model</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.DataModel.Cup"><code class="docutils literal notranslate"><span class="pre">Cup</span></code></a></li>
@@ -1897,7 +1901,7 @@ Speichert aktuelle Kommissionsaufträge
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to µPlant Warehouse Management’s documentation!</a></li>
+      <li>Previous: <a href="readme.html" title="previous chapter">README</a></li>
   </ul></li>
 </ul>
 </div>

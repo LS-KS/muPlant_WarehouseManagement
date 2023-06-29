@@ -361,6 +361,7 @@
 <span class="sd">        :param product: The new product to store in the cup</span>
 <span class="sd">        :type product: Product</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">oldValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">product</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span> <span class="ow">in</span> <span class="n">product</span><span class="o">.</span><span class="n">cups</span><span class="p">:</span>
@@ -368,7 +369,15 @@
         <span class="k">elif</span> <span class="n">product</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">cups</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">withoutCup</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">oldValue</span><span class="o">.</span><span class="n">cups</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="n">oldValue</span><span class="o">.</span><span class="n">withoutCup</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span> <span class="ow">in</span> <span class="n">product</span><span class="o">.</span><span class="n">cups</span><span class="p">:</span>
+                <span class="n">product</span><span class="o">.</span><span class="n">cups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="Cup.setLocation"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Cup.setLocation">[docs]</a>    <span class="k">def</span> <span class="nf">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -482,7 +491,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slotB</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">slotA</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">slotA</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-    <span class="k">def</span> <span class="nf">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storageElement</span><span class="p">):</span>
+<div class="viewcode-block" id="Pallet.setLocation"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Pallet.setLocation">[docs]</a>    <span class="k">def</span> <span class="nf">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storageElement</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">==</span> <span class="n">storageElement</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>
         <span class="n">oldValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span>
@@ -503,7 +512,7 @@
                     <span class="n">storageElement</span><span class="o">.</span><span class="n">setPallet</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">storageElement</span><span class="p">,</span> <span class="n">Gripper</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">storageElement</span><span class="o">.</span><span class="n">object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
-                    <span class="n">storageElement</span><span class="o">.</span><span class="n">setObject</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+                    <span class="n">storageElement</span><span class="o">.</span><span class="n">setObject</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="StorageElement"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.StorageElement">[docs]</a><span class="k">class</span> <span class="nc">StorageElement</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -582,6 +591,7 @@
 <h3>Navigation</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Main File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.model.DataModel">Data Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.controller.invController">Controller</a></li>

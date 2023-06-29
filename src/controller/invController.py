@@ -44,6 +44,7 @@ class invController(QObject):
         self.productlistViewModel = None
         self.productSummaryViewModel = None
         self.eventlogService = None
+        self.productList = []
         self.__loadData()
 
     @Slot(str)
@@ -63,7 +64,8 @@ class invController(QObject):
         This method takes data from EditDialog qml file when the user wants to
         override the storage entry.
         Decodes Storage ID 'L1' to L'18' in row / col and checks for ValueErrors.
-        Uses invControllers transmitData signal to return productslot, cup ID and productListindex.
+        Uses invControllers transmitData signal to return product, slot, cup ID and productList index.
+
         :param storage:
         :type storage: str
         :param slot:
@@ -99,13 +101,14 @@ class invController(QObject):
         @Slot(str, str, int, int)
         This method takes data from manual storage override in EditDialog.qml.
         Decodes Storage ID 'L1' to L'18' in row / col and checks for ValueErrors.
+        checks if the inventory must be changed and performs the change.
         Changes StorageViewModel object of invController and calls _dumpStorage() to save
         changes to file.
 
         :param storage: String like "L17"
         :type storage: str
         :param slot: palette slot 'a' (front) or 'b' (rear)
-        :type slot: int
+        :type slot: str
         :param cupID: cup ID
         :type cupID: int
         :param productID: product ID
@@ -120,18 +123,24 @@ class invController(QObject):
             raise ValueError("Error could not decode storage(row)")
         if not 0 <= col <= 5:
             raise ValueError("Error could not decode storage(col)")
+        pallet = self.inventory.getStoragePallet(row, col)
         if slot == "a":
             print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
             roleCup = Qt.UserRole + 2
             roleProduct = Qt.UserRole + 3
             roleName = Qt.UserRole + 4
+            cup_obj = pallet.slotA
         elif slot == "b":
             print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
             roleCup = Qt.UserRole + 5
             roleProduct = Qt.UserRole + 6
             roleName = Qt.UserRole + 7
+            cup_obj = pallet.slotB
         else:
             raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
+        prod_obj = self.__productFromID(productID)
+        cup_obj.setProduct(prod_obj) #Hat nicht funktioniert
+        cup_obj.setID(cupID)
 
         index = self.storageViewModel.createIndex(row, col)
         cup = self.storageViewModel.setData(index, cupID, role=roleCup)
@@ -297,11 +306,11 @@ class invController(QObject):
         productList = self.__loadProductList()
 
         # load Inventory from StorageData.db
-        storageData = self.__loadStorageData(productList)
+        storageData = self.__loadStorageData()
 
-        self.__populateInventory(storageData, productList)
+        self.__populateInventory(storageData)
 
-        self.__populateViewModels(productList, storageData)
+        self.__populateViewModels( storageData)
     def _dumpStorage(self):
         """
 
@@ -336,7 +345,7 @@ class invController(QObject):
                 if FILE != None:
                     FILE.close()
             #self.eventcontroller.writeEvent("USER", f"\n Manual Storage Override saved to local File \n")
-    def __populateInventory(self, storageData, productList):
+    def __populateInventory(self, storageData):
         """
         Takes storageData variable to create pallet objects with corresponding cups and products.
 
@@ -350,14 +359,11 @@ class invController(QObject):
         for element in storageData:
             if element.isPallet:
                 pallet = Pallet()
-                pallet.setSlotA(Cup(element.a_CupID, self.__productFromID(element.a_ProductID, productList)))
-                pallet.setSlotB(Cup(element.b_CupID, self.__productFromID(element.b_ProductID, productList)))
+                pallet.setSlotA(Cup(element.a_CupID, self.__productFromID(element.a_ProductID)))
+                pallet.setSlotB(Cup(element.b_CupID, self.__productFromID(element.b_ProductID)))
                 self.inventory.setStoragePallet(element.row, element.col, pallet)
-    def __loadStorageData(self, productList) -> list[StorageData]:
+    def __loadStorageData(self) -> list[StorageData]:
         """
-
-        :param productList: List of product data without quantities
-        :type productList: List of ProductData objects
         :return: storageData
         :rtype storageData: List of StorageData objects.
 
@@ -388,7 +394,7 @@ class invController(QObject):
                 b_ProductID = int(splitData[3])
                 b_Name = ""
                 # find matching product strings from actual product list
-                for product in productList:
+                for product in self.productList:
                     if product.id == a_ProductID:
                         a_Name = product.name
                     if product.id == b_ProductID:
@@ -407,12 +413,11 @@ class invController(QObject):
         finally:
             file.close()
         return storageData
-    def __loadProductList(self) -> list[Product]:
+    def __loadProductList(self):
         """
         Opens file with path from constants.
         transforms data to object-oriented data
-        :return: productList
-        :rtype: list of Product
+        :return: None
 
         """
         FILE = self.constants.PRODUCTLIST
@@ -435,8 +440,8 @@ class invController(QObject):
             print("Error: file 'Produkte.db' doesn't exist")
         finally:
             file.close()
-        return productList
-    def __populateViewModels(self, productList, storageData):
+        self.productList = productList
+    def __populateViewModels(self, storageData):
         """
 
         Now since data from StorageData.db and Produkte.db is loaded and transformed, it
@@ -466,12 +471,12 @@ class invController(QObject):
                                                element.b_CupID, element.b_ProductID, element.b_Name, element.row,
                                                element.col]
         self.storageViewModel = StorageViewModel(storageData=tableData)
-        self.__populateProductlistViewModel(productList, storageData)
+        self.__populateProductlistViewModel(storageData)
         '''
         create sortable and filterable viewModel 
         '''
         self.productSummaryViewModel = ProductSummaryViewModel(self.productlistViewModel)
-    def __populateProductlistViewModel(self, productList, storageData):
+    def __populateProductlistViewModel(self, storageData):
         """
 
         Loop over storageData to calculate existing product quantities.
@@ -487,7 +492,7 @@ class invController(QObject):
 
         """
         productDataList = [] # different to productList due to Product doesn't contain quantity information (senseless)
-        for product in productList:
+        for product in self.productList:
             productDataList.append(ProductData(product.id, product.name, 0))
         for stock in storageData:
             for product in productDataList:
@@ -501,7 +506,7 @@ class invController(QObject):
             
         '''
         self.productlistViewModel = ProductListViewModel(productDataList)
-    def __productFromID(self, id, productList):
+    def __productFromID(self, id):
         """
 
         Finds Product object from given id and returns the object.
@@ -509,12 +514,10 @@ class invController(QObject):
 
         :param id: id of Product object that is searched
         :type id: int
-        :param productList:
-        :type productList: List of Product objects
         :return: Product object
 
         """
-        for product in productList:
+        for product in self.productList:
             if product.id == id:
                 return product
         raise ValueError(f"Id {id} not found!")

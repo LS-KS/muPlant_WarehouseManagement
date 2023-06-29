@@ -35,7 +35,7 @@ Rectangle {
             id: titleText
             width: headerLine.width / 2
             height: headerLine.height
-            color: "#607d8b"
+            color: "#1F82B2"
             text: "μPlant Model Factory: Warehouse"
             anchors.left : uniKassel.right
             anchors.top : headerLine.top

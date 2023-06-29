@@ -7,7 +7,7 @@ import QtQuick.Dialogs
 Rectangle{
     id: storageRect
     color: "white"
-    border.color: "#546E7A"
+    border.color: "#1F82B2"
     border.width: 2
     radius: 10
     width: 600

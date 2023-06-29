@@ -6,7 +6,7 @@ Rectangle {
     width: 220
     height: 300
     radius : 10
-    border.color: "#000"
+    border.color: "#1F82B2"
     ColumnLayout{
         anchors.fill: parent
         anchors.rightMargin: 5

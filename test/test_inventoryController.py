@@ -4,6 +4,7 @@ from src.controller.invController import invController
 from src.viewmodel.productlistViewModel import ProductListViewModel
 from src.viewmodel.storageViewModel import StorageViewModel
 from src.viewmodel.productSummaryViewModel import ProductSummaryViewModel
+from src.service.EventlogService import EventlogService
 from PySide6.QtCore import Qt
 from PySide6 import QtCore
 
@@ -18,6 +19,7 @@ lines covered: na due to pyside6 code
 
 def testInit():
     iC = invController()
+    iC.eventlogService =  EventlogService()
     assert isinstance(iC.inventory, Inventory)
     assert isinstance(iC.gripper, Gripper)
     assert isinstance(iC.workbench, Workbench)
@@ -25,6 +27,7 @@ def testInit():
     assert len(iC.inventory.pallets) == 3
     assert len(iC.inventory.pallets[1]) == 6
     assert isinstance(iC.inventory.pallets[1][1], StorageElement)
+    assert isinstance(iC.eventlogService, EventlogService)
 
 
 def testViewModelInit():
@@ -34,6 +37,7 @@ def testViewModelInit():
     :return:
     """
     iC = invController()
+    iC.eventlogService =  EventlogService()
     assert isinstance(iC.productlistViewModel, ProductListViewModel)
     assert isinstance(iC.storageViewModel, StorageViewModel)
     assert isinstance(iC.productSummaryViewModel, ProductSummaryViewModel)
@@ -41,12 +45,14 @@ def testViewModelInit():
 
 def testDumpToFile():
     iC = invController()
+    iC.eventlogService =  EventlogService()
     iC._dumpStorage()
     assert True
 
 
 def testMoveToWorkbench():
     ic = invController()
+    ic.eventlogService =  EventlogService()
     pallet1 = Pallet()
     pallet2 = Pallet()
     product = Product(1, "Banane")
@@ -73,6 +79,7 @@ def testMoveToWorkbench():
 
 def testMoveToMobileRobot():
     ic = invController()
+    ic.eventlogService =  EventlogService()
     product = Product(1, "Banane")
     cup = Cup(1, product)
     cup2 = Cup(2, product)
@@ -86,6 +93,7 @@ def testMoveToMobileRobot():
 
 def testMoveToStorage():
     ic = invController()
+    ic.eventlogService =  EventlogService()
     pallet1 = Pallet()
     pallet2 = Pallet()
     ic.movePalletToK1(ic.inventory.getStoragePallet(0, 0))
@@ -104,6 +112,7 @@ def testMoveToStorage():
 
 def testMoveAround():
     ic = invController()
+    ic.eventlogService =  EventlogService()
     pallet = ic.inventory.getStoragePallet(1, 1)
     ic.movePalletToK1(pallet)
     assert ic.workbench.k1 == pallet
@@ -124,3 +133,22 @@ def testMoveAround():
     ic.movePalletToStorage(pallet, 1, 1)
     assert ic.workbench.k2 is None
     assert ic.inventory.getStoragePallet(1, 1) == pallet
+
+
+
+def testChangeStorage():
+    ic = invController()
+    ic.eventlogService =  EventlogService()
+    pallet_origin = ic.inventory.getStoragePallet(0,5)
+    a_cup_origin = pallet_origin.slotA
+    a_product = a_cup_origin.product
+    assert a_cup_origin.id == 0
+    assert a_product.id == 0
+    ic.changeStorage("L6", 'a', 15, 5)
+    pallet_new = ic.inventory.getStoragePallet(0, 5)
+    assert pallet_origin == pallet_new
+    a_cup_new = pallet_origin.slotA
+    assert a_cup_origin == a_cup_new
+    a_product = a_cup_new.product
+    assert a_cup_new.id == 15
+    assert a_product.id == 5

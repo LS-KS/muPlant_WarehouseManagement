@@ -6,7 +6,7 @@ Rectangle {
     width:  200
     height: 150
     color: "#E1F5FE"
-    border.color: "#0D47A1"
+    border.color: "#1F82B2"
     border.width: 2
 
     ColumnLayout {

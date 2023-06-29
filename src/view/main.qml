@@ -33,6 +33,7 @@ ApplicationWindow {
         }
     }
     MenuBar{
+        id: menuBar
         Menu {
             title: qsTr("&File")
             Action { text: qsTr("&Help...") }

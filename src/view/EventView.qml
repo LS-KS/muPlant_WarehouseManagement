@@ -14,7 +14,7 @@ Rectangle{
     Rectangle {
         id: pane
         radius: 10
-        border.color: "#546E7A"
+        border.color: "#1F82B2"
         border.width: 2
         anchors.fill: parent
         property string dateTimeFormat: "yyyy-MM-dd hh:mm:ss"

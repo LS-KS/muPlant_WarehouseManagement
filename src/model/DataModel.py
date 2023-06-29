@@ -327,6 +327,7 @@ class Cup:
         :param product: The new product to store in the cup
         :type product: Product
         """
+        oldValue = self.product
         if self.product is None and product is not None:
             self.product = product
             if not self in product.cups:
@@ -335,6 +336,14 @@ class Cup:
             if self.product is not None and self in self.product.cups:
                 self.product.withoutCup(self)
             self.product = product
+        else:
+            self.product = None
+            if oldValue.cups.__contains__(self):
+                oldValue.withoutCup(self)
+            self.product = product
+            if not self in product.cups:
+                product.cups.append(self)
+
 
     def setLocation(self, location):
         """
