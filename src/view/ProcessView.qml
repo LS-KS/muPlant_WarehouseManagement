@@ -4,6 +4,10 @@ import QtQuick 2.0
 Rectangle{
     id: rectangle
 
+    WorkbenchDialog{
+        id: workbenchDialog
+    }
+
     Image {
         id: robot_ref_img
         x: 143
@@ -45,6 +49,12 @@ Rectangle{
             anchors.bottom: parent.top
             anchors.leftMargin: 10
             anchors.bottomMargin: -20
+            MouseArea{
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered: setWorkbench.opacity = 1;
+                onExited: setWorkbench.opacity = 0;
+            }
 
         }
         PalletteView{
@@ -55,8 +65,29 @@ Rectangle{
             anchors.bottom: parent.top
             anchors.rightMargin: 10
             anchors.bottomMargin: -20
-
+            MouseArea{
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered: setWorkbench.opacity = 1;
+                onExited: setWorkbench.opacity = 0;
+            }
         }
+        Image {
+        id: setWorkbench
+        source: "../assets/gear.png"
+        anchors.right: k1.left
+        anchors.top: k1.top
+        anchors.rightMargin: 5
+        fillMode: Image.PreserveAspectFit
+        opacity: 0
+        MouseArea{
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: setWorkbench.opacity = 1;
+            onExited: setWorkbench.opacity = 0;
+            onClicked: workbenchDialog.open();
+        }
+    }
     }
     TurtleView{
         id: turtleVisu
@@ -66,5 +97,7 @@ Rectangle{
             bottom: parent.bottom
         }
     }
+
+
 
 }

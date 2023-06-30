@@ -24,7 +24,8 @@ class invController(QObject):
     """
 
     # Signal can be captured in qml file with Connections - syntax and handling on signal called 'onRowClicked'
-    transmitData = Signal(str, int, int)
+    transmitStorageData = Signal(str, int, int, bool)
+    transmitWorkbenchData = Signal( int, int, bool)
     productSelected = Signal(str)
     idSwapped = Signal(int, int)
 
@@ -81,6 +82,7 @@ class invController(QObject):
                 raise ValueError("Error could not decode storage(row)")
             if not 0 <= col <= 5:
                 raise ValueError("Error could not decode storage(col)")
+            palletRole = Qt.UserRole + 1
             if slot == "a":
                 cupRole = Qt.UserRole + 2
                 prodRole = Qt.UserRole + 3
@@ -90,18 +92,65 @@ class invController(QObject):
             else:
                 raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
             index = self.storageViewModel.createIndex(row, col)
+            isPallet = True if self.storageViewModel.data(index, palletRole) == 1 else False
             product = self.storageViewModel.data(index, prodRole)
             print(f"index: {index}, product: {product}")
             productlistIndex = self.productlistViewModel.indexOf(product)
             cup = self.storageViewModel.data(index, cupRole)
-            self.transmitData.emit(slot, cup, product)
+            self.transmitStorageData.emit(slot, cup, product, isPallet)
+
+    @Slot(str, str)
+    def loadWorkbench(self, storage: str, slot: str):
+        """
+        @Slot(str, int, int, bool)
+        This method takes data from WorkbenchDialog.qml file when the user wants to mauallY
+        override the workbench entry.
+        Uses invControllers transmitWorkbenchData signal to return product, slot, cup ID and productList index.
+        :return:
+        """
+        if storage == "K1":
+            if self.workbench.k1 is not None:
+                isPallet = True
+                if slot == "a":
+                    cupID = self.workbench.k1.cupA
+                    productID = self.workbench.k1.cupA.product.getID()
+                elif slot == "b":
+                    cupID = self.workbench.k1.cupB
+                    productID = self.workbench.k1.cupB.product.getID()
+                else:
+                    raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
+            else:
+                cupID = 0
+                productID = 0
+                isPallet = False
+        elif storage == "K2":
+            if self.workbench.k2 is not None:
+                isPallet = True
+                if slot == "a":
+                    cupID = self.workbench.k2.cupA
+                    productID = self.workbench.k2.cupA.product.getID()
+                elif slot == "b":
+                    cupID = self.workbench.k2.cupB
+                    productID = self.workbench.k2.cupB.product.getID()
+                else:
+                    raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
+            else:
+                cupID = 0
+                productID = 0
+                isPallet = False
+        else:
+            raise ValueError("Storage Value error. Storage must be 'K1' or 'K2'")
+        self.transmitWorkbenchData.emit(cupID, productID, isPallet)
+
+
     @Slot(str, str, int, int)
-    def changeStorage(self, storage, slot, cupID, productID):
+    def changeStorage(self, storage, slot, cupID, productID, isPallet: bool = False):
         """
         @Slot(str, str, int, int)
         This method takes data from manual storage override in EditDialog.qml.
         Decodes Storage ID 'L1' to L'18' in row / col and checks for ValueErrors.
         checks if the inventory must be changed and performs the change.
+        Erases data if isPallet is False.
         Changes StorageViewModel object of invController and calls _dumpStorage() to save
         changes to file.
 
@@ -139,7 +188,7 @@ class invController(QObject):
         else:
             raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
         prod_obj = self.__productFromID(productID)
-        cup_obj.setProduct(prod_obj) #Hat nicht funktioniert
+        cup_obj.setProduct(prod_obj)
         cup_obj.setID(cupID)
 
         index = self.storageViewModel.createIndex(row, col)
@@ -151,6 +200,10 @@ class invController(QObject):
         self.eventlogService.writeEvent("USER",
                                         f"\n*** ATTENTION ***\n\n!!! INVENTORY OVERRIDE !!!\n\nLocation: {storage} - {slot}\nCup: {cup} --> {cupID}\nProduct: {product} --> {productID}\n\n*** DANGER ***\n\nThe storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.\n\n*** THIS IS A LIFE-THREATENING SITUATION ***\n\n>>>>> CHANGES ARE PERMANENT <<<<<\n\n_____\n")
         self._dumpStorage()
+
+    @Slot(str, str, int, int, bool)
+    def changeWorkbench(self,storage, slot, cupID, productID, isPallet: bool = False):
+        pass
     def movePalletToK1(self, pallet: Pallet) -> bool:
         """
 
@@ -172,6 +225,7 @@ class invController(QObject):
         # ToDo: Hier Kommando an ABB Roboter einfügen und warten bis Meldung kommt, dass Kommando ausgeführt wurde.
         self.workbench.setK1(pallet)
         return True
+
     def moveCupToK1(self, cup: Cup) -> bool:
         """
         Moves a cup to Workbench's K1 slot.

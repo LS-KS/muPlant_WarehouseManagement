@@ -4,62 +4,59 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
 import QtQuick.Layouts 1.3
 /*
-  This QML File shows a Dialog which enables the user to manually override the storage data
+  This QML File shows a Dialog which enables the user to manually override the workbench data
   */
 Dialog {
-    id: editDialog
-    title: "Override Storage"
-    width: 400
-    height: 600
+    id: workbenchDialog
+    title: "Override Workbench"
     property bool isPalletPresent: true
+    width: 350
     // ColumnLayout helps to organize Items in vertical order.
     ColumnLayout{
-        id: editDialogLayout
-        width: parent.width
-        height: parent.height
-        // This Row enables user to allocate the storage location
-        RowLayout{
+        anchors.fill: parent
+        Layout.fillHeight: true
+        Layout.fillWidth: true
+        // This Row enables user to allocate the workbench location
+        Row{
             Text {
                 id: location
                 text: qsTr("Location: ")
                 width: parent.width/2
                 height: setLocation.height
-                verticalAlignment: Text.AlignVCenter
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                verticalAlignment: Text.AlignVCenter
             }
-            // Comobobox has List of all possible hardcoded storage locations
+            // Comobobox has List of all possible hardcoded workbench locations
             ComboBox{
                 id: setLocation
-                width: parent.width/2
-                model: ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9', 'L10', 'L11', 'L12', 'L13', 'L14', 'L15', 'L16', 'L17', 'L18']
-                onCurrentValueChanged: {
-                    if(setLocation.currentValue !==''){
-                        inventoryController.loadStorage(setLocation.currentValue, setAB.currentValue)
-                    }
-                }
+                model: ['K1', 'K2']
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                onCurrentValueChanged: {
+                    if(setLocation.currentValue !==''){
+                        inventoryController.loadWorkbench(setLocation.currentValue, setAB.currentValue)
+                    }
+                }
             }
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.alignment: Qt.AlignCenter
         }
-        RowLayout {
+        Row {
             Text {
                 id: palletText
-                width: parent.width/2
                 text: qsTr("Pallet present: ")
+                width: parent.width/2
+                height: palletPresent.height
                 verticalAlignment: Text.AlignVCenter
                 Layout.fillHeight: true
                 Layout.fillWidth: true
             }
             ComboBox{
                 id: palletPresent
-                width: parent.width/2
                 model: ["Yes", "No"]
                 onCurrentValueChanged: {
-                    if(palletPresent.currentValue === "Yes"){
+                    if(palletPresent.currentText === "Yes"){
                         isPalletPresent = true
                     }
                     else{
@@ -74,37 +71,39 @@ Dialog {
             Layout.fillWidth: true
         }
         // This Row enables the user to select either he wants to override the cup in front or at the backside.
-        RowLayout{
+        Row{
             Text {
                 id: slotText
                 width: parent.width/2
+                height: setAB.height
                 text: qsTr("Product a or b: ")
-                verticalAlignment: Text.AlignVCenter
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                verticalAlignment: Text.AlignVCenter
             }
             ComboBox{
                 // a = front, b = back
                 id: setAB
                 model: ["a","b"]
-                width: parent.width/2
-                // load actual storage values if storage location is changed and not empty
-                onCurrentValueChanged: {
-                    if(setLocation.currentValue !==''){
-                        inventoryController.loadStorage(setLocation.currentValue, setAB.currentValue)
-                    }
-                }
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                // load actual storage values if storage location is changed and not empty
+                onCurrentValueChanged: {
+                    if (setLocation.currentText !== '') {
+                        inventoryController.loadWorkbench(setLocation.currentValue, setAB.currentValue)
+                    }
+                }
+
             }
-           Layout.fillHeight: true
-           Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.fillWidth: true
         }
         // This row has a textlabel and textfield which enables the user to override Cup ID
-        RowLayout{
+        Row{
             Text {
                 id: cupText
                 width: parent.width/2
+                height: setCup.height
                 text: qsTr("Set Cup ID: ")
                 verticalAlignment: Text.AlignVCenter
                 Layout.fillHeight: true
@@ -112,58 +111,42 @@ Dialog {
             }
             TextField{
                 id: setCup
-                width: parent.width/2
                 // limit the cup ID to positive integer between 0 and 9999
                 validator: IntValidator{
                     bottom: 0
                     top: 9999
                 }
-                Layout.fillHeight: true
-                Layout.fillWidth: true
             }
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
-        // This row enables the user to override product id in storage
-        RowLayout{
+        // This row enables the user to override product id in workbench
+        Row{
             Text {
                 id: setProd
                 width: parent.width/2
+                height: setProduct.height
                 text: qsTr("Set Product ID:")
-                verticalAlignment: Text.AlignVCenter
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                verticalAlignment: Text.AlignVCenter
             }
             ComboBox{
                 id:setProduct
-                width: parent.width/2
                 model: productListModel
                 textRole: 'name'
                 valueRole: 'id'
-                Layout.fillHeight: true
-                Layout.fillWidth: true
             }
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
-        Text {
-                id: warningText
-                width: parent.width
-                height: 200
-                text: qsTr("WARNING: Pallet not present! This will erase current Cups in both slots!")
-                verticalAlignment: Text.AlignVCenter
-                opacity: isPalletPresent? 0 : 1
-                wrapMode: "WordWrap"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-            }
         // clearbutton enables the user to set values for cup and product which implicate that the storage is empty
         DialogButtonBox{
             Button {
                 id: clearButton
                 text: "Clear"
                 onClicked: {
-                    console.log("Clear Clicked")
+                    console.log("Clear in WorkbenchDialog clicked")
                     setProduct.currentIndex = 0
                     setCup.text = "0"
                 }
@@ -179,15 +162,15 @@ Dialog {
         console.log("slot: " +setAB.currentText)
         console.log("cup: " + setCup.text)
         console.log("product: " + setProduct.currentValue)
-        inventoryController.changeStorage(setLocation.currentText, setAB.currentText, setCup.text, setProduct.currentValue)
+        inventoryController.changeWorkbench(setLocation.currentText, setAB.currentText, setCup.text, setProduct.currentValue)
         console.log("Ok clicked")
     }
-    onRejected: console.log("Cancel clicked")
-    // Connect InventoryController's transmitData Signal to this qml file. If storage is set and InventoryController's loadStorage() function is called
+    onRejected: console.log("Cancel in workbench dialog clicked")
+    // Connect InventoryController's transmitData Signal to this qml file. If storage is set and InventoryController's loadWorkbench() function is called
     // data will be transmitted by this signal
     Connections{
         target: inventoryController
-        function onTransmitStorageData(slot, cup, product, isPallet){
+        function onTransmitWorkbenchData(slot, cup, product, pallet){
             setCup.text = cup
             setProduct.currentIndex = product
         }
