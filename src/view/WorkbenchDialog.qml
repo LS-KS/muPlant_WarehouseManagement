@@ -140,6 +140,17 @@ Dialog {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
+        Text {
+            id: warningText
+            width: parent.width
+            height: 200
+            text: qsTr("WARNING: Pallet not present! This will erase current Cups in both slots!")
+            verticalAlignment: Text.AlignVCenter
+            opacity: isPalletPresent? 0 : 1
+            wrapMode: "WordWrap"
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+        }
         // clearbutton enables the user to set values for cup and product which implicate that the storage is empty
         DialogButtonBox{
             Button {
@@ -154,6 +165,7 @@ Dialog {
 
         }
     }
+
     // standardbuttons are buttons which perform standard tasks.
     standardButtons: Dialog.Ok | Dialog.Cancel
     // signal which is emitted when Dialog.OK is clicked. It calls changeStorage() function of InventoryController
@@ -162,7 +174,7 @@ Dialog {
         console.log("slot: " +setAB.currentText)
         console.log("cup: " + setCup.text)
         console.log("product: " + setProduct.currentValue)
-        inventoryController.changeWorkbench(setLocation.currentText, setAB.currentText, setCup.text, setProduct.currentValue)
+        inventoryController.changeWorkbench(setLocation.currentText, setAB.currentText, setCup.text, setProduct.currentValue, isPalletPresent)
         console.log("Ok clicked")
     }
     onRejected: console.log("Cancel in workbench dialog clicked")

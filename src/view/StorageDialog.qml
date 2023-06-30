@@ -18,7 +18,7 @@ Dialog {
         width: parent.width
         height: parent.height
         // This Row enables user to allocate the storage location
-        RowLayout{
+        Row{
             Text {
                 id: location
                 text: qsTr("Location: ")
@@ -31,7 +31,6 @@ Dialog {
             // Comobobox has List of all possible hardcoded storage locations
             ComboBox{
                 id: setLocation
-                width: parent.width/2
                 model: ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9', 'L10', 'L11', 'L12', 'L13', 'L14', 'L15', 'L16', 'L17', 'L18']
                 onCurrentValueChanged: {
                     if(setLocation.currentValue !==''){
@@ -45,10 +44,11 @@ Dialog {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignCenter
         }
-        RowLayout {
+        Row {
             Text {
                 id: palletText
                 width: parent.width/2
+                height: palletPresent.height
                 text: qsTr("Pallet present: ")
                 verticalAlignment: Text.AlignVCenter
                 Layout.fillHeight: true
@@ -56,7 +56,6 @@ Dialog {
             }
             ComboBox{
                 id: palletPresent
-                width: parent.width/2
                 model: ["Yes", "No"]
                 onCurrentValueChanged: {
                     if(palletPresent.currentValue === "Yes"){
@@ -74,10 +73,11 @@ Dialog {
             Layout.fillWidth: true
         }
         // This Row enables the user to select either he wants to override the cup in front or at the backside.
-        RowLayout{
+        Row {
             Text {
                 id: slotText
                 width: parent.width/2
+                height: setAB.height
                 text: qsTr("Product a or b: ")
                 verticalAlignment: Text.AlignVCenter
                 Layout.fillHeight: true
@@ -87,7 +87,6 @@ Dialog {
                 // a = front, b = back
                 id: setAB
                 model: ["a","b"]
-                width: parent.width/2
                 // load actual storage values if storage location is changed and not empty
                 onCurrentValueChanged: {
                     if(setLocation.currentValue !==''){
@@ -101,10 +100,11 @@ Dialog {
            Layout.fillWidth: true
         }
         // This row has a textlabel and textfield which enables the user to override Cup ID
-        RowLayout{
+        Row {
             Text {
                 id: cupText
                 width: parent.width/2
+                height: setCup.height
                 text: qsTr("Set Cup ID: ")
                 verticalAlignment: Text.AlignVCenter
                 Layout.fillHeight: true
@@ -112,7 +112,6 @@ Dialog {
             }
             TextField{
                 id: setCup
-                width: parent.width/2
                 // limit the cup ID to positive integer between 0 and 9999
                 validator: IntValidator{
                     bottom: 0
@@ -125,10 +124,11 @@ Dialog {
             Layout.fillWidth: true
         }
         // This row enables the user to override product id in storage
-        RowLayout{
+        Row {
             Text {
                 id: setProd
                 width: parent.width/2
+                height: setProduct.height
                 text: qsTr("Set Product ID:")
                 verticalAlignment: Text.AlignVCenter
                 Layout.fillHeight: true
@@ -136,7 +136,6 @@ Dialog {
             }
             ComboBox{
                 id:setProduct
-                width: parent.width/2
                 model: productListModel
                 textRole: 'name'
                 valueRole: 'id'

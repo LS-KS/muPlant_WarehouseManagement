@@ -27,7 +27,7 @@ Rectangle{
             rightMargin: 20
             topMargin: 5
         }
-        RowLayout{
+        Row{
             anchors.fill: parent
             Text {
                 id: title
@@ -42,11 +42,12 @@ Rectangle{
 
             Image {
                 id: setImage
+                width: 40
                 source: "../assets/gear.png"
                 fillMode: Image.PreserveAspectFit
                 height: title.height
-                width: Image.PreserveAspectFit
                 Layout.fillHeight: true
+                Layout.fillWidth: true
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
