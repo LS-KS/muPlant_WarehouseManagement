@@ -41,37 +41,81 @@ Rectangle{
         anchors.bottom: parent.bottom
         fillMode: Image.PreserveAspectFit
 
-        PalletteView{
+        ProductView{
             width: parent.width/2 -20
             id: k1
+            name: "K1"
             height: 1.2*width
-            anchors.left: parent.left
+            anchors.right: k2.left
             anchors.bottom: parent.top
-            anchors.leftMargin: 10
+            anchors.rightMargin: 10
             anchors.bottomMargin: -20
             MouseArea{
+                propagateComposedEvents: true
                 anchors.fill: parent
                 hoverEnabled: true
                 onEntered: setWorkbench.opacity = 1;
                 onExited: setWorkbench.opacity = 0;
             }
-
+            Component.onCompleted: {
+                //console.log("K1 completed");
+                inventoryController.getWorkbenchSlot(name);
+            }
+            Connections{
+                target: inventoryController
+                function onTransmitWorkbenchPallet(slot, cupIDA, productIDA, productNameA, isPallet, cupIDB, productIDB, productNameB){
+                //console.log("transmitWorkbenchPallet received in K1");
+                    if(slot == "K1"){
+                        console.log("K1 transmit");
+                        k1.cupA = cupIDA;
+                        k1.prodA = productIDA;
+                        k1.nameA = productNameA;
+                        k1.cupB = cupIDB;
+                        k1.prodB = productIDB;
+                        k1.nameB = productNameB;
+                        k1.withPallet = isPallet;
+                    }
+                }
+            }
         }
-        PalletteView{
+        ProductView{
             width: parent.width/2 -20
             id: k2
+            name: "K2"
             height: 1.2*width
             anchors.right: parent.right
             anchors.bottom: parent.top
             anchors.rightMargin: 10
             anchors.bottomMargin: -20
             MouseArea{
+                propagateComposedEvents: true
                 anchors.fill: parent
                 hoverEnabled: true
                 onEntered: setWorkbench.opacity = 1;
                 onExited: setWorkbench.opacity = 0;
             }
+            Component.onCompleted: {
+                //console.log("K2 completed");
+                inventoryController.getWorkbenchSlot(name);
+            }
+            Connections{
+                target: inventoryController
+                function onTransmitWorkbenchPallet(slot, cupIDA, productIDA, productNameA, isPallet, cupIDB, productIDB, productNameB){
+                //console.log("transmitWorkbenchPallet received in K2");
+                    if(slot == "K2"){
+                        //console.log("K2 transmit");
+                        k2.cupA = cupIDA;
+                        k2.prodA = productIDA;
+                        k2.nameA = productNameA;
+                        k2.cupB = cupIDB;
+                        k2.prodB = productIDB;
+                        k2.nameB = productNameB;
+                        k2.withPallet = isPallet;
+                    }
+                }
+            }
         }
+
         Image {
         id: setWorkbench
         width: 30

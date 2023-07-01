@@ -26,6 +26,7 @@ class invController(QObject):
     # Signal can be captured in qml file with Connections - syntax and handling on signal called 'onRowClicked'
     transmitStorageData = Signal(str, int, int, bool)
     transmitWorkbenchData = Signal( int, int, bool)
+    transmitWorkbenchPallet = Signal(str,int, int, str, bool, int, int, str)
     productSelected = Signal(str)
     idSwapped = Signal(int, int)
 
@@ -57,6 +58,7 @@ class invController(QObject):
         :type message: str
         :return: None
         """
+        print("selectRow called with message: " + message)
         self.productSelected.emit(message)
     @Slot(str, str)
     def loadStorage(self, storage: str, slot: str):
@@ -98,7 +100,6 @@ class invController(QObject):
             productlistIndex = self.productlistViewModel.indexOf(product)
             cup = self.storageViewModel.data(index, cupRole)
             self.transmitStorageData.emit(slot, cup, product, isPallet)
-
     @Slot(str, str)
     def loadWorkbench(self, storage: str, slot: str):
         """
@@ -141,8 +142,6 @@ class invController(QObject):
         else:
             raise ValueError("Storage Value error. Storage must be 'K1' or 'K2'")
         self.transmitWorkbenchData.emit(cupID, productID, isPallet)
-
-
     @Slot(str, str, int, int)
     def changeStorage(self, storage, slot, cupID, productID, isPallet: bool = False):
         """
@@ -200,10 +199,55 @@ class invController(QObject):
         self.eventlogService.writeEvent("USER",
                                         f"\n*** ATTENTION ***\n\n!!! INVENTORY OVERRIDE !!!\n\nLocation: {storage} - {slot}\nCup: {cup} --> {cupID}\nProduct: {product} --> {productID}\n\n*** DANGER ***\n\nThe storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.\n\n*** THIS IS A LIFE-THREATENING SITUATION ***\n\n>>>>> CHANGES ARE PERMANENT <<<<<\n\n_____\n")
         self._dumpStorage()
-
     @Slot(str, str, int, int, bool)
     def changeWorkbench(self,storage, slot, cupID, productID, isPallet: bool = False):
         pass
+    @Slot(str)
+    def getWorkbenchSlot(self, slot: str):
+        """
+        @Slot(str)
+        This method passes workbench data to the GUI.
+        Decodes Slot ID 'K1' or 'K2' and checks for ValueErrors.
+        Calls transmitWorkbenchPallet signal with data stored in self.workbench.
+        :param slot: Slot 'K1' or 'K2'
+        :type slot: str
+        :return: None
+        """
+        print(f"getWorkbenchSlot: {slot}")
+        if slot == "K1":
+            pallet = self.workbench.k1 if self.workbench.k1 is not None else None
+            if pallet is not None:
+                cupIDA = pallet.cupA
+                productIDA = pallet.cupA.product.getID()
+                isPallet = True
+                cupIDB = pallet.cupB
+                productIDB = pallet.cupB.product.getID()
+            else:
+                cupIDA = 0
+                productIDA = 0
+                isPallet = False
+                cupIDB = 0
+                productIDB = 0
+        elif slot == "K2":
+            pallet = self.workbench.k2 if self.workbench.k2 is not None else None
+            if pallet is not None:
+                cupIDA = pallet.cupA
+                productIDA = pallet.cupA.product.getID()
+                isPallet = True
+                cupIDB = pallet.cupB
+                productIDB = pallet.cupB.product.getID()
+            else:
+                cupIDA = 0
+                productIDA = 0
+                isPallet = False
+                cupIDB = 0
+                productIDB = 0
+        else:
+            raise ValueError("Slot Value error. Slot must be 'K1' or 'K2'")
+        productNameA = self.findProductName(productIDA)
+        productNameB = self.findProductName(productIDB)
+        print(f"getWorkbenchSlot: {slot}, {cupIDA}, {productIDA}, {productNameA}, {isPallet}, {cupIDB}, {productIDB}, {productNameB}")
+        self.transmitWorkbenchPallet.emit(slot, cupIDA, productIDA, productNameA, isPallet, cupIDB, productIDB, productNameB)
     def movePalletToK1(self, pallet: Pallet) -> bool:
         """
 
@@ -225,7 +269,6 @@ class invController(QObject):
         # ToDo: Hier Kommando an ABB Roboter einfügen und warten bis Meldung kommt, dass Kommando ausgeführt wurde.
         self.workbench.setK1(pallet)
         return True
-
     def moveCupToK1(self, cup: Cup) -> bool:
         """
         Moves a cup to Workbench's K1 slot.

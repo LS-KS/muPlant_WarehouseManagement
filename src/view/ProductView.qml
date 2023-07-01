@@ -22,7 +22,6 @@ Rectangle {
     property string prodB: ""
     property string nameB: ""
 
-
     Text {
         id: title
         text: name
@@ -38,11 +37,9 @@ Rectangle {
             leftMargin: 10
             topMargin: 5
         }
-
         fontSizeMode: Text.HorizontalFit
         font.bold: true
     }
-
     Rectangle {
         id: pallet
         height: parent.height
@@ -90,17 +87,16 @@ Rectangle {
                        Layout.fillHeight: true
                        Layout.fillWidth: true
                    }
-
                 }
                 MouseArea {
+                    id: mouseAreaA
                     anchors.fill: parent
+                    propagateComposedEvents: true
                     onClicked: {
                         if (!productSlotA.selected){
                            inventoryController.selectRow(prodA)
                         }
-
                     }
-
                 }
             }
             // Rectangle holds Product B
@@ -124,7 +120,6 @@ Rectangle {
                        Layout.fillHeight: true
                        Layout.fillWidth: true
                    }
-
                    Text{
                        text:nameB
                        horizontalAlignment: Text.AlignHCenter
@@ -132,17 +127,16 @@ Rectangle {
                        Layout.fillHeight: true
                        Layout.fillWidth: true
                    }
-
                 }
                 MouseArea {
+                    id: mouseAreaB
                     anchors.fill: parent
+                    propagateComposedEvents: true
                     onClicked: {
                         if (!productSlotB.selected){
                            inventoryController.selectRow(prodB)
                         }
-
                     }
-
                 }
             }
 
