@@ -74,6 +74,7 @@ Rectangle{
         }
         Image {
         id: setWorkbench
+        width: 30
         source: "../assets/gear.png"
         anchors.right: k1.left
         anchors.top: k1.top

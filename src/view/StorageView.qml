@@ -18,7 +18,7 @@ Rectangle{
     }
     Rectangle{
         id: titleRect
-        height: 25
+        height: 100
         anchors{
             left: parent.left
             right: parent.right
@@ -27,32 +27,46 @@ Rectangle{
             rightMargin: 20
             topMargin: 5
         }
+
         Row{
+            id: row
             anchors.fill: parent
             Text {
                 id: title
-                height: 40
-                text: qsTr("Storage")
+                height: 100
+                text: qsTr("Storage Visualization")
                 verticalAlignment: Text.AlignVCenter
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 font.pixelSize: 12
                 font.bold: true
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true;
+                    onEntered: setImage.opacity = 1;
+                    onExited: setImage.opacity = 0;
+                }
             }
 
             Image {
                 id: setImage
-                width: 40
+                width: 30
+                height: 30
+                anchors.verticalCenter: title.verticalCenter
                 source: "../assets/gear.png"
+                anchors.verticalCenterOffset: 0
                 fillMode: Image.PreserveAspectFit
-                height: title.height
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                opacity: 0
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
                         editDialog.open()
                     }
+                    hoverEnabled: true;
+                    onEntered: setImage.opacity = 1;
+                    onExited: setImage.opacity = 0;
                 }
             }
         }
@@ -66,7 +80,10 @@ Rectangle{
             right: parent.right
             bottom: parent.bottom
         }
-        anchors.margins: 10
+        anchors.topMargin: 0
+        anchors.leftMargin: 10
+        anchors.rightMargin: 10
+        anchors.bottomMargin: 10
         columnSpacing: 10
         rowSpacing: 5
         clip: true

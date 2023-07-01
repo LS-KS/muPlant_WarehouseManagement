@@ -474,11 +474,12 @@ it throws a ValueError.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.controller.invController.invController.changeStorage">
-<span class="sig-name descname"><span class="pre">changeStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cupID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">productID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController.changeStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.changeStorage" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">changeStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cupID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">productID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isPallet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController.changeStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.changeStorage" title="Permalink to this definition">¶</a></dt>
 <dd><p>&#64;Slot(str, str, int, int)
 This method takes data from manual storage override in EditDialog.qml.
 Decodes Storage ID ‘L1’ to L’18’ in row / col and checks for ValueErrors.
 checks if the inventory must be changed and performs the change.
+Erases data if isPallet is False.
 Changes StorageViewModel object of invController and calls _dumpStorage() to save
 changes to file.</p>
 <dl class="field-list simple">
@@ -495,6 +496,11 @@ changes to file.</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.changeWorkbench">
+<span class="sig-name descname"><span class="pre">changeWorkbench</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cupID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">productID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isPallet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController.changeWorkbench"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.changeWorkbench" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.controller.invController.invController.findProductName">
@@ -531,6 +537,16 @@ Uses invControllers transmitData signal to return product, slot, cup ID and prod
 <dd class="field-even"><p>uses Qt Signal object to return productslot, cup ID and productListIndex.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.loadWorkbench">
+<span class="sig-name descname"><span class="pre">loadWorkbench</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController.loadWorkbench"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.loadWorkbench" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;Slot(str, int, int, bool)
+This method takes data from WorkbenchDialog.qml file when the user wants to mauallY
+override the workbench entry.
+Uses invControllers transmitWorkbenchData signal to return product, slot, cup ID and productList index.
+:return:</p>
 </dd></dl>
 
 <dl class="py method">
@@ -656,12 +672,17 @@ Takes a product ID as argument and emits it as signal productSelected.
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.controller.invController.invController.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;invController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitData(QString,int,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=productSelected(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=idSwapped(int,int),</span> <span class="pre">parameters=int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Slot,</span> <span class="pre">signature=selectRow(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadStorage(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeStorage(QString,QString,int,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">int</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.invController.invController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;invController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitStorageData(QString,int,int,bool),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitWorkbenchData(int,int,bool),</span> <span class="pre">parameters=int,</span> <span class="pre">int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=productSelected(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Signal,</span> <span class="pre">signature=idSwapped(int,int),</span> <span class="pre">parameters=int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Slot,</span> <span class="pre">signature=selectRow(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadStorage(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadWorkbench(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeStorage(QString,QString,int,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeWorkbench(QString,QString,int,int,bool),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">bool</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.invController.invController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="src.controller.invController.invController.transmitData">
-<span class="sig-name descname"><span class="pre">transmitData</span></span><a class="headerlink" href="#src.controller.invController.invController.transmitData" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.controller.invController.invController.transmitStorageData">
+<span class="sig-name descname"><span class="pre">transmitStorageData</span></span><a class="headerlink" href="#src.controller.invController.invController.transmitStorageData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.invController.invController.transmitWorkbenchData">
+<span class="sig-name descname"><span class="pre">transmitWorkbenchData</span></span><a class="headerlink" href="#src.controller.invController.invController.transmitWorkbenchData" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -789,7 +810,7 @@ Creates a dictionary with rolenames and roles.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.rowCount">
-<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x11254a3c0&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x11124eac0&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns number of rows at index
 :param parent:
 :type: QModelIndex
@@ -1512,6 +1533,10 @@ ProcessView.qml</p>
 <span class="n">Rectangle</span><span class="p">{</span>
     <span class="nb">id</span><span class="p">:</span> <span class="n">rectangle</span>
 
+    <span class="n">WorkbenchDialog</span><span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">workbenchDialog</span>
+    <span class="p">}</span>
+
     <span class="n">Image</span> <span class="p">{</span>
         <span class="nb">id</span><span class="p">:</span> <span class="n">robot_ref_img</span>
         <span class="n">x</span><span class="p">:</span> <span class="mi">143</span>
@@ -1553,6 +1578,12 @@ ProcessView.qml</p>
             <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
             <span class="n">anchors</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">:</span> <span class="mi">10</span>
             <span class="n">anchors</span><span class="o">.</span><span class="n">bottomMargin</span><span class="p">:</span> <span class="o">-</span><span class="mi">20</span>
+            <span class="n">MouseArea</span><span class="p">{</span>
+                <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
+                <span class="n">hoverEnabled</span><span class="p">:</span> <span class="n">true</span>
+                <span class="n">onEntered</span><span class="p">:</span> <span class="n">setWorkbench</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+                <span class="n">onExited</span><span class="p">:</span> <span class="n">setWorkbench</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="p">}</span>
 
         <span class="p">}</span>
         <span class="n">PalletteView</span><span class="p">{</span>
@@ -1563,8 +1594,29 @@ ProcessView.qml</p>
             <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
             <span class="n">anchors</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">:</span> <span class="mi">10</span>
             <span class="n">anchors</span><span class="o">.</span><span class="n">bottomMargin</span><span class="p">:</span> <span class="o">-</span><span class="mi">20</span>
-
+            <span class="n">MouseArea</span><span class="p">{</span>
+                <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
+                <span class="n">hoverEnabled</span><span class="p">:</span> <span class="n">true</span>
+                <span class="n">onEntered</span><span class="p">:</span> <span class="n">setWorkbench</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+                <span class="n">onExited</span><span class="p">:</span> <span class="n">setWorkbench</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="p">}</span>
         <span class="p">}</span>
+        <span class="n">Image</span> <span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">setWorkbench</span>
+        <span class="n">source</span><span class="p">:</span> <span class="s2">&quot;../assets/gear.png&quot;</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">k1</span><span class="o">.</span><span class="n">left</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">k1</span><span class="o">.</span><span class="n">top</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">:</span> <span class="mi">5</span>
+        <span class="n">fillMode</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">PreserveAspectFit</span>
+        <span class="n">opacity</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="n">MouseArea</span><span class="p">{</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
+            <span class="n">hoverEnabled</span><span class="p">:</span> <span class="n">true</span>
+            <span class="n">onEntered</span><span class="p">:</span> <span class="n">setWorkbench</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="n">onExited</span><span class="p">:</span> <span class="n">setWorkbench</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="n">onClicked</span><span class="p">:</span> <span class="n">workbenchDialog</span><span class="o">.</span><span class="n">open</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
     <span class="p">}</span>
     <span class="n">TurtleView</span><span class="p">{</span>
         <span class="nb">id</span><span class="p">:</span> <span class="n">turtleVisu</span>
@@ -1574,6 +1626,8 @@ ProcessView.qml</p>
             <span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
         <span class="p">}</span>
     <span class="p">}</span>
+
+
 
 <span class="p">}</span>
 </pre></div>
@@ -1609,7 +1663,7 @@ StorageView.qml</p>
             <span class="n">rightMargin</span><span class="p">:</span> <span class="mi">20</span>
             <span class="n">topMargin</span><span class="p">:</span> <span class="mi">5</span>
         <span class="p">}</span>
-        <span class="n">RowLayout</span><span class="p">{</span>
+        <span class="n">Row</span><span class="p">{</span>
             <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
             <span class="n">Text</span> <span class="p">{</span>
                 <span class="nb">id</span><span class="p">:</span> <span class="n">title</span>
@@ -1624,11 +1678,12 @@ StorageView.qml</p>
 
             <span class="n">Image</span> <span class="p">{</span>
                 <span class="nb">id</span><span class="p">:</span> <span class="n">setImage</span>
+                <span class="n">width</span><span class="p">:</span> <span class="mi">40</span>
                 <span class="n">source</span><span class="p">:</span> <span class="s2">&quot;../assets/gear.png&quot;</span>
                 <span class="n">fillMode</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">PreserveAspectFit</span>
                 <span class="n">height</span><span class="p">:</span> <span class="n">title</span><span class="o">.</span><span class="n">height</span>
-                <span class="n">width</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">PreserveAspectFit</span>
                 <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
+                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
                 <span class="n">MouseArea</span><span class="p">{</span>
                     <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
                     <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
@@ -1753,146 +1808,200 @@ EventView.qml</p>
 <h2>Dialogs<a class="headerlink" href="#dialogs" title="Permalink to this heading">¶</a></h2>
 <p>Dialogvisualisierung um das Lager manuell zu bearbeiten.
 StorageDialog.qml</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QtQuick</span> <span class="mf">2.15</span>
-<span class="kn">import</span> <span class="nn">QtQuick.Dialogs</span>
-<span class="kn">import</span> <span class="nn">QtQuick.Controls</span> <span class="mf">2.15</span>
-<span class="kn">import</span> <span class="nn">QtQuick.Controls.Material</span> <span class="mf">2.15</span>
-<span class="kn">import</span> <span class="nn">QtQuick.Layouts</span> <span class="mf">1.3</span>
-<span class="o">/*</span>
-  <span class="n">This</span> <span class="n">QML</span> <span class="n">File</span> <span class="n">shows</span> <span class="n">a</span> <span class="n">Dialog</span> <span class="n">which</span> <span class="n">enables</span> <span class="n">the</span> <span class="n">user</span> <span class="n">to</span> <span class="n">manually</span> <span class="n">override</span> <span class="n">the</span> <span class="n">storage</span> <span class="n">data</span>
-  <span class="o">*/</span>
-<span class="n">Dialog</span> <span class="p">{</span>
-    <span class="nb">id</span><span class="p">:</span> <span class="n">editDialog</span>
-    <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;Override Storage&quot;</span>
-    <span class="o">//</span> <span class="n">ColumnLayout</span> <span class="n">helps</span> <span class="n">to</span> <span class="n">organize</span> <span class="n">Items</span> <span class="ow">in</span> <span class="n">vertical</span> <span class="n">order</span><span class="o">.</span>
-    <span class="n">ColumnLayout</span><span class="p">{</span>
-        <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-        <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-        <span class="o">//</span> <span class="n">This</span> <span class="n">Row</span> <span class="n">enables</span> <span class="n">user</span> <span class="n">to</span> <span class="n">allocate</span> <span class="n">the</span> <span class="n">storage</span> <span class="n">location</span>
-        <span class="n">Row</span><span class="p">{</span>
-            <span class="n">Text</span> <span class="p">{</span>
-                <span class="nb">id</span><span class="p">:</span> <span class="n">location</span>
-                <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Location: &quot;</span><span class="p">)</span>
-                <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span>
-                <span class="n">height</span><span class="p">:</span> <span class="n">setLocation</span><span class="o">.</span><span class="n">height</span>
-                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-                <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
-            <span class="p">}</span>
-            <span class="o">//</span> <span class="n">Comobobox</span> <span class="n">has</span> <span class="n">List</span> <span class="n">of</span> <span class="nb">all</span> <span class="n">possible</span> <span class="n">hardcoded</span> <span class="n">storage</span> <span class="n">locations</span>
-            <span class="n">ComboBox</span><span class="p">{</span>
-                <span class="nb">id</span><span class="p">:</span> <span class="n">setLocation</span>
-                <span class="n">model</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;L1&#39;</span><span class="p">,</span> <span class="s1">&#39;L2&#39;</span><span class="p">,</span> <span class="s1">&#39;L3&#39;</span><span class="p">,</span> <span class="s1">&#39;L4&#39;</span><span class="p">,</span> <span class="s1">&#39;L5&#39;</span><span class="p">,</span> <span class="s1">&#39;L6&#39;</span><span class="p">,</span> <span class="s1">&#39;L7&#39;</span><span class="p">,</span> <span class="s1">&#39;L8&#39;</span><span class="p">,</span> <span class="s1">&#39;L9&#39;</span><span class="p">,</span> <span class="s1">&#39;L10&#39;</span><span class="p">,</span> <span class="s1">&#39;L11&#39;</span><span class="p">,</span> <span class="s1">&#39;L12&#39;</span><span class="p">,</span> <span class="s1">&#39;L13&#39;</span><span class="p">,</span> <span class="s1">&#39;L14&#39;</span><span class="p">,</span> <span class="s1">&#39;L15&#39;</span><span class="p">,</span> <span class="s1">&#39;L16&#39;</span><span class="p">,</span> <span class="s1">&#39;L17&#39;</span><span class="p">,</span> <span class="s1">&#39;L18&#39;</span><span class="p">]</span>
-                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-                <span class="n">onCurrentValueChanged</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="k">if</span><span class="p">(</span><span class="n">setLocation</span><span class="o">.</span><span class="n">currentValue</span> <span class="o">!==</span><span class="s1">&#39;&#39;</span><span class="p">){</span>
-                        <span class="n">inventoryController</span><span class="o">.</span><span class="n">loadStorage</span><span class="p">(</span><span class="n">setLocation</span><span class="o">.</span><span class="n">currentValue</span><span class="p">,</span> <span class="n">setAB</span><span class="o">.</span><span class="n">currentValue</span><span class="p">)</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-            <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-            <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-        <span class="p">}</span>
-        <span class="o">//</span> <span class="n">This</span> <span class="n">Row</span> <span class="n">enables</span> <span class="n">the</span> <span class="n">user</span> <span class="n">to</span> <span class="n">select</span> <span class="n">either</span> <span class="n">he</span> <span class="n">wants</span> <span class="n">to</span> <span class="n">override</span> <span class="n">the</span> <span class="n">cup</span> <span class="ow">in</span> <span class="n">front</span> <span class="ow">or</span> <span class="n">at</span> <span class="n">the</span> <span class="n">backside</span><span class="o">.</span>
-        <span class="n">Row</span><span class="p">{</span>
-            <span class="n">Text</span> <span class="p">{</span>
-                <span class="nb">id</span><span class="p">:</span> <span class="n">slotText</span>
-                <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span>
-                <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Product a or b: &quot;</span><span class="p">)</span>
-                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-                <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
-            <span class="p">}</span>
-            <span class="n">ComboBox</span><span class="p">{</span>
-                <span class="o">//</span> <span class="n">a</span> <span class="o">=</span> <span class="n">front</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">back</span>
-                <span class="nb">id</span><span class="p">:</span> <span class="n">setAB</span>
-                <span class="n">model</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="p">]</span>
-                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-                <span class="o">//</span> <span class="n">load</span> <span class="n">actual</span> <span class="n">storage</span> <span class="n">values</span> <span class="k">if</span> <span class="n">storage</span> <span class="n">location</span> <span class="ow">is</span> <span class="n">changed</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">empty</span>
-                <span class="n">onCurrentValueChanged</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="k">if</span><span class="p">(</span><span class="n">setLocation</span><span class="o">.</span><span class="n">currentValue</span> <span class="o">!==</span><span class="s1">&#39;&#39;</span><span class="p">){</span>
-                        <span class="n">inventoryController</span><span class="o">.</span><span class="n">loadStorage</span><span class="p">(</span><span class="n">setLocation</span><span class="o">.</span><span class="n">currentValue</span><span class="p">,</span> <span class="n">setAB</span><span class="o">.</span><span class="n">currentValue</span><span class="p">)</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-            <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-            <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-        <span class="p">}</span>
-        <span class="o">//</span> <span class="n">This</span> <span class="n">row</span> <span class="n">has</span> <span class="n">a</span> <span class="n">textlabel</span> <span class="ow">and</span> <span class="n">textfield</span> <span class="n">which</span> <span class="n">enables</span> <span class="n">the</span> <span class="n">user</span> <span class="n">to</span> <span class="n">override</span> <span class="n">Cup</span> <span class="n">ID</span>
-        <span class="n">Row</span><span class="p">{</span>
-            <span class="n">Text</span> <span class="p">{</span>
-                <span class="nb">id</span><span class="p">:</span> <span class="n">cupText</span>
-                <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span>
-                <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Set Cup ID: &quot;</span><span class="p">)</span>
-                <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
-            <span class="p">}</span>
-            <span class="n">TextField</span><span class="p">{</span>
-                <span class="nb">id</span><span class="p">:</span> <span class="n">setCup</span>
-                <span class="o">//</span> <span class="n">limit</span> <span class="n">the</span> <span class="n">cup</span> <span class="n">ID</span> <span class="n">to</span> <span class="n">positive</span> <span class="n">integer</span> <span class="n">between</span> <span class="mi">0</span> <span class="ow">and</span> <span class="mi">9999</span>
-                <span class="n">validator</span><span class="p">:</span> <span class="n">IntValidator</span><span class="p">{</span>
-                    <span class="n">bottom</span><span class="p">:</span> <span class="mi">0</span>
-                    <span class="n">top</span><span class="p">:</span> <span class="mi">9999</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="o">//</span> <span class="n">This</span> <span class="n">row</span> <span class="n">enables</span> <span class="n">the</span> <span class="n">user</span> <span class="n">to</span> <span class="n">override</span> <span class="n">product</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">storage</span>
-        <span class="n">Row</span><span class="p">{</span>
-            <span class="n">Text</span> <span class="p">{</span>
-                <span class="nb">id</span><span class="p">:</span> <span class="n">setProd</span>
-                <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span>
-                <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Set Product ID:&quot;</span><span class="p">)</span>
-                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-                <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
-            <span class="p">}</span>
-            <span class="n">ComboBox</span><span class="p">{</span>
-                <span class="nb">id</span><span class="p">:</span><span class="n">setProduct</span>
-                <span class="n">model</span><span class="p">:</span> <span class="n">productListModel</span>
-                <span class="n">textRole</span><span class="p">:</span> <span class="s1">&#39;name&#39;</span>
-                <span class="n">valueRole</span><span class="p">:</span> <span class="s1">&#39;id&#39;</span>
-                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>import QtQuick 2.15
+import QtQuick.Dialogs
+import QtQuick.Controls 2.15
+import QtQuick.Controls.Material 2.15
+import QtQuick.Layouts 1.3
+/*
+  This QML File shows a Dialog which enables the user to manually override the storage data
+  */
+Dialog {
+    id: editDialog
+    title: &quot;Override Storage&quot;
+    width: 400
+    height: 600
+    property bool isPalletPresent: true
+    // ColumnLayout helps to organize Items in vertical order.
+    ColumnLayout{
+        id: editDialogLayout
+        width: parent.width
+        height: parent.height
+        // This Row enables user to allocate the storage location
+        Row{
+            Text {
+                id: location
+                text: qsTr(&quot;Location: &quot;)
+                width: parent.width/2
+                height: setLocation.height
+                verticalAlignment: Text.AlignVCenter
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+            // Comobobox has List of all possible hardcoded storage locations
+            ComboBox{
+                id: setLocation
+                model: [&#39;L1&#39;, &#39;L2&#39;, &#39;L3&#39;, &#39;L4&#39;, &#39;L5&#39;, &#39;L6&#39;, &#39;L7&#39;, &#39;L8&#39;, &#39;L9&#39;, &#39;L10&#39;, &#39;L11&#39;, &#39;L12&#39;, &#39;L13&#39;, &#39;L14&#39;, &#39;L15&#39;, &#39;L16&#39;, &#39;L17&#39;, &#39;L18&#39;]
+                onCurrentValueChanged: {
+                    if(setLocation.currentValue !==&#39;&#39;){
+                        inventoryController.loadStorage(setLocation.currentValue, setAB.currentValue)
+                    }
+                }
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignCenter
+        }
+        Row {
+            Text {
+                id: palletText
+                width: parent.width/2
+                height: palletPresent.height
+                text: qsTr(&quot;Pallet present: &quot;)
+                verticalAlignment: Text.AlignVCenter
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+            ComboBox{
+                id: palletPresent
+                model: [&quot;Yes&quot;, &quot;No&quot;]
+                onCurrentValueChanged: {
+                    if(palletPresent.currentValue === &quot;Yes&quot;){
+                        isPalletPresent = true
+                    }
+                    else{
+                        isPalletPresent = false
+                    }
+                }
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
 
-            <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="o">//</span> <span class="n">clearbutton</span> <span class="n">enables</span> <span class="n">the</span> <span class="n">user</span> <span class="n">to</span> <span class="nb">set</span> <span class="n">values</span> <span class="k">for</span> <span class="n">cup</span> <span class="ow">and</span> <span class="n">product</span> <span class="n">which</span> <span class="n">implicate</span> <span class="n">that</span> <span class="n">the</span> <span class="n">storage</span> <span class="ow">is</span> <span class="n">empty</span>
-        <span class="n">DialogButtonBox</span><span class="p">{</span>
-            <span class="n">Button</span> <span class="p">{</span>
-                <span class="nb">id</span><span class="p">:</span> <span class="n">clearButton</span>
-                <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Clear&quot;</span>
-                <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Clear Clicked&quot;</span><span class="p">)</span>
-                    <span class="n">setProduct</span><span class="o">.</span><span class="n">currentIndex</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="n">setCup</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+        // This Row enables the user to select either he wants to override the cup in front or at the backside.
+        Row {
+            Text {
+                id: slotText
+                width: parent.width/2
+                height: setAB.height
+                text: qsTr(&quot;Product a or b: &quot;)
+                verticalAlignment: Text.AlignVCenter
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+            ComboBox{
+                // a = front, b = back
+                id: setAB
+                model: [&quot;a&quot;,&quot;b&quot;]
+                // load actual storage values if storage location is changed and not empty
+                onCurrentValueChanged: {
+                    if(setLocation.currentValue !==&#39;&#39;){
+                        inventoryController.loadStorage(setLocation.currentValue, setAB.currentValue)
+                    }
+                }
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+           Layout.fillHeight: true
+           Layout.fillWidth: true
+        }
+        // This row has a textlabel and textfield which enables the user to override Cup ID
+        Row {
+            Text {
+                id: cupText
+                width: parent.width/2
+                height: setCup.height
+                text: qsTr(&quot;Set Cup ID: &quot;)
+                verticalAlignment: Text.AlignVCenter
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+            TextField{
+                id: setCup
+                // limit the cup ID to positive integer between 0 and 9999
+                validator: IntValidator{
+                    bottom: 0
+                    top: 9999
+                }
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+        // This row enables the user to override product id in storage
+        Row {
+            Text {
+                id: setProd
+                width: parent.width/2
+                height: setProduct.height
+                text: qsTr(&quot;Set Product ID:&quot;)
+                verticalAlignment: Text.AlignVCenter
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+            ComboBox{
+                id:setProduct
+                model: productListModel
+                textRole: &#39;name&#39;
+                valueRole: &#39;id&#39;
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+        Text {
+                id: warningText
+                width: parent.width
+                height: 200
+                text: qsTr(&quot;WARNING: Pallet not present! This will erase current Cups in both slots!&quot;)
+                verticalAlignment: Text.AlignVCenter
+                opacity: isPalletPresent? 0 : 1
+                wrapMode: &quot;WordWrap&quot;
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+            }
+        // clearbutton enables the user to set values for cup and product which implicate that the storage is empty
+        DialogButtonBox{
+            Button {
+                id: clearButton
+                text: &quot;Clear&quot;
+                onClicked: {
+                    console.log(&quot;Clear Clicked&quot;)
+                    setProduct.currentIndex = 0
+                    setCup.text = &quot;0&quot;
+                }
+            }
 
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="o">//</span> <span class="n">standardbuttons</span> <span class="n">are</span> <span class="n">buttons</span> <span class="n">which</span> <span class="n">perform</span> <span class="n">standard</span> <span class="n">tasks</span><span class="o">.</span>
-    <span class="n">standardButtons</span><span class="p">:</span> <span class="n">Dialog</span><span class="o">.</span><span class="n">Ok</span> <span class="o">|</span> <span class="n">Dialog</span><span class="o">.</span><span class="n">Cancel</span>
-    <span class="o">//</span> <span class="n">signal</span> <span class="n">which</span> <span class="ow">is</span> <span class="n">emitted</span> <span class="n">when</span> <span class="n">Dialog</span><span class="o">.</span><span class="n">OK</span> <span class="ow">is</span> <span class="n">clicked</span><span class="o">.</span> <span class="n">It</span> <span class="n">calls</span> <span class="n">changeStorage</span><span class="p">()</span> <span class="n">function</span> <span class="n">of</span> <span class="n">InventoryController</span>
-    <span class="n">onAccepted</span><span class="p">:</span> <span class="p">{</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;location: &quot;</span><span class="o">+</span> <span class="n">setLocation</span><span class="o">.</span><span class="n">currentText</span><span class="p">)</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;slot: &quot;</span> <span class="o">+</span><span class="n">setAB</span><span class="o">.</span><span class="n">currentText</span><span class="p">)</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;cup: &quot;</span> <span class="o">+</span> <span class="n">setCup</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;product: &quot;</span> <span class="o">+</span> <span class="n">setProduct</span><span class="o">.</span><span class="n">currentValue</span><span class="p">)</span>
-        <span class="n">inventoryController</span><span class="o">.</span><span class="n">changeStorage</span><span class="p">(</span><span class="n">setLocation</span><span class="o">.</span><span class="n">currentText</span><span class="p">,</span> <span class="n">setAB</span><span class="o">.</span><span class="n">currentText</span><span class="p">,</span> <span class="n">setCup</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">setProduct</span><span class="o">.</span><span class="n">currentValue</span><span class="p">)</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Ok clicked&quot;</span><span class="p">)</span>
-    <span class="p">}</span>
-    <span class="n">onRejected</span><span class="p">:</span> <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Cancel clicked&quot;</span><span class="p">)</span>
-    <span class="o">//</span> <span class="n">Connect</span> <span class="n">InventoryController</span><span class="s1">&#39;s transmitData Signal to this qml file. If storage is set and InventoryController&#39;</span><span class="n">s</span> <span class="n">loadStorage</span><span class="p">()</span> <span class="n">function</span> <span class="ow">is</span> <span class="n">called</span>
-    <span class="o">//</span> <span class="n">data</span> <span class="n">will</span> <span class="n">be</span> <span class="n">transmitted</span> <span class="n">by</span> <span class="n">this</span> <span class="n">signal</span>
-    <span class="n">Connections</span><span class="p">{</span>
-        <span class="n">target</span><span class="p">:</span> <span class="n">inventoryController</span>
-        <span class="n">function</span> <span class="n">onTransmitData</span><span class="p">(</span><span class="n">slot</span><span class="p">,</span> <span class="n">cup</span><span class="p">,</span> <span class="n">product</span><span class="p">){</span>
-            <span class="n">setCup</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">cup</span>
-            <span class="n">setProduct</span><span class="o">.</span><span class="n">currentIndex</span> <span class="o">=</span> <span class="n">product</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+        }
+    }
+    // standardbuttons are buttons which perform standard tasks.
+    standardButtons: Dialog.Ok | Dialog.Cancel
+    // signal which is emitted when Dialog.OK is clicked. It calls changeStorage() function of InventoryController
+    onAccepted: {
+        console.log(&quot;location: &quot;+ setLocation.currentText)
+        console.log(&quot;slot: &quot; +setAB.currentText)
+        console.log(&quot;cup: &quot; + setCup.text)
+        console.log(&quot;product: &quot; + setProduct.currentValue)
+        inventoryController.changeStorage(setLocation.currentText, setAB.currentText, setCup.text, setProduct.currentValue)
+        console.log(&quot;Ok clicked&quot;)
+    }
+    onRejected: console.log(&quot;Cancel clicked&quot;)
+    // Connect InventoryController&#39;s transmitData Signal to this qml file. If storage is set and InventoryController&#39;s loadStorage() function is called
+    // data will be transmitted by this signal
+    Connections{
+        target: inventoryController
+        function onTransmitStorageData(slot, cup, product, isPallet){
+            setCup.text = cup
+            setProduct.currentIndex = product
+        }
+    }
+}
 </pre></div>
 </div>
 </section>

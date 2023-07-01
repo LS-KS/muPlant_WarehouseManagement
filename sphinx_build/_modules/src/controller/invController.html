@@ -58,7 +58,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Signal can be captured in qml file with Connections - syntax and handling on signal called &#39;onRowClicked&#39;</span>
-    <span class="n">transmitData</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+    <span class="n">transmitStorageData</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+    <span class="n">transmitWorkbenchData</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
     <span class="n">productSelected</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
     <span class="n">idSwapped</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
 
@@ -115,6 +116,7 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Error could not decode storage(row)&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">col</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Error could not decode storage(col)&quot;</span><span class="p">)</span>
+            <span class="n">palletRole</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="k">if</span> <span class="n">slot</span> <span class="o">==</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span>
                 <span class="n">cupRole</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">2</span>
                 <span class="n">prodRole</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">3</span>
@@ -124,18 +126,65 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Slot Value error. Slot must be &#39;a&#39; or &#39;b&#39;&quot;</span><span class="p">)</span>
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storageViewModel</span><span class="o">.</span><span class="n">createIndex</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>
+            <span class="n">isPallet</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">storageViewModel</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">palletRole</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
             <span class="n">product</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storageViewModel</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">prodRole</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;index: </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">, product: </span><span class="si">{</span><span class="n">product</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">productlistIndex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">productlistViewModel</span><span class="o">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
             <span class="n">cup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storageViewModel</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">cupRole</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">transmitData</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">slot</span><span class="p">,</span> <span class="n">cup</span><span class="p">,</span> <span class="n">product</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transmitStorageData</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">slot</span><span class="p">,</span> <span class="n">cup</span><span class="p">,</span> <span class="n">product</span><span class="p">,</span> <span class="n">isPallet</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="invController.loadWorkbench"><a class="viewcode-back" href="../../../modules.html#src.controller.invController.invController.loadWorkbench">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">loadWorkbench</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">slot</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        @Slot(str, int, int, bool)</span>
+<span class="sd">        This method takes data from WorkbenchDialog.qml file when the user wants to mauallY</span>
+<span class="sd">        override the workbench entry.</span>
+<span class="sd">        Uses invControllers transmitWorkbenchData signal to return product, slot, cup ID and productList index.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">storage</span> <span class="o">==</span> <span class="s2">&quot;K1&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">isPallet</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="n">slot</span> <span class="o">==</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span>
+                    <span class="n">cupID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">cupA</span>
+                    <span class="n">productID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">cupA</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="n">slot</span> <span class="o">==</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span>
+                    <span class="n">cupID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">cupB</span>
+                    <span class="n">productID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">cupB</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Slot Value error. Slot must be &#39;a&#39; or &#39;b&#39;&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cupID</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">productID</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">isPallet</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">storage</span> <span class="o">==</span> <span class="s2">&quot;K2&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">isPallet</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="n">slot</span> <span class="o">==</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span>
+                    <span class="n">cupID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">cupA</span>
+                    <span class="n">productID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">cupA</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="n">slot</span> <span class="o">==</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span>
+                    <span class="n">cupID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">cupB</span>
+                    <span class="n">productID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">cupB</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Slot Value error. Slot must be &#39;a&#39; or &#39;b&#39;&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cupID</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">productID</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">isPallet</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Storage Value error. Storage must be &#39;K1&#39; or &#39;K2&#39;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transmitWorkbenchData</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">cupID</span><span class="p">,</span> <span class="n">productID</span><span class="p">,</span> <span class="n">isPallet</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="invController.changeStorage"><a class="viewcode-back" href="../../../modules.html#src.controller.invController.invController.changeStorage">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">changeStorage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">slot</span><span class="p">,</span> <span class="n">cupID</span><span class="p">,</span> <span class="n">productID</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">changeStorage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">slot</span><span class="p">,</span> <span class="n">cupID</span><span class="p">,</span> <span class="n">productID</span><span class="p">,</span> <span class="n">isPallet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        @Slot(str, str, int, int)</span>
 <span class="sd">        This method takes data from manual storage override in EditDialog.qml.</span>
 <span class="sd">        Decodes Storage ID &#39;L1&#39; to L&#39;18&#39; in row / col and checks for ValueErrors.</span>
 <span class="sd">        checks if the inventory must be changed and performs the change.</span>
+<span class="sd">        Erases data if isPallet is False.</span>
 <span class="sd">        Changes StorageViewModel object of invController and calls _dumpStorage() to save</span>
 <span class="sd">        changes to file.</span>
 
@@ -173,7 +222,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Slot Value error. Slot must be &#39;a&#39; or &#39;b&#39;&quot;</span><span class="p">)</span>
         <span class="n">prod_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__productFromID</span><span class="p">(</span><span class="n">productID</span><span class="p">)</span>
-        <span class="n">cup_obj</span><span class="o">.</span><span class="n">setProduct</span><span class="p">(</span><span class="n">prod_obj</span><span class="p">)</span> <span class="c1">#Hat nicht funktioniert</span>
+        <span class="n">cup_obj</span><span class="o">.</span><span class="n">setProduct</span><span class="p">(</span><span class="n">prod_obj</span><span class="p">)</span>
         <span class="n">cup_obj</span><span class="o">.</span><span class="n">setID</span><span class="p">(</span><span class="n">cupID</span><span class="p">)</span>
 
         <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storageViewModel</span><span class="o">.</span><span class="n">createIndex</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>
@@ -185,6 +234,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;USER&quot;</span><span class="p">,</span>
                                         <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">*** ATTENTION ***</span><span class="se">\n\n</span><span class="s2">!!! INVENTORY OVERRIDE !!!</span><span class="se">\n\n</span><span class="s2">Location: </span><span class="si">{</span><span class="n">storage</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">slot</span><span class="si">}</span><span class="se">\n</span><span class="s2">Cup: </span><span class="si">{</span><span class="n">cup</span><span class="si">}</span><span class="s2"> --&gt; </span><span class="si">{</span><span class="n">cupID</span><span class="si">}</span><span class="se">\n</span><span class="s2">Product: </span><span class="si">{</span><span class="n">product</span><span class="si">}</span><span class="s2"> --&gt; </span><span class="si">{</span><span class="n">productID</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">*** DANGER ***</span><span class="se">\n\n</span><span class="s2">The storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.</span><span class="se">\n\n</span><span class="s2">*** THIS IS A LIFE-THREATENING SITUATION ***</span><span class="se">\n\n</span><span class="s2">&gt;&gt;&gt;&gt;&gt; CHANGES ARE PERMANENT &lt;&lt;&lt;&lt;&lt;</span><span class="se">\n\n</span><span class="s2">_____</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dumpStorage</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="invController.changeWorkbench"><a class="viewcode-back" href="../../../modules.html#src.controller.invController.invController.changeWorkbench">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">changeWorkbench</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">storage</span><span class="p">,</span> <span class="n">slot</span><span class="p">,</span> <span class="n">cupID</span><span class="p">,</span> <span class="n">productID</span><span class="p">,</span> <span class="n">isPallet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="k">pass</span></div>
 <div class="viewcode-block" id="invController.movePalletToK1"><a class="viewcode-back" href="../../../modules.html#src.controller.invController.invController.movePalletToK1">[docs]</a>    <span class="k">def</span> <span class="nf">movePalletToK1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pallet</span><span class="p">:</span> <span class="n">Pallet</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
@@ -206,6 +259,7 @@
         <span class="c1"># ToDo: Hier Kommando an ABB Roboter einfügen und warten bis Meldung kommt, dass Kommando ausgeführt wurde.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">setK1</span><span class="p">(</span><span class="n">pallet</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span></div>
+
 <div class="viewcode-block" id="invController.moveCupToK1"><a class="viewcode-back" href="../../../modules.html#src.controller.invController.invController.moveCupToK1">[docs]</a>    <span class="k">def</span> <span class="nf">moveCupToK1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cup</span><span class="p">:</span> <span class="n">Cup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Moves a cup to Workbench&#39;s K1 slot.</span>
