@@ -144,7 +144,7 @@ def testChangeStorage():
     a_product = a_cup_origin.product
     assert a_cup_origin.id == 0
     assert a_product.id == 0
-    ic.changeStorage("L6", 'a', 15, 5)
+    ic.changeStorage("L6", 'a', 15, 5, "Yes")
     pallet_new = ic.inventory.getStoragePallet(0, 5)
     assert pallet_origin == pallet_new
     a_cup_new = pallet_origin.slotA
