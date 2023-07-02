@@ -10,9 +10,9 @@ Rectangle {
     width: 200
     height: 400
     radius: 10
-    border.width: 2
+    border.width: 1
     border.color: "#1F82B2"
-
+    color: "#B9D5F0"
     property string name: "ProductSlot"
     property bool withPallet: false
     property string cupA: ""
@@ -52,9 +52,12 @@ Rectangle {
             margins: 5
         }
         radius: 5
-        color: "#81B8D4"
+        //color: "#81B8D4"
+        color: "white"
         border.width: 1
+        clip: true
         border.color: "#1F82B2"
+        opacity: withPallet ? 1 : 0
         ColumnLayout{
             anchors.fill: parent
             spacing: 2
@@ -65,6 +68,7 @@ Rectangle {
                 implicitWidth: parent.width
                 color: selected ? "#81B8D4": "white"
                 border.color: "#1F82B2"
+                opacity: cupA == 0 ? false : true
                 border.width: 2
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -99,6 +103,7 @@ Rectangle {
                     }
                 }
             }
+
             // Rectangle holds Product B
             Rectangle{
                 id: productSlotB
@@ -111,6 +116,7 @@ Rectangle {
                 Layout.fillWidth: true
                 radius: 5
                 property bool selected: false
+                opacity: cupB == 0 ? false : true
                 ColumnLayout{
                    anchors.fill: parent
                    Text{

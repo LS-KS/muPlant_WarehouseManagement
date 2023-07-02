@@ -27,6 +27,7 @@ class invController(QObject):
     transmitStorageData = Signal(str, int, int, bool)
     transmitWorkbenchData = Signal(int, int, bool)
     transmitWorkbenchPallet = Signal(str,int, int, str, bool, int, int, str)
+    transmitMobileRobot = Signal(int, int, str)
     productSelected = Signal(str)
     idSwapped = Signal(int, int)
 
@@ -163,7 +164,10 @@ class invController(QObject):
         :type productID: int
         :return: None
         """
-
+        # TODO Signal from qml must emit pallet status.
+        # TODO if pallet status is false, cupID and productID must be set to 0
+        # TODO in StorageDialog: set opacity of cup and product to zero if pallet status is 'No'
+        # TODO in StorageDialog: set opacity of cup and product to 1 if pallet status is 'Yes'
         number = int(storage[1:])
         row = (number - 1) // 6
         col = (number - 1) % 6
@@ -194,6 +198,7 @@ class invController(QObject):
         cup = self.storageViewModel.setData(index, cupID, role=roleCup)
         product = self.storageViewModel.setData(index, productID, role=roleProduct)
         name = self.storageViewModel.setData(index, self.findProductName(productID), role=roleName)
+        pallet = self.storageViewModel.setData(index, isPallet, role=Qt.UserRole + 1)
         self.storageViewModel.dataChanged.emit(index, index, [roleCup, roleProduct, roleName])
         self.idSwapped.emit(product, productID)
         self.eventlogService.writeEvent("USER",
@@ -288,7 +293,33 @@ class invController(QObject):
         print(f"transmitWorkbenchPallet emitted:{storage} {cupAID}, {prodAID},{prodAName}, {isPallet}, {cupBID}, {prodBID}, {prodBName}")
         self.eventlogService.writeEvent("USER",
                                         f"\n*** ATTENTION ***\n\n!!! INVENTORY OVERRIDE !!!\n\nLocation: {storage} - {slot}\nCup:--> {cupID}\nProduct:--> {productID}\n\n*** DANGER ***\n\nThe storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.\n\n*** THIS IS A LIFE-THREATENING SITUATION ***\n\n>>>>> CHANGES ARE PERMANENT <<<<<\n\n_____\n")
-
+    @Slot(int, int)
+    def changeMobileRobot(self, cupID: int, productID: int):
+        """
+        @Slot(int, int)
+        This method takes data from TurtleDialog. It is used to change the mobile robot's cup and product.
+        Checks the cupID and productID for ValueErrors.
+        Writes changes to inventoryController's mobile Robot object.
+        Emits transmitMobileRobot signal with data stored in self.mobileRobot cup and product data.
+        Writes an event to the eventlogService.
+        :param cupID:
+        :type cupID: int
+        :param productID:
+        :type productID: int
+        :return: None
+        """
+        oldCup = self.mobileRobot.cup
+        if oldCup is not None:
+            oldCup.setProduct(None)
+            oldCup.setLocation(None)
+        del oldCup
+        newCup = Cup(cupID, self.__productFromID(productID))
+        self.mobileRobot.setCup(newCup)
+        cupID = self.mobileRobot.cup.id
+        productID = self.mobileRobot.cup.product.id
+        name = self.__productFromID(productID).name
+        self.transmitMobileRobot.emit(cupID, productID, name)
+        print(f"transmitMobileRobot emitted:{cupID}, {productID}, {name}")
     @Slot(str)
     def getWorkbenchSlot(self, slot: str):
         """

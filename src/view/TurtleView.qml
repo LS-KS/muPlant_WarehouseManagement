@@ -6,6 +6,10 @@ Rectangle {
     height: 400
     color: "transparent"
 
+    TurtleDialog {
+        id: turtleDialog
+    }
+
     Image {
         id: turtleBase
         y: 255
@@ -22,12 +26,48 @@ Rectangle {
 
     CupView {
         id: cupVisu
-        y: 125
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottomMargin: rectangle.height*0.3
-        height: 0.3*rectangle.height
-        width: 0.3*rectangle.width
+        height: 0.55*width
+        width: 180
+        opacity: cup == 0 ? 0 : 1
+        MouseArea {
+            id: cupMouse
+            propagateComposedEvents: true
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: setTurtle.opacity = 1;
+            onExited: setTurtle.opacity = 0.5;
+            onClicked: setTurtle.open();
+        }
+        Connections {
+            target: inventoryController
+            function onTransmitMobileRobot(cup, product, name) {
+                console.log("transmitMobileRobot received; Cup: " + cup + " Product: " + product + " Name: " + name);
+                cupVisu.cup = cup;
+                cupVisu.prod = product;
+                cupVisu.name = name;
+            }
+        }
+    }
+
+    Image {
+        id: setTurtle
+        width: 30
+        source: "../assets/gear.png"
+        anchors.right: cupVisu.left
+        anchors.top: cupVisu.top
+        anchors.rightMargin: 5
+        fillMode: Image.PreserveAspectFit
+        opacity: 0
+        MouseArea{
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: setTurtle.opacity = 1;
+            onExited: setTurtle.opacity = 0;
+            onClicked: turtleDialog.open();
+        }
     }
 
     Image {

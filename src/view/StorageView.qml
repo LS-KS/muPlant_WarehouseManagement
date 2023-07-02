@@ -95,6 +95,7 @@ Rectangle{
             prodB: model.b_ProductID
             nameB: model.b_Name
             name: "L"+ (model.col+1 +model.row*6)
+            withPallet: model.isPallet
             implicitHeight: 150
             implicitWidth: 150
             Layout.fillWidth: true
