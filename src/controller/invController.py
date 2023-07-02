@@ -205,6 +205,7 @@ class invController(QObject):
         This method changes workbench entry depending on submitted storage.
         gets the pallet object stored in submitted storage and changes the cup object depending on submitted parameters
         slot, cupID, productID and isPallet. If isPallet is False, cup object is set to None and sets product of cup object to None.
+        Writes message to eventlogService.
         Calls _dumpStorage() to save changes to file.
         :param storage: can be 'K1' or 'K2'
         :param slot: can be 'a' or 'b'
@@ -285,6 +286,8 @@ class invController(QObject):
         self.transmitWorkbenchPallet.emit(storage, cupAID, prodAID, prodAName,isPallet ,cupBID, prodBID, prodBName)
         self._dumpStorage()
         print(f"transmitWorkbenchPallet emitted:{storage} {cupAID}, {prodAID},{prodAName}, {isPallet}, {cupBID}, {prodBID}, {prodBName}")
+        self.eventlogService.writeEvent("USER",
+                                        f"\n*** ATTENTION ***\n\n!!! INVENTORY OVERRIDE !!!\n\nLocation: {storage} - {slot}\nCup:--> {cupID}\nProduct:--> {productID}\n\n*** DANGER ***\n\nThe storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.\n\n*** THIS IS A LIFE-THREATENING SITUATION ***\n\n>>>>> CHANGES ARE PERMANENT <<<<<\n\n_____\n")
 
     @Slot(str)
     def getWorkbenchSlot(self, slot: str):
