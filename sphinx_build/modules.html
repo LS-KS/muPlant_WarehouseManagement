@@ -500,7 +500,21 @@ changes to file.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.controller.invController.invController.changeWorkbench">
 <span class="sig-name descname"><span class="pre">changeWorkbench</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cupID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">productID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isPallet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController.changeWorkbench"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.changeWorkbench" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This method changes workbench entry depending on submitted storage.
+gets the pallet object stored in submitted storage and changes the cup object depending on submitted parameters
+slot, cupID, productID and isPallet. If isPallet is False, cup object is set to None and sets product of cup object to None.
+Calls _dumpStorage() to save changes to file.
+:param storage: can be ‘K1’ or ‘K2’
+:param slot: can be ‘a’ or ‘b’
+:type slot: str
+:param cupID:
+:type cupID: int
+:param productID:
+:type productID: int
+:param isPallet:
+:type isPallet: bool
+:return: None</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.controller.invController.invController.findProductName">
@@ -511,6 +525,18 @@ It is used to emit the changed name for StorageView.qml
 :type id: int
 :return: product name to corresponding index
 :rtype str</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.getWorkbenchSlot">
+<span class="sig-name descname"><span class="pre">getWorkbenchSlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController.getWorkbenchSlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.getWorkbenchSlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;Slot(str)
+This method passes workbench data to the GUI.
+Decodes Slot ID ‘K1’ or ‘K2’ and checks for ValueErrors.
+Calls transmitWorkbenchPallet signal with data stored in self.workbench.
+:param slot: Slot ‘K1’ or ‘K2’
+:type slot: str
+:return: None</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -672,7 +698,7 @@ Takes a product ID as argument and emits it as signal productSelected.
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.controller.invController.invController.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;invController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitStorageData(QString,int,int,bool),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitWorkbenchData(int,int,bool),</span> <span class="pre">parameters=int,</span> <span class="pre">int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=productSelected(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Signal,</span> <span class="pre">signature=idSwapped(int,int),</span> <span class="pre">parameters=int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Slot,</span> <span class="pre">signature=selectRow(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadStorage(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadWorkbench(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeStorage(QString,QString,int,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeWorkbench(QString,QString,int,int,bool),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">bool</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.invController.invController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;invController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitStorageData(QString,int,int,bool),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitWorkbenchData(int,int,bool),</span> <span class="pre">parameters=int,</span> <span class="pre">int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitWorkbenchPallet(QString,int,int,QString,bool,int,int,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">bool,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Signal,</span> <span class="pre">signature=productSelected(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Signal,</span> <span class="pre">signature=idSwapped(int,int),</span> <span class="pre">parameters=int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Slot,</span> <span class="pre">signature=selectRow(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadStorage(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadWorkbench(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeStorage(QString,QString,int,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#14</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeWorkbench(QString,QString,int,int,bool),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#15</span> <span class="pre">type=Slot,</span> <span class="pre">signature=getWorkbenchSlot(QString),</span> <span class="pre">parameters=QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.invController.invController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -683,6 +709,11 @@ Takes a product ID as argument and emits it as signal productSelected.
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.controller.invController.invController.transmitWorkbenchData">
 <span class="sig-name descname"><span class="pre">transmitWorkbenchData</span></span><a class="headerlink" href="#src.controller.invController.invController.transmitWorkbenchData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.invController.invController.transmitWorkbenchPallet">
+<span class="sig-name descname"><span class="pre">transmitWorkbenchPallet</span></span><a class="headerlink" href="#src.controller.invController.invController.transmitWorkbenchPallet" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -810,7 +841,7 @@ Creates a dictionary with rolenames and roles.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.rowCount">
-<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x11124eac0&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x10aca5ac0&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns number of rows at index
 :param parent:
 :type: QModelIndex
@@ -1379,7 +1410,6 @@ Rectangle {
     property string prodB: &quot;&quot;
     property string nameB: &quot;&quot;
 
-
     Text {
         id: title
         text: name
@@ -1395,11 +1425,9 @@ Rectangle {
             leftMargin: 10
             topMargin: 5
         }
-
         fontSizeMode: Text.HorizontalFit
         font.bold: true
     }
-
     Rectangle {
         id: pallet
         height: parent.height
@@ -1447,17 +1475,16 @@ Rectangle {
                        Layout.fillHeight: true
                        Layout.fillWidth: true
                    }
-
                 }
                 MouseArea {
+                    id: mouseAreaA
                     anchors.fill: parent
+                    propagateComposedEvents: true
                     onClicked: {
                         if (!productSlotA.selected){
                            inventoryController.selectRow(prodA)
                         }
-
                     }
-
                 }
             }
             // Rectangle holds Product B
@@ -1481,7 +1508,6 @@ Rectangle {
                        Layout.fillHeight: true
                        Layout.fillWidth: true
                    }
-
                    Text{
                        text:nameB
                        horizontalAlignment: Text.AlignHCenter
@@ -1489,17 +1515,16 @@ Rectangle {
                        Layout.fillHeight: true
                        Layout.fillWidth: true
                    }
-
                 }
                 MouseArea {
+                    id: mouseAreaB
                     anchors.fill: parent
+                    propagateComposedEvents: true
                     onClicked: {
                         if (!productSlotB.selected){
                            inventoryController.selectRow(prodB)
                         }
-
                     }
-
                 }
             }
 
@@ -1570,39 +1595,84 @@ ProcessView.qml</p>
         <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
         <span class="n">fillMode</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">PreserveAspectFit</span>
 
-        <span class="n">PalletteView</span><span class="p">{</span>
+        <span class="n">ProductView</span><span class="p">{</span>
             <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span><span class="mi">20</span>
             <span class="nb">id</span><span class="p">:</span> <span class="n">k1</span>
+            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;K1&quot;</span>
             <span class="n">height</span><span class="p">:</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">width</span>
-            <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">k2</span><span class="o">.</span><span class="n">left</span>
             <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
-            <span class="n">anchors</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">:</span> <span class="mi">10</span>
+            <span class="n">anchors</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">:</span> <span class="mi">10</span>
             <span class="n">anchors</span><span class="o">.</span><span class="n">bottomMargin</span><span class="p">:</span> <span class="o">-</span><span class="mi">20</span>
             <span class="n">MouseArea</span><span class="p">{</span>
+                <span class="n">propagateComposedEvents</span><span class="p">:</span> <span class="n">true</span>
                 <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
                 <span class="n">hoverEnabled</span><span class="p">:</span> <span class="n">true</span>
                 <span class="n">onEntered</span><span class="p">:</span> <span class="n">setWorkbench</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
                 <span class="n">onExited</span><span class="p">:</span> <span class="n">setWorkbench</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
             <span class="p">}</span>
-
+            <span class="n">Component</span><span class="o">.</span><span class="n">onCompleted</span><span class="p">:</span> <span class="p">{</span>
+                <span class="o">//</span><span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;K1 completed&quot;</span><span class="p">);</span>
+                <span class="n">inventoryController</span><span class="o">.</span><span class="n">getWorkbenchSlot</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">Connections</span><span class="p">{</span>
+                <span class="n">target</span><span class="p">:</span> <span class="n">inventoryController</span>
+                <span class="n">function</span> <span class="n">onTransmitWorkbenchPallet</span><span class="p">(</span><span class="n">slot</span><span class="p">,</span> <span class="n">cupIDA</span><span class="p">,</span> <span class="n">productIDA</span><span class="p">,</span> <span class="n">productNameA</span><span class="p">,</span> <span class="n">isPallet</span><span class="p">,</span> <span class="n">cupIDB</span><span class="p">,</span> <span class="n">productIDB</span><span class="p">,</span> <span class="n">productNameB</span><span class="p">){</span>
+                <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;transmitWorkbenchPallet received in K1&quot;</span><span class="p">);</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">slot</span> <span class="o">===</span> <span class="s2">&quot;K1&quot;</span><span class="p">){</span>
+                        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;K1 transmit&quot;</span><span class="p">);</span>
+                        <span class="n">k1</span><span class="o">.</span><span class="n">cupA</span> <span class="o">=</span> <span class="n">cupIDA</span><span class="p">;</span>
+                        <span class="n">k1</span><span class="o">.</span><span class="n">prodA</span> <span class="o">=</span> <span class="n">productIDA</span><span class="p">;</span>
+                        <span class="n">k1</span><span class="o">.</span><span class="n">nameA</span> <span class="o">=</span> <span class="n">productNameA</span><span class="p">;</span>
+                        <span class="n">k1</span><span class="o">.</span><span class="n">cupB</span> <span class="o">=</span> <span class="n">cupIDB</span><span class="p">;</span>
+                        <span class="n">k1</span><span class="o">.</span><span class="n">prodB</span> <span class="o">=</span> <span class="n">productIDB</span><span class="p">;</span>
+                        <span class="n">k1</span><span class="o">.</span><span class="n">nameB</span> <span class="o">=</span> <span class="n">productNameB</span><span class="p">;</span>
+                        <span class="n">k1</span><span class="o">.</span><span class="n">withPallet</span> <span class="o">=</span> <span class="n">isPallet</span><span class="p">;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
         <span class="p">}</span>
-        <span class="n">PalletteView</span><span class="p">{</span>
+        <span class="n">ProductView</span><span class="p">{</span>
             <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span><span class="mi">20</span>
             <span class="nb">id</span><span class="p">:</span> <span class="n">k2</span>
+            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;K2&quot;</span>
             <span class="n">height</span><span class="p">:</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">width</span>
             <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
             <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
             <span class="n">anchors</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">:</span> <span class="mi">10</span>
             <span class="n">anchors</span><span class="o">.</span><span class="n">bottomMargin</span><span class="p">:</span> <span class="o">-</span><span class="mi">20</span>
             <span class="n">MouseArea</span><span class="p">{</span>
+                <span class="n">propagateComposedEvents</span><span class="p">:</span> <span class="n">true</span>
                 <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
                 <span class="n">hoverEnabled</span><span class="p">:</span> <span class="n">true</span>
                 <span class="n">onEntered</span><span class="p">:</span> <span class="n">setWorkbench</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
                 <span class="n">onExited</span><span class="p">:</span> <span class="n">setWorkbench</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
             <span class="p">}</span>
+            <span class="n">Component</span><span class="o">.</span><span class="n">onCompleted</span><span class="p">:</span> <span class="p">{</span>
+                <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;K2 completed&quot;</span><span class="p">);</span>
+                <span class="n">inventoryController</span><span class="o">.</span><span class="n">getWorkbenchSlot</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">Connections</span><span class="p">{</span>
+                <span class="n">target</span><span class="p">:</span> <span class="n">inventoryController</span>
+                <span class="n">function</span> <span class="n">onTransmitWorkbenchPallet</span><span class="p">(</span><span class="n">slot</span><span class="p">,</span> <span class="n">cupIDA</span><span class="p">,</span> <span class="n">productIDA</span><span class="p">,</span> <span class="n">productNameA</span><span class="p">,</span> <span class="n">isPallet</span><span class="p">,</span> <span class="n">cupIDB</span><span class="p">,</span> <span class="n">productIDB</span><span class="p">,</span> <span class="n">productNameB</span><span class="p">){</span>
+                <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;transmitWorkbenchPallet received in K2&quot;</span><span class="p">);</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">slot</span> <span class="o">===</span> <span class="s2">&quot;K2&quot;</span><span class="p">){</span>
+                        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;K2 transmit&quot;</span><span class="p">);</span>
+                        <span class="n">k2</span><span class="o">.</span><span class="n">cupA</span> <span class="o">=</span> <span class="n">cupIDA</span><span class="p">;</span>
+                        <span class="n">k2</span><span class="o">.</span><span class="n">prodA</span> <span class="o">=</span> <span class="n">productIDA</span><span class="p">;</span>
+                        <span class="n">k2</span><span class="o">.</span><span class="n">nameA</span> <span class="o">=</span> <span class="n">productNameA</span><span class="p">;</span>
+                        <span class="n">k2</span><span class="o">.</span><span class="n">cupB</span> <span class="o">=</span> <span class="n">cupIDB</span><span class="p">;</span>
+                        <span class="n">k2</span><span class="o">.</span><span class="n">prodB</span> <span class="o">=</span> <span class="n">productIDB</span><span class="p">;</span>
+                        <span class="n">k2</span><span class="o">.</span><span class="n">nameB</span> <span class="o">=</span> <span class="n">productNameB</span><span class="p">;</span>
+                        <span class="n">k2</span><span class="o">.</span><span class="n">withPallet</span> <span class="o">=</span> <span class="n">isPallet</span><span class="p">;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
         <span class="p">}</span>
+
         <span class="n">Image</span> <span class="p">{</span>
         <span class="nb">id</span><span class="p">:</span> <span class="n">setWorkbench</span>
+        <span class="n">width</span><span class="p">:</span> <span class="mi">30</span>
         <span class="n">source</span><span class="p">:</span> <span class="s2">&quot;../assets/gear.png&quot;</span>
         <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">k1</span><span class="o">.</span><span class="n">left</span>
         <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">k1</span><span class="o">.</span><span class="n">top</span>
@@ -1654,7 +1724,7 @@ StorageView.qml</p>
     <span class="p">}</span>
     <span class="n">Rectangle</span><span class="p">{</span>
         <span class="nb">id</span><span class="p">:</span> <span class="n">titleRect</span>
-        <span class="n">height</span><span class="p">:</span> <span class="mi">25</span>
+        <span class="n">height</span><span class="p">:</span> <span class="mi">100</span>
         <span class="n">anchors</span><span class="p">{</span>
             <span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
             <span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
@@ -1663,32 +1733,46 @@ StorageView.qml</p>
             <span class="n">rightMargin</span><span class="p">:</span> <span class="mi">20</span>
             <span class="n">topMargin</span><span class="p">:</span> <span class="mi">5</span>
         <span class="p">}</span>
+
         <span class="n">Row</span><span class="p">{</span>
+            <span class="nb">id</span><span class="p">:</span> <span class="n">row</span>
             <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
             <span class="n">Text</span> <span class="p">{</span>
                 <span class="nb">id</span><span class="p">:</span> <span class="n">title</span>
-                <span class="n">height</span><span class="p">:</span> <span class="mi">40</span>
-                <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Storage&quot;</span><span class="p">)</span>
+                <span class="n">height</span><span class="p">:</span> <span class="mi">100</span>
+                <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Storage Visualization&quot;</span><span class="p">)</span>
                 <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
                 <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
                 <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
                 <span class="n">font</span><span class="o">.</span><span class="n">pixelSize</span><span class="p">:</span> <span class="mi">12</span>
                 <span class="n">font</span><span class="o">.</span><span class="n">bold</span><span class="p">:</span> <span class="n">true</span>
+                <span class="n">MouseArea</span> <span class="p">{</span>
+                    <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
+                    <span class="n">hoverEnabled</span><span class="p">:</span> <span class="n">true</span><span class="p">;</span>
+                    <span class="n">onEntered</span><span class="p">:</span> <span class="n">setImage</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+                    <span class="n">onExited</span><span class="p">:</span> <span class="n">setImage</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                <span class="p">}</span>
             <span class="p">}</span>
 
             <span class="n">Image</span> <span class="p">{</span>
                 <span class="nb">id</span><span class="p">:</span> <span class="n">setImage</span>
-                <span class="n">width</span><span class="p">:</span> <span class="mi">40</span>
+                <span class="n">width</span><span class="p">:</span> <span class="mi">30</span>
+                <span class="n">height</span><span class="p">:</span> <span class="mi">30</span>
+                <span class="n">anchors</span><span class="o">.</span><span class="n">verticalCenter</span><span class="p">:</span> <span class="n">title</span><span class="o">.</span><span class="n">verticalCenter</span>
                 <span class="n">source</span><span class="p">:</span> <span class="s2">&quot;../assets/gear.png&quot;</span>
+                <span class="n">anchors</span><span class="o">.</span><span class="n">verticalCenterOffset</span><span class="p">:</span> <span class="mi">0</span>
                 <span class="n">fillMode</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">PreserveAspectFit</span>
-                <span class="n">height</span><span class="p">:</span> <span class="n">title</span><span class="o">.</span><span class="n">height</span>
                 <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
                 <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
+                <span class="n">opacity</span><span class="p">:</span> <span class="mi">0</span>
                 <span class="n">MouseArea</span><span class="p">{</span>
                     <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
                     <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
                         <span class="n">editDialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
                     <span class="p">}</span>
+                    <span class="n">hoverEnabled</span><span class="p">:</span> <span class="n">true</span><span class="p">;</span>
+                    <span class="n">onEntered</span><span class="p">:</span> <span class="n">setImage</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+                    <span class="n">onExited</span><span class="p">:</span> <span class="n">setImage</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
                 <span class="p">}</span>
             <span class="p">}</span>
         <span class="p">}</span>
@@ -1702,7 +1786,10 @@ StorageView.qml</p>
             <span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
             <span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
         <span class="p">}</span>
-        <span class="n">anchors</span><span class="o">.</span><span class="n">margins</span><span class="p">:</span> <span class="mi">10</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">topMargin</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">:</span> <span class="mi">10</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">:</span> <span class="mi">10</span>
+        <span class="n">anchors</span><span class="o">.</span><span class="n">bottomMargin</span><span class="p">:</span> <span class="mi">10</span>
         <span class="n">columnSpacing</span><span class="p">:</span> <span class="mi">10</span>
         <span class="n">rowSpacing</span><span class="p">:</span> <span class="mi">5</span>
         <span class="n">clip</span><span class="p">:</span> <span class="n">true</span>

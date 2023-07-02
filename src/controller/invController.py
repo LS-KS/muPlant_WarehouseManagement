@@ -25,7 +25,7 @@ class invController(QObject):
 
     # Signal can be captured in qml file with Connections - syntax and handling on signal called 'onRowClicked'
     transmitStorageData = Signal(str, int, int, bool)
-    transmitWorkbenchData = Signal( int, int, bool)
+    transmitWorkbenchData = Signal(int, int, bool)
     transmitWorkbenchPallet = Signal(str,int, int, str, bool, int, int, str)
     productSelected = Signal(str)
     idSwapped = Signal(int, int)
@@ -113,11 +113,11 @@ class invController(QObject):
             if self.workbench.k1 is not None:
                 isPallet = True
                 if slot == "a":
-                    cupID = self.workbench.k1.cupA
-                    productID = self.workbench.k1.cupA.product.getID()
+                    cupID = self.workbench.k1.slotA
+                    productID = self.workbench.k1.slotA.product.id
                 elif slot == "b":
-                    cupID = self.workbench.k1.cupB
-                    productID = self.workbench.k1.cupB.product.getID()
+                    cupID = self.workbench.k1.slotB
+                    productID = self.workbench.k1.slotB.product.id
                 else:
                     raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
             else:
@@ -128,11 +128,11 @@ class invController(QObject):
             if self.workbench.k2 is not None:
                 isPallet = True
                 if slot == "a":
-                    cupID = self.workbench.k2.cupA
-                    productID = self.workbench.k2.cupA.product.getID()
+                    cupID = self.workbench.k2.slotA
+                    productID = self.workbench.k2.slotA.product.getID()
                 elif slot == "b":
-                    cupID = self.workbench.k2.cupB
-                    productID = self.workbench.k2.cupB.product.getID()
+                    cupID = self.workbench.k2.slotB
+                    productID = self.workbench.k2.slotB.product.getID()
                 else:
                     raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
             else:
@@ -201,7 +201,91 @@ class invController(QObject):
         self._dumpStorage()
     @Slot(str, str, int, int, bool)
     def changeWorkbench(self,storage, slot, cupID, productID, isPallet: bool = False):
-        pass
+        """
+        This method changes workbench entry depending on submitted storage.
+        gets the pallet object stored in submitted storage and changes the cup object depending on submitted parameters
+        slot, cupID, productID and isPallet. If isPallet is False, cup object is set to None and sets product of cup object to None.
+        Calls _dumpStorage() to save changes to file.
+        :param storage: can be 'K1' or 'K2'
+        :param slot: can be 'a' or 'b'
+        :type slot: str
+        :param cupID:
+        :type cupID: int
+        :param productID:
+        :type productID: int
+        :param isPallet:
+        :type isPallet: bool
+        :return: None
+        """
+        print(f"to set workbench: storage: {storage}, slot: {slot}, cup: {cupID}, product: {productID}, isPallet: {isPallet}")
+        if storage == "K1":
+            pallet = self.workbench.k1
+            if pallet is not None:
+                cup_objA = pallet.slotA if pallet.slotA is not None else Cup(0, self.__productFromID(0))
+                cup_objB = pallet.slotB if pallet.slotB is not None else Cup(0, self.__productFromID(0))
+                if slot == "a":
+                    pass
+                elif slot == "b":
+                    pass
+                else:
+                    raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
+            else:
+                pallet = Pallet()
+                cup_objA = Cup(0, self.__productFromID(0))
+                cup_objB = Cup(0, self.__productFromID(0))
+        elif storage == "K2":
+            pallet = self.workbench.k2
+            if pallet is not None:
+                cup_objA = pallet.slotA if pallet.slotA is not None else Cup(0, self.__productFromID(0))
+                cup_objB = pallet.slotB if pallet.slotB is not None else Cup(0, self.__productFromID(0))
+                if slot == "a":
+                    pass
+                elif slot == "b":
+                    pass
+                else:
+                    raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
+            else:
+                pallet = Pallet()
+                cup_objA = Cup(0, self.__productFromID(0))
+                cup_objB = Cup(0, self.__productFromID(0))
+        else:
+            raise ValueError("Storage Value error. Storage must be 'K1' or 'K2'")
+        if isPallet:
+            if slot == "a":
+                cup_objA.setID(cupID)
+                cup_objA.setProduct(self.__productFromID(productID))
+            elif slot == "b":
+                cup_objB.setID(cupID)
+                cup_objB.setProduct(self.__productFromID(productID))
+        else:
+            cup_objA.setID(0)
+            cup_objA.setProduct(self.__productFromID(0))
+            cup_objB.setID(0)
+            cup_objB.setProduct(self.__productFromID(0))
+        pallet.setSlotA(cup_objA)
+        pallet.setSlotB(cup_objB)
+        if storage == "K1":
+            self.workbench.setK1(pallet)
+            cupAID = self.workbench.k1.slotA.id
+            prodAID = self.workbench.k1.slotA.product.id
+            prodAName = self.workbench.k1.slotA.product.name
+            cupBID = self.workbench.k1.slotB.id
+            prodBID = self.workbench.k1.slotB.product.id
+            prodBName = self.workbench.k1.slotB.product.name
+        elif storage == "K2":
+            self.workbench.setK2(pallet)
+            cupAID = self.workbench.k2.slotA.id
+            prodAID = self.workbench.k2.slotA.product.id
+            prodAName = self.workbench.k2.slotA.product.name
+            cupBID = self.workbench.k2.slotB.id
+            prodBID = self.workbench.k2.slotB.product.id
+            prodBName = self.workbench.k2.slotB.product.name
+        else:
+            raise ValueError("Storage Value error. Storage must be 'K1' or 'K2'")
+        self.transmitWorkbenchPallet.emit(storage, cupAID, prodAID, prodAName,isPallet ,cupBID, prodBID, prodBName)
+        self._dumpStorage()
+        print(f"transmitWorkbenchPallet emitted:{storage} {cupAID}, {prodAID},{prodAName}, {isPallet}, {cupBID}, {prodBID}, {prodBName}")
+
     @Slot(str)
     def getWorkbenchSlot(self, slot: str):
         """
@@ -217,11 +301,11 @@ class invController(QObject):
         if slot == "K1":
             pallet = self.workbench.k1 if self.workbench.k1 is not None else None
             if pallet is not None:
-                cupIDA = pallet.cupA
-                productIDA = pallet.cupA.product.getID()
+                cupIDA = pallet.slotA
+                productIDA = pallet.slotA.product.getID()
                 isPallet = True
-                cupIDB = pallet.cupB
-                productIDB = pallet.cupB.product.getID()
+                cupIDB = pallet.slotB
+                productIDB = pallet.slotB.product.getID()
             else:
                 cupIDA = 0
                 productIDA = 0
@@ -231,11 +315,11 @@ class invController(QObject):
         elif slot == "K2":
             pallet = self.workbench.k2 if self.workbench.k2 is not None else None
             if pallet is not None:
-                cupIDA = pallet.cupA
-                productIDA = pallet.cupA.product.getID()
+                cupIDA = pallet.slotA
+                productIDA = pallet.slotA.product.getID()
                 isPallet = True
-                cupIDB = pallet.cupB
-                productIDB = pallet.cupB.product.getID()
+                cupIDB = pallet.slotB
+                productIDB = pallet.slotB.product.getID()
             else:
                 cupIDA = 0
                 productIDA = 0
@@ -603,7 +687,7 @@ class invController(QObject):
             
         '''
         self.productlistViewModel = ProductListViewModel(productDataList)
-    def __productFromID(self, id):
+    def __productFromID(self, id)->Product:
         """
 
         Finds Product object from given id and returns the object.

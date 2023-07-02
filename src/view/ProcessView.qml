@@ -64,8 +64,8 @@ Rectangle{
             Connections{
                 target: inventoryController
                 function onTransmitWorkbenchPallet(slot, cupIDA, productIDA, productNameA, isPallet, cupIDB, productIDB, productNameB){
-                //console.log("transmitWorkbenchPallet received in K1");
-                    if(slot == "K1"){
+                console.log("transmitWorkbenchPallet received in K1");
+                    if(slot === "K1"){
                         console.log("K1 transmit");
                         k1.cupA = cupIDA;
                         k1.prodA = productIDA;
@@ -95,15 +95,15 @@ Rectangle{
                 onExited: setWorkbench.opacity = 0;
             }
             Component.onCompleted: {
-                //console.log("K2 completed");
+                console.log("K2 completed");
                 inventoryController.getWorkbenchSlot(name);
             }
             Connections{
                 target: inventoryController
                 function onTransmitWorkbenchPallet(slot, cupIDA, productIDA, productNameA, isPallet, cupIDB, productIDB, productNameB){
-                //console.log("transmitWorkbenchPallet received in K2");
-                    if(slot == "K2"){
-                        //console.log("K2 transmit");
+                console.log("transmitWorkbenchPallet received in K2");
+                    if(slot === "K2"){
+                        console.log("K2 transmit");
                         k2.cupA = cupIDA;
                         k2.prodA = productIDA;
                         k2.nameA = productNameA;

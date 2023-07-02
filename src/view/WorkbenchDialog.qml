@@ -170,21 +170,14 @@ Dialog {
     standardButtons: Dialog.Ok | Dialog.Cancel
     // signal which is emitted when Dialog.OK is clicked. It calls changeStorage() function of InventoryController
     onAccepted: {
+        console.log("Change sent to InventoryController")
         console.log("location: "+ setLocation.currentText)
         console.log("slot: " +setAB.currentText)
         console.log("cup: " + setCup.text)
         console.log("product: " + setProduct.currentValue)
         inventoryController.changeWorkbench(setLocation.currentText, setAB.currentText, setCup.text, setProduct.currentValue, isPalletPresent)
-        console.log("Ok clicked")
+        console.log("Ok clicked in WorkbenchDialog")
     }
     onRejected: console.log("Cancel in workbench dialog clicked")
     // Connect InventoryController's transmitData Signal to this qml file. If storage is set and InventoryController's loadWorkbench() function is called
-    // data will be transmitted by this signal
-    Connections{
-        target: inventoryController
-        function onTransmitWorkbenchData(slot, cup, product, pallet){
-            setCup.text = cup
-            setProduct.currentIndex = product
-        }
-    }
 }
