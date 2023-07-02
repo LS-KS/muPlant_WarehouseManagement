@@ -178,7 +178,8 @@ Dialog {
         console.log("slot: " +setAB.currentText)
         console.log("cup: " + setCup.text)
         console.log("product: " + setProduct.currentValue)
-        inventoryController.changeStorage(setLocation.currentText, setAB.currentText, setCup.text, setProduct.currentValue)
+        console.log("isPalletPresent: " + palletPresent.currentValue)
+        inventoryController.changeStorage(setLocation.currentText, setAB.currentText, setCup.text, setProduct.currentValue, palletPresent.currentValue)
         console.log("Ok clicked")
     }
     onRejected: console.log("Cancel clicked")
@@ -189,6 +190,12 @@ Dialog {
         function onTransmitStorageData(slot, cup, product, isPallet){
             setCup.text = cup
             setProduct.currentIndex = product
+            if(isPallet == true){
+                palletPresent.currentIndex = 0
+            }
+            if(isPallet == false){
+                palletPresent.currentIndex = 1
+            }
         }
     }
 }

@@ -94,12 +94,13 @@ Rectangle{
             cupB: model.b_CupID
             prodB: model.b_ProductID
             nameB: model.b_Name
-            name: "L"+ (model.col+1 +model.row*6)
             withPallet: model.isPallet
+            name: "L"+ (model.col+1 +model.row*6)
             implicitHeight: 150
             implicitWidth: 150
             Layout.fillWidth: true
             Layout.fillHeight: true
+
         }
         Layout.fillWidth: true
         Layout.fillHeight: true

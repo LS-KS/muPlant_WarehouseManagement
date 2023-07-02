@@ -124,6 +124,10 @@ class StorageViewModel(QtCore.QAbstractTableModel):
         col = index.column()
         if not index.isValid() or row >= self.rowCount() or col >= self.columnCount():
             return False
+        if role == Qt.UserRole + 1:  # isPallet
+            oldValue = self.storageData[row][col][0]
+            self.storageData[row][col][0] = value
+            return oldValue
         if role == Qt.UserRole + 2:  # a_CupID
             oldValue = self.storageData[row][col][1]
             self.storageData[row][col][1] = value

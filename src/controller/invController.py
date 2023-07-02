@@ -143,8 +143,8 @@ class invController(QObject):
         else:
             raise ValueError("Storage Value error. Storage must be 'K1' or 'K2'")
         self.transmitWorkbenchData.emit(cupID, productID, isPallet)
-    @Slot(str, str, int, int)
-    def changeStorage(self, storage, slot, cupID, productID, isPallet: bool = False):
+    @Slot(str, str, int, int, str)
+    def changeStorage(self, storage, slot, cupID, productID, palletPresent: str):
         """
         @Slot(str, str, int, int)
         This method takes data from manual storage override in EditDialog.qml.
@@ -164,8 +164,6 @@ class invController(QObject):
         :type productID: int
         :return: None
         """
-        # TODO Signal from qml must emit pallet status.
-        # TODO if pallet status is false, cupID and productID must be set to 0
         # TODO in StorageDialog: set opacity of cup and product to zero if pallet status is 'No'
         # TODO in StorageDialog: set opacity of cup and product to 1 if pallet status is 'Yes'
         number = int(storage[1:])
@@ -175,34 +173,75 @@ class invController(QObject):
             raise ValueError("Error could not decode storage(row)")
         if not 0 <= col <= 5:
             raise ValueError("Error could not decode storage(col)")
-        pallet = self.inventory.getStoragePallet(row, col)
-        if slot == "a":
-            print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
-            roleCup = Qt.UserRole + 2
-            roleProduct = Qt.UserRole + 3
-            roleName = Qt.UserRole + 4
-            cup_obj = pallet.slotA
-        elif slot == "b":
-            print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
-            roleCup = Qt.UserRole + 5
-            roleProduct = Qt.UserRole + 6
-            roleName = Qt.UserRole + 7
-            cup_obj = pallet.slotB
+        if palletPresent == "Yes":
+            isPallet = True
+        elif palletPresent == "No":
+            isPallet = False
         else:
-            raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
-        prod_obj = self.__productFromID(productID)
-        cup_obj.setProduct(prod_obj)
-        cup_obj.setID(cupID)
+            raise ValueError("Error could not decode palletPresent")
+        pallet = self.inventory.getStoragePallet(row, col)
 
-        index = self.storageViewModel.createIndex(row, col)
-        cup = self.storageViewModel.setData(index, cupID, role=roleCup)
-        product = self.storageViewModel.setData(index, productID, role=roleProduct)
-        name = self.storageViewModel.setData(index, self.findProductName(productID), role=roleName)
-        pallet = self.storageViewModel.setData(index, isPallet, role=Qt.UserRole + 1)
-        self.storageViewModel.dataChanged.emit(index, index, [roleCup, roleProduct, roleName])
-        self.idSwapped.emit(product, productID)
-        self.eventlogService.writeEvent("USER",
-                                        f"\n*** ATTENTION ***\n\n!!! INVENTORY OVERRIDE !!!\n\nLocation: {storage} - {slot}\nCup: {cup} --> {cupID}\nProduct: {product} --> {productID}\n\n*** DANGER ***\n\nThe storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.\n\n*** THIS IS A LIFE-THREATENING SITUATION ***\n\n>>>>> CHANGES ARE PERMANENT <<<<<\n\n_____\n")
+        if isPallet:
+            if pallet is None:
+                pallet = Pallet()
+                pallet.setSlotA(Cup(0, self.__productFromID(0)))
+                pallet.setSlotB(Cup(0, self.__productFromID(0)))
+                self.inventory.setStoragePallet(row, col, pallet)
+            if slot == "a":
+                print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
+                roleCup = Qt.UserRole + 2
+                roleProduct = Qt.UserRole + 3
+                roleName = Qt.UserRole + 4
+                cup_obj = pallet.slotA
+            elif slot == "b":
+                print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
+                roleCup = Qt.UserRole + 5
+                roleProduct = Qt.UserRole + 6
+                roleName = Qt.UserRole + 7
+                cup_obj = pallet.slotB
+            else:
+                raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
+            prod_obj = self.__productFromID(productID)
+            cup_obj.setProduct(prod_obj)
+            cup_obj.setID(cupID)
+            index = self.storageViewModel.createIndex(row, col)
+            cup = self.storageViewModel.setData(index, cupID, role=roleCup)
+            product = self.storageViewModel.setData(index, productID, role=roleProduct)
+            name = self.storageViewModel.setData(index, self.findProductName(productID), role=roleName)
+            rolePallet = Qt.UserRole + 1
+            pallet = self.storageViewModel.setData(index, isPallet, role=rolePallet)
+            self.storageViewModel.dataChanged.emit(index, index, [roleCup, roleProduct, roleName, rolePallet ])
+            self.idSwapped.emit(product, productID)
+            self.eventlogService.writeEvent("USER",
+                                            f"\n*** ATTENTION ***\n\n!!! INVENTORY OVERRIDE !!!\n\nLocation: {storage} - {slot}\nCup: {cup} --> {cupID}\nProduct: {product} --> {productID}\n\n*** DANGER ***\n\nThe storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.\n\n*** THIS IS A LIFE-THREATENING SITUATION ***\n\n>>>>> CHANGES ARE PERMANENT <<<<<\n\n_____\n")
+        else:
+            pallet.setLocation(None)
+            cupA = pallet.slotA
+            cupA.product.withoutCup(cupA)
+            pallet.setSlotA(None)
+            del cupA
+            cupB = pallet.slotB
+            cupB.product.withoutCup(cupB)
+            pallet.setSlotB(None)
+            del cupB
+            del pallet
+            index = self.storageViewModel.createIndex(row, col)
+            roleCupA = Qt.UserRole + 2
+            roleProductA = Qt.UserRole + 3
+            roleNameA = Qt.UserRole + 4
+            rolePallet = Qt.UserRole + 1
+            cupA = self.storageViewModel.setData(index, 0, role=roleCupA)
+            productA = self.storageViewModel.setData(index, 0, role=Qt.UserRole + 3)
+            nameA = self.storageViewModel.setData(index, self.findProductName(0), role=Qt.UserRole + 4)
+            pallet = self.storageViewModel.setData(index, isPallet, role=rolePallet)
+            self.storageViewModel.dataChanged.emit(index, index, [roleCupA, roleProductA, roleNameA, rolePallet])
+            roleCupB = Qt.UserRole + 5
+            roleProductB = Qt.UserRole + 6
+            roleNameB = Qt.UserRole + 7
+            cupB = self.storageViewModel.setData(index, 0, role=roleCupB)
+            productB = self.storageViewModel.setData(index, 0, role=Qt.UserRole + 6)
+            nameB = self.storageViewModel.setData(index, self.findProductName(0), role=Qt.UserRole + 7)
+            self.storageViewModel.dataChanged.emit(index, index, [roleCupB, roleProductB, roleNameB, rolePallet])
         self._dumpStorage()
     @Slot(str, str, int, int, bool)
     def changeWorkbench(self,storage, slot, cupID, productID, isPallet: bool = False):

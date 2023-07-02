@@ -425,8 +425,9 @@ class Pallet:
             self.slotA = None
             oldValue.setLocation(None)
         self.slotA = cup
-        if cup.location is not self:
-            cup.setLocation(self)
+        if cup is not None:
+            if cup.location is not self:
+                cup.setLocation(self)
         if self.slotA == self.slotB:
             self.slotB = None
 
@@ -452,8 +453,9 @@ class Pallet:
             self.slotB = None
             oldValue.setLocation(None)
         self.slotB = cup
-        if cup.location is not self:
-            cup.setLocation(self)
+        if cup is not None:
+            if cup.location is not self:
+                cup.setLocation(self)
         if self.slotB == self.slotA:
             self.slotA = None
 
