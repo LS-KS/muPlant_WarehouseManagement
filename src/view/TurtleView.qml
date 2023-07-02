@@ -112,12 +112,20 @@ Rectangle {
     }
     Image {
         id: rfidicon
+        property bool selected
         width: 60
         anchors.bottom: cupVisu.top
         anchors.bottomMargin: 20
-        source: "../assets/rfid-icon.svg"
+        source: selected? "../assets/RfidIconBlue.svg": "../assets/RfidIcon.svg"
         anchors.horizontalCenter: turtleVisu.horizontalCenter
         anchors.topMargin: 100
         fillMode: Image.PreserveAspectFit
+        MouseArea {
+            id: rfidMouse
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: rfidicon.selected = true
+            onExited: rfidicon.selected = false
+        }
     }
 }
