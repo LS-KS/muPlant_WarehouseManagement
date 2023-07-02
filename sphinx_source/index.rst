@@ -14,6 +14,14 @@ Welcome to µPlant Warehouse Management's documentation!
 
    modules
 
+   view
+
+   dialogs
+
+   constants
+
+   datafiles
+
 
 Indices and tables
 ==================

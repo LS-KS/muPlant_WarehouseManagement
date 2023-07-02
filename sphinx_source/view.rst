@@ -1,0 +1,60 @@
+
+View
+----
+Die Nachfolgenden Dateien stellen den Quellcode für das GUI dar.
+
+Hauptfenster:
+main.qml
+
+.. literalinclude:: ../src/view/main.qml
+    :linenos:
+
+Banner mit Logo und Programmtitel:
+HeaderLine.qml
+
+.. literalinclude:: ../src/view/HeaderLine.qml
+    :linenos:
+
+Ansicht mit mobilem Roboter inklusive Becher und Sensoren:
+TurtleView.qml
+
+.. literalinclude:: ../src/view/TurtleView.qml
+    :linenos:
+
+Ansicht eines Bechers mit ID und Produktname
+CupView.qml
+
+.. literalinclude:: ../src/view/CupView.qml
+    :linenos:
+
+Ansicht einer Palette mit Becher:
+PalletteView.qml
+
+.. literalinclude:: ../src/view/PalletteView.qml
+    :linenos:
+
+Alternative Ansicht einer Palette mit zwei Becher:
+ProductView.qml
+
+.. literalinclude:: ../src/view/ProductView.qml
+    :linenos:
+
+Visualisierung des Anlagenschemas der Lagerzelle:
+ProcessView.qml
+
+.. literalinclude:: ../src/view/ProcessView.qml
+    :linenos:
+
+Visualisierung des gesamten Lagerregals:
+StorageView.qml
+
+.. literalinclude:: ../src/view/StorageView.qml
+    :linenos:
+
+Visualisierung des Eventloggers:
+EventView.qml
+
+.. literalinclude:: ../src/view/EventView.qml
+    :linenos:
+
+
