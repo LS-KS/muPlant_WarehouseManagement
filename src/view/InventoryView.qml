@@ -14,6 +14,7 @@ Rectangle{
     ListView{
         id: list
         anchors.fill: parent
+        anchors.margins: 10
         model: productSummaryModel
         clip: true
         Layout.fillHeight: true
@@ -55,6 +56,8 @@ Rectangle{
                     Layout.fillWidth: true
                     Layout.preferredWidth: 100
                 }
+                Layout.fillHeight: true
+                Layout.fillWidth: true
             }
             MouseArea {
                 anchors.fill: parent

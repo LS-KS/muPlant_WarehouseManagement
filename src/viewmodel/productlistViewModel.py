@@ -36,11 +36,7 @@ class ProductListViewModel(QtCore.QAbstractListModel):
         if not index.isValid() or row >= self.rowCount():
             return None
         product = self.products[row]
-        if role == QtCore.Qt.DisplayRole:
-            return product.name
-        elif role == QtCore.Qt.EditRole:
-            return product.name
-        elif role == QtCore.Qt.UserRole + 1:
+        if role == QtCore.Qt.UserRole + 1:
             return product.id
         elif role == QtCore.Qt.UserRole + 2:
             return product.name

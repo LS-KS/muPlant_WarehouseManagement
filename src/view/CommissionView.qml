@@ -8,4 +8,20 @@ Rectangle{
     width: 200
     height: 200
     color: "red"
+
+    ListView{
+        id: list
+        anchors.fill: parent
+        model: commissionModel
+        delegate: Rectangle{
+            width: 100
+            height: 50
+            color: "blue"
+            Text{
+                anchors.centerIn: parent
+                text: index
+                //nothing here yet...
+            }
+        }
+    }
 }

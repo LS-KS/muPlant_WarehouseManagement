@@ -19,6 +19,12 @@ Window {
     visible: true
     title: qsTr("Warehouse Management")
     color: "#BDBDBD"
+
+    Loader {
+        id: productListLoader
+        anchors.fill: parent
+    }
+
     Dialog {
         id: aboutDialog
         title: "About"
@@ -47,7 +53,13 @@ Window {
             title: qsTr("&Tools")
             Action { text: qsTr("&RFID &Server") }
             Action { text: qsTr("&Camera Application") }
-            Action { text: qsTr("&Show Productlist")}
+            Action {
+                text: qsTr("&Show Productlist")
+                onTriggered: {
+                    var productListPath = Qt.resolvedUrl("ProductList.qml")
+                    productListLoader.source = productListPath
+                }
+            }
         }
         Menu {
             title: qsTr("&About")
