@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls.Material 2.15
 /*
+  EventView.qml
   This Qml file implements a basic eventlogger textarea.
   It uses the EventLogController.
   */

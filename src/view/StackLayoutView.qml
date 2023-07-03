@@ -8,8 +8,6 @@ Rectangle {
     Material.primary: Material.Dark
     Material.foreground: Material.White
     Material.background: Material.Black
-    width: parent.width
-    height: 330
     TabBar {
         id: tabBar
         width: parent.width

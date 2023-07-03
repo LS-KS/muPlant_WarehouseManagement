@@ -8,13 +8,13 @@ import QtQuick.Dialogs
   Create ApplicationWindow object as base which stores all other elements
   */
 
-ApplicationWindow {
+Window {
     Material.accent: Material.Dark
     property bool init: false
     id: mainWindow
-    width: Screen.width
+    width: Screen.width/2
     minimumWidth : 480
-    height: Screen.height
+    height: Screen.height/2
     minimumHeight: 200
     visible: true
     title: qsTr("Warehouse Management")
@@ -66,30 +66,34 @@ ApplicationWindow {
             top: menuBar.bottom
         }
     }
+    // Ab hier Fensterfläche füllen
     ProcessView{
         id: processView
+        height: parent.height/2-headerLine.height
         width: parent.width/2
-        height: parent.height*0.6
-        anchors.top: headerLine.bottom
+        anchors {
+            left: parent.left
+            top: headerLine.bottom
+        }
     }
-
     StackLayoutView{
-        id: stackView
-        width: mainWindow.width/2
-        anchors{
-            left: mainWindow.left
-            right: processView.right
+        id: stackLayoutView
+        height: parent.height/2-headerLine.height
+        width: parent.width/2
+        anchors {
+            left: parent.left
             top: processView.bottom
-            bottom: mainWindow.bottom
+            bottom: parent.bottom
+        }
+    }
+    StorageView{
+        id: storageView
+        height: parent.height-headerLine.height
+        width: parent.width/2
+        anchors {
+            left: processView.right
+            top: headerLine.bottom
         }
     }
 
-    StorageView{
-        width: Screen.width /2
-        height: Screen.height
-        anchors.top: headerLine.bottom
-        anchors.left: processView.right
-        anchors.bottom: mainWindow.bottom
-        anchors.right: mainWindow.right
-    }
 }
