@@ -459,8 +459,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">slotA</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">oldValue</span><span class="o">.</span><span class="n">setLocation</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">slotA</span> <span class="o">=</span> <span class="n">cup</span>
-        <span class="k">if</span> <span class="n">cup</span><span class="o">.</span><span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
-            <span class="n">cup</span><span class="o">.</span><span class="n">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cup</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cup</span><span class="o">.</span><span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
+                <span class="n">cup</span><span class="o">.</span><span class="n">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slotA</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">slotB</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">slotB</span> <span class="o">=</span> <span class="kc">None</span></div>
 
@@ -486,8 +487,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">slotB</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">oldValue</span><span class="o">.</span><span class="n">setLocation</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">slotB</span> <span class="o">=</span> <span class="n">cup</span>
-        <span class="k">if</span> <span class="n">cup</span><span class="o">.</span><span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
-            <span class="n">cup</span><span class="o">.</span><span class="n">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cup</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cup</span><span class="o">.</span><span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
+                <span class="n">cup</span><span class="o">.</span><span class="n">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slotB</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">slotA</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">slotA</span> <span class="o">=</span> <span class="kc">None</span></div>
 
@@ -597,9 +599,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.controller.invController">Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.service.EventlogService">Service</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.viewmodel.productlistViewModel">ViewModel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#view">View</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#constants">Constants</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#data-files">Data Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../view.html">View</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dialogs.html">Dialogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../constants.html">Constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datafiles.html">Data Files</a></li>
 </ul>
 
 <div class="relations">

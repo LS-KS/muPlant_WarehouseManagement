@@ -7,6 +7,11 @@ import QtQuick.Layouts 1.3
   This QML File shows a Dialog which enables the user to manually override the storage data
   */
 Dialog {
+    Material.accent: Material.DarkBlue
+    Material.primary: Material.Dark
+    Material.foreground: Material.White
+    Material.background: Material.Black
+
     id: editDialog
     title: "Override Storage"
     width: 400

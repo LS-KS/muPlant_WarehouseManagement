@@ -57,4 +57,20 @@ EventView.qml
 .. literalinclude:: ../src/view/EventView.qml
     :linenos:
 
+Visualisierung der Registeransicht:
+StackLayoutView.qml
 
+.. literalinclude:: ../src/view/StackLayoutView.qml
+    :linenos:
+
+Visualisierung der Kommissionen:
+CommissionView.qml
+
+.. literalinclude:: ../src/view/CommissionView.qml
+    :linenos:
+
+Visualisierung der Inventarzusammenfassung:
+InventoryView.qml
+
+.. literalinclude:: ../src/view/InventoryView.qml
+    :linenos:

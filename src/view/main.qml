@@ -9,6 +9,7 @@ import QtQuick.Dialogs
   */
 
 ApplicationWindow {
+    Material.accent: Material.Dark
     property bool init: false
     id: mainWindow
     width: Screen.width
@@ -72,8 +73,8 @@ ApplicationWindow {
         anchors.top: headerLine.bottom
     }
 
-    EventView{
-        id: eventlog
+    StackLayoutView{
+        id: stackView
         width: mainWindow.width/2
         anchors{
             left: mainWindow.left

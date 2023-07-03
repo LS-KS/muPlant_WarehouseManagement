@@ -50,89 +50,90 @@ main.qml</p>
 <span class="linenos"> 9</span>  <span class="o">*/</span>
 <span class="linenos">10</span>
 <span class="linenos">11</span><span class="n">ApplicationWindow</span> <span class="p">{</span>
-<span class="linenos">12</span>    <span class="nb">property</span> <span class="nb">bool</span> <span class="n">init</span><span class="p">:</span> <span class="n">false</span>
-<span class="linenos">13</span>    <span class="nb">id</span><span class="p">:</span> <span class="n">mainWindow</span>
-<span class="linenos">14</span>    <span class="n">width</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">width</span>
-<span class="linenos">15</span>    <span class="n">minimumWidth</span> <span class="p">:</span> <span class="mi">480</span>
-<span class="linenos">16</span>    <span class="n">height</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">height</span>
-<span class="linenos">17</span>    <span class="n">minimumHeight</span><span class="p">:</span> <span class="mi">200</span>
-<span class="linenos">18</span>    <span class="n">visible</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">19</span>    <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Warehouse Management&quot;</span><span class="p">)</span>
-<span class="linenos">20</span>    <span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#BDBDBD&quot;</span>
-<span class="linenos">21</span>    <span class="n">Dialog</span> <span class="p">{</span>
-<span class="linenos">22</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">aboutDialog</span>
-<span class="linenos">23</span>        <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;About&quot;</span>
-<span class="linenos">24</span>        <span class="n">width</span> <span class="p">:</span> <span class="mi">400</span>
-<span class="linenos">25</span>        <span class="n">height</span><span class="p">:</span> <span class="mi">400</span>
-<span class="linenos">26</span>        <span class="n">Text</span> <span class="p">{</span>
-<span class="linenos">27</span>            <span class="n">anchors</span><span class="o">.</span><span class="n">centerIn</span><span class="p">:</span> <span class="n">parent</span>
-<span class="linenos">28</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Copyright 2023, Lennart Schink&quot;</span>
-<span class="linenos">29</span>        <span class="p">}</span>
-<span class="linenos">30</span>        <span class="n">Button</span> <span class="p">{</span>
-<span class="linenos">31</span>            <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Close&quot;</span><span class="p">)</span>
-<span class="linenos">32</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="n">aboutDialog</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-<span class="linenos">33</span>        <span class="p">}</span>
-<span class="linenos">34</span>    <span class="p">}</span>
-<span class="linenos">35</span>    <span class="n">MenuBar</span><span class="p">{</span>
-<span class="linenos">36</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">menuBar</span>
-<span class="linenos">37</span>        <span class="n">Menu</span> <span class="p">{</span>
-<span class="linenos">38</span>            <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;File&quot;</span><span class="p">)</span>
-<span class="linenos">39</span>            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Help...&quot;</span><span class="p">)</span> <span class="p">}</span>
-<span class="linenos">40</span>            <span class="n">MenuSeparator</span> <span class="p">{</span> <span class="p">}</span>
-<span class="linenos">41</span>            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Settings...&quot;</span><span class="p">)</span> <span class="p">}</span>
-<span class="linenos">42</span>            <span class="n">MenuSeparator</span> <span class="p">{</span> <span class="p">}</span>
-<span class="linenos">43</span>            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Quit&quot;</span><span class="p">)</span> <span class="p">}</span>
-<span class="linenos">44</span>        <span class="p">}</span>
-<span class="linenos">45</span>        <span class="n">Menu</span> <span class="p">{</span>
-<span class="linenos">46</span>            <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Tools&quot;</span><span class="p">)</span>
-<span class="linenos">47</span>            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;RFID &amp;Server&quot;</span><span class="p">)</span> <span class="p">}</span>
-<span class="linenos">48</span>            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Camera Application&quot;</span><span class="p">)</span> <span class="p">}</span>
-<span class="linenos">49</span>            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Show Productlist&quot;</span><span class="p">)}</span>
-<span class="linenos">50</span>        <span class="p">}</span>
-<span class="linenos">51</span>        <span class="n">Menu</span> <span class="p">{</span>
-<span class="linenos">52</span>            <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;About&quot;</span><span class="p">)</span>
-<span class="linenos">53</span>            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;About&quot;</span><span class="p">)</span>
-<span class="linenos">54</span>                <span class="n">onTriggered</span><span class="p">:</span> <span class="p">{</span>
-<span class="linenos">55</span>                    <span class="n">aboutDialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
-<span class="linenos">56</span>                <span class="p">}</span>
-<span class="linenos">57</span>            <span class="p">}</span>
-<span class="linenos">58</span>        <span class="p">}</span>
-<span class="linenos">59</span>    <span class="p">}</span>
-<span class="linenos">60</span>    <span class="n">HeaderLine</span><span class="p">{</span>
-<span class="linenos">61</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">headerLine</span>
-<span class="linenos">62</span>        <span class="n">anchors</span> <span class="p">{</span>
-<span class="linenos">63</span>            <span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
-<span class="linenos">64</span>            <span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
-<span class="linenos">65</span>            <span class="n">top</span><span class="p">:</span> <span class="n">menuBar</span><span class="o">.</span><span class="n">bottom</span>
-<span class="linenos">66</span>        <span class="p">}</span>
-<span class="linenos">67</span>    <span class="p">}</span>
-<span class="linenos">68</span>    <span class="n">ProcessView</span><span class="p">{</span>
-<span class="linenos">69</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">processView</span>
-<span class="linenos">70</span>        <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span>
-<span class="linenos">71</span>        <span class="n">height</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">height</span><span class="o">*</span><span class="mf">0.6</span>
-<span class="linenos">72</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">bottom</span>
-<span class="linenos">73</span>    <span class="p">}</span>
-<span class="linenos">74</span>
-<span class="linenos">75</span>    <span class="n">EventView</span><span class="p">{</span>
-<span class="linenos">76</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">eventlog</span>
-<span class="linenos">77</span>        <span class="n">width</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span>
-<span class="linenos">78</span>        <span class="n">anchors</span><span class="p">{</span>
-<span class="linenos">79</span>            <span class="n">left</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">left</span>
-<span class="linenos">80</span>            <span class="n">right</span><span class="p">:</span> <span class="n">processView</span><span class="o">.</span><span class="n">right</span>
-<span class="linenos">81</span>            <span class="n">top</span><span class="p">:</span> <span class="n">processView</span><span class="o">.</span><span class="n">bottom</span>
-<span class="linenos">82</span>            <span class="n">bottom</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">bottom</span>
-<span class="linenos">83</span>        <span class="p">}</span>
-<span class="linenos">84</span>    <span class="p">}</span>
-<span class="linenos">85</span>
-<span class="linenos">86</span>    <span class="n">StorageView</span><span class="p">{</span>
-<span class="linenos">87</span>        <span class="n">width</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span><span class="mi">2</span>
-<span class="linenos">88</span>        <span class="n">height</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">height</span>
-<span class="linenos">89</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">bottom</span>
-<span class="linenos">90</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">processView</span><span class="o">.</span><span class="n">right</span>
-<span class="linenos">91</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">bottom</span>
-<span class="linenos">92</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">right</span>
-<span class="linenos">93</span>    <span class="p">}</span>
-<span class="linenos">94</span><span class="p">}</span>
+<span class="linenos">12</span>    <span class="n">Material</span><span class="o">.</span><span class="n">accent</span><span class="p">:</span> <span class="n">Material</span><span class="o">.</span><span class="n">Dark</span>
+<span class="linenos">13</span>    <span class="nb">property</span> <span class="nb">bool</span> <span class="n">init</span><span class="p">:</span> <span class="n">false</span>
+<span class="linenos">14</span>    <span class="nb">id</span><span class="p">:</span> <span class="n">mainWindow</span>
+<span class="linenos">15</span>    <span class="n">width</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">width</span>
+<span class="linenos">16</span>    <span class="n">minimumWidth</span> <span class="p">:</span> <span class="mi">480</span>
+<span class="linenos">17</span>    <span class="n">height</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">height</span>
+<span class="linenos">18</span>    <span class="n">minimumHeight</span><span class="p">:</span> <span class="mi">200</span>
+<span class="linenos">19</span>    <span class="n">visible</span><span class="p">:</span> <span class="n">true</span>
+<span class="linenos">20</span>    <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Warehouse Management&quot;</span><span class="p">)</span>
+<span class="linenos">21</span>    <span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#BDBDBD&quot;</span>
+<span class="linenos">22</span>    <span class="n">Dialog</span> <span class="p">{</span>
+<span class="linenos">23</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">aboutDialog</span>
+<span class="linenos">24</span>        <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;About&quot;</span>
+<span class="linenos">25</span>        <span class="n">width</span> <span class="p">:</span> <span class="mi">400</span>
+<span class="linenos">26</span>        <span class="n">height</span><span class="p">:</span> <span class="mi">400</span>
+<span class="linenos">27</span>        <span class="n">Text</span> <span class="p">{</span>
+<span class="linenos">28</span>            <span class="n">anchors</span><span class="o">.</span><span class="n">centerIn</span><span class="p">:</span> <span class="n">parent</span>
+<span class="linenos">29</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Copyright 2023, Lennart Schink&quot;</span>
+<span class="linenos">30</span>        <span class="p">}</span>
+<span class="linenos">31</span>        <span class="n">Button</span> <span class="p">{</span>
+<span class="linenos">32</span>            <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Close&quot;</span><span class="p">)</span>
+<span class="linenos">33</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="n">aboutDialog</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="linenos">34</span>        <span class="p">}</span>
+<span class="linenos">35</span>    <span class="p">}</span>
+<span class="linenos">36</span>    <span class="n">MenuBar</span><span class="p">{</span>
+<span class="linenos">37</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">menuBar</span>
+<span class="linenos">38</span>        <span class="n">Menu</span> <span class="p">{</span>
+<span class="linenos">39</span>            <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;File&quot;</span><span class="p">)</span>
+<span class="linenos">40</span>            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Help...&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="linenos">41</span>            <span class="n">MenuSeparator</span> <span class="p">{</span> <span class="p">}</span>
+<span class="linenos">42</span>            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Settings...&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="linenos">43</span>            <span class="n">MenuSeparator</span> <span class="p">{</span> <span class="p">}</span>
+<span class="linenos">44</span>            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Quit&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="linenos">45</span>        <span class="p">}</span>
+<span class="linenos">46</span>        <span class="n">Menu</span> <span class="p">{</span>
+<span class="linenos">47</span>            <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Tools&quot;</span><span class="p">)</span>
+<span class="linenos">48</span>            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;RFID &amp;Server&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="linenos">49</span>            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Camera Application&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="linenos">50</span>            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;Show Productlist&quot;</span><span class="p">)}</span>
+<span class="linenos">51</span>        <span class="p">}</span>
+<span class="linenos">52</span>        <span class="n">Menu</span> <span class="p">{</span>
+<span class="linenos">53</span>            <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;About&quot;</span><span class="p">)</span>
+<span class="linenos">54</span>            <span class="n">Action</span> <span class="p">{</span> <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;&amp;About&quot;</span><span class="p">)</span>
+<span class="linenos">55</span>                <span class="n">onTriggered</span><span class="p">:</span> <span class="p">{</span>
+<span class="linenos">56</span>                    <span class="n">aboutDialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+<span class="linenos">57</span>                <span class="p">}</span>
+<span class="linenos">58</span>            <span class="p">}</span>
+<span class="linenos">59</span>        <span class="p">}</span>
+<span class="linenos">60</span>    <span class="p">}</span>
+<span class="linenos">61</span>    <span class="n">HeaderLine</span><span class="p">{</span>
+<span class="linenos">62</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">headerLine</span>
+<span class="linenos">63</span>        <span class="n">anchors</span> <span class="p">{</span>
+<span class="linenos">64</span>            <span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+<span class="linenos">65</span>            <span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+<span class="linenos">66</span>            <span class="n">top</span><span class="p">:</span> <span class="n">menuBar</span><span class="o">.</span><span class="n">bottom</span>
+<span class="linenos">67</span>        <span class="p">}</span>
+<span class="linenos">68</span>    <span class="p">}</span>
+<span class="linenos">69</span>    <span class="n">ProcessView</span><span class="p">{</span>
+<span class="linenos">70</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">processView</span>
+<span class="linenos">71</span>        <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span>
+<span class="linenos">72</span>        <span class="n">height</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">height</span><span class="o">*</span><span class="mf">0.6</span>
+<span class="linenos">73</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">bottom</span>
+<span class="linenos">74</span>    <span class="p">}</span>
+<span class="linenos">75</span>
+<span class="linenos">76</span>    <span class="n">StackLayoutView</span><span class="p">{</span>
+<span class="linenos">77</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">stackView</span>
+<span class="linenos">78</span>        <span class="n">width</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span>
+<span class="linenos">79</span>        <span class="n">anchors</span><span class="p">{</span>
+<span class="linenos">80</span>            <span class="n">left</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">left</span>
+<span class="linenos">81</span>            <span class="n">right</span><span class="p">:</span> <span class="n">processView</span><span class="o">.</span><span class="n">right</span>
+<span class="linenos">82</span>            <span class="n">top</span><span class="p">:</span> <span class="n">processView</span><span class="o">.</span><span class="n">bottom</span>
+<span class="linenos">83</span>            <span class="n">bottom</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">bottom</span>
+<span class="linenos">84</span>        <span class="p">}</span>
+<span class="linenos">85</span>    <span class="p">}</span>
+<span class="linenos">86</span>
+<span class="linenos">87</span>    <span class="n">StorageView</span><span class="p">{</span>
+<span class="linenos">88</span>        <span class="n">width</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span><span class="mi">2</span>
+<span class="linenos">89</span>        <span class="n">height</span><span class="p">:</span> <span class="n">Screen</span><span class="o">.</span><span class="n">height</span>
+<span class="linenos">90</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">headerLine</span><span class="o">.</span><span class="n">bottom</span>
+<span class="linenos">91</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">processView</span><span class="o">.</span><span class="n">right</span>
+<span class="linenos">92</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">bottom</span>
+<span class="linenos">93</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">mainWindow</span><span class="o">.</span><span class="n">right</span>
+<span class="linenos">94</span>    <span class="p">}</span>
+<span class="linenos">95</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>Banner mit Logo und Programmtitel:
@@ -234,126 +235,151 @@ TurtleView.qml</p>
 <span class="linenos"> 26</span>
 <span class="linenos"> 27</span>    CupView {
 <span class="linenos"> 28</span>        id: cupVisu
-<span class="linenos"> 29</span>        y: 125
-<span class="linenos"> 30</span>        anchors.bottom: parent.bottom
-<span class="linenos"> 31</span>        anchors.horizontalCenter: parent.horizontalCenter
-<span class="linenos"> 32</span>        anchors.bottomMargin: rectangle.height*0.3
-<span class="linenos"> 33</span>        height: 0.3*rectangle.height
-<span class="linenos"> 34</span>        width: 0.3*rectangle.width
-<span class="linenos"> 35</span>    }
-<span class="linenos"> 36</span>
-<span class="linenos"> 37</span>    Image {
-<span class="linenos"> 38</span>        id: setTurtle
-<span class="linenos"> 39</span>        width: 30
-<span class="linenos"> 40</span>        source: &quot;../assets/gear.png&quot;
-<span class="linenos"> 41</span>        anchors.right: cupVisu.left
-<span class="linenos"> 42</span>        anchors.top: cupVisu.top
-<span class="linenos"> 43</span>        anchors.rightMargin: 5
-<span class="linenos"> 44</span>        fillMode: Image.PreserveAspectFit
-<span class="linenos"> 45</span>        opacity: 0
-<span class="linenos"> 46</span>        MouseArea{
-<span class="linenos"> 47</span>            anchors.fill: parent
-<span class="linenos"> 48</span>            hoverEnabled: true
-<span class="linenos"> 49</span>            onEntered: setTurtle.opacity = 1;
-<span class="linenos"> 50</span>            onExited: setTurtle.opacity = 0;
-<span class="linenos"> 51</span>            onClicked: turtleDialog.open();
+<span class="linenos"> 29</span>        anchors.bottom: parent.bottom
+<span class="linenos"> 30</span>        anchors.horizontalCenter: parent.horizontalCenter
+<span class="linenos"> 31</span>        anchors.bottomMargin: rectangle.height*0.3
+<span class="linenos"> 32</span>        height: 0.55*width
+<span class="linenos"> 33</span>        width: 180
+<span class="linenos"> 34</span>        opacity: cup == 0 ? 0 : 1
+<span class="linenos"> 35</span>        MouseArea {
+<span class="linenos"> 36</span>            id: cupMouse
+<span class="linenos"> 37</span>            propagateComposedEvents: true
+<span class="linenos"> 38</span>            anchors.fill: parent
+<span class="linenos"> 39</span>            hoverEnabled: true
+<span class="linenos"> 40</span>            onEntered: setTurtle.opacity = 1;
+<span class="linenos"> 41</span>            onExited: setTurtle.opacity = 0.5;
+<span class="linenos"> 42</span>            onClicked: setTurtle.open();
+<span class="linenos"> 43</span>        }
+<span class="linenos"> 44</span>        Connections {
+<span class="linenos"> 45</span>            target: inventoryController
+<span class="linenos"> 46</span>            function onTransmitMobileRobot(cup, product, name) {
+<span class="linenos"> 47</span>                console.log(&quot;transmitMobileRobot received; Cup: &quot; + cup + &quot; Product: &quot; + product + &quot; Name: &quot; + name);
+<span class="linenos"> 48</span>                cupVisu.cup = cup;
+<span class="linenos"> 49</span>                cupVisu.prod = product;
+<span class="linenos"> 50</span>                cupVisu.name = name;
+<span class="linenos"> 51</span>            }
 <span class="linenos"> 52</span>        }
 <span class="linenos"> 53</span>    }
 <span class="linenos"> 54</span>
 <span class="linenos"> 55</span>    Image {
-<span class="linenos"> 56</span>        property bool turtlePresent: false
-<span class="linenos"> 57</span>        id: sensorSymbolleft
-<span class="linenos"> 58</span>        y: 296
-<span class="linenos"> 59</span>        anchors.left: parent.left
-<span class="linenos"> 60</span>        source: turtlePresent? &quot;../assets/SensorSymbolBlue.svg&quot; :  &quot;../assets/SensorSymbol.svg&quot;
-<span class="linenos"> 61</span>        anchors.leftMargin: 0
+<span class="linenos"> 56</span>        id: setTurtle
+<span class="linenos"> 57</span>        width: 30
+<span class="linenos"> 58</span>        source: &quot;../assets/gear.png&quot;
+<span class="linenos"> 59</span>        anchors.right: cupVisu.left
+<span class="linenos"> 60</span>        anchors.top: cupVisu.top
+<span class="linenos"> 61</span>        anchors.rightMargin: 5
 <span class="linenos"> 62</span>        fillMode: Image.PreserveAspectFit
-<span class="linenos"> 63</span>        MouseArea {
-<span class="linenos"> 64</span>            id: leftSensorMouse
+<span class="linenos"> 63</span>        opacity: 0
+<span class="linenos"> 64</span>        MouseArea{
 <span class="linenos"> 65</span>            anchors.fill: parent
 <span class="linenos"> 66</span>            hoverEnabled: true
-<span class="linenos"> 67</span>
-<span class="linenos"> 68</span>            onEntered: sensorSymbolleft.turtlePresent = true
-<span class="linenos"> 69</span>            onExited: sensorSymbolleft.turtlePresent = false
+<span class="linenos"> 67</span>            onEntered: setTurtle.opacity = 1;
+<span class="linenos"> 68</span>            onExited: setTurtle.opacity = 0;
+<span class="linenos"> 69</span>            onClicked: turtleDialog.open();
 <span class="linenos"> 70</span>        }
 <span class="linenos"> 71</span>    }
 <span class="linenos"> 72</span>
 <span class="linenos"> 73</span>    Image {
 <span class="linenos"> 74</span>        property bool turtlePresent: false
-<span class="linenos"> 75</span>        id: sensorSymbolright
-<span class="linenos"> 76</span>        x: 329
-<span class="linenos"> 77</span>        y: 296
-<span class="linenos"> 78</span>        anchors.right: parent.right
-<span class="linenos"> 79</span>        source: turtlePresent? &quot;../assets/SensorSymbolBlue.svg&quot; :  &quot;../assets/SensorSymbol.svg&quot;
-<span class="linenos"> 80</span>        anchors.rightMargin: 0
-<span class="linenos"> 81</span>        asynchronous: false
-<span class="linenos"> 82</span>        mipmap: false
-<span class="linenos"> 83</span>        smooth: true
-<span class="linenos"> 84</span>        mirror: true
-<span class="linenos"> 85</span>        fillMode: Image.PreserveAspectFit
-<span class="linenos"> 86</span>        MouseArea {
-<span class="linenos"> 87</span>            id: rightSensorMouse
-<span class="linenos"> 88</span>            anchors.fill: parent
-<span class="linenos"> 89</span>            hoverEnabled: true
+<span class="linenos"> 75</span>        id: sensorSymbolleft
+<span class="linenos"> 76</span>        y: 296
+<span class="linenos"> 77</span>        anchors.left: parent.left
+<span class="linenos"> 78</span>        source: turtlePresent? &quot;../assets/SensorSymbolBlue.svg&quot; :  &quot;../assets/SensorSymbol.svg&quot;
+<span class="linenos"> 79</span>        anchors.leftMargin: 0
+<span class="linenos"> 80</span>        fillMode: Image.PreserveAspectFit
+<span class="linenos"> 81</span>        MouseArea {
+<span class="linenos"> 82</span>            id: leftSensorMouse
+<span class="linenos"> 83</span>            anchors.fill: parent
+<span class="linenos"> 84</span>            hoverEnabled: true
+<span class="linenos"> 85</span>
+<span class="linenos"> 86</span>            onEntered: sensorSymbolleft.turtlePresent = true
+<span class="linenos"> 87</span>            onExited: sensorSymbolleft.turtlePresent = false
+<span class="linenos"> 88</span>        }
+<span class="linenos"> 89</span>    }
 <span class="linenos"> 90</span>
-<span class="linenos"> 91</span>            onEntered: sensorSymbolright.turtlePresent = true
-<span class="linenos"> 92</span>            onExited: sensorSymbolright.turtlePresent = false
-<span class="linenos"> 93</span>        }
-<span class="linenos"> 94</span>    }
-<span class="linenos"> 95</span>    Image {
-<span class="linenos"> 96</span>        id: rfidicon
-<span class="linenos"> 97</span>        width: 60
-<span class="linenos"> 98</span>        anchors.bottom: cupVisu.top
-<span class="linenos"> 99</span>        anchors.bottomMargin: 20
-<span class="linenos">100</span>        source: &quot;../assets/rfid-icon.svg&quot;
-<span class="linenos">101</span>        anchors.horizontalCenter: turtleVisu.horizontalCenter
-<span class="linenos">102</span>        anchors.topMargin: 100
+<span class="linenos"> 91</span>    Image {
+<span class="linenos"> 92</span>        property bool turtlePresent: false
+<span class="linenos"> 93</span>        id: sensorSymbolright
+<span class="linenos"> 94</span>        x: 329
+<span class="linenos"> 95</span>        y: 296
+<span class="linenos"> 96</span>        anchors.right: parent.right
+<span class="linenos"> 97</span>        source: turtlePresent? &quot;../assets/SensorSymbolBlue.svg&quot; :  &quot;../assets/SensorSymbol.svg&quot;
+<span class="linenos"> 98</span>        anchors.rightMargin: 0
+<span class="linenos"> 99</span>        asynchronous: false
+<span class="linenos">100</span>        mipmap: false
+<span class="linenos">101</span>        smooth: true
+<span class="linenos">102</span>        mirror: true
 <span class="linenos">103</span>        fillMode: Image.PreserveAspectFit
-<span class="linenos">104</span>    }
-<span class="linenos">105</span>}
+<span class="linenos">104</span>        MouseArea {
+<span class="linenos">105</span>            id: rightSensorMouse
+<span class="linenos">106</span>            anchors.fill: parent
+<span class="linenos">107</span>            hoverEnabled: true
+<span class="linenos">108</span>
+<span class="linenos">109</span>            onEntered: sensorSymbolright.turtlePresent = true
+<span class="linenos">110</span>            onExited: sensorSymbolright.turtlePresent = false
+<span class="linenos">111</span>        }
+<span class="linenos">112</span>    }
+<span class="linenos">113</span>    Image {
+<span class="linenos">114</span>        id: rfidicon
+<span class="linenos">115</span>        width: 60
+<span class="linenos">116</span>        anchors.bottom: cupVisu.top
+<span class="linenos">117</span>        anchors.bottomMargin: 20
+<span class="linenos">118</span>        source: &quot;../assets/rfid-icon.svg&quot;
+<span class="linenos">119</span>        anchors.horizontalCenter: turtleVisu.horizontalCenter
+<span class="linenos">120</span>        anchors.topMargin: 100
+<span class="linenos">121</span>        fillMode: Image.PreserveAspectFit
+<span class="linenos">122</span>    }
+<span class="linenos">123</span>}
 </pre></div>
 </div>
 <p>Ansicht eines Bechers mit ID und Produktname
 CupView.qml</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">QtQuick</span>
-<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">QtQuick.Layouts</span> <span class="mf">1.15</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>import QtQuick
+<span class="linenos"> 2</span>import QtQuick.Layouts 1.15
 <span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="n">Rectangle</span> <span class="p">{</span>
-<span class="linenos"> 5</span>    <span class="nb">id</span><span class="p">:</span> <span class="n">rectangle</span>
-<span class="linenos"> 6</span>    <span class="n">width</span><span class="p">:</span>  <span class="mi">200</span>
-<span class="linenos"> 7</span>    <span class="n">height</span><span class="p">:</span> <span class="mi">150</span>
-<span class="linenos"> 8</span>    <span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#E1F5FE&quot;</span>
-<span class="linenos"> 9</span>    <span class="n">border</span><span class="o">.</span><span class="n">color</span><span class="p">:</span> <span class="s2">&quot;#1F82B2&quot;</span>
-<span class="linenos">10</span>    <span class="n">border</span><span class="o">.</span><span class="n">width</span><span class="p">:</span> <span class="mi">2</span>
-<span class="linenos">11</span>
-<span class="linenos">12</span>    <span class="n">ColumnLayout</span> <span class="p">{</span>
-<span class="linenos">13</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
-<span class="linenos">14</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
-<span class="linenos">15</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
-<span class="linenos">16</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
-<span class="linenos">17</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">:</span> <span class="mi">0</span>
-<span class="linenos">18</span>        <span class="n">Row</span> <span class="p">{</span>
-<span class="linenos">19</span>            <span class="nb">id</span><span class="p">:</span> <span class="n">row</span>
-<span class="linenos">20</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">alignment</span><span class="p">:</span> <span class="n">Qt</span><span class="o">.</span><span class="n">AlignHCenter</span> <span class="o">|</span> <span class="n">Qt</span><span class="o">.</span><span class="n">AlignVCenter</span>
-<span class="linenos">21</span>            <span class="n">Text</span> <span class="p">{</span>
-<span class="linenos">22</span>                <span class="nb">id</span><span class="p">:</span> <span class="n">name</span>
-<span class="linenos">23</span>                <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;muPlant Spezial&quot;</span><span class="p">)</span>
-<span class="linenos">24</span>                <span class="n">horizontalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignHCenter</span>
-<span class="linenos">25</span>                <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
-<span class="linenos">26</span>            <span class="p">}</span>
-<span class="linenos">27</span>        <span class="p">}</span>
-<span class="linenos">28</span>
-<span class="linenos">29</span>        <span class="n">Row</span> <span class="p">{</span>
-<span class="linenos">30</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">alignment</span><span class="p">:</span> <span class="n">Qt</span><span class="o">.</span><span class="n">AlignHCenter</span> <span class="o">|</span> <span class="n">Qt</span><span class="o">.</span><span class="n">AlignVCenter</span>
-<span class="linenos">31</span>            <span class="n">Text</span> <span class="p">{</span>
-<span class="linenos">32</span>                <span class="nb">id</span><span class="p">:</span> <span class="n">itemId</span>
-<span class="linenos">33</span>                <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Cup: 25&quot;</span><span class="p">)</span>
-<span class="linenos">34</span>                <span class="n">horizontalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignHCenter</span>
-<span class="linenos">35</span>                <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
-<span class="linenos">36</span>            <span class="p">}</span>
-<span class="linenos">37</span>        <span class="p">}</span>
-<span class="linenos">38</span>    <span class="p">}</span>
-<span class="linenos">39</span><span class="p">}</span>
+<span class="linenos"> 4</span>Rectangle{
+<span class="linenos"> 5</span>    id: productSlot
+<span class="linenos"> 6</span>    implicitHeight: parent.height/2-10
+<span class="linenos"> 7</span>    implicitWidth: parent.width
+<span class="linenos"> 8</span>    color: selected ? &quot;#81B8D4&quot;: &quot;white&quot;
+<span class="linenos"> 9</span>    border.color: &quot;#1F82B2&quot;
+<span class="linenos">10</span>    border.width: 2
+<span class="linenos">11</span>    Layout.fillWidth: true
+<span class="linenos">12</span>    Layout.fillHeight: true
+<span class="linenos">13</span>    activeFocusOnTab: true
+<span class="linenos">14</span>    radius: 5
+<span class="linenos">15</span>    property bool selected: false
+<span class="linenos">16</span>    property int cup: 0
+<span class="linenos">17</span>    property string name: &quot;Kein Becher&quot;
+<span class="linenos">18</span>    property int prod: 0
+<span class="linenos">19</span>    ColumnLayout{
+<span class="linenos">20</span>       anchors.fill: parent
+<span class="linenos">21</span>       Text{
+<span class="linenos">22</span>           text:&quot;Cup ID: &quot;+cup
+<span class="linenos">23</span>           horizontalAlignment: Text.AlignHCenter
+<span class="linenos">24</span>           verticalAlignment: Text.AlignVCenter
+<span class="linenos">25</span>            Layout.fillHeight: true
+<span class="linenos">26</span>            Layout.fillWidth: true
+<span class="linenos">27</span>       }
+<span class="linenos">28</span>       Text{
+<span class="linenos">29</span>           text:name
+<span class="linenos">30</span>           horizontalAlignment: Text.AlignHCenter
+<span class="linenos">31</span>           verticalAlignment: Text.AlignVCenter
+<span class="linenos">32</span>           Layout.fillHeight: true
+<span class="linenos">33</span>           Layout.fillWidth: true
+<span class="linenos">34</span>       }
+<span class="linenos">35</span>    }
+<span class="linenos">36</span>    MouseArea {
+<span class="linenos">37</span>        id: mouseAreaA
+<span class="linenos">38</span>        anchors.fill: parent
+<span class="linenos">39</span>        propagateComposedEvents: true
+<span class="linenos">40</span>        onClicked: {
+<span class="linenos">41</span>            if (!productSlotA.selected){
+<span class="linenos">42</span>               inventoryController.selectRow(prodA)
+<span class="linenos">43</span>            }
+<span class="linenos">44</span>        }
+<span class="linenos">45</span>    }
+<span class="linenos">46</span>}
 </pre></div>
 </div>
 <p>Ansicht einer Palette mit Becher:
@@ -414,9 +440,9 @@ ProductView.qml</p>
 <span class="linenos"> 10</span>    width: 200
 <span class="linenos"> 11</span>    height: 400
 <span class="linenos"> 12</span>    radius: 10
-<span class="linenos"> 13</span>    border.width: 2
+<span class="linenos"> 13</span>    border.width: 1
 <span class="linenos"> 14</span>    border.color: &quot;#1F82B2&quot;
-<span class="linenos"> 15</span>
+<span class="linenos"> 15</span>    color: &quot;#B9D5F0&quot;
 <span class="linenos"> 16</span>    property string name: &quot;ProductSlot&quot;
 <span class="linenos"> 17</span>    property bool withPallet: false
 <span class="linenos"> 18</span>    property string cupA: &quot;&quot;
@@ -456,114 +482,120 @@ ProductView.qml</p>
 <span class="linenos"> 52</span>            margins: 5
 <span class="linenos"> 53</span>        }
 <span class="linenos"> 54</span>        radius: 5
-<span class="linenos"> 55</span>        color: &quot;#81B8D4&quot;
-<span class="linenos"> 56</span>        border.width: 1
-<span class="linenos"> 57</span>        border.color: &quot;#1F82B2&quot;
-<span class="linenos"> 58</span>        ColumnLayout{
-<span class="linenos"> 59</span>            anchors.fill: parent
-<span class="linenos"> 60</span>            spacing: 2
-<span class="linenos"> 61</span>            // Rectangle holding Product A
-<span class="linenos"> 62</span>            Rectangle{
-<span class="linenos"> 63</span>                id: productSlotA
-<span class="linenos"> 64</span>                implicitHeight: parent.height/2-10
-<span class="linenos"> 65</span>                implicitWidth: parent.width
-<span class="linenos"> 66</span>                color: selected ? &quot;#81B8D4&quot;: &quot;white&quot;
-<span class="linenos"> 67</span>                border.color: &quot;#1F82B2&quot;
-<span class="linenos"> 68</span>                border.width: 2
-<span class="linenos"> 69</span>                Layout.fillWidth: true
-<span class="linenos"> 70</span>                Layout.fillHeight: true
-<span class="linenos"> 71</span>                activeFocusOnTab: true
-<span class="linenos"> 72</span>                radius: 5
-<span class="linenos"> 73</span>                property bool selected: false
-<span class="linenos"> 74</span>                ColumnLayout{
-<span class="linenos"> 75</span>                   anchors.fill: parent
-<span class="linenos"> 76</span>                   Text{
-<span class="linenos"> 77</span>                       text:&quot;Cup ID: &quot;+cupA
-<span class="linenos"> 78</span>                       horizontalAlignment: Text.AlignHCenter
-<span class="linenos"> 79</span>                       verticalAlignment: Text.AlignVCenter
-<span class="linenos"> 80</span>                       Layout.fillHeight: true
-<span class="linenos"> 81</span>                       Layout.fillWidth: true
-<span class="linenos"> 82</span>                   }
-<span class="linenos"> 83</span>                   Text{
-<span class="linenos"> 84</span>                       text:nameA
-<span class="linenos"> 85</span>                       horizontalAlignment: Text.AlignHCenter
-<span class="linenos"> 86</span>                       verticalAlignment: Text.AlignVCenter
-<span class="linenos"> 87</span>                       Layout.fillHeight: true
-<span class="linenos"> 88</span>                       Layout.fillWidth: true
-<span class="linenos"> 89</span>                   }
-<span class="linenos"> 90</span>                }
-<span class="linenos"> 91</span>                MouseArea {
-<span class="linenos"> 92</span>                    id: mouseAreaA
-<span class="linenos"> 93</span>                    anchors.fill: parent
-<span class="linenos"> 94</span>                    propagateComposedEvents: true
-<span class="linenos"> 95</span>                    onClicked: {
-<span class="linenos"> 96</span>                        if (!productSlotA.selected){
-<span class="linenos"> 97</span>                           inventoryController.selectRow(prodA)
-<span class="linenos"> 98</span>                        }
-<span class="linenos"> 99</span>                    }
-<span class="linenos">100</span>                }
-<span class="linenos">101</span>            }
-<span class="linenos">102</span>            // Rectangle holds Product B
-<span class="linenos">103</span>            Rectangle{
-<span class="linenos">104</span>                id: productSlotB
-<span class="linenos">105</span>                implicitHeight: parent.height/2-10
-<span class="linenos">106</span>                implicitWidth: parent.width
-<span class="linenos">107</span>                color: selected ? &quot;#81B8D4&quot;: &quot;white&quot;
-<span class="linenos">108</span>                border.color: &quot;#1F82B2&quot;
-<span class="linenos">109</span>                border.width: 2
-<span class="linenos">110</span>                Layout.fillHeight: true
-<span class="linenos">111</span>                Layout.fillWidth: true
-<span class="linenos">112</span>                radius: 5
-<span class="linenos">113</span>                property bool selected: false
-<span class="linenos">114</span>                ColumnLayout{
-<span class="linenos">115</span>                   anchors.fill: parent
-<span class="linenos">116</span>                   Text{
-<span class="linenos">117</span>                       text:&quot;Cup ID: &quot;+cupB
-<span class="linenos">118</span>                       horizontalAlignment: Text.AlignHCenter
-<span class="linenos">119</span>                       verticalAlignment: Text.AlignVCenter
-<span class="linenos">120</span>                       Layout.fillHeight: true
-<span class="linenos">121</span>                       Layout.fillWidth: true
-<span class="linenos">122</span>                   }
-<span class="linenos">123</span>                   Text{
-<span class="linenos">124</span>                       text:nameB
-<span class="linenos">125</span>                       horizontalAlignment: Text.AlignHCenter
-<span class="linenos">126</span>                       verticalAlignment: Text.AlignVCenter
-<span class="linenos">127</span>                       Layout.fillHeight: true
-<span class="linenos">128</span>                       Layout.fillWidth: true
-<span class="linenos">129</span>                   }
-<span class="linenos">130</span>                }
-<span class="linenos">131</span>                MouseArea {
-<span class="linenos">132</span>                    id: mouseAreaB
-<span class="linenos">133</span>                    anchors.fill: parent
-<span class="linenos">134</span>                    propagateComposedEvents: true
-<span class="linenos">135</span>                    onClicked: {
-<span class="linenos">136</span>                        if (!productSlotB.selected){
-<span class="linenos">137</span>                           inventoryController.selectRow(prodB)
-<span class="linenos">138</span>                        }
-<span class="linenos">139</span>                    }
-<span class="linenos">140</span>                }
-<span class="linenos">141</span>            }
-<span class="linenos">142</span>
-<span class="linenos">143</span>        }
-<span class="linenos">144</span>        //Connect to InventoryController.py&#39;s InventoryController and change color of selected Product.
-<span class="linenos">145</span>        Connections{
-<span class="linenos">146</span>            target: inventoryController
-<span class="linenos">147</span>            function onProductSelected(message){
-<span class="linenos">148</span>                if (prodA === message){
-<span class="linenos">149</span>                    productSlotA.selected = true
-<span class="linenos">150</span>                }else{
-<span class="linenos">151</span>                    productSlotA.selected = false
-<span class="linenos">152</span>                }
-<span class="linenos">153</span>                if (prodB === message){
-<span class="linenos">154</span>                    productSlotB.selected = true
-<span class="linenos">155</span>                }else{
-<span class="linenos">156</span>                    productSlotB.selected = false
-<span class="linenos">157</span>                }
-<span class="linenos">158</span>            }
-<span class="linenos">159</span>        }
-<span class="linenos">160</span>    }
-<span class="linenos">161</span>}
-<span class="linenos">162</span>
+<span class="linenos"> 55</span>        //color: &quot;#81B8D4&quot;
+<span class="linenos"> 56</span>        color: &quot;white&quot;
+<span class="linenos"> 57</span>        border.width: 1
+<span class="linenos"> 58</span>        clip: true
+<span class="linenos"> 59</span>        border.color: &quot;#1F82B2&quot;
+<span class="linenos"> 60</span>        opacity: withPallet ? 1 : 0
+<span class="linenos"> 61</span>        ColumnLayout{
+<span class="linenos"> 62</span>            anchors.fill: parent
+<span class="linenos"> 63</span>            spacing: 2
+<span class="linenos"> 64</span>            // Rectangle holding Product A
+<span class="linenos"> 65</span>            Rectangle{
+<span class="linenos"> 66</span>                id: productSlotA
+<span class="linenos"> 67</span>                implicitHeight: parent.height/2-10
+<span class="linenos"> 68</span>                implicitWidth: parent.width
+<span class="linenos"> 69</span>                color: selected ? &quot;#81B8D4&quot;: &quot;white&quot;
+<span class="linenos"> 70</span>                border.color: &quot;#1F82B2&quot;
+<span class="linenos"> 71</span>                opacity: cupA == 0 ? false : true
+<span class="linenos"> 72</span>                border.width: 2
+<span class="linenos"> 73</span>                Layout.fillWidth: true
+<span class="linenos"> 74</span>                Layout.fillHeight: true
+<span class="linenos"> 75</span>                activeFocusOnTab: true
+<span class="linenos"> 76</span>                radius: 5
+<span class="linenos"> 77</span>                property bool selected: false
+<span class="linenos"> 78</span>                ColumnLayout{
+<span class="linenos"> 79</span>                   anchors.fill: parent
+<span class="linenos"> 80</span>                   Text{
+<span class="linenos"> 81</span>                       text:&quot;Cup ID: &quot;+cupA
+<span class="linenos"> 82</span>                       horizontalAlignment: Text.AlignHCenter
+<span class="linenos"> 83</span>                       verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 84</span>                       Layout.fillHeight: true
+<span class="linenos"> 85</span>                       Layout.fillWidth: true
+<span class="linenos"> 86</span>                   }
+<span class="linenos"> 87</span>                   Text{
+<span class="linenos"> 88</span>                       text:nameA
+<span class="linenos"> 89</span>                       horizontalAlignment: Text.AlignHCenter
+<span class="linenos"> 90</span>                       verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 91</span>                       Layout.fillHeight: true
+<span class="linenos"> 92</span>                       Layout.fillWidth: true
+<span class="linenos"> 93</span>                   }
+<span class="linenos"> 94</span>                }
+<span class="linenos"> 95</span>                MouseArea {
+<span class="linenos"> 96</span>                    id: mouseAreaA
+<span class="linenos"> 97</span>                    anchors.fill: parent
+<span class="linenos"> 98</span>                    propagateComposedEvents: true
+<span class="linenos"> 99</span>                    onClicked: {
+<span class="linenos">100</span>                        if (!productSlotA.selected){
+<span class="linenos">101</span>                           inventoryController.selectRow(prodA)
+<span class="linenos">102</span>                        }
+<span class="linenos">103</span>                    }
+<span class="linenos">104</span>                }
+<span class="linenos">105</span>            }
+<span class="linenos">106</span>
+<span class="linenos">107</span>            // Rectangle holds Product B
+<span class="linenos">108</span>            Rectangle{
+<span class="linenos">109</span>                id: productSlotB
+<span class="linenos">110</span>                implicitHeight: parent.height/2-10
+<span class="linenos">111</span>                implicitWidth: parent.width
+<span class="linenos">112</span>                color: selected ? &quot;#81B8D4&quot;: &quot;white&quot;
+<span class="linenos">113</span>                border.color: &quot;#1F82B2&quot;
+<span class="linenos">114</span>                border.width: 2
+<span class="linenos">115</span>                Layout.fillHeight: true
+<span class="linenos">116</span>                Layout.fillWidth: true
+<span class="linenos">117</span>                radius: 5
+<span class="linenos">118</span>                property bool selected: false
+<span class="linenos">119</span>                opacity: cupB == 0 ? false : true
+<span class="linenos">120</span>                ColumnLayout{
+<span class="linenos">121</span>                   anchors.fill: parent
+<span class="linenos">122</span>                   Text{
+<span class="linenos">123</span>                       text:&quot;Cup ID: &quot;+cupB
+<span class="linenos">124</span>                       horizontalAlignment: Text.AlignHCenter
+<span class="linenos">125</span>                       verticalAlignment: Text.AlignVCenter
+<span class="linenos">126</span>                       Layout.fillHeight: true
+<span class="linenos">127</span>                       Layout.fillWidth: true
+<span class="linenos">128</span>                   }
+<span class="linenos">129</span>                   Text{
+<span class="linenos">130</span>                       text:nameB
+<span class="linenos">131</span>                       horizontalAlignment: Text.AlignHCenter
+<span class="linenos">132</span>                       verticalAlignment: Text.AlignVCenter
+<span class="linenos">133</span>                       Layout.fillHeight: true
+<span class="linenos">134</span>                       Layout.fillWidth: true
+<span class="linenos">135</span>                   }
+<span class="linenos">136</span>                }
+<span class="linenos">137</span>                MouseArea {
+<span class="linenos">138</span>                    id: mouseAreaB
+<span class="linenos">139</span>                    anchors.fill: parent
+<span class="linenos">140</span>                    propagateComposedEvents: true
+<span class="linenos">141</span>                    onClicked: {
+<span class="linenos">142</span>                        if (!productSlotB.selected){
+<span class="linenos">143</span>                           inventoryController.selectRow(prodB)
+<span class="linenos">144</span>                        }
+<span class="linenos">145</span>                    }
+<span class="linenos">146</span>                }
+<span class="linenos">147</span>            }
+<span class="linenos">148</span>
+<span class="linenos">149</span>        }
+<span class="linenos">150</span>        //Connect to InventoryController.py&#39;s InventoryController and change color of selected Product.
+<span class="linenos">151</span>        Connections{
+<span class="linenos">152</span>            target: inventoryController
+<span class="linenos">153</span>            function onProductSelected(message){
+<span class="linenos">154</span>                if (prodA === message){
+<span class="linenos">155</span>                    productSlotA.selected = true
+<span class="linenos">156</span>                }else{
+<span class="linenos">157</span>                    productSlotA.selected = false
+<span class="linenos">158</span>                }
+<span class="linenos">159</span>                if (prodB === message){
+<span class="linenos">160</span>                    productSlotB.selected = true
+<span class="linenos">161</span>                }else{
+<span class="linenos">162</span>                    productSlotB.selected = false
+<span class="linenos">163</span>                }
+<span class="linenos">164</span>            }
+<span class="linenos">165</span>        }
+<span class="linenos">166</span>    }
+<span class="linenos">167</span>}
+<span class="linenos">168</span>
 </pre></div>
 </div>
 <p>Visualisierung des Anlagenschemas der Lagerzelle:
@@ -816,16 +848,18 @@ StorageView.qml</p>
 <span class="linenos"> 94</span>            <span class="n">cupB</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">b_CupID</span>
 <span class="linenos"> 95</span>            <span class="n">prodB</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">b_ProductID</span>
 <span class="linenos"> 96</span>            <span class="n">nameB</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">b_Name</span>
-<span class="linenos"> 97</span>            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;L&quot;</span><span class="o">+</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span> <span class="o">+</span><span class="n">model</span><span class="o">.</span><span class="n">row</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
-<span class="linenos"> 98</span>            <span class="n">implicitHeight</span><span class="p">:</span> <span class="mi">150</span>
-<span class="linenos"> 99</span>            <span class="n">implicitWidth</span><span class="p">:</span> <span class="mi">150</span>
-<span class="linenos">100</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">101</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">102</span>        <span class="p">}</span>
-<span class="linenos">103</span>        <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">104</span>        <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">105</span>    <span class="p">}</span>
-<span class="linenos">106</span><span class="p">}</span>
+<span class="linenos"> 97</span>            <span class="n">withPallet</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">isPallet</span>
+<span class="linenos"> 98</span>            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;L&quot;</span><span class="o">+</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span> <span class="o">+</span><span class="n">model</span><span class="o">.</span><span class="n">row</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
+<span class="linenos"> 99</span>            <span class="n">implicitHeight</span><span class="p">:</span> <span class="mi">150</span>
+<span class="linenos">100</span>            <span class="n">implicitWidth</span><span class="p">:</span> <span class="mi">150</span>
+<span class="linenos">101</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
+<span class="linenos">102</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
+<span class="linenos">103</span>
+<span class="linenos">104</span>        <span class="p">}</span>
+<span class="linenos">105</span>        <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
+<span class="linenos">106</span>        <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
+<span class="linenos">107</span>    <span class="p">}</span>
+<span class="linenos">108</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>Visualisierung des Eventloggers:
@@ -905,6 +939,96 @@ EventView.qml</p>
 <span class="linenos">73</span>    <span class="p">}</span>
 <span class="linenos">74</span><span class="p">}</span>
 <span class="linenos">75</span>
+</pre></div>
+</div>
+<p>Visualisierung der Registeransicht:
+StackLayoutView.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">QtQuick</span> <span class="mf">2.9</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">QtQuick.Controls</span> <span class="mf">2.15</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">QtQuick.Controls.Material</span>
+<span class="linenos"> 4</span><span class="kn">import</span> <span class="nn">QtQuick.Layouts</span> <span class="mf">1.15</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="n">Rectangle</span> <span class="p">{</span>
+<span class="linenos"> 7</span>    <span class="n">Material</span><span class="o">.</span><span class="n">accent</span><span class="p">:</span> <span class="n">Material</span><span class="o">.</span><span class="n">DarkBlue</span>
+<span class="linenos"> 8</span>    <span class="n">Material</span><span class="o">.</span><span class="n">primary</span><span class="p">:</span> <span class="n">Material</span><span class="o">.</span><span class="n">Dark</span>
+<span class="linenos"> 9</span>    <span class="n">Material</span><span class="o">.</span><span class="n">foreground</span><span class="p">:</span> <span class="n">Material</span><span class="o">.</span><span class="n">White</span>
+<span class="linenos">10</span>    <span class="n">Material</span><span class="o">.</span><span class="n">background</span><span class="p">:</span> <span class="n">Material</span><span class="o">.</span><span class="n">Black</span>
+<span class="linenos">11</span>    <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span>
+<span class="linenos">12</span>    <span class="n">height</span><span class="p">:</span> <span class="mi">330</span>
+<span class="linenos">13</span>    <span class="n">TabBar</span> <span class="p">{</span>
+<span class="linenos">14</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">tabBar</span>
+<span class="linenos">15</span>        <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span>
+<span class="linenos">16</span>        <span class="n">height</span><span class="p">:</span> <span class="mi">50</span>
+<span class="linenos">17</span>        <span class="n">TabButton</span> <span class="p">{</span>
+<span class="linenos">18</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Commission&quot;</span>
+<span class="linenos">19</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="n">stackLayout</span><span class="o">.</span><span class="n">currentIndex</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">20</span>        <span class="p">}</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span>        <span class="n">TabButton</span> <span class="p">{</span>
+<span class="linenos">23</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Eventlog&quot;</span>
+<span class="linenos">24</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="n">stackLayout</span><span class="o">.</span><span class="n">currentIndex</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos">25</span>        <span class="p">}</span>
+<span class="linenos">26</span>
+<span class="linenos">27</span>        <span class="n">TabButton</span> <span class="p">{</span>
+<span class="linenos">28</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Inventory&quot;</span>
+<span class="linenos">29</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="n">stackLayout</span><span class="o">.</span><span class="n">currentIndex</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="linenos">30</span>        <span class="p">}</span>
+<span class="linenos">31</span>    <span class="p">}</span>
+<span class="linenos">32</span>    <span class="n">StackLayout</span> <span class="p">{</span>
+<span class="linenos">33</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">stackLayout</span>
+<span class="linenos">34</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">tabBar</span><span class="o">.</span><span class="n">bottom</span>
+<span class="linenos">35</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+<span class="linenos">36</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+<span class="linenos">37</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
+<span class="linenos">38</span>        <span class="n">currentIndex</span><span class="p">:</span> <span class="mi">0</span>
+<span class="linenos">39</span>        <span class="n">CommissionView</span> <span class="p">{</span>
+<span class="linenos">40</span>            <span class="nb">id</span><span class="p">:</span> <span class="n">commissionView</span>
+<span class="linenos">41</span>            <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span>
+<span class="linenos">42</span>            <span class="n">height</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">height</span>
+<span class="linenos">43</span>        <span class="p">}</span>
+<span class="linenos">44</span>        <span class="n">EventView</span> <span class="p">{</span>
+<span class="linenos">45</span>            <span class="nb">id</span><span class="p">:</span> <span class="n">eventView</span>
+<span class="linenos">46</span>            <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span>
+<span class="linenos">47</span>            <span class="n">height</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">height</span>
+<span class="linenos">48</span>        <span class="p">}</span>
+<span class="linenos">49</span>        <span class="n">InventoryView</span> <span class="p">{</span>
+<span class="linenos">50</span>            <span class="nb">id</span><span class="p">:</span> <span class="n">inventoryView</span>
+<span class="linenos">51</span>            <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span>
+<span class="linenos">52</span>            <span class="n">height</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">height</span>
+<span class="linenos">53</span>        <span class="p">}</span>
+<span class="linenos">54</span>
+<span class="linenos">55</span>    <span class="p">}</span>
+<span class="linenos">56</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Visualisierung der Kommissionen:
+CommissionView.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">QtQuick</span> <span class="mf">2.9</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">QtQuick.Controls</span> <span class="mf">2.5</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">QtQuick.Controls.Material</span>
+<span class="linenos"> 4</span><span class="kn">import</span> <span class="nn">QtQuick.Layouts</span> <span class="mf">1.3</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="n">Rectangle</span><span class="p">{</span>
+<span class="linenos"> 7</span>    <span class="nb">id</span><span class="p">:</span> <span class="n">rect</span>
+<span class="linenos"> 8</span>    <span class="n">width</span><span class="p">:</span> <span class="mi">200</span>
+<span class="linenos"> 9</span>    <span class="n">height</span><span class="p">:</span> <span class="mi">200</span>
+<span class="linenos">10</span>    <span class="n">color</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span>
+<span class="linenos">11</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Visualisierung der Inventarzusammenfassung:
+InventoryView.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">QtQuick</span> <span class="mf">2.9</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">QtQuick.Controls</span> <span class="mf">2.5</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">QtQuick.Controls.Material</span>
+<span class="linenos"> 4</span><span class="kn">import</span> <span class="nn">QtQuick.Layouts</span> <span class="mf">1.3</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="n">Rectangle</span><span class="p">{</span>
+<span class="linenos"> 7</span>    <span class="nb">id</span><span class="p">:</span> <span class="n">rect</span>
+<span class="linenos"> 8</span>    <span class="n">width</span><span class="p">:</span> <span class="mi">200</span>
+<span class="linenos"> 9</span>    <span class="n">height</span><span class="p">:</span> <span class="mi">200</span>
+<span class="linenos">10</span>    <span class="n">color</span><span class="p">:</span> <span class="s2">&quot;blue&quot;</span>
+<span class="linenos">11</span><span class="p">}</span>
 </pre></div>
 </div>
 </section>
