@@ -61,9 +61,11 @@ Rectangle {
         Image{
             id: palletImage
             anchors.fill: parent
+            height: 50
+            anchors.margins: 40
             source: "../assets/pallet.svg"
             fillMode: Image.PreserveAspectFit
-            visible: cupA === "0" || cupB === "0"
+            visible: cupA === "0" && cupB === "0"
         }
         ColumnLayout{
             anchors.fill: parent

@@ -16,10 +16,12 @@ import sys
 from pathlib import Path
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterType
+from PySide6.QtCore import Qt
 from src.controller.invController import invController
 from src.controller.CommissionController import CommissionController
 from src.service.EventlogService import EventlogService
 from src.constants.Constants import Constants
+
 
 if __name__ == '__main__':
     app = QGuiApplication(sys.argv)
@@ -27,6 +29,7 @@ if __name__ == '__main__':
     constants = Constants()
     # create inventoryController with included Data Model and sets itself and viewModels  as rootContext
     inventoryController = invController()
+
 
     engine.rootContext().setContextProperty("inventoryController", inventoryController)
     engine.rootContext().setContextProperty('storageModel', inventoryController.storageViewModel)

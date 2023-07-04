@@ -38,7 +38,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onEntered: setTurtle.opacity = 1;
-            onExited: setTurtle.opacity = 0.5;
+            onExited: setTurtle.opacity = 0;
             onClicked: turtleDialog.open();
         }
         Connections {

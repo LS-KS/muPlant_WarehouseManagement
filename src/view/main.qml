@@ -4,6 +4,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
 import QtQuick.Dialogs
 
+
 /*
   Create ApplicationWindow object as base which stores all other elements
   */
@@ -38,7 +39,14 @@ Window {
         id: menuBar
         Menu {
             title: qsTr("&File")
-            Action { text: qsTr("&Help...") }
+            Action { text: qsTr("&Help...")
+                onTriggered: {
+                    var component = Qt.createComponent("Help.qml");
+                    if (component.status === Component.Ready){
+                        component.createObject();
+                    }
+                }
+            }
             MenuSeparator { }
             Action { text: qsTr("Settings...")
                 onTriggered: {

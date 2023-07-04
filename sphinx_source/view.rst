@@ -89,3 +89,9 @@ Preferences.qml
 
 .. literalinclude:: ../src/view/Preferences.qml
     :linenos:
+
+Ein Fenster kann über die Menüleiste unter File --> Help aufgerufen werden
+um die Code-Dokumentation aufzurufen.
+
+..literalinclude:: ../src/view/Help.qml
+    :linenos:
