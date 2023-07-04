@@ -13,7 +13,9 @@ class CommissionController:
     """
     def __init__(self):
         self.commissionViewModel = CommissionViewModel()
+        self.commissionViewModel.loadCommissionData()
         self.commissionFilterProxyModel = CommissionFilterProxyModel()
+        self.commissionFilterProxyModel.setSourceModel(self.commissionViewModel)
         self.commissionFilterProxyModel.setSourceModel(self.commissionViewModel)
         self.commissionFilterProxyModel.setFilterCaseSensitivity(Qt.CaseInsensitive)
         self.commissionFilterProxyModel.setFilterKeyColumn(0)

@@ -1,1 +1,5 @@
-# Row,Col:IsPalletPresent:CupID_a,ProductID_a|CupID_b,ProductID_b
+#id,source,target,object,cup,pallet,state
+
+
+0,0,0,0,0,0,0
+1,1,0,0,0,0,0

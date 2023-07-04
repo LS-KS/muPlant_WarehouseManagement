@@ -40,6 +40,8 @@ class ProductListViewModel(QtCore.QAbstractListModel):
             return product.id
         elif role == QtCore.Qt.UserRole + 2:
             return product.name
+        elif role == QtCore.Qt.UserRole + 3:
+            return product.quantity
         return None
 
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
@@ -84,6 +86,7 @@ class ProductListViewModel(QtCore.QAbstractListModel):
         roles = {
             QtCore.Qt.UserRole + 1: b'id',
             QtCore.Qt.UserRole + 2: b'name',
+            QtCore.Qt.UserRole + 3: b'quantity',
         }
         return roles
 
