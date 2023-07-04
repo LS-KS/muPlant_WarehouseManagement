@@ -39,7 +39,7 @@ Rectangle {
             hoverEnabled: true
             onEntered: setTurtle.opacity = 1;
             onExited: setTurtle.opacity = 0.5;
-            onClicked: setTurtle.open();
+            onClicked: turtleDialog.open();
         }
         Connections {
             target: inventoryController

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121 191">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #1d1d1b;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="m120.5,100.5c0,11.05-26.86,20-60,20S.5,111.55.5,100.5"/>
+  <ellipse class="cls-1" cx="60.5" cy="15.5" rx="50" ry="15"/>
+  <path class="cls-1" d="m110.5,175.5c0,8.28-22.39,15-50,15s-50-6.72-50-15"/>
+  <path class="cls-1" d="m110.5,79.44c6.32,3.17,10,6.97,10,11.06,0,11.05-26.86,20-60,20S.5,101.55.5,90.5c0-4.09,3.68-7.89,10-11.06"/>
+  <path class="cls-1" d="m110.5,90.5c0,8.28-22.39,15-50,15s-50-6.72-50-15"/>
+  <line class="cls-1" x1=".5" y1="90.5" x2=".5" y2="100.5"/>
+  <line class="cls-1" x1="120.5" y1="90.5" x2="120.5" y2="100.5"/>
+  <line class="cls-1" x1="110.5" y1="90.5" x2="110.5" y2="15.5"/>
+  <line class="cls-1" x1="10.5" y1="15.5" x2="10.5" y2="90.5"/>
+  <line class="cls-1" x1="110.5" y1="175.5" x2="110.5" y2="111.56"/>
+  <line class="cls-1" x1="10.5" y1="175.5" x2="10.5" y2="111.56"/>
+  <ellipse class="cls-1" cx="60.5" cy="15.5" rx="45" ry="12.5"/>
+</svg>

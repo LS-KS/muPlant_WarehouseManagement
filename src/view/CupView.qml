@@ -16,6 +16,17 @@ Rectangle{
     property int cup: 0
     property string name: "Kein Becher"
     property int prod: 0
+    Image{
+        id: cupImage
+        anchors{
+            top: parent.top
+            left: parent.left
+            bottom: parent.bottom
+        }
+        anchors.margins: 5
+        source: "../assets/cup.svg"
+        fillMode: Image.PreserveAspectFit
+    }
     ColumnLayout{
        anchors.fill: parent
        Text{

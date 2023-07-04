@@ -58,6 +58,13 @@ Rectangle {
         clip: true
         border.color: "#1F82B2"
         opacity: withPallet ? 1 : 0
+        Image{
+            id: palletImage
+            anchors.fill: parent
+            source: "../assets/pallet.svg"
+            fillMode: Image.PreserveAspectFit
+            visible: cupA === "0" || cupB === "0"
+        }
         ColumnLayout{
             anchors.fill: parent
             spacing: 2
@@ -75,6 +82,17 @@ Rectangle {
                 activeFocusOnTab: true
                 radius: 5
                 property bool selected: false
+                Image{
+                    id: cupImageA
+                    anchors{
+                        top: parent.top
+                        left: parent.left
+                        bottom: parent.bottom
+                    }
+                    anchors.margins: 5
+                    source: "../assets/cup.svg"
+                    fillMode: Image.PreserveAspectFit
+                }
                 ColumnLayout{
                    anchors.fill: parent
                    Text{
@@ -117,6 +135,17 @@ Rectangle {
                 radius: 5
                 property bool selected: false
                 opacity: cupB == 0 ? false : true
+                Image{
+                    id: cupImageB
+                    anchors{
+                        top: parent.top
+                        left: parent.left
+                        bottom: parent.bottom
+                    }
+                    anchors.margins: 5
+                    source: "../assets/cup.svg"
+                    fillMode: Image.PreserveAspectFit
+                }
                 ColumnLayout{
                    anchors.fill: parent
                    Text{
