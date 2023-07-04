@@ -18,6 +18,16 @@ Data Model
     :undoc-members:
     :show-inheritance:
 
+.. automodule:: src.model.CommissionModel
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+.. automodule:: src.model.Preferences
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Controller
 ----------
 

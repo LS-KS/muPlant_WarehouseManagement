@@ -40,7 +40,14 @@ Window {
             title: qsTr("&File")
             Action { text: qsTr("&Help...") }
             MenuSeparator { }
-            Action { text: qsTr("Settings...") }
+            Action { text: qsTr("Settings...")
+                onTriggered: {
+                    var component = Qt.createComponent("Preferences.qml");
+                    if (component.status === Component.Ready){
+                        component.createObject();
+                    }
+                }
+            }
             MenuSeparator { }
             Action { text: qsTr("&Quit") }
         }

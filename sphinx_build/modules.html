@@ -475,7 +475,41 @@ it throws a ValueError.</p>
 
 </dd></dl>
 
-</section>
+<span class="target" id="module-src.model.CommissionModel"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.model.CommissionModel.CommissionData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">CommissionData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/CommissionModel.html#CommissionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.CommissionModel.CommissionData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Data Class for CommissionData</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">CommissionState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/CommissionModel.html#CommissionState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.CommissionModel.CommissionState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Enum for CommissionData State</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState.DONE">
+<span class="sig-name descname"><span class="pre">DONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.DONE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState.OPEN">
+<span class="sig-name descname"><span class="pre">OPEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.OPEN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState.PENDING">
+<span class="sig-name descname"><span class="pre">PENDING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.PENDING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState.PROGRESS">
+<span class="sig-name descname"><span class="pre">PROGRESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.PROGRESS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-src.model.Preferences"></span></section>
 <section id="module-src.controller.invController">
 <span id="controller"></span><h1>Controller<a class="headerlink" href="#module-src.controller.invController" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
@@ -883,7 +917,7 @@ Creates a dictionary with rolenames and roles.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.rowCount">
-<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x109156740&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x1125a0180&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns number of rows at index
 :param parent:
 :type: QModelIndex
@@ -1200,6 +1234,8 @@ Creates a dictionary with rolenames and roles.
 <li class="toctree-l2"><a class="reference internal" href="#src.model.DataModel.Product"><code class="docutils literal notranslate"><span class="pre">Product</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.DataModel.StorageElement"><code class="docutils literal notranslate"><span class="pre">StorageElement</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.DataModel.Workbench"><code class="docutils literal notranslate"><span class="pre">Workbench</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.CommissionModel.CommissionData"><code class="docutils literal notranslate"><span class="pre">CommissionData</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.CommissionModel.CommissionState"><code class="docutils literal notranslate"><span class="pre">CommissionState</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#module-src.controller.invController">Controller</a><ul>
