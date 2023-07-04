@@ -10,6 +10,7 @@ Rectangle{
     color: "white"
     border.color: "#1F82B2"
     border.width: 2
+    radius: 10
 
     ListView{
         id: list
@@ -24,7 +25,7 @@ Rectangle{
             width: ListView.view.width
             height: 50
             property bool selected: false
-            color: selected ? "#4FC3F7": "white"
+            color: selected ? "#81B8D4": "white"
 
             RowLayout{
                 id: row
@@ -70,8 +71,8 @@ Rectangle{
             }
             Connections {
                 target: inventoryController
-                function onSelectRow(message) {
-                    console.log("onSelectRow - message: " + message)
+                function onProductSelected(message) {
+                    console.log("onSelectRow - message: " + message + " id: " + model.id)
                     if (model.id !== message) {
                         rect1.selected = false
                         console.log("delegate set false:" + model.id)

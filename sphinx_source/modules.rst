@@ -26,6 +26,11 @@ Controller
     :undoc-members:
     :show-inheritance:
 
+.. automodule:: src.controller.CommissionController
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Service
 -------
 
@@ -48,6 +53,11 @@ ViewModel
     :show-inheritance:
 
 .. automodule:: src.viewmodel.storageViewModel
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+.. automodule:: src.viewmodel.commissionViewModel
     :members:
     :undoc-members:
     :show-inheritance:

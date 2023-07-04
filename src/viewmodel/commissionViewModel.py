@@ -6,7 +6,7 @@ from src.model.CommissionModel import CommissionData, CommissionState
 class CommissionViewModel(QtCore.QAbstractListModel):
     lastId = 0
     commissionData = []
-    def __int__(self):
+    def __init__(self):
         super().__init__()
         self.loadCommissionData()
 
@@ -18,8 +18,8 @@ class CommissionViewModel(QtCore.QAbstractListModel):
                 for line in file:
                     line = line.strip()
                     if line:
-                        id, source, target, object,cup, pallet, state = line.split(",")
-                        commission = CommissionData(id, source, target, object)
+                        id, source, target, object, cup, pallet, state = line.split(",")
+                        commission = CommissionData(id, source, target, object, cup, pallet )
                         commission.state = CommissionState.OPEN
                         self.commissionData.append(commission)
                         self.lastId = id
@@ -48,14 +48,25 @@ class CommissionViewModel(QtCore.QAbstractListModel):
             return None
         commission = self.commissionData[row]
         if role == QtCore.Qt.UserRole + 1:
+            print(f"commission id: {commission.id} submitted")
             return commission.id
         elif role == QtCore.Qt.UserRole + 2:
+            print(f"commission source: {commission.source} submitted")
             return commission.source
         elif role == QtCore.Qt.UserRole + 3:
+            print(f"commission target: {commission.target} submitted")
             return commission.target
         elif role == QtCore.Qt.UserRole + 4:
+            print(f"commission object: {commission.object} submitted")
             return commission.object
         elif role == QtCore.Qt.UserRole + 5:
+            print(f"commission state: {commission.cup} submitted")
+            return commission.cup
+        elif role == QtCore.Qt.UserRole + 6:
+            print(f"commission state: {commission.pallet} submitted")
+            return commission.pallet
+        elif role == QtCore.Qt.UserRole + 7:
+            print(f"commission state: {commission.state} submitted")
             return commission.state
         return None
 
@@ -70,7 +81,9 @@ class CommissionViewModel(QtCore.QAbstractListModel):
             QtCore.Qt.UserRole + 2: b'source',
             QtCore.Qt.UserRole + 3: b'target',
             QtCore.Qt.UserRole + 4: b'object',
-            QtCore.Qt.UserRole + 5: b'state'
+            QtCore.Qt.UserRole + 5: b'cup',
+            QtCore.Qt.UserRole + 6: b'pallet',
+            QtCore.Qt.UserRole + 7: b'state'
         }
         return roles
 
@@ -95,11 +108,11 @@ class CommissionFilterProxyModel(QSortFilterProxyModel):
         self.filterString = ""
 
     def filterAcceptsRow(self, sourceRow, sourceParent):
-        pass
+        return True
 
     @Slot(str)
     def setFilterString(self, filterString):
-        pass
+        self.filterString = ""
 
 
 

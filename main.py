@@ -40,12 +40,10 @@ if __name__ == '__main__':
 
     # creates CommissionController object and sets itself as rootContext
     commissionController =  CommissionController()
+    commissionController.commissionFilterProxyModel.autoAcceptChildRows()
     engine.rootContext().setContextProperty("commissionController", commissionController)
     engine.rootContext().setContextProperty('commissionModel', commissionController.commissionFilterProxyModel)
 
-    # register Plugin paths
-    #productList_file = Path(__file__).resolve().parent / "ProductList.qml"
-    #engine.rootContext().setContextProperty("productListPath", productList_file)
 
     # define load main.qml file to start application
     qml_file =  str(Path(__file__).resolve().parent / "src" / "view" / "main.qml")

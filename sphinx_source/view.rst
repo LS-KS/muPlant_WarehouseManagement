@@ -74,3 +74,11 @@ InventoryView.qml
 
 .. literalinclude:: ../src/view/InventoryView.qml
     :linenos:
+
+
+Eine einfache Produktliste zur Überischt kann im Hauptfenster über
+Tools --> Show Productlist aufgerufen werden. Sie wird in einem neuen Fenster gerendert.
+ProductListView.qml
+
+.. literalinclude:: ../src/view/ProductList.qml
+    :linenos:

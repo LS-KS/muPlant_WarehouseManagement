@@ -20,11 +20,6 @@ Window {
     title: qsTr("Warehouse Management")
     color: "#BDBDBD"
 
-    Loader {
-        id: productListLoader
-        anchors.fill: parent
-    }
-
     Dialog {
         id: aboutDialog
         title: "About"
@@ -56,8 +51,10 @@ Window {
             Action {
                 text: qsTr("&Show Productlist")
                 onTriggered: {
-                    var productListPath = Qt.resolvedUrl("ProductList.qml")
-                    productListLoader.source = productListPath
+                    var component = Qt.createComponent("ProductList.qml");
+                    if (component.status === Component.Ready){
+                        component.createObject();
+                    }
                 }
             }
         }

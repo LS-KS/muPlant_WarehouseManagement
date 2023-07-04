@@ -15,15 +15,17 @@ Window {
     ListView {
         id: listView
         anchors.fill: parent
+        anchors.margins: 20
         model: productListModel
 
         delegate: Rectangle {
-            width: parent.width
             height: 30
             color: "white"
             Text {
                 text: model.id +" - "+ model.name
             }
         }
+        Layout.fillWidth: true
+        Layout.fillHeight: true
     }
 }
