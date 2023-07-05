@@ -57,45 +57,50 @@
 <span class="linenos">19</span><span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">Qt</span>
 <span class="linenos">20</span><span class="kn">from</span> <span class="nn">src.controller.invController</span> <span class="kn">import</span> <span class="n">invController</span>
 <span class="linenos">21</span><span class="kn">from</span> <span class="nn">src.controller.CommissionController</span> <span class="kn">import</span> <span class="n">CommissionController</span>
-<span class="linenos">22</span><span class="kn">from</span> <span class="nn">src.service.EventlogService</span> <span class="kn">import</span> <span class="n">EventlogService</span>
-<span class="linenos">23</span><span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
-<span class="linenos">24</span>
+<span class="linenos">22</span><span class="kn">from</span> <span class="nn">src.controller.PreferenceController</span> <span class="kn">import</span> <span class="n">PreferenceController</span>
+<span class="linenos">23</span><span class="kn">from</span> <span class="nn">src.service.EventlogService</span> <span class="kn">import</span> <span class="n">EventlogService</span>
+<span class="linenos">24</span><span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
 <span class="linenos">25</span>
-<span class="linenos">26</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-<span class="linenos">27</span>    <span class="n">app</span> <span class="o">=</span> <span class="n">QGuiApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
-<span class="linenos">28</span>    <span class="n">engine</span> <span class="o">=</span> <span class="n">QQmlApplicationEngine</span><span class="p">()</span>
-<span class="linenos">29</span>    <span class="n">constants</span> <span class="o">=</span> <span class="n">Constants</span><span class="p">()</span>
-<span class="linenos">30</span>    <span class="c1"># create inventoryController with included Data Model and sets itself and viewModels  as rootContext</span>
-<span class="linenos">31</span>    <span class="n">inventoryController</span> <span class="o">=</span> <span class="n">invController</span><span class="p">()</span>
-<span class="linenos">32</span>
+<span class="linenos">26</span>
+<span class="linenos">27</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">28</span>    <span class="n">app</span> <span class="o">=</span> <span class="n">QGuiApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+<span class="linenos">29</span>    <span class="n">engine</span> <span class="o">=</span> <span class="n">QQmlApplicationEngine</span><span class="p">()</span>
+<span class="linenos">30</span>    <span class="n">constants</span> <span class="o">=</span> <span class="n">Constants</span><span class="p">()</span>
+<span class="linenos">31</span>    <span class="c1"># create inventoryController with included Data Model and sets itself and viewModels  as rootContext</span>
+<span class="linenos">32</span>    <span class="n">inventoryController</span> <span class="o">=</span> <span class="n">invController</span><span class="p">()</span>
 <span class="linenos">33</span>
-<span class="linenos">34</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;inventoryController&quot;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="p">)</span>
-<span class="linenos">35</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;storageModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">storageViewModel</span><span class="p">)</span>
-<span class="linenos">36</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productListModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productlistViewModel</span><span class="p">)</span>
-<span class="linenos">37</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productSummaryModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productSummaryViewModel</span><span class="p">)</span>
-<span class="linenos">38</span>
-<span class="linenos">39</span>    <span class="c1"># creates EventlogService object and sets itself as rootContext</span>
-<span class="linenos">40</span>    <span class="n">eventlogService</span> <span class="o">=</span> <span class="n">EventlogService</span><span class="p">()</span>
-<span class="linenos">41</span>    <span class="n">inventoryController</span><span class="o">.</span><span class="n">eventlogService</span> <span class="o">=</span> <span class="n">eventlogService</span>
-<span class="linenos">42</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;eventLogController&quot;</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">)</span>
-<span class="linenos">43</span>
-<span class="linenos">44</span>    <span class="c1"># creates CommissionController object and sets itself as rootContext</span>
-<span class="linenos">45</span>    <span class="n">commissionController</span> <span class="o">=</span>  <span class="n">CommissionController</span><span class="p">()</span>
-<span class="linenos">46</span>    <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">autoAcceptChildRows</span><span class="p">()</span>
-<span class="linenos">47</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;commissionController&quot;</span><span class="p">,</span> <span class="n">commissionController</span><span class="p">)</span>
-<span class="linenos">48</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;commissionModel&#39;</span><span class="p">,</span> <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="p">)</span>
-<span class="linenos">49</span>
+<span class="linenos">34</span>
+<span class="linenos">35</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;inventoryController&quot;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="p">)</span>
+<span class="linenos">36</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;storageModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">storageViewModel</span><span class="p">)</span>
+<span class="linenos">37</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productListModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productlistViewModel</span><span class="p">)</span>
+<span class="linenos">38</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productSummaryModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productSummaryViewModel</span><span class="p">)</span>
+<span class="linenos">39</span>
+<span class="linenos">40</span>    <span class="c1"># creates EventlogService object and sets itself as rootContext</span>
+<span class="linenos">41</span>    <span class="n">eventlogService</span> <span class="o">=</span> <span class="n">EventlogService</span><span class="p">()</span>
+<span class="linenos">42</span>    <span class="n">inventoryController</span><span class="o">.</span><span class="n">eventlogService</span> <span class="o">=</span> <span class="n">eventlogService</span>
+<span class="linenos">43</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;eventLogController&quot;</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">)</span>
+<span class="linenos">44</span>
+<span class="linenos">45</span>    <span class="c1"># creates CommissionController object and sets itself as rootContext</span>
+<span class="linenos">46</span>    <span class="n">commissionController</span> <span class="o">=</span>  <span class="n">CommissionController</span><span class="p">()</span>
+<span class="linenos">47</span>    <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">autoAcceptChildRows</span><span class="p">()</span>
+<span class="linenos">48</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;commissionController&quot;</span><span class="p">,</span> <span class="n">commissionController</span><span class="p">)</span>
+<span class="linenos">49</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;commissionModel&#39;</span><span class="p">,</span> <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="p">)</span>
 <span class="linenos">50</span>
-<span class="linenos">51</span>    <span class="c1"># define load main.qml file to start application</span>
-<span class="linenos">52</span>    <span class="n">qml_file</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;view&quot;</span> <span class="o">/</span> <span class="s2">&quot;main.qml&quot;</span><span class="p">)</span>
-<span class="linenos">53</span>    <span class="n">engine</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">qml_file</span><span class="p">)</span>
+<span class="linenos">51</span>    <span class="c1">#creates preferenceController object and sets itself as rootContext</span>
+<span class="linenos">52</span>    <span class="n">preferenceController</span> <span class="o">=</span> <span class="n">PreferenceController</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">)</span>
+<span class="linenos">53</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;preferenceController&quot;</span><span class="p">,</span> <span class="n">preferenceController</span><span class="p">)</span>
 <span class="linenos">54</span>
-<span class="linenos">55</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">engine</span><span class="o">.</span><span class="n">rootObjects</span><span class="p">():</span>
-<span class="linenos">56</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="linenos">57</span>
-<span class="linenos">58</span>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">())</span>
+<span class="linenos">55</span>
+<span class="linenos">56</span>    <span class="c1"># define load main.qml file to start application</span>
+<span class="linenos">57</span>    <span class="n">qml_file</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;view&quot;</span> <span class="o">/</span> <span class="s2">&quot;main.qml&quot;</span><span class="p">)</span>
+<span class="linenos">58</span>    <span class="n">engine</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">qml_file</span><span class="p">)</span>
 <span class="linenos">59</span>
-<span class="linenos">60</span>
+<span class="linenos">60</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">engine</span><span class="o">.</span><span class="n">rootObjects</span><span class="p">():</span>
+<span class="linenos">61</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">62</span>
+<span class="linenos">63</span>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">())</span>
+<span class="linenos">64</span>
+<span class="linenos">65</span>
 </pre></div>
 </div>
 </section>
@@ -512,7 +517,67 @@ it throws a ValueError.</p>
 
 </dd></dl>
 
-<span class="target" id="module-src.model.Preferences"></span></section>
+<span class="target" id="module-src.model.Preferences"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.model.Preferences.Preferences">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">Preferences</span></span><a class="reference internal" href="_modules/src/model/Preferences.html#Preferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.Preferences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is used to store the preferences of the program</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.Preferences.abbPreferences">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">abbPreferences</span></span><a class="reference internal" href="_modules/src/model/Preferences.html#abbPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.abbPreferences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.Preferences.abbPreferences.setIP">
+<span class="sig-name descname"><span class="pre">setIP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/model/Preferences.html#abbPreferences.setIP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.abbPreferences.setIP" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method sets the abb IP address and returns True if valid.
+Returns False if ip syntax is invalid.
+:param ip:
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.Preferences.abbPreferences.setPort">
+<span class="sig-name descname"><span class="pre">setPort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/model/Preferences.html#abbPreferences.setPort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.abbPreferences.setPort" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method sets the abb port and returns True if valid.
+Returns False if port syntax is invalid.
+:param port:
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.Preferences.modBusPreferences">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">modBusPreferences</span></span><a class="reference internal" href="_modules/src/model/Preferences.html#modBusPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.modBusPreferences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.Preferences.modBusPreferences.setIP">
+<span class="sig-name descname"><span class="pre">setIP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/model/Preferences.html#modBusPreferences.setIP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.modBusPreferences.setIP" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method sets the modBus IP address and returns True if valid.
+Returns False if ip syntax is invalid.
+:param ip:
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.Preferences.modBusPreferences.setMaxReconnects">
+<span class="sig-name descname"><span class="pre">setMaxReconnects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tries</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/Preferences.html#modBusPreferences.setMaxReconnects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.modBusPreferences.setMaxReconnects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.Preferences.modBusPreferences.setPort">
+<span class="sig-name descname"><span class="pre">setPort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/model/Preferences.html#modBusPreferences.setPort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.modBusPreferences.setPort" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method sets the modBus port and returns True if valid.
+Returns False if port syntax is invalid.
+:param port:
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-src.controller.invController">
 <span id="controller"></span><h1>Controller<a class="headerlink" href="#module-src.controller.invController" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
@@ -797,6 +862,76 @@ While operating commissions will be passed to CommisioonController by ModbusServ
 OPCUAService.</p>
 </dd></dl>
 
+<span class="target" id="module-src.controller.PreferenceController"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.controller.PreferenceController.</span></span><span class="sig-name descname"><span class="pre">PreferenceController</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventlogService</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/PreferenceController.html#PreferenceController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.abbIPError">
+<span class="sig-name descname"><span class="pre">abbIPError</span></span><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.abbIPError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.abbPortError">
+<span class="sig-name descname"><span class="pre">abbPortError</span></span><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.abbPortError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.loadPreferences">
+<span class="sig-name descname"><span class="pre">loadPreferences</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/PreferenceController.html#PreferenceController.loadPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.loadPreferences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Emits getPreferences signal.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.modbusIPError">
+<span class="sig-name descname"><span class="pre">modbusIPError</span></span><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.modbusIPError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.modbusPortError">
+<span class="sig-name descname"><span class="pre">modbusPortError</span></span><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.modbusPortError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.modbusReconnectError">
+<span class="sig-name descname"><span class="pre">modbusReconnectError</span></span><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.modbusReconnectError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.sendPreferences">
+<span class="sig-name descname"><span class="pre">sendPreferences</span></span><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.sendPreferences" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.setAbbPreferences">
+<span class="sig-name descname"><span class="pre">setAbbPreferences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/PreferenceController.html#PreferenceController.setAbbPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.setAbbPreferences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the preferences for the ABB controller connection</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ip</strong> – </p></li>
+<li><p><strong>port</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.setModBusPreferences">
+<span class="sig-name descname"><span class="pre">setModBusPreferences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reconnects</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/PreferenceController.html#PreferenceController.setModBusPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.setModBusPreferences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the preferences for the ModBus connection</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;PreferenceController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusIPError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusPortError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusReconnectError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Signal,</span> <span class="pre">signature=abbIPError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Signal,</span> <span class="pre">signature=abbPortError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Signal,</span> <span class="pre">signature=sendPreferences(QString,int,int,QString,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setModBusPreferences(QString,int,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setAbbPreferences(QString,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadPreferences()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-src.service.EventlogService">
 <span id="service"></span><h1>Service<a class="headerlink" href="#module-src.service.EventlogService" title="Permalink to this heading">¶</a></h1>
@@ -920,7 +1055,7 @@ Creates a dictionary with rolenames and roles.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.rowCount">
-<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x10a0b3640&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x10c893840&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns number of rows at index
 :param parent:
 :type: QModelIndex
@@ -1239,11 +1374,15 @@ Creates a dictionary with rolenames and roles.
 <li class="toctree-l2"><a class="reference internal" href="#src.model.DataModel.Workbench"><code class="docutils literal notranslate"><span class="pre">Workbench</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.CommissionModel.CommissionData"><code class="docutils literal notranslate"><span class="pre">CommissionData</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.CommissionModel.CommissionState"><code class="docutils literal notranslate"><span class="pre">CommissionState</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.Preferences.Preferences"><code class="docutils literal notranslate"><span class="pre">Preferences</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.Preferences.abbPreferences"><code class="docutils literal notranslate"><span class="pre">abbPreferences</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.Preferences.modBusPreferences"><code class="docutils literal notranslate"><span class="pre">modBusPreferences</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#module-src.controller.invController">Controller</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#src.controller.invController.invController"><code class="docutils literal notranslate"><span class="pre">invController</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.controller.CommissionController.CommissionController"><code class="docutils literal notranslate"><span class="pre">CommissionController</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.controller.PreferenceController.PreferenceController"><code class="docutils literal notranslate"><span class="pre">PreferenceController</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#module-src.service.EventlogService">Service</a><ul>

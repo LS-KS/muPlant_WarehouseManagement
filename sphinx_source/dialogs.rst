@@ -18,3 +18,9 @@ TurtleDialog.qml
 
 .. literalinclude:: ../src/view/TurtleDialog.qml
     :linenos:
+
+Dialogvisualisierung für Programmeinstellungen.
+PreferenceDialog.qml
+
+.. literalinclude:: ../src/view/PreferenceDialog.qml
+    :linenos:

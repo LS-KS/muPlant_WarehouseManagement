@@ -26,6 +26,7 @@ Window {
         title: "About"
         width : 400
         height: 400
+        anchors.centerIn: parent
         Text {
             anchors.centerIn: parent
             text: "Copyright 2023, Lennart Schink"
@@ -33,7 +34,14 @@ Window {
         Button {
             text: qsTr("Close")
             onClicked: aboutDialog.close()
+            anchors.centerIn: parent
         }
+    }
+    PreferenceDialog{
+        id : preferenceDialog
+        width: 400
+        height: 800
+        anchors.centerIn: parent
     }
     MenuBar{
         id: menuBar
@@ -50,10 +58,7 @@ Window {
             MenuSeparator { }
             Action { text: qsTr("Settings...")
                 onTriggered: {
-                    var component = Qt.createComponent("Preferences.qml");
-                    if (component.status === Component.Ready){
-                        component.createObject();
-                    }
+                    preferenceDialog.open()
                 }
             }
             MenuSeparator { }

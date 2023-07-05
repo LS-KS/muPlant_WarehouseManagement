@@ -1,22 +1,15 @@
-
 import QtQuick 2.9
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Material 2.15
 import QtQuick.Layouts 1.3
-import QtQuick.Window 2.15
+import QtQuick.Dialogs
 
-Window {
-    visible: true
-    width: 300
-    height: 480
+Dialog {
+    id: preferenceDialog
     title: qsTr("Preferences and Settings")
-    Material.theme: Material.Dark
-    visibility: Window.Windowed
-
     Rectangle {
         id: mainRect
         anchors.fill: parent
-        color :"black"
         Text{
             id: text1
             text: qsTr("Modbus Preferences")
@@ -43,43 +36,50 @@ Window {
                 bottom: parent.bottom
                 bottomMargin: 10
             }
-            RowLayout{
+            Row{
 
                 Label{
                     text: qsTr("IP Address")
-                    Layout.fillWidth: true
+                    width: parent.width/3
+                    height: modbusIpAddr.height
+                    verticalAlignment: Text.AlignVCenter
+
                 }
                 TextField{
                     id: modbusIpAddr
                     text: ""
-                    Layout.fillWidth: true
+                    width: parent.width*2/3
                 }
                 Layout.fillWidth: true
                 Layout.fillHeight: true
             }
-            RowLayout{
+            Row{
 
                 Label{
                     text: qsTr("IP Port")
-                    Layout.fillWidth: true
+                    width: parent.width/3
+                    height: modbusIpPort.height
+                    verticalAlignment: Text.AlignVCenter
                 }
                 TextField{
                     id: modbusIpPort
                     text: ""
-                    Layout.fillWidth: true
+                    width: parent.width*2/3
                 }
                 Layout.fillWidth: true
                 Layout.fillHeight: true
             }
-            RowLayout{
+            Row{
                 Label{
                     text: qsTr("Max.Reconnects")
-                    Layout.fillWidth: true
+                    width: parent.width/3
+                    height: modbusMaxReconnects.height
+                    verticalAlignment: Text.AlignVCenter
                 }
                 TextField{
                     id: modbusMaxReconnects
                     text: ""
-                    Layout.fillWidth: true
+                    width: parent.width*2/3
                 }
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -92,11 +92,11 @@ Window {
                 Layout.fillHeight: true
                 onClicked: {
                     console.log("Save button clicked")
-                    console.log(ipAddr.text)
-                    console.log(ipPort.text)
+                    console.log(modbusIpAddr.text)
+                    console.log(modbusIpPort.text)
                 }
             }
-            RowLayout{
+            Row{
                 id: seperator
                 Rectangle{
                     Layout.fillWidth: true
@@ -112,30 +112,34 @@ Window {
                 font.pixelSize: 24
                 horizontalAlignment: Text.AlignHCenter
             }
-            RowLayout{
+            Row{
 
                 Label{
                     text: qsTr("IP Address")
-                    Layout.fillWidth: true
+                    width: parent.width/3
+                    height: abbIpAddr.height
+                    verticalAlignment: Text.AlignVCenter
                 }
                 TextField{
                     id: abbIpAddr
                     text: ""
-                    Layout.fillWidth: true
+                    width: parent.width*2/3
                 }
                 Layout.fillWidth: true
                 Layout.fillHeight: true
             }
-            RowLayout{
+            Row{
 
                 Label{
                     text: qsTr("IP Port")
-                    Layout.fillWidth: true
+                    width: parent.width/3
+                    height: abbIpPort.height
+                    verticalAlignment: Text.AlignVCenter
                 }
                 TextField{
                     id: abbIpPort
                     text: ""
-                    Layout.fillWidth: true
+                    width: parent.width*2/3
                 }
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -148,10 +152,26 @@ Window {
                 Layout.fillHeight: true
                 onClicked: {
                     console.log("Save button clicked")
-                    console.log(ipAddr.text)
-                    console.log(ipPort.text)
+                    console.log(abbIpAddr.text)
+                    console.log(abbIpPort.text)
                 }
             }
         }
+
+    }
+    Connections {
+        target: preferenceController
+
+        function onSendPreferences(modbusip, modbusport, modbusmaxtries, abbip, abbport) {
+            console.log("Preferences loaded");
+            modbusIpAddr.text = preferenceController.modbusIpAddr;
+            modbusIpPort.text = preferenceController.modbusIpPort;
+            modbusMaxReconnects.text = preferenceController.modbusMaxReconnects;
+            abbIpAddr.text = preferenceController.abbIpAddr;
+            abbIpPort.text = preferenceController.abbIpPort;
+        }
+    }
+    onOpened: {
+        preferenceController.loadPreferences();
     }
 }

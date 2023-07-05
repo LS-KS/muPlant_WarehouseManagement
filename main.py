@@ -19,6 +19,7 @@ from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterType
 from PySide6.QtCore import Qt
 from src.controller.invController import invController
 from src.controller.CommissionController import CommissionController
+from src.controller.PreferenceController import PreferenceController
 from src.service.EventlogService import EventlogService
 from src.constants.Constants import Constants
 
@@ -46,6 +47,10 @@ if __name__ == '__main__':
     commissionController.commissionFilterProxyModel.autoAcceptChildRows()
     engine.rootContext().setContextProperty("commissionController", commissionController)
     engine.rootContext().setContextProperty('commissionModel', commissionController.commissionFilterProxyModel)
+
+    #creates preferenceController object and sets itself as rootContext
+    preferenceController = PreferenceController(eventlogService)
+    engine.rootContext().setContextProperty("preferenceController", preferenceController)
 
 
     # define load main.qml file to start application

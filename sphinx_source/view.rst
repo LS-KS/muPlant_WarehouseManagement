@@ -83,12 +83,6 @@ ProductListView.qml
 .. literalinclude:: ../src/view/ProductList.qml
     :linenos:
 
-Ein Fenster für die evtl. vorzunehmenden Einstellungen des Programms
-wird über die Menüleiste unter Tools --> Settings aufgerufen.
-Preferences.qml
-
-.. literalinclude:: ../src/view/Preferences.qml
-    :linenos:
 
 Ein Fenster kann über die Menüleiste unter File --> Help aufgerufen werden
 um die Code-Dokumentation aufzurufen.

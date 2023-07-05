@@ -41,6 +41,11 @@ Controller
     :undoc-members:
     :show-inheritance:
 
+.. automodule:: src.controller.PreferenceController
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Service
 -------
 
