@@ -12,6 +12,7 @@ class Constants:
         self.CAMAPP_QML = "../cameraApplication/qml/CameraAppMain.qml"
         self.COMMISSIONDATA = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "CommissionData.db"
         self.PRODUCTLISTAPP_QML = "../src/view/ProductList.qml"
+        self.PREFERENCES = "src/data/Preferences.yaml"
 
 
 

@@ -40,7 +40,7 @@ Dialog {
 
                 Label{
                     text: qsTr("IP Address")
-                    width: parent.width/3
+                    width: parent.width/3-25
                     height: modbusIpAddr.height
                     verticalAlignment: Text.AlignVCenter
 
@@ -48,7 +48,14 @@ Dialog {
                 TextField{
                     id: modbusIpAddr
                     text: ""
-                    width: parent.width*2/3
+                    width: parent.width*2/3-25
+                }
+                Image{
+                    id: modbusIpError
+                    source: "../assets/icon_warning.svg"
+                    width: Image.PreseveAspectFit
+                    height: modbusIpAddr.height
+                    visible: false
                 }
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -57,14 +64,21 @@ Dialog {
 
                 Label{
                     text: qsTr("IP Port")
-                    width: parent.width/3
+                    width: parent.width/3-25
                     height: modbusIpPort.height
                     verticalAlignment: Text.AlignVCenter
                 }
                 TextField{
                     id: modbusIpPort
                     text: ""
-                    width: parent.width*2/3
+                    width: parent.width*2/3-25
+                }
+                Image{
+                    id: modbusPortError
+                    source: "../assets/icon_warning.svg"
+                    width: Image.PreseveAspectFit
+                    height: modbusIpPort.height
+                    visible: false
                 }
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -72,14 +86,21 @@ Dialog {
             Row{
                 Label{
                     text: qsTr("Max.Reconnects")
-                    width: parent.width/3
+                    width: parent.width/3-25
                     height: modbusMaxReconnects.height
                     verticalAlignment: Text.AlignVCenter
                 }
                 TextField{
                     id: modbusMaxReconnects
                     text: ""
-                    width: parent.width*2/3
+                    width: parent.width*2/3-25
+                }
+                Image{
+                    id: modbusReconnectError
+                    source: "../assets/icon_warning.svg"
+                    width: Image.PreseveAspectFit
+                    height: modbusIpPort.height
+                    visible: false
                 }
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -94,6 +115,7 @@ Dialog {
                     console.log("Save button clicked")
                     console.log(modbusIpAddr.text)
                     console.log(modbusIpPort.text)
+                    preferenceController.setModBusPreferences(modbusIpAddr.text, modbusIpPort.text, modbusMaxReconnects.text);
                 }
             }
             Row{
@@ -116,14 +138,21 @@ Dialog {
 
                 Label{
                     text: qsTr("IP Address")
-                    width: parent.width/3
+                    width: parent.width/3-25
                     height: abbIpAddr.height
                     verticalAlignment: Text.AlignVCenter
                 }
                 TextField{
                     id: abbIpAddr
                     text: ""
-                    width: parent.width*2/3
+                    width: parent.width*2/3-25
+                }
+                Image{
+                    id: abbIpError
+                    source: "../assets/icon_warning.svg"
+                    width: Image.PreseveAspectFit
+                    height: modbusIpPort.height
+                    visible: false
                 }
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -132,14 +161,21 @@ Dialog {
 
                 Label{
                     text: qsTr("IP Port")
-                    width: parent.width/3
+                    width: parent.width/3-25
                     height: abbIpPort.height
                     verticalAlignment: Text.AlignVCenter
                 }
                 TextField{
                     id: abbIpPort
                     text: ""
-                    width: parent.width*2/3
+                    width: parent.width*2/3-25
+                }
+                Image{
+                    id: abbPortError
+                    source: "../assets/icon_warning.svg"
+                    width: Image.PreseveAspectFit
+                    height: modbusIpPort.height
+                    visible: false
                 }
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -154,6 +190,7 @@ Dialog {
                     console.log("Save button clicked")
                     console.log(abbIpAddr.text)
                     console.log(abbIpPort.text)
+                    preferenceController.setAbbPreferences(abbIpAddr.text, abbIpPort.text);
                 }
             }
         }
@@ -164,12 +201,38 @@ Dialog {
 
         function onSendPreferences(modbusip, modbusport, modbusmaxtries, abbip, abbport) {
             console.log("Preferences loaded");
-            modbusIpAddr.text = preferenceController.modbusIpAddr;
-            modbusIpPort.text = preferenceController.modbusIpPort;
-            modbusMaxReconnects.text = preferenceController.modbusMaxReconnects;
-            abbIpAddr.text = preferenceController.abbIpAddr;
-            abbIpPort.text = preferenceController.abbIpPort;
+            modbusIpAddr.text = modbusip;
+            modbusIpPort.text = modbusport;
+            modbusMaxReconnects.text = modbusmaxtries;
+            abbIpAddr.text = abbip;
+            abbIpPort.text = abbport;
         }
+
+        function onModbusIPError(error){
+            modbusIpError.visible = error;
+            console.log("Modbus IP Error" + error);
+        }
+
+        function onModbusPortError(error){
+            modbusPortError.visible = error;
+            console.log("Modbus Port Error" + error);
+        }
+
+        function onModbusReconnectError(error){
+            modbusReconnectError.visible = error;
+            console.log("Modbus Reconnect Error" + error);
+        }
+
+        function onAbbIPError(error){
+            abbIpError.visible = error;
+            console.log("ABB IP Error" + error);
+        }
+
+        function onAbbPortError(error){
+            abbPortError.visible = error;
+            console.log("ABB Port Error" + error);
+        }
+
     }
     onOpened: {
         preferenceController.loadPreferences();

@@ -1,0 +1,5 @@
+abbip: 127.0.0.1
+abbport: 9
+modbusip: 127.0.0.0
+modbusport: 89
+modbusreconnects: 9

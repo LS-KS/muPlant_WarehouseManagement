@@ -45,7 +45,7 @@ class modBusPreferences:
             self.maxReconnects = tries
 
     def __validatemaxTries(self, tries):
-        if tries.isdigit():
+        if isinstance(int(tries), int) and int(tries) > 0:
             return True
         else:
             return False
@@ -59,14 +59,19 @@ class modBusPreferences:
         """
         if ip == "":
             return False
+        elif ip == None:
+            return False
         ip = ip.split(".")
         if len(ip) != 4:
             return False
-        for i in ip:
-            if not i.isdigit():
+        for idx, i in enumerate(ip):
+            if not isinstance(int(i), int):
                 return False
             else:
                 if int(i) < 0 or int(i) > 255:
+                    return False
+            if idx == 0:
+                if int(i) < 127:
                     return False
         return True
 
@@ -79,7 +84,9 @@ class modBusPreferences:
         """
         if port == "":
             return False
-        if not port.isdigit():
+        elif port == None:
+            return False
+        if not isinstance(int(port), int):
             return False
         else:
             if int(port) < 0 or int(port) > 65535:
@@ -128,11 +135,13 @@ class abbPreferences:
         """
         if ip == "":
             return False
+        elif ip == None:
+            return False
         ip = ip.split(".")
         if len(ip) != 4:
             return False
         for i in ip:
-            if not i.isdigit():
+            if not isinstance(int(i), int):
                 return False
             else:
                 if int(i) < 0 or int(i) > 255:
@@ -148,7 +157,9 @@ class abbPreferences:
         """
         if port == "":
             return False
-        if not port.isdigit():
+        elif port == None:
+            return False
+        if not isinstance(int(port), int):
             return False
         else:
             if int(port) < 0 or int(port) > 65535:
