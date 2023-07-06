@@ -24,3 +24,10 @@ Speichert alle Kommissionsaufträge (neue implementierung)
 
 .. literalinclude:: ../src/data/CommissionData.db
    :linenos:
+
+Preferences.yaml
+Speichert die Einstellungen des Programms
+
+.. literalinclude:: ../src/data/Preferences.yaml
+   :linenos:
+

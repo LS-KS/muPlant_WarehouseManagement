@@ -34,7 +34,10 @@ Window {
         Button {
             text: qsTr("Close")
             onClicked: aboutDialog.close()
-            anchors.centerIn: parent
+            anchors{
+                bottom: parent.bottom
+                horizontalCenter: parent.horizontalCenter
+            }
         }
     }
     PreferenceDialog{
@@ -62,7 +65,9 @@ Window {
                 }
             }
             MenuSeparator { }
-            Action { text: qsTr("&Quit") }
+            Action { text: qsTr("&Quit")
+                onTriggered: Qt.quit();
+            }
         }
         Menu {
             title: qsTr("&Tools")
