@@ -13,9 +13,9 @@ Window {
     Material.accent: Material.Dark
     property bool init: false
     id: mainWindow
-    width: Screen.width/2
+    width: Screen.width*2/3
     minimumWidth : 480
-    height: Screen.height/2
+    height: Screen.height*2/3
     minimumHeight: 200
     visible: true
     title: qsTr("Warehouse Management")
@@ -42,7 +42,7 @@ Window {
     }
     PreferenceDialog{
         id : preferenceDialog
-        width: 400
+        width: 500
         height: 800
         anchors.centerIn: parent
     }

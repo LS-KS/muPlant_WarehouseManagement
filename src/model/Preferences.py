@@ -40,9 +40,12 @@ class modBusPreferences:
         else:
             return False
 
-    def setMaxReconnects(self, tries):
+    def setMaxReconnects(self, tries)->bool:
         if self.__validatemaxTries(tries):
             self.maxReconnects = tries
+            return True
+        else:
+            return False
 
     def __validatemaxTries(self, tries):
         if isinstance(int(tries), int) and int(tries) > 0:
