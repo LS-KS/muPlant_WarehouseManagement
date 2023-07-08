@@ -1,5 +1,5 @@
 import QtQuick 2.0
-
+import QtQuick.Layouts 1.3
 
 Rectangle{
     id: rectangle
@@ -47,15 +47,47 @@ Rectangle{
         }
 
 
-        CupView {
+        StackLayout {
             width: parent.width/4
             height: 0.75*width
-            id: gripperCup
+            id: gripperLayout
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.rightMargin: 10
             anchors.topMargin: 10
-
+            currentIndex: 0
+            CupView{
+                id: gripperCup
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+            ProductView{
+                id: gripperPallet
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+            Connections{
+                target: inventoryController
+                function onTransmitGripper(isPallet, isCup, cupAID, prodAID, prodAName, cupBID, prodBID, prodBName){
+                    console.log("transmitGripper received: "+isPallet+" "+isCup+" "+cupAID+" "+prodAID+" "+prodAName+" "+cupBID+" "+prodBID+" "+prodBName);
+                    if(isPallet){
+                        gripperLayout.currentIndex = 1;
+                        gripperPallet.cupA = cupAID;
+                        gripperPallet.prodA = prodAID;
+                        gripperPallet.nameA = prodAName;
+                        gripperPallet.withPallet = true;
+                        gripperPallet.cupB = cupBID;
+                        gripperPallet.prodB = prodBID;
+                        gripperPallet.nameB = prodBName;
+                    }
+                    else if(isCup){
+                        gripperLayout.currentIndex = 0;
+                        gripperCup.cup = cupAID;
+                        gripperCup.prod = prodAID;
+                        gripperCup.name = prodAName;
+                    }
+                }
+            }
         }
     }
     Image {
@@ -89,7 +121,7 @@ Rectangle{
             Connections{
                 target: inventoryController
                 function onTransmitWorkbenchPallet(slot, cupIDA, productIDA, productNameA, isPallet, cupIDB, productIDB, productNameB){
-                console.log("transmitWorkbenchPallet received in K1");
+                    //console.log("transmitWorkbenchPallet received in K1");
                     if(slot === "K1"){
                         console.log("K1 transmit");
                         k1.cupA = cupIDA;
@@ -126,7 +158,7 @@ Rectangle{
             Connections{
                 target: inventoryController
                 function onTransmitWorkbenchPallet(slot, cupIDA, productIDA, productNameA, isPallet, cupIDB, productIDB, productNameB){
-                console.log("transmitWorkbenchPallet received in K2");
+                    //console.log("transmitWorkbenchPallet received in K2");
                     if(slot === "K2"){
                         console.log("K2 transmit");
                         k2.cupA = cupIDA;

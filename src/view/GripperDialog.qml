@@ -210,6 +210,40 @@ Dialog {
     standardButtons: Dialog.Ok | Dialog.Cancel
     onAccepted: {
         console.log("Gripperdialog Accepted")
+        console.log("sending to inventoryController:")
+        let visPallet
+        let visCup
+        let vcupA
+        let vcupB
+        let vprodA
+        let vprodB
+        console.log("read choice: "+ choicePresent.currentValue)
+        if (choicePresent.currentIndex === 0){
+            visPallet = true;
+            visCup = false;
+            vcupA = parseInt(cupAEdit.text);
+            vprodA = parseInt(prodAEdit.currentIndex);
+            vcupB = parseInt(cupBEdit.text);
+            vprodB = parseInt(prodBEdit.currentIndex);
+            console.log("cupA ID:" + vcupA);
+            console.log("prodA: "+ vprodA);
+            console.log("cupB ID:" + vcupB);
+            console.log("prodB: "+ vprodB);
+
+        }else if(choicePresent.currentIndex === 1){
+            visPallet = false;
+            visCup = true;
+            vcupA = parseInt(cupEdit.text);
+            vprodA = parseInt(prodEdit.currentIndex);
+            vcupB = 0;
+            vprodB = 0;
+            console.log("cupA ID:" + vcupA);
+            console.log("prodA: "+ vprodA);
+            console.log("cupB ID:" + vcupB);
+            console.log("prodB: "+ vprodB);
+        }
+        inventoryController.changeGripper(visPallet, visCup,vcupA, vprodA, vcupB, vprodB);
+
     }
     onRejected: {
         //console.log("Gripperdialog Rejected")

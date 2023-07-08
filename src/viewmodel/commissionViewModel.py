@@ -24,7 +24,7 @@ class CommissionViewModel(QtCore.QAbstractListModel):
                         self.commissionData.append(commission)
                         self.lastId = id
             except FileNotFoundError:
-                print("Commission Data File not found")
+                #print("Commission Data File not found")
 
 
 
@@ -48,25 +48,25 @@ class CommissionViewModel(QtCore.QAbstractListModel):
             return None
         commission = self.commissionData[row]
         if role == QtCore.Qt.UserRole + 1:
-            print(f"commission id: {commission.id} submitted")
+            #print(f"commission id: {commission.id} submitted")
             return commission.id
         elif role == QtCore.Qt.UserRole + 2:
-            print(f"commission source: {commission.source} submitted")
+            #print(f"commission source: {commission.source} submitted")
             return commission.source
         elif role == QtCore.Qt.UserRole + 3:
-            print(f"commission target: {commission.target} submitted")
+            #print(f"commission target: {commission.target} submitted")
             return commission.target
         elif role == QtCore.Qt.UserRole + 4:
-            print(f"commission object: {commission.object} submitted")
+            #print(f"commission object: {commission.object} submitted")
             return commission.object
         elif role == QtCore.Qt.UserRole + 5:
-            print(f"commission state: {commission.cup} submitted")
+            #print(f"commission state: {commission.cup} submitted")
             return commission.cup
         elif role == QtCore.Qt.UserRole + 6:
-            print(f"commission state: {commission.pallet} submitted")
+            #print(f"commission state: {commission.pallet} submitted")
             return commission.pallet
         elif role == QtCore.Qt.UserRole + 7:
-            print(f"commission state: {commission.state} submitted")
+            #print(f"commission state: {commission.state} submitted")
             return commission.state
         return None
 

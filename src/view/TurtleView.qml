@@ -43,7 +43,7 @@ Rectangle {
         Connections {
             target: inventoryController
             function onTransmitMobileRobot(cup, product, name) {
-                console.log("transmitMobileRobot received; Cup: " + cup + " Product: " + product + " Name: " + name);
+                //console.log("transmitMobileRobot received; Cup: " + cup + " Product: " + product + " Name: " + name);
                 cupVisu.cup = cup;
                 cupVisu.prod = product;
                 cupVisu.name = name;

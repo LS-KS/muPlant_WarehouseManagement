@@ -167,6 +167,8 @@ class invController(QObject):
             pallet = Pallet()
             pallet.setSlotA(Cup(cupAID, self.__productFromID(productAID)))
             pallet.setSlotB(Cup(cupBID, self.__productFromID(productBID)))
+            if self.gripper.object is not None:
+                self.gripper.setObject(None)
             self.gripper.setObject(pallet)
         elif isCup:
             cup = Cup(cupAID, self.__productFromID(productAID))
@@ -189,8 +191,10 @@ class invController(QObject):
             cupBID = self.gripper.object.slotB.id if isPallet else 0
             productBID = self.gripper.object.slotB.product.id if isPallet else 0
             productBName = self.gripper.object.slotB.product.name if isPallet else ""
+            print(f"loadGripper: {isPallet}, {isCup}, {cupAID}, {productAID}, {productAName}, {cupBID}, {productBID}, {productBName}")
             self.transmitGripper.emit(isPallet, isCup, cupAID, productAID, productAName, cupBID, productBID, productBName)
         else:
+            print(f"loadGripper: False, False, 0, 0, '', 0, 0, ''")
             self.transmitGripper.emit(False, False, 0, 0, "", 0, 0, "")
 
     @Slot(str, str, int, int, str)

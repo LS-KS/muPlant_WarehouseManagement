@@ -72,14 +72,14 @@ Rectangle{
             Connections {
                 target: inventoryController
                 function onProductSelected(message) {
-                    console.log("onSelectRow - message: " + message + " id: " + model.id)
+                    //console.log("onSelectRow - message: " + message + " id: " + model.id)
                     if (model.id !== message) {
                         rect1.selected = false
-                        console.log("delegate set false:" + model.id)
+                        //console.log("delegate set false:" + model.id)
                     }
                     if(parseInt(model.id) === parseInt(message)) {
                         rect1.selected = true
-                        console.log("delegate set true:" + model.id)
+                        //console.log("delegate set true:" + model.id)
 
                     }
                 }

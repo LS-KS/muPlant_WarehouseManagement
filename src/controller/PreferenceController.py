@@ -1,8 +1,7 @@
 from PySide6.QtCore import Signal, Slot, QObject
-
-from src.model.Preferences import Preferences
 from src.service.EventlogService import EventlogService
 from yaml import load, dump, Loader, Dumper
+from src.model.Preferences import Preferences
 from src.constants.Constants import Constants
 
 
