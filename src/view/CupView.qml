@@ -49,8 +49,8 @@ Rectangle{
         anchors.fill: parent
         propagateComposedEvents: true
         onClicked: {
-            if (!productSlotA.selected){
-               inventoryController.selectRow(prodA)
+            if (!productSlot.selected){
+               inventoryController.selectRow(prod)
             }
         }
     }

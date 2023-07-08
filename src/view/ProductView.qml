@@ -77,7 +77,7 @@ Rectangle {
                 implicitWidth: parent.width
                 color: selected ? "#81B8D4": "white"
                 border.color: "#1F82B2"
-                opacity: cupA === 0 ? false : true
+                opacity: cupA == 0 ? false : true
                 border.width: 2
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -136,7 +136,7 @@ Rectangle {
                 Layout.fillWidth: true
                 radius: 5
                 property bool selected: false
-                opacity: cupB === 0 ? false : true
+                opacity: cupB == 0 ? false : true
                 Image{
                     id: cupImageB
                     anchors{

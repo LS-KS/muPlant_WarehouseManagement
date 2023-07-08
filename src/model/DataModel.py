@@ -189,7 +189,7 @@ class Gripper(QObject):
         if self.object == object:
             return self
         if self.object is not None and object is not None:
-            raise ValueError("In this spot is actually already occupied!")
+            raise ValueError("This spot is actually already occupied!")
         oldValue = self.object
         self.object = None
         if oldValue is not None:
@@ -225,7 +225,8 @@ class Gripper(QObject):
             self.objectChanged.emit(True, False, cupA, prodA, prodNameA, cupB, prodB, prodNameB)
         elif isinstance(self.object, Cup):
             self.objectChanged.emit(False, True, self.object.id, self.object.product.id, self.object.product.name, self.object.row, self.object.col, self.object.location.name)
-
+        else:
+            raise ValueError("Object is not a Cup or Pallet object!")
 
 class Product:
     """

@@ -24,7 +24,8 @@ class CommissionViewModel(QtCore.QAbstractListModel):
                         self.commissionData.append(commission)
                         self.lastId = id
             except FileNotFoundError:
-                #print("Commission Data File not found")
+                print("Commission Data File not found")
+
 
 
 

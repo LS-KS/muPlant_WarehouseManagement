@@ -175,6 +175,9 @@ class invController(QObject):
             self.gripper.setObject(cup)
         else:
             raise ValueError("Gripper Value error. isPallet and isCup must not be False at the same time.")
+        productAName = self.__productFromID(productAID).name
+        productBName = self.__productFromID(productBID).name
+        self.transmitGripper.emit(isPallet, isCup, cupAID, productAID, productAName, cupBID, productBID, productBName)
     @Slot()
     def loadGripper(self):
         """

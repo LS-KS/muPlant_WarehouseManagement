@@ -140,5 +140,4 @@ Window {
             top: headerLine.bottom
         }
     }
-
 }

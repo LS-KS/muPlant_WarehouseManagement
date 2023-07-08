@@ -15,7 +15,6 @@ Rectangle{
 
     Image {
         id: robot_ref_img
-
         anchors.right: parent.right
         anchors.top: parent.top
         width: parent.width/2
@@ -24,7 +23,6 @@ Rectangle{
         anchors.topMargin: 0
         anchors.rightMargin: 20
         fillMode: Image.PreserveAspectFit
-
         Image {
             id: setGripper
             width: 30
@@ -79,12 +77,14 @@ Rectangle{
                         gripperPallet.cupB = cupBID;
                         gripperPallet.prodB = prodBID;
                         gripperPallet.nameB = prodBName;
+                        console.log("Gripper: loaded a pallet");
                     }
                     else if(isCup){
                         gripperLayout.currentIndex = 0;
                         gripperCup.cup = cupAID;
                         gripperCup.prod = prodAID;
                         gripperCup.name = prodAName;
+                        console.log("Gripper: loaded a cup");
                     }
                 }
             }

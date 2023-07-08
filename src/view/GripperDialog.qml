@@ -229,7 +229,6 @@ Dialog {
             console.log("prodA: "+ vprodA);
             console.log("cupB ID:" + vcupB);
             console.log("prodB: "+ vprodB);
-
         }else if(choicePresent.currentIndex === 1){
             visPallet = false;
             visCup = true;
@@ -242,14 +241,14 @@ Dialog {
             console.log("cupB ID:" + vcupB);
             console.log("prodB: "+ vprodB);
         }
-        inventoryController.changeGripper(visPallet, visCup,vcupA, vprodA, vcupB, vprodB);
-
+        inventoryController.changeGripper(visPallet, visCup, vcupA, vprodA, vcupB, vprodB);
+        console.log("Gripperdialog Accepted")
     }
     onRejected: {
         //console.log("Gripperdialog Rejected")
     }
     onOpened: {
-        console.log("Gripperdialog Completed")
+        console.log("GripperDialog Completed")
         inventoryController.loadGripper()
     }
     Connections {
