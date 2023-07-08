@@ -28,6 +28,7 @@ class invController(QObject):
     transmitWorkbenchData = Signal(int, int, bool)
     transmitWorkbenchPallet = Signal(str,int, int, str, bool, int, int, str)
     transmitMobileRobot = Signal(int, int, str)
+    transmitGripper = Signal(bool, bool, int, int, str, int, int, str)
     productSelected = Signal(str)
     idSwapped = Signal(int, int)
 
@@ -143,6 +144,55 @@ class invController(QObject):
         else:
             raise ValueError("Storage Value error. Storage must be 'K1' or 'K2'")
         self.transmitWorkbenchData.emit(cupID, productID, isPallet)
+    @Slot(bool, bool, int, int, int, int)
+    def changeGripper(self, isPallet: bool, isCup:bool, cupAID :int, productAID: int, cupBID: int, productBID: int):
+        """
+        @Slot(bool, bool, int, int, int, int)
+        This method takes data from manual gripper override in EditDialog.qml.
+        When grippers object is changed, it emits its signal objectChanged to update ProcessView.
+        :param isPallet: True if the changed data refers to a pallet, else False
+        :type isPallet: bool
+        :param isCup: True if the changed data refers to a cup, else False
+        :type isCup: bool
+        :param cupAID: either ID from Cup A if transmitted object shall be an Pallet object or cupID.
+        :type cupAID: int
+        :param productAID: either ID from Product A if transmitted object shall be an Pallet object or productID.
+        :param cupBID: Cup-ID from Cup B if transmitted object shall be an Pallet object, else 0.
+        :type cupBID: int
+        :param productBID: Product-ID from Product B if transmitted object shall be an Pallet object, else 0.
+        :raises ValueError: if isPallet and isCup are False at the same time.
+        :return: None
+        """
+        if isPallet:
+            pallet = Pallet()
+            pallet.setSlotA(Cup(cupAID, self.__productFromID(productAID)))
+            pallet.setSlotB(Cup(cupBID, self.__productFromID(productBID)))
+            self.gripper.setObject(pallet)
+        elif isCup:
+            cup = Cup(cupAID, self.__productFromID(productAID))
+            self.gripper.setObject(cup)
+        else:
+            raise ValueError("Gripper Value error. isPallet and isCup must not be False at the same time.")
+    @Slot()
+    def loadGripper(self):
+        """
+        @Slot()
+        emits transmitGripper signal to update ProcessView although no data is changed.
+        :return: None
+        """
+        if self.gripper.object is not None:
+            isPallet = isinstance(self.gripper.object, Pallet)
+            isCup = isinstance(self.gripper.object, Cup)
+            cupAID = self.gripper.object.slotA.id if isPallet else self.gripper.object.id
+            productAID = self.gripper.object.slotA.product.id if isPallet else self.gripper.object.product.id
+            productAName = self.gripper.object.slotA.product.name if isPallet else self.gripper.object.product.name
+            cupBID = self.gripper.object.slotB.id if isPallet else 0
+            productBID = self.gripper.object.slotB.product.id if isPallet else 0
+            productBName = self.gripper.object.slotB.product.name if isPallet else ""
+            self.transmitGripper.emit(isPallet, isCup, cupAID, productAID, productAName, cupBID, productBID, productBName)
+        else:
+            self.transmitGripper.emit(False, False, 0, 0, "", 0, 0, "")
+
     @Slot(str, str, int, int, str)
     def changeStorage(self, storage, slot, cupID, productID, palletPresent: str):
         """

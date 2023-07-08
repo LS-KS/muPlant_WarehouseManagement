@@ -10,6 +10,7 @@ Rectangle{
 
     GripperDialog{
         id: gripperDialog
+
     }
 
     Image {

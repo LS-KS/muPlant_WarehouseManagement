@@ -10,10 +10,15 @@ Dialog {
     id: editDialog
     title: "Override Gripper"
     width: 400
-    height: 800
+    height: stackLayout.currentIndex === 0 ? 600 : 400
     anchors.centerIn: parent
     property bool isPalletPresent: true
     property bool isCupPresent: true
+    Behavior on height {
+        NumberAnimation {
+            duration: 100
+        }
+    }
     // ColumnLayout helps to organize Items in vertical order.
     ColumnLayout{
         id: editGripperLayout
@@ -199,6 +204,34 @@ Dialog {
                Layout.fillWidth: true
             }
             Layout.fillWidth: true
+        }
+
+    }
+    standardButtons: Dialog.Ok | Dialog.Cancel
+    onAccepted: {
+        console.log("Gripperdialog Accepted")
+    }
+    onRejected: {
+        //console.log("Gripperdialog Rejected")
+    }
+    onOpened: {
+        console.log("Gripperdialog Completed")
+        inventoryController.loadGripper()
+    }
+    Connections {
+        target: inventoryController
+        function onTransmitGripper(isPallet, isCup, CupA, ProdA, ProdAName, CupB, ProdB, ProdBName){
+            if(isPallet){
+                choicePresent.currentIndex = 0
+                cupAEdit.text = CupA
+                prodAEdit.currentIndex = ProdA
+                cupBEdit.text = CupB
+                prodBEdit.currentIndex = ProdB
+            }else{
+                choicePresent.currentIndex = 1
+                cupEdit.text = CupA
+                prodEdit.currentIndex = ProdA
+            }
         }
     }
 }
