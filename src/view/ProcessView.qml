@@ -10,9 +10,10 @@ Rectangle{
 
     Image {
         id: robot_ref_img
-        x: 143
+
         anchors.right: parent.right
         anchors.top: parent.top
+        width: parent.width/2
         source: "../assets/robot_ref_img.png"
         anchors.bottomMargin: 0
         anchors.topMargin: 0
@@ -33,14 +34,12 @@ Rectangle{
     }
     Image {
         id: kommissionTable
-        y: 348
-        width: 400
-        height: 120
+        width: parent.width/2 > 350? 350 : parent.width/2
+        height: 0.33*width
         source: "../assets/KommissionTable.svg"
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         fillMode: Image.PreserveAspectFit
-
         ProductView{
             width: parent.width/2 -20
             id: k1
@@ -137,6 +136,7 @@ Rectangle{
     TurtleView{
         id: turtleVisu
         width: parent.width*0.4
+        height: parent.height*0.8
         anchors {
             left: parent.left
             bottom: parent.bottom

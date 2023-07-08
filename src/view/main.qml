@@ -103,11 +103,22 @@ Window {
     // Ab hier Fensterfläche füllen
     ProcessView{
         id: processView
-        height: parent.height/2-headerLine.height
+        height: parent.height/2*1.2-headerLine.height
         width: parent.width/2
         anchors {
             left: parent.left
             top: headerLine.bottom
+        }
+    }
+    Button{
+        id: startButton
+        text: qsTr("Start")
+        width: parent.width/12
+        height: parent.height/10
+        anchors {
+            left: processView.left
+            top: headerLine.bottom
+            margins: 10
         }
     }
     StackLayoutView{

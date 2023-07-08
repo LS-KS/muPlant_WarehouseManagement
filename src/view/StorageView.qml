@@ -18,7 +18,7 @@ Rectangle{
     }
     Rectangle{
         id: titleRect
-        height: 100
+        height: 50
         anchors{
             left: parent.left
             right: parent.right
@@ -27,13 +27,12 @@ Rectangle{
             rightMargin: 20
             topMargin: 5
         }
-
         Row{
             id: row
             anchors.fill: parent
             Text {
                 id: title
-                height: 100
+                height: titleRect.height
                 text: qsTr("Storage Visualization")
                 verticalAlignment: Text.AlignVCenter
                 Layout.fillHeight: true
@@ -47,7 +46,6 @@ Rectangle{
                     onExited: setImage.opacity = 0;
                 }
             }
-
             Image {
                 id: setImage
                 width: 30
@@ -100,7 +98,6 @@ Rectangle{
             implicitWidth: 150
             Layout.fillWidth: true
             Layout.fillHeight: true
-
         }
         Layout.fillWidth: true
         Layout.fillHeight: true
