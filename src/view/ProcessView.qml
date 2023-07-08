@@ -8,6 +8,10 @@ Rectangle{
         id: workbenchDialog
     }
 
+    GripperDialog{
+        id: gripperDialog
+    }
+
     Image {
         id: robot_ref_img
 
@@ -19,6 +23,27 @@ Rectangle{
         anchors.topMargin: 0
         anchors.rightMargin: 20
         fillMode: Image.PreserveAspectFit
+
+        Image {
+            id: setGripper
+            width: 30
+            source: "../assets/gear.png"
+            anchors{
+                right: parent.right
+                bottom: parent.top
+                topMargin: parent.height/10
+                rightMargin: parent.width/3
+            }
+            fillMode: Image.PreserveAspectFit
+            opacity: 0
+            MouseArea{
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered: setGripper.opacity = 1;
+                onExited: setGripper.opacity = 0;
+                onClicked: gripperDialog.open();
+            }
+        }
 
 
         CupView {

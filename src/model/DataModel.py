@@ -1,3 +1,4 @@
+from PySide6.QtCore import QObject, Signal
 class Inventory:
     """
     Implements the storage rack in µPlant.
@@ -159,7 +160,7 @@ class Workbench:
             if self.k1 == self.k2:
                 self.k1 = None
 
-class Gripper:
+class Gripper(QObject):
     """
     Implements Gripper data class from µPlant industrial robotic arm.
     Gripper stores a cup or a pallet object while transport operation is in progress.
@@ -174,6 +175,7 @@ class Gripper:
         initialize data object with None value
         """
         self.object = None
+        self.objectChanged = Signal(bool, bool, int, int, str, int, int, str) #isPallet, isCup, cup, prod, productname, cup, row, productname
 
     def setObject(self, object):
         """
@@ -196,6 +198,34 @@ class Gripper:
         if object is not None:
             if object.location is not self:
                 object.setLocation(self)
+
+    def emitObject(self):
+        """
+        emits a signal with the current object data
+        """
+        if self.object is None:
+            self.objectChanged.emit(False, False, 0, 0, "", 0, 0, "")
+        elif isinstance(self.object, Pallet):
+            if object.slotA is not None:
+                cupA = object.slotA.id
+                prodA = object.slotA.product.id
+                prodNameA = object.slotA.product.name
+            else:
+                cupA = 0
+                prodA = 0
+                prodNameA = ""
+            if object.slotB is not None:
+                cupB = object.slotB.id
+                prodB = object.slotB.product.id
+                prodNameB = object.slotB.product.name
+            else:
+                cupB = 0
+                prodB = 0
+                prodNameB = ""
+            self.objectChanged.emit(True, False, cupA, prodA, prodNameA, cupB, prodB, prodNameB)
+        elif isinstance(self.object, Cup):
+            self.objectChanged.emit(False, True, self.object.id, self.object.product.id, self.object.product.name, self.object.row, self.object.col, self.object.location.name)
+
 
 class Product:
     """
