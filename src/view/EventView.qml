@@ -44,10 +44,12 @@ Rectangle{
                 id: eventLogTextArea
                 width: parent.width
                 height: parent.height
-                anchors.fill: parent
                 readOnly: true
+                wrapMode: TextEdit.WordWrap
 
             }
+            Layout.fillWidth: true
+            Layout.fillHeight: true
         }
     }
 
