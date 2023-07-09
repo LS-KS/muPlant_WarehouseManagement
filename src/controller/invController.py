@@ -178,6 +178,9 @@ class invController(QObject):
         productAName = self.__productFromID(productAID).name
         productBName = self.__productFromID(productBID).name
         self.transmitGripper.emit(isPallet, isCup, cupAID, productAID, productAName, cupBID, productBID, productBName)
+        self.eventlogService.writeEvent("Gripper",
+                                        f"\n*** ATTENTION ***\n\n!!! GRIPPER OVERRIDE !!!\n\nLocation: Gripper\n\n*** DANGER ***\n\nThe storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.\n\n*** THIS IS A LIFE-THREATENING SITUATION ***\n\n>>>>> CHANGES ARE PERMANENT <<<<<\n\n_____\n")
+
     @Slot()
     def loadGripper(self):
         """
