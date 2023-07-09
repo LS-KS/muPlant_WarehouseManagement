@@ -35,7 +35,7 @@ Dialog {
             }
             ComboBox{
                 id: choicePresent
-                model: ["Pallet", "Cup"]
+                model: ["Pallet", "Cup", "Empty"]
                 width: parent.width/2
                 height: 50
 
@@ -202,6 +202,12 @@ Dialog {
                     Layout.fillWidth: true
                }
                Layout.fillWidth: true
+            }
+            Rectangle{
+                id: empty
+                width: parent.width
+                height: 50
+                color: "transparent"
             }
             Layout.fillWidth: true
         }

@@ -10,7 +10,6 @@ Rectangle{
 
     GripperDialog{
         id: gripperDialog
-
     }
 
     Image {
@@ -47,7 +46,7 @@ Rectangle{
 
         StackLayout {
             width: parent.width/4
-            height: 0.75*width
+            height: currentIndex == 0 ? 0.75*width : width*1.5
             id: gripperLayout
             anchors.right: parent.right
             anchors.top: parent.top
@@ -78,6 +77,7 @@ Rectangle{
                         gripperPallet.prodB = prodBID;
                         gripperPallet.nameB = prodBName;
                         console.log("Gripper: loaded a pallet");
+                        gripperLayout.opacity = 1;
                     }
                     else if(isCup){
                         gripperLayout.currentIndex = 0;
@@ -85,6 +85,15 @@ Rectangle{
                         gripperCup.prod = prodAID;
                         gripperCup.name = prodAName;
                         console.log("Gripper: loaded a cup");
+                        gripperLayout.opacity = 1;
+                    }
+                    else {
+                        gripperLayout.currentIndex = 0;
+                        gripperCup.cup = cupAID;
+                        gripperCup.prod = prodAID;
+                        gripperCup.name = prodAName;
+                        console.log("Gripper: loaded an empty cup");
+                        gripperLayout.opacity = 0;
                     }
                 }
             }

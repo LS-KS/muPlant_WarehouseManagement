@@ -150,6 +150,7 @@ class invController(QObject):
         @Slot(bool, bool, int, int, int, int)
         This method takes data from manual gripper override in EditDialog.qml.
         When grippers object is changed, it emits its signal objectChanged to update ProcessView.
+        Sets grippers object to None if isPallet and isCup are False.
         :param isPallet: True if the changed data refers to a pallet, else False
         :type isPallet: bool
         :param isCup: True if the changed data refers to a cup, else False
@@ -160,7 +161,6 @@ class invController(QObject):
         :param cupBID: Cup-ID from Cup B if transmitted object shall be an Pallet object, else 0.
         :type cupBID: int
         :param productBID: Product-ID from Product B if transmitted object shall be an Pallet object, else 0.
-        :raises ValueError: if isPallet and isCup are False at the same time.
         :return: None
         """
         if isPallet:
@@ -174,7 +174,7 @@ class invController(QObject):
             cup = Cup(cupAID, self.__productFromID(productAID))
             self.gripper.setObject(cup)
         else:
-            raise ValueError("Gripper Value error. isPallet and isCup must not be False at the same time.")
+            self.gripper.setObject(None)
         productAName = self.__productFromID(productAID).name
         productBName = self.__productFromID(productBID).name
         self.transmitGripper.emit(isPallet, isCup, cupAID, productAID, productAName, cupBID, productBID, productBName)
