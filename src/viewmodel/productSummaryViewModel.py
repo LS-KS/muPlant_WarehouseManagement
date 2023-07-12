@@ -30,7 +30,7 @@ class ProductSummaryViewModel (QSortFilterProxyModel):
         """
         self.showZeroQuantity = bool
         self.invalidateFilter()
-        self.revert
+        self.revert()
 
     def filterAcceptsRow(self, sourceRow, sourceParent):
         """

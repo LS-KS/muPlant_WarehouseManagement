@@ -22,7 +22,7 @@ Window {
             height: 30
             color: "white"
             Text {
-                text: model.id +" - "+ model.name
+                text: model.id +" - "+ model.name +" - "+ model.quantity
             }
         }
         Layout.fillWidth: true

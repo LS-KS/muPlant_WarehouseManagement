@@ -1,36 +1,23 @@
-from PySide6.QtCore import QSortFilterProxyModel, Slot, Qt
+from PySide6.QtCore import QSortFilterProxyModel, Slot, Qt, QModelIndex
 from PySide6 import QtCore
-from PySide6.QtCore import QModelIndex
-from src.constants.Constants import Constants
-from src.model.CommissionModel import CommissionData, CommissionState
-class CommissionViewModel(QtCore.QAbstractListModel):
+
+class CommissionViewModel(QtCore.QAbstractTableModel):
     lastId = 0
     commissionData = []
-    def __init__(self):
+    def __init__(self, commissionData, parent=None):
         super().__init__()
-        self.loadCommissionData()
+        self.commissionData = commissionData
+        self._headers = ["ID", "Source", "Target", "Object", "Cup", "Pallet", "State"]
 
-    def loadCommissionData(self):
-        if self.commissionData:
-            self.commissionData.clear()
-        with open(Constants().COMMISSIONDATA)as file:
-            try:
-                for line in file:
-                    line = line.strip()
-                    if line:
-                        id, source, target, object, cup, pallet, state = line.split(",")
-                        commission = CommissionData(id, source, target, object, cup, pallet )
-                        commission.state = CommissionState.OPEN
-                        self.commissionData.append(commission)
-                        self.lastId = id
-            except FileNotFoundError:
-                print("Commission Data File not found")
-
-
-
+    def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: int = Qt.DisplayRole):
+            if role == Qt.DisplayRole and orientation == Qt.Horizontal:
+                return self._headers[section]
 
     def rowCount(self, parent=QModelIndex()):
         return len(self.commissionData)
+
+    def columnCount(self, parent= None) -> int:
+        return 7
 
     def data(self, index, role):
         """
@@ -45,31 +32,19 @@ class CommissionViewModel(QtCore.QAbstractListModel):
         :return: returns data at index and role or None if not successful
         """
         row = index.row()
-        if not index.isValid() or row >= self.rowCount():
+        col = index.column()
+        if not index.isValid() or row >= self.rowCount() or col >= self.columnCount():
             return None
-        commission = self.commissionData[row]
-        if role == QtCore.Qt.UserRole + 1:
-            #print(f"commission id: {commission.id} submitted")
-            return commission.id
-        elif role == QtCore.Qt.UserRole + 2:
-            #print(f"commission source: {commission.source} submitted")
-            return commission.source
-        elif role == QtCore.Qt.UserRole + 3:
-            #print(f"commission target: {commission.target} submitted")
-            return commission.target
-        elif role == QtCore.Qt.UserRole + 4:
-            #print(f"commission object: {commission.object} submitted")
-            return commission.object
-        elif role == QtCore.Qt.UserRole + 5:
-            #print(f"commission state: {commission.cup} submitted")
-            return commission.cup
-        elif role == QtCore.Qt.UserRole + 6:
-            #print(f"commission state: {commission.pallet} submitted")
-            return commission.pallet
-        elif role == QtCore.Qt.UserRole + 7:
-            #print(f"commission state: {commission.state} submitted")
-            return commission.state
-        return None
+        else:
+            match col:
+                case 0: return self.commissionData[row].id
+                case 1: return self.commissionData[row].source.value
+                case 2: return self.commissionData[row].target.value
+                case 3: return self.commissionData[row].object
+                case 4: return self.commissionData[row].cup
+                case 5: return self.commissionData[row].pallet
+                case 6: return self.commissionData[row].state
+                case _: return None
 
     def roleNames(self):
         """
@@ -78,13 +53,7 @@ class CommissionViewModel(QtCore.QAbstractListModel):
         :return: dictionary with rolenames and roles
         """
         roles = {
-            QtCore.Qt.UserRole + 1: b'id',
-            QtCore.Qt.UserRole + 2: b'source',
-            QtCore.Qt.UserRole + 3: b'target',
-            QtCore.Qt.UserRole + 4: b'object',
-            QtCore.Qt.UserRole + 5: b'cup',
-            QtCore.Qt.UserRole + 6: b'pallet',
-            QtCore.Qt.UserRole + 7: b'state'
+            QtCore.Qt.UserRole + 1: b'text',
         }
         return roles
 
@@ -113,7 +82,7 @@ class CommissionFilterProxyModel(QSortFilterProxyModel):
 
     @Slot(str)
     def setFilterString(self, filterString):
-        self.filterString = ""
+        self.filterString = filterString
 
 
 

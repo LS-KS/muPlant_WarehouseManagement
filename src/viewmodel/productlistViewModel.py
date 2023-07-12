@@ -100,8 +100,33 @@ class ProductListViewModel(QtCore.QAbstractListModel):
         """
 
         for index, product in enumerate(self.products):
-            if product == productID:
+            if product.id == productID:
                 return index
+    def setData(self, index: PySide6.QtCore.QModelIndex, value, role: int = ...) -> bool:
+        """
+        sets data at given index and role to value except for role 3 which is quantity.
+        the submitted value for quantity will be added to the current quantity.
+
+        :param index: index to set data at
+        :type index: QModelIndex
+        :param value: value to set
+        :type value: int for id and wuantity, str for name
+        :param role: int for role (QtUserRole + 1 for id, QtUserRole + 2 for name, QtUserRole + 3 for quantity)
+        :return: True if successful, False if not
+        """
+
+        if index < 0 or index >= self.rowCount():
+            return False
+        if role == QtCore.Qt.UserRole + 3:
+            self.products[index].quantity += value
+            return True
+        if role == QtCore.Qt.UserRole + 1:
+            self.products[index].id = value
+            return True
+        if role == QtCore.Qt.UserRole + 2:
+            self.products[index].name = value
+            return True
+        self.dataChanged.emit(index, index, [role])
 
 class ProductData:
     """

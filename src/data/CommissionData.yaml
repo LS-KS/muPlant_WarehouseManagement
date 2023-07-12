@@ -1,0 +1,80 @@
+- CommissionData:
+    id: 1
+    source: K1A
+    target: L2A
+    object: 123
+    cup: true
+    pallet: false
+    state: OPEN
+- CommissionData:
+    id: 2
+    source: K2A
+    target: L4B
+    object: 456
+    cup: false
+    pallet: true
+    state: PENDING
+- CommissionData:
+    id: 3
+    source: K1B
+    target: L6A
+    object: 789
+    cup: true
+    pallet: false
+    state: PROGRESS
+- CommissionData:
+    id: 4
+    source: K2B
+    target: L8B
+    object: 999
+    cup: false
+    pallet: true
+    state: DONE
+- CommissionData:
+    id: 5
+    source: K1A
+    target: L10A
+    object: 555
+    cup: true
+    pallet: false
+    state: OPEN
+- CommissionData:
+    id: 6
+    source: K2A
+    target: L12B
+    object: 222
+    cup: false
+    pallet: true
+    state: PENDING
+- CommissionData:
+    id: 7
+    source: K1B
+    target: L14A
+    object: 777
+    cup: true
+    pallet: false
+    state: PROGRESS
+- CommissionData:
+    id: 8
+    source: K2B
+    target: L16B
+    object: 888
+    cup: false
+    pallet: true
+    state: DONE
+- CommissionData:
+    id: 9
+    source: K1A
+    target: L18A
+    object: 444
+    cup: true
+    pallet: false
+    state: OPEN
+- CommissionData:
+    id: 10
+    source: K2A
+    target: L3B
+    object: 111
+    cup: false
+    pallet: true
+    state: PENDING

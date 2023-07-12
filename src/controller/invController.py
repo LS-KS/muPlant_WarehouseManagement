@@ -180,7 +180,6 @@ class invController(QObject):
         self.transmitGripper.emit(isPallet, isCup, cupAID, productAID, productAName, cupBID, productBID, productBName)
         self.eventlogService.writeEvent("Gripper",
                                         f"\n*** ATTENTION ***\n\n!!! GRIPPER OVERRIDE !!!\n\nLocation: Gripper\n\n*** DANGER ***\n\nThe storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.\n\n*** THIS IS A LIFE-THREATENING SITUATION ***\n\n>>>>> CHANGES ARE PERMANENT <<<<<\n\n_____\n")
-
     @Slot()
     def loadGripper(self):
         """
@@ -224,8 +223,6 @@ class invController(QObject):
         :type productID: int
         :return: None
         """
-        # TODO in StorageDialog: set opacity of cup and product to zero if pallet status is 'No'
-        # TODO in StorageDialog: set opacity of cup and product to 1 if pallet status is 'Yes'
         number = int(storage[1:])
         row = (number - 1) // 6
         col = (number - 1) % 6
@@ -248,12 +245,14 @@ class invController(QObject):
                 pallet.setSlotB(Cup(0, self.__productFromID(0)))
                 self.inventory.setStoragePallet(row, col, pallet)
             if slot == "a":
+                oldproductID = pallet.slotA.product.id
                 print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
                 roleCup = Qt.UserRole + 2
                 roleProduct = Qt.UserRole + 3
                 roleName = Qt.UserRole + 4
                 cup_obj = pallet.slotA
             elif slot == "b":
+                oldproductID = pallet.slotB.product.id
                 print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
                 roleCup = Qt.UserRole + 5
                 roleProduct = Qt.UserRole + 6
@@ -274,6 +273,11 @@ class invController(QObject):
             self.idSwapped.emit(product, productID)
             self.eventlogService.writeEvent("USER",
                                             f"\n*** ATTENTION ***\n\n!!! INVENTORY OVERRIDE !!!\n\nLocation: {storage} - {slot}\nCup: {cup} --> {cupID}\nProduct: {product} --> {productID}\n\n*** DANGER ***\n\nThe storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.\n\n*** THIS IS A LIFE-THREATENING SITUATION ***\n\n>>>>> CHANGES ARE PERMANENT <<<<<\n\n_____\n")
+            oldIndex = self.productlistViewModel.indexOf(oldproductID)
+            self.productlistViewModel.setData(oldIndex, -1, role=Qt.UserRole + 3)
+            newIndex = self.productlistViewModel.indexOf(productID)
+            self.productlistViewModel.setData(newIndex, 1, role=Qt.UserRole + 3)
+
         else:
             pallet.setLocation(None)
             cupA = pallet.slotA
