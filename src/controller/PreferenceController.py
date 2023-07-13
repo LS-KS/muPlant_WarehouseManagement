@@ -43,7 +43,7 @@ class PreferenceController(QObject):
         else:
             self.modbusPortError.emit(False)
         if not reconnectRes:
-            self.eventLogService.writeEvent("Preferences", f"Error in max reconnects{reconnects} is not a number")
+            self.eventLogService.writeEvent("Preferences", f"Error in max reconnects: {reconnects} is not a number")
             self.modbusReconnectError.emit(True)
         else:
             self.modbusReconnectError.emit(False)

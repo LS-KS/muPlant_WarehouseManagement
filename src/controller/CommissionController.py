@@ -24,6 +24,7 @@ class CommissionController:
         self.commissionFilterProxyModel.setFilterRole(Qt.UserRole + 1)
         self.commissionFilterProxyModel.setFilterString("")
 
+
     def loadCommissionData(self):
         commissionData = []
         with open(Constants().COMMISSIONDATA, 'r') as file:

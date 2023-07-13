@@ -1,4 +1,5 @@
 import QtQuick 2.9
+import QtQuick 2.15
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Material 2.15
 import QtQuick.Layouts 1.3
@@ -49,6 +50,14 @@ Dialog {
                     id: modbusIpAddr
                     text: ""
                     width: parent.width*2/3-25
+                    validator: RegularExpressionValidator {
+                        regularExpression: /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
+                        // /^means string must start at the beginning
+                        // {1,3} means 1 to 3 digits
+                        // \. means a dot, [0-9] means a digit
+                        // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
+                        // followed by 1 to 3 digits
+                    }
                 }
                 Image{
                     id: modbusIpError
@@ -72,6 +81,9 @@ Dialog {
                     id: modbusIpPort
                     text: ""
                     width: parent.width*2/3-25
+                     validator: RegularExpressionValidator {
+                        regularExpression: /^[0-9]{1,5}$/
+                    }
                 }
                 Image{
                     id: modbusPortError
@@ -94,6 +106,9 @@ Dialog {
                     id: modbusMaxReconnects
                     text: ""
                     width: parent.width*2/3-25
+                    validator: RegularExpressionValidator {
+                        regularExpression: /^[0-9]{1,2}$/
+                    }
                 }
                 Image{
                     id: modbusReconnectError
@@ -146,6 +161,14 @@ Dialog {
                     id: abbIpAddr
                     text: ""
                     width: parent.width*2/3-25
+                    validator: RegularExpressionValidator {
+                        regularExpression: /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
+                        // /^means string must start at the beginning
+                        // {1,3} means 1 to 3 digits
+                        // \. means a dot, [0-9] means a digit
+                        // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
+                        // followed by 1 to 3 digits
+                    }
                 }
                 Image{
                     id: abbIpError
@@ -169,6 +192,13 @@ Dialog {
                     id: abbIpPort
                     text: ""
                     width: parent.width*2/3-25
+                    validator: IntValidator {
+                        bottom: 0
+                        top: 65535
+                    }
+                    //RegularExpressionValidator {
+                    //    regularExpression: /^[0-9]{1,5}$/ // 1 to 5 digits
+                    //}
                 }
                 Image{
                     id: abbPortError

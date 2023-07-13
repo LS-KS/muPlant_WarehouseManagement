@@ -13,6 +13,15 @@ class CommissionViewModel(QtCore.QAbstractTableModel):
             if role == Qt.DisplayRole and orientation == Qt.Horizontal:
                 return self._headers[section]
 
+    def setHeaderData(self, section, orientation, data, role=Qt.EditRole):
+        if orientation == Qt.Horizontal and role in (Qt.DisplayRole, Qt.EditRole):
+            try:
+                self._headers[section] = data
+                return True
+            except:
+                return False
+        return super().setHeaderData(section, orientation, data, role)
+
     def rowCount(self, parent=QModelIndex()):
         return len(self.commissionData)
 
