@@ -7,6 +7,7 @@ class Preferences:
     def __init__(self, ):
         self.modBus = modBusPreferences()
         self.abb = abbPreferences()
+        self.plugins = PlugInPreferences()
 
 class modBusPreferences:
     def __init__(self):
@@ -95,8 +96,6 @@ class modBusPreferences:
             if int(port) < 0 or int(port) > 65535:
                 return False
         return True
-
-
 class abbPreferences:
 
     def __init__(self):
@@ -168,3 +167,7 @@ class abbPreferences:
             if int(port) < 0 or int(port) > 65535:
                 return False
         return True
+class PlugInPreferences:
+    def __init__(self):
+        self.autostartRfidServer = False
+        self.autostartMccPlugin = False

@@ -14,7 +14,7 @@ class PreferenceController(QObject):
     modbusReconnectError = Signal(bool)
     abbIPError = Signal(bool)
     abbPortError = Signal(bool)
-    sendPreferences = Signal(str, int, int, str, int)
+    sendPreferences = Signal(str, int, int, str, int, bool, bool)
 
     def __init__(self, eventlogService: EventlogService):
         super().__init__()
@@ -74,6 +74,18 @@ class PreferenceController(QObject):
         if ipRes and portRes:
             self._dumpPreferencesYAML()
 
+    @Slot(bool, bool)
+    def setPlugInPreferences(self, rfid, mcc):
+        """
+        Sets the preferences if plugins are automatically enabled or not
+
+        :param rfid: if True, the RFID Server plugin will start automatically if the Start button is pressed
+        :param mcc: if True, the ManualCommissionControl  plugin will start automatically if the Start button is pressed
+        :return:
+        """
+        self.preferences.plugins.autostartRfidServer = rfid
+        self.preferences.plugins.autostartMcc = mcc
+        self._dumpPreferencesYAML()
 
     @Slot()
     def loadPreferences(self):
@@ -85,7 +97,9 @@ class PreferenceController(QObject):
                                   self.preferences.modBus.port,
                                   self.preferences.modBus.maxReconnects,
                                   self.preferences.abb.ip,
-                                  self.preferences.abb.port)
+                                  self.preferences.abb.port,
+                                  self.preferences.plugins.autostartRfidServer,
+                                  self.preferences.plugins.autostartMcc)
 
     def _dumpPreferencesYAML(self):
         """
@@ -96,7 +110,9 @@ class PreferenceController(QObject):
                   'modbusport': self.preferences.modBus.port,
                   'modbusreconnects': self.preferences.modBus.maxReconnects,
                   'abbip': self.preferences.abb.ip,
-                  'abbport': self.preferences.abb.port},
+                  'abbport': self.preferences.abb.port,
+                  'autostartRfidServer': self.preferences.plugins.autostartRfidServer,
+                  'autostartMcc': self.preferences.plugins.autostartMcc},
                  file)
 
     def _loadPreferencesYAML(self):
@@ -111,5 +127,7 @@ class PreferenceController(QObject):
                 self.preferences.modBus.setMaxReconnects(read['modbusreconnects'])
                 self.preferences.abb.setIP(read['abbip'])
                 self.preferences.abb.setPort(read['abbport'])
+                self.preferences.plugins.autostartRfidServer = read['autostartRfidServer']
+                self.preferences.plugins.autostartMcc = read['autostartMcc']
         except FileNotFoundError:
             pass

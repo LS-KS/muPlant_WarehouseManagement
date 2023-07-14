@@ -1,5 +1,7 @@
 abbip: 127.0.0.1
 abbport: 9
+autostartMcc: false
+autostartRfidServer: false
 modbusip: 127.0.0.0
 modbusport: 65
 modbusreconnects: 90

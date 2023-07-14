@@ -40,7 +40,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">modBus</span> <span class="o">=</span> <span class="n">modBusPreferences</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">abb</span> <span class="o">=</span> <span class="n">abbPreferences</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abb</span> <span class="o">=</span> <span class="n">abbPreferences</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span> <span class="o">=</span> <span class="n">PlugInPreferences</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="modBusPreferences"><a class="viewcode-back" href="../../../modules.html#src.model.Preferences.modBusPreferences">[docs]</a><span class="k">class</span> <span class="nc">modBusPreferences</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -129,8 +130,6 @@
             <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">65535</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span></div>
-
-
 <div class="viewcode-block" id="abbPreferences"><a class="viewcode-back" href="../../../modules.html#src.model.Preferences.abbPreferences">[docs]</a><span class="k">class</span> <span class="nc">abbPreferences</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -202,6 +201,10 @@
             <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">65535</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span></div>
+<div class="viewcode-block" id="PlugInPreferences"><a class="viewcode-back" href="../../../modules.html#src.model.Preferences.PlugInPreferences">[docs]</a><span class="k">class</span> <span class="nc">PlugInPreferences</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">autostartRfidServer</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">autostartMccPlugin</span> <span class="o">=</span> <span class="kc">False</span></div>
 </pre></div>
 
           </div>

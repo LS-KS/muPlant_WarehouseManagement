@@ -43,7 +43,7 @@ Window {
     PreferenceDialog{
         id : preferenceDialog
         width: 500
-        height: 800
+        height: Screen.height
         anchors.centerIn: parent
     }
     MenuBar{
@@ -52,9 +52,9 @@ Window {
             title: qsTr("&File")
             Action { text: qsTr("&Help...")
                 onTriggered: {
-                    var component = Qt.createComponent("Help.qml");
-                    if (component.status === Component.Ready){
-                        component.createObject();
+                    var helpComponent = Qt.createComponent("Help.qml");
+                    if (helpComponent.status === Component.Ready){
+                        helpComponent.createObject();
                     }
                 }
             }
@@ -76,13 +76,22 @@ Window {
             Action {
                 text: qsTr("&Show Productlist")
                 onTriggered: {
-                    var component = Qt.createComponent("ProductList.qml");
-                    if (component.status === Component.Ready){
-                        component.createObject();
+                    var plComponent = Qt.createComponent("ProductList.qml");
+                    if (plComponent.status === Component.Ready){
+                        plComponent.createObject();
                     }
                 }
             }
-            Action { text: qsTr("&Manual &Commission &Control")}
+            Action {
+                text: qsTr("&Manual &Commission &Control")
+                onTriggered: {
+                    var mccPlugIn = Qt.createComponent("MCCPlugin.qml")
+                    if(mccPlugIn.status === Component.Ready){
+                        mccPlugIn.createObject();
+                    }
+                }
+
+            }
         }
         Menu {
             title: qsTr("&About")

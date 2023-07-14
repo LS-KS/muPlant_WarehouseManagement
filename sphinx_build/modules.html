@@ -744,6 +744,12 @@ it throws a ValueError.</p>
 </dd></dl>
 
 <span class="target" id="module-src.model.Preferences"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.model.Preferences.PlugInPreferences">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">PlugInPreferences</span></span><a class="reference internal" href="_modules/src/model/Preferences.html#PlugInPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.PlugInPreferences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="src.model.Preferences.Preferences">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">Preferences</span></span><a class="reference internal" href="_modules/src/model/Preferences.html#Preferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.Preferences" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -1194,9 +1200,26 @@ OPCUAService.</p>
 <dd><p>Sets the preferences for the ModBus connection</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.setPlugInPreferences">
+<span class="sig-name descname"><span class="pre">setPlugInPreferences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rfid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mcc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/PreferenceController.html#PreferenceController.setPlugInPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.setPlugInPreferences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the preferences if plugins are automatically enabled or not</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rfid</strong> – if True, the RFID Server plugin will start automatically if the Start button is pressed</p></li>
+<li><p><strong>mcc</strong> – if True, the ManualCommissionControl  plugin will start automatically if the Start button is pressed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;PreferenceController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusIPError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusPortError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusReconnectError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Signal,</span> <span class="pre">signature=abbIPError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Signal,</span> <span class="pre">signature=abbPortError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Signal,</span> <span class="pre">signature=sendPreferences(QString,int,int,QString,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setModBusPreferences(QString,int,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setAbbPreferences(QString,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadPreferences()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;PreferenceController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusIPError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusPortError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusReconnectError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Signal,</span> <span class="pre">signature=abbIPError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Signal,</span> <span class="pre">signature=abbPortError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Signal,</span> <span class="pre">signature=sendPreferences(QString,int,int,QString,int,bool,bool),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">bool,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setModBusPreferences(QString,int,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setAbbPreferences(QString,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setPlugInPreferences(bool,bool),</span> <span class="pre">parameters=bool,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#14</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadPreferences()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1324,7 +1347,7 @@ Creates a dictionary with rolenames and roles.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.rowCount">
-<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x11419ee40&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x108745840&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns number of rows at index
 :param parent:
 :type: QModelIndex
@@ -1678,6 +1701,7 @@ Creates a dictionary with rolenames and roles.
 <li class="toctree-l2"><a class="reference internal" href="#src.model.CommissionModel.CommissionData"><code class="docutils literal notranslate"><span class="pre">CommissionData</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.CommissionModel.CommissionState"><code class="docutils literal notranslate"><span class="pre">CommissionState</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.CommissionModel.Locations"><code class="docutils literal notranslate"><span class="pre">Locations</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.Preferences.PlugInPreferences"><code class="docutils literal notranslate"><span class="pre">PlugInPreferences</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.Preferences.Preferences"><code class="docutils literal notranslate"><span class="pre">Preferences</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.Preferences.abbPreferences"><code class="docutils literal notranslate"><span class="pre">abbPreferences</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.Preferences.modBusPreferences"><code class="docutils literal notranslate"><span class="pre">modBusPreferences</span></code></a></li>
@@ -1707,6 +1731,7 @@ Creates a dictionary with rolenames and roles.
 <li class="toctree-l1"><a class="reference internal" href="dialogs.html">Dialogs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="constants.html">Constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datafiles.html">Data Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">PlugIn’s</a></li>
 </ul>
 
 <div class="relations">

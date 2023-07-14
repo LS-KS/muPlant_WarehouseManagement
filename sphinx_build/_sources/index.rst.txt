@@ -22,6 +22,8 @@ Welcome to µPlant Warehouse Management's documentation!
 
    datafiles
 
+   plugins
+
 
 
 Indices and tables

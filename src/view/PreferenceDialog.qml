@@ -29,7 +29,7 @@ Dialog {
         ColumnLayout{
             anchors{
                 top: text1.bottom
-                topMargin: 20
+                topMargin: 10
                 left: parent.left
                 leftMargin: 10
                 right: parent.right
@@ -67,7 +67,6 @@ Dialog {
                     visible: false
                 }
                 Layout.fillWidth: true
-                Layout.fillHeight: true
             }
             Row{
 
@@ -93,7 +92,6 @@ Dialog {
                     visible: false
                 }
                 Layout.fillWidth: true
-                Layout.fillHeight: true
             }
             Row{
                 Label{
@@ -118,14 +116,12 @@ Dialog {
                     visible: false
                 }
                 Layout.fillWidth: true
-                Layout.fillHeight: true
             }
             Button{
                 id: modbusSaveButton
                 text: qsTr("Save")
                 Layout.maximumHeight: 50
                 Layout.fillWidth: true
-                Layout.fillHeight: true
                 onClicked: {
                     console.log("Save button clicked")
                     console.log(modbusIpAddr.text)
@@ -137,7 +133,6 @@ Dialog {
                 id: seperator
                 Rectangle{
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
                     Layout.maximumHeight: 3
                     color: "white"
                 }
@@ -178,10 +173,8 @@ Dialog {
                     visible: false
                 }
                 Layout.fillWidth: true
-                Layout.fillHeight: true
             }
             Row{
-
                 Label{
                     text: qsTr("IP Port")
                     width: parent.width/3-25
@@ -208,19 +201,33 @@ Dialog {
                     visible: false
                 }
                 Layout.fillWidth: true
-                Layout.fillHeight: true
             }
             Button{
                 id: abbSaveButton
                 text: qsTr("Save")
                 Layout.maximumHeight: 50
                 Layout.fillWidth: true
-                Layout.fillHeight: true
                 onClicked: {
                     console.log("Save button clicked")
                     console.log(abbIpAddr.text)
                     console.log(abbIpPort.text)
                     preferenceController.setAbbPreferences(abbIpAddr.text, abbIpPort.text);
+                }
+            }
+            CheckBox{
+                id: runRfidBox
+                text: qsTr("Run RFID Server automatically with START")
+                onCheckedChanged: {
+                    console.log("Run MCC checked changed")
+                    preferenceController.setPlugInPreferences(runRfidBox.checked, runMccBox.checked);
+                }
+            }
+            CheckBox{
+                id: runMccBox
+                text: qsTr("Run Manual Commission Control automatically with START")
+                onCheckedChanged: {
+                    console.log("Run MCC checked changed")
+                    preferenceController.setPlugInPreferences(runRfidBox.checked, runMccBox.checked);
                 }
             }
         }
@@ -229,13 +236,15 @@ Dialog {
     Connections {
         target: preferenceController
 
-        function onSendPreferences(modbusip, modbusport, modbusmaxtries, abbip, abbport) {
+        function onSendPreferences(modbusip, modbusport, modbusmaxtries, abbip, abbport, rfid, mcc) {
             console.log("Preferences loaded");
             modbusIpAddr.text = modbusip;
             modbusIpPort.text = modbusport;
             modbusMaxReconnects.text = modbusmaxtries;
             abbIpAddr.text = abbip;
             abbIpPort.text = abbport;
+            runRfidBox.checked = rfid;
+            runMccBox.checked = mcc;
         }
 
         function onModbusIPError(error){

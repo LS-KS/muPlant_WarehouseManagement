@@ -54,6 +54,8 @@
         "src/view/Help.qml",
         "main.qml",
         "src/viewmodel/commissionViewModel.py",
-        "src/data/CommissionData.yaml"
+        "src/data/CommissionData.yaml",
+        "src/view/MCCPlugin.qml",
+        "src/view/PreferenceDialog.qml"
     ]
 }

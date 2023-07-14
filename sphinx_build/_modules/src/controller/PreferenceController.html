@@ -48,7 +48,7 @@
     <span class="n">modbusReconnectError</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
     <span class="n">abbIPError</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
     <span class="n">abbPortError</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
-    <span class="n">sendPreferences</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+    <span class="n">sendPreferences</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">:</span> <span class="n">EventlogService</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -108,6 +108,18 @@
         <span class="k">if</span> <span class="n">ipRes</span> <span class="ow">and</span> <span class="n">portRes</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_dumpPreferencesYAML</span><span class="p">()</span></div>
 
+<div class="viewcode-block" id="PreferenceController.setPlugInPreferences"><a class="viewcode-back" href="../../../modules.html#src.controller.PreferenceController.PreferenceController.setPlugInPreferences">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">setPlugInPreferences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rfid</span><span class="p">,</span> <span class="n">mcc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the preferences if plugins are automatically enabled or not</span>
+
+<span class="sd">        :param rfid: if True, the RFID Server plugin will start automatically if the Start button is pressed</span>
+<span class="sd">        :param mcc: if True, the ManualCommissionControl  plugin will start automatically if the Start button is pressed</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">autostartRfidServer</span> <span class="o">=</span> <span class="n">rfid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">autostartMcc</span> <span class="o">=</span> <span class="n">mcc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dumpPreferencesYAML</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="PreferenceController.loadPreferences"><a class="viewcode-back" href="../../../modules.html#src.controller.PreferenceController.PreferenceController.loadPreferences">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">loadPreferences</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -119,7 +131,9 @@
                                   <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">modBus</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
                                   <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">modBus</span><span class="o">.</span><span class="n">maxReconnects</span><span class="p">,</span>
                                   <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">abb</span><span class="o">.</span><span class="n">ip</span><span class="p">,</span>
-                                  <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">abb</span><span class="o">.</span><span class="n">port</span><span class="p">)</span></div>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">abb</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">autostartRfidServer</span><span class="p">,</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">autostartMcc</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_dumpPreferencesYAML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -130,7 +144,9 @@
                   <span class="s1">&#39;modbusport&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">modBus</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
                   <span class="s1">&#39;modbusreconnects&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">modBus</span><span class="o">.</span><span class="n">maxReconnects</span><span class="p">,</span>
                   <span class="s1">&#39;abbip&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">abb</span><span class="o">.</span><span class="n">ip</span><span class="p">,</span>
-                  <span class="s1">&#39;abbport&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">abb</span><span class="o">.</span><span class="n">port</span><span class="p">},</span>
+                  <span class="s1">&#39;abbport&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">abb</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
+                  <span class="s1">&#39;autostartRfidServer&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">autostartRfidServer</span><span class="p">,</span>
+                  <span class="s1">&#39;autostartMcc&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">autostartMcc</span><span class="p">},</span>
                  <span class="n">file</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_loadPreferencesYAML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -145,6 +161,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">modBus</span><span class="o">.</span><span class="n">setMaxReconnects</span><span class="p">(</span><span class="n">read</span><span class="p">[</span><span class="s1">&#39;modbusreconnects&#39;</span><span class="p">])</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">abb</span><span class="o">.</span><span class="n">setIP</span><span class="p">(</span><span class="n">read</span><span class="p">[</span><span class="s1">&#39;abbip&#39;</span><span class="p">])</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">abb</span><span class="o">.</span><span class="n">setPort</span><span class="p">(</span><span class="n">read</span><span class="p">[</span><span class="s1">&#39;abbport&#39;</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">autostartRfidServer</span> <span class="o">=</span> <span class="n">read</span><span class="p">[</span><span class="s1">&#39;autostartRfidServer&#39;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">autostartMcc</span> <span class="o">=</span> <span class="n">read</span><span class="p">[</span><span class="s1">&#39;autostartMcc&#39;</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
             <span class="k">pass</span></div>
 </pre></div>
