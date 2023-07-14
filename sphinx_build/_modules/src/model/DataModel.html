@@ -32,7 +32,8 @@
           <div class="body" role="main">
             
   <h1>Source code for src.model.DataModel</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="Inventory"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Inventory">[docs]</a><span></span><span class="k">class</span> <span class="nc">Inventory</span><span class="p">:</span>
+<span></span><span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QObject</span><span class="p">,</span> <span class="n">Signal</span>
+<div class="viewcode-block" id="Inventory"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Inventory">[docs]</a><span class="k">class</span> <span class="nc">Inventory</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements the storage rack in µPlant.</span>
 <span class="sd">    holds an 2D List which represents row col in the factory.</span>
@@ -193,7 +194,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">k1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">k2</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="kc">None</span></div></div>
 
-<div class="viewcode-block" id="Gripper"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Gripper">[docs]</a><span class="k">class</span> <span class="nc">Gripper</span><span class="p">:</span>
+<div class="viewcode-block" id="Gripper"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Gripper">[docs]</a><span class="k">class</span> <span class="nc">Gripper</span><span class="p">(</span><span class="n">QObject</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements Gripper data class from µPlant industrial robotic arm.</span>
 <span class="sd">    Gripper stores a cup or a pallet object while transport operation is in progress.</span>
@@ -208,6 +209,7 @@
 <span class="sd">        initialize data object with None value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">object</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objectChanged</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="c1">#isPallet, isCup, cup, prod, productname, cup, row, productname</span>
 
 <div class="viewcode-block" id="Gripper.setObject"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Gripper.setObject">[docs]</a>    <span class="k">def</span> <span class="nf">setObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -221,7 +223,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;In this spot is actually already occupied!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This spot is actually already occupied!&quot;</span><span class="p">)</span>
         <span class="n">oldValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">object</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">oldValue</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -229,7 +231,36 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">object</span> <span class="o">=</span> <span class="nb">object</span>
         <span class="k">if</span> <span class="nb">object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">object</span><span class="o">.</span><span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
-                <span class="nb">object</span><span class="o">.</span><span class="n">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
+                <span class="nb">object</span><span class="o">.</span><span class="n">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Gripper.emitObject"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Gripper.emitObject">[docs]</a>    <span class="k">def</span> <span class="nf">emitObject</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        emits a signal with the current object data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objectChanged</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">Pallet</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">object</span><span class="o">.</span><span class="n">slotA</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">cupA</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">slotA</span><span class="o">.</span><span class="n">id</span>
+                <span class="n">prodA</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">slotA</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">id</span>
+                <span class="n">prodNameA</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">slotA</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cupA</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">prodA</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">prodNameA</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">if</span> <span class="nb">object</span><span class="o">.</span><span class="n">slotB</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">cupB</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">slotB</span><span class="o">.</span><span class="n">id</span>
+                <span class="n">prodB</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">slotB</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">id</span>
+                <span class="n">prodNameB</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">slotB</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cupB</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">prodB</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">prodNameB</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objectChanged</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cupA</span><span class="p">,</span> <span class="n">prodA</span><span class="p">,</span> <span class="n">prodNameA</span><span class="p">,</span> <span class="n">cupB</span><span class="p">,</span> <span class="n">prodB</span><span class="p">,</span> <span class="n">prodNameB</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">Cup</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objectChanged</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">row</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">col</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Object is not a Cup or Pallet object!&quot;</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="Product"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Product">[docs]</a><span class="k">class</span> <span class="nc">Product</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>

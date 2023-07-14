@@ -85,22 +85,24 @@
 <span class="linenos">47</span>    <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">autoAcceptChildRows</span><span class="p">()</span>
 <span class="linenos">48</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;commissionController&quot;</span><span class="p">,</span> <span class="n">commissionController</span><span class="p">)</span>
 <span class="linenos">49</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;commissionModel&#39;</span><span class="p">,</span> <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="p">)</span>
-<span class="linenos">50</span>
-<span class="linenos">51</span>    <span class="c1">#creates preferenceController object and sets itself as rootContext</span>
-<span class="linenos">52</span>    <span class="n">preferenceController</span> <span class="o">=</span> <span class="n">PreferenceController</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">)</span>
-<span class="linenos">53</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;preferenceController&quot;</span><span class="p">,</span> <span class="n">preferenceController</span><span class="p">)</span>
-<span class="linenos">54</span>
-<span class="linenos">55</span>
-<span class="linenos">56</span>    <span class="c1"># define load main.qml file to start application</span>
-<span class="linenos">57</span>    <span class="n">qml_file</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;view&quot;</span> <span class="o">/</span> <span class="s2">&quot;main.qml&quot;</span><span class="p">)</span>
-<span class="linenos">58</span>    <span class="n">engine</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">qml_file</span><span class="p">)</span>
-<span class="linenos">59</span>
-<span class="linenos">60</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">engine</span><span class="o">.</span><span class="n">rootObjects</span><span class="p">():</span>
-<span class="linenos">61</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="linenos">62</span>
-<span class="linenos">63</span>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">())</span>
+<span class="linenos">50</span>    <span class="c1">#engine.rootContext().setContextProperty(&#39;commissionModel&#39;, commissionController.commissionViewModel)</span>
+<span class="linenos">51</span>
+<span class="linenos">52</span>
+<span class="linenos">53</span>    <span class="c1">#creates preferenceController object and sets itself as rootContext</span>
+<span class="linenos">54</span>    <span class="n">preferenceController</span> <span class="o">=</span> <span class="n">PreferenceController</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">)</span>
+<span class="linenos">55</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;preferenceController&quot;</span><span class="p">,</span> <span class="n">preferenceController</span><span class="p">)</span>
+<span class="linenos">56</span>
+<span class="linenos">57</span>
+<span class="linenos">58</span>    <span class="c1"># define load main.qml file to start application</span>
+<span class="linenos">59</span>    <span class="n">qml_file</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;view&quot;</span> <span class="o">/</span> <span class="s2">&quot;main.qml&quot;</span><span class="p">)</span>
+<span class="linenos">60</span>    <span class="n">engine</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">qml_file</span><span class="p">)</span>
+<span class="linenos">61</span>
+<span class="linenos">62</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">engine</span><span class="o">.</span><span class="n">rootObjects</span><span class="p">():</span>
+<span class="linenos">63</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 <span class="linenos">64</span>
-<span class="linenos">65</span>
+<span class="linenos">65</span>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">())</span>
+<span class="linenos">66</span>
+<span class="linenos">67</span>
 </pre></div>
 </div>
 </section>
@@ -199,16 +201,13 @@ calls the withoutCup method on the existing product before setting the new produ
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.DataModel.Gripper">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Gripper</span></span><a class="reference internal" href="_modules/src/model/DataModel.html#Gripper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Gripper" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Implements Gripper data class from µPlant industrial robotic arm.
-Gripper stores a cup or a pallet object while transport operation is in progress.
-Idea is to prevent data loss if program interruption occurs whilst progress.
-last revision: 21.06.20223</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object</strong> – Stores either cup object or pallet object (or None)</p>
-</dd>
-</dl>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Gripper.emitObject">
+<span class="sig-name descname"><span class="pre">emitObject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Gripper.emitObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Gripper.emitObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>emits a signal with the current object data</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Gripper.setObject">
 <span class="sig-name descname"><span class="pre">setObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/DataModel.html#Gripper.setObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Gripper.setObject" title="Permalink to this definition">¶</a></dt>
@@ -219,6 +218,11 @@ calls objects setLocation function to set gripper as objects location
 :type object: Cup, Pallet or None
 :return:</p>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.Gripper.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;Gripper&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.model.DataModel.Gripper.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -485,7 +489,7 @@ it throws a ValueError.</p>
 
 <span class="target" id="module-src.model.CommissionModel"></span><dl class="py class">
 <dt class="sig sig-object py" id="src.model.CommissionModel.CommissionData">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">CommissionData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/CommissionModel.html#CommissionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.CommissionModel.CommissionData" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">CommissionData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/CommissionModel.html#CommissionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.CommissionModel.CommissionData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Data Class for CommissionData</p>
 </dd></dl>
@@ -493,26 +497,248 @@ it throws a ValueError.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">CommissionState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/CommissionModel.html#CommissionState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.CommissionModel.CommissionState" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
 <p>Enum for CommissionData State</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState.DONE">
-<span class="sig-name descname"><span class="pre">DONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.DONE" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">DONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'done'</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.DONE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState.OPEN">
-<span class="sig-name descname"><span class="pre">OPEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.OPEN" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">OPEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'open'</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.OPEN" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState.PENDING">
-<span class="sig-name descname"><span class="pre">PENDING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.PENDING" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">PENDING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pending'</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.PENDING" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState.PROGRESS">
-<span class="sig-name descname"><span class="pre">PROGRESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.PROGRESS" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">PROGRESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'in</span> <span class="pre">progress'</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.PROGRESS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">Locations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/CommissionModel.html#Locations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.CommissionModel.Locations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Enum for CommissionDta locations source and target</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.GRIPPER">
+<span class="sig-name descname"><span class="pre">GRIPPER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Gripper'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.GRIPPER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.K1A">
+<span class="sig-name descname"><span class="pre">K1A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K1,</span> <span class="pre">slot</span> <span class="pre">A'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.K1A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.K1B">
+<span class="sig-name descname"><span class="pre">K1B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K1,</span> <span class="pre">slot</span> <span class="pre">B'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.K1B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.K2A">
+<span class="sig-name descname"><span class="pre">K2A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K2,</span> <span class="pre">slot</span> <span class="pre">A'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.K2A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.K2B">
+<span class="sig-name descname"><span class="pre">K2B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K2,</span> <span class="pre">slot</span> <span class="pre">B'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.K2B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L10A">
+<span class="sig-name descname"><span class="pre">L10A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L10</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L10A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L10B">
+<span class="sig-name descname"><span class="pre">L10B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L10</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L10B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L11A">
+<span class="sig-name descname"><span class="pre">L11A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L11</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L11A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L11B">
+<span class="sig-name descname"><span class="pre">L11B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L11</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L11B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L12A">
+<span class="sig-name descname"><span class="pre">L12A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L12</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L12A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L12B">
+<span class="sig-name descname"><span class="pre">L12B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L12</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L12B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L13A">
+<span class="sig-name descname"><span class="pre">L13A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L13</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L13A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L13B">
+<span class="sig-name descname"><span class="pre">L13B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L13</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L13B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L14A">
+<span class="sig-name descname"><span class="pre">L14A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L14</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L14A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L14B">
+<span class="sig-name descname"><span class="pre">L14B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L14</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L14B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L15A">
+<span class="sig-name descname"><span class="pre">L15A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L15</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L15A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L15B">
+<span class="sig-name descname"><span class="pre">L15B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L15</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L15B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L16A">
+<span class="sig-name descname"><span class="pre">L16A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L16</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L16A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L16B">
+<span class="sig-name descname"><span class="pre">L16B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L16</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L16B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L17A">
+<span class="sig-name descname"><span class="pre">L17A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L17</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L17A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L17B">
+<span class="sig-name descname"><span class="pre">L17B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L17</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L17B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L18A">
+<span class="sig-name descname"><span class="pre">L18A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L18</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L18A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L18B">
+<span class="sig-name descname"><span class="pre">L18B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L18</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L18B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L1A">
+<span class="sig-name descname"><span class="pre">L1A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L1</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L1A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L1B">
+<span class="sig-name descname"><span class="pre">L1B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L1</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L1B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L2A">
+<span class="sig-name descname"><span class="pre">L2A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L2</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L2A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L2B">
+<span class="sig-name descname"><span class="pre">L2B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L2</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L2B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L3A">
+<span class="sig-name descname"><span class="pre">L3A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L3</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L3A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L3B">
+<span class="sig-name descname"><span class="pre">L3B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L3</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L3B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L4A">
+<span class="sig-name descname"><span class="pre">L4A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L4</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L4A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L4B">
+<span class="sig-name descname"><span class="pre">L4B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L4</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L4B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L5A">
+<span class="sig-name descname"><span class="pre">L5A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L5</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L5A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L5B">
+<span class="sig-name descname"><span class="pre">L5B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L5</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L5B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L6A">
+<span class="sig-name descname"><span class="pre">L6A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L6</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L6A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L6B">
+<span class="sig-name descname"><span class="pre">L6B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L6</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L6B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L7A">
+<span class="sig-name descname"><span class="pre">L7A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L7</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L7A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L7B">
+<span class="sig-name descname"><span class="pre">L7B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L7</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L7B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L8A">
+<span class="sig-name descname"><span class="pre">L8A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L8</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L8A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L8B">
+<span class="sig-name descname"><span class="pre">L8B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L8</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L8B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L9A">
+<span class="sig-name descname"><span class="pre">L9A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L9</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L9A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L9B">
+<span class="sig-name descname"><span class="pre">L9B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L9</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L9B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.ROBOT">
+<span class="sig-name descname"><span class="pre">ROBOT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Mobile</span> <span class="pre">Robot'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.ROBOT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.CommissionModel.Locations.STORAGE">
+<span class="sig-name descname"><span class="pre">STORAGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.STORAGE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -563,7 +789,7 @@ Returns False if ip syntax is invalid.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.Preferences.modBusPreferences.setMaxReconnects">
-<span class="sig-name descname"><span class="pre">setMaxReconnects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tries</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/Preferences.html#modBusPreferences.setMaxReconnects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.modBusPreferences.setMaxReconnects" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setMaxReconnects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tries</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/model/Preferences.html#modBusPreferences.setMaxReconnects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.modBusPreferences.setMaxReconnects" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -584,6 +810,26 @@ Returns False if port syntax is invalid.
 <dt class="sig sig-object py" id="src.controller.invController.invController">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.controller.invController.</span></span><span class="sig-name descname"><span class="pre">invController</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.changeGripper">
+<span class="sig-name descname"><span class="pre">changeGripper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isPallet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isCup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cupAID</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">productAID</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cupBID</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">productBID</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController.changeGripper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.changeGripper" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;Slot(bool, bool, int, int, int, int)
+This method takes data from manual gripper override in EditDialog.qml.
+When grippers object is changed, it emits its signal objectChanged to update ProcessView.
+Sets grippers object to None if isPallet and isCup are False.
+:param isPallet: True if the changed data refers to a pallet, else False
+:type isPallet: bool
+:param isCup: True if the changed data refers to a cup, else False
+:type isCup: bool
+:param cupAID: either ID from Cup A if transmitted object shall be an Pallet object or cupID.
+:type cupAID: int
+:param productAID: either ID from Product A if transmitted object shall be an Pallet object or productID.
+:param cupBID: Cup-ID from Cup B if transmitted object shall be an Pallet object, else 0.
+:type cupBID: int
+:param productBID: Product-ID from Product B if transmitted object shall be an Pallet object, else 0.
+:return: None</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="src.controller.invController.invController.changeMobileRobot">
 <span class="sig-name descname"><span class="pre">changeMobileRobot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cupID</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">productID</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController.changeMobileRobot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.changeMobileRobot" title="Permalink to this definition">¶</a></dt>
@@ -672,6 +918,14 @@ Calls transmitWorkbenchPallet signal with data stored in self.workbench.
 <dt class="sig sig-object py" id="src.controller.invController.invController.idSwapped">
 <span class="sig-name descname"><span class="pre">idSwapped</span></span><a class="headerlink" href="#src.controller.invController.invController.idSwapped" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.invController.invController.loadGripper">
+<span class="sig-name descname"><span class="pre">loadGripper</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/invController.html#invController.loadGripper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.loadGripper" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;Slot()
+emits transmitGripper signal to update ProcessView although no data is changed.
+:return: None</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.controller.invController.invController.loadStorage">
@@ -827,7 +1081,12 @@ Takes a product ID as argument and emits it as signal productSelected.
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.controller.invController.invController.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;invController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitStorageData(QString,int,int,bool),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitWorkbenchData(int,int,bool),</span> <span class="pre">parameters=int,</span> <span class="pre">int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitWorkbenchPallet(QString,int,int,QString,bool,int,int,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">bool,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitMobileRobot(int,int,QString),</span> <span class="pre">parameters=int,</span> <span class="pre">int,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Signal,</span> <span class="pre">signature=productSelected(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Signal,</span> <span class="pre">signature=idSwapped(int,int),</span> <span class="pre">parameters=int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=selectRow(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadStorage(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadWorkbench(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#14</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeStorage(QString,QString,int,int,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#15</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeWorkbench(QString,QString,int,int,bool),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#16</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeMobileRobot(int,int),</span> <span class="pre">parameters=int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#17</span> <span class="pre">type=Slot,</span> <span class="pre">signature=getWorkbenchSlot(QString),</span> <span class="pre">parameters=QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.invController.invController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;invController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitStorageData(QString,int,int,bool),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitWorkbenchData(int,int,bool),</span> <span class="pre">parameters=int,</span> <span class="pre">int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitWorkbenchPallet(QString,int,int,QString,bool,int,int,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">bool,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitMobileRobot(int,int,QString),</span> <span class="pre">parameters=int,</span> <span class="pre">int,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Signal,</span> <span class="pre">signature=transmitGripper(bool,bool,int,int,QString,int,int,QString),</span> <span class="pre">parameters=bool,</span> <span class="pre">bool,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Signal,</span> <span class="pre">signature=productSelected(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Signal,</span> <span class="pre">signature=idSwapped(int,int),</span> <span class="pre">parameters=int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Slot,</span> <span class="pre">signature=selectRow(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadStorage(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#14</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadWorkbench(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#15</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeGripper(bool,bool,int,int,int,int),</span> <span class="pre">parameters=bool,</span> <span class="pre">bool,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#16</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadGripper()</span>&#160;&#160; <span class="pre">#17</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeStorage(QString,QString,int,int,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#18</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeWorkbench(QString,QString,int,int,bool),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#19</span> <span class="pre">type=Slot,</span> <span class="pre">signature=changeMobileRobot(int,int),</span> <span class="pre">parameters=int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#20</span> <span class="pre">type=Slot,</span> <span class="pre">signature=getWorkbenchSlot(QString),</span> <span class="pre">parameters=QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.invController.invController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.invController.invController.transmitGripper">
+<span class="sig-name descname"><span class="pre">transmitGripper</span></span><a class="headerlink" href="#src.controller.invController.invController.transmitGripper" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -860,6 +1119,16 @@ Takes a product ID as argument and emits it as signal productSelected.
 commission data source is a database file where all commissions are saved.
 While operating commissions will be passed to CommisioonController by ModbusService or
 OPCUAService.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.CommissionController.CommissionController.dumpCommissionData">
+<span class="sig-name descname"><span class="pre">dumpCommissionData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/CommissionController.html#CommissionController.dumpCommissionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.CommissionController.CommissionController.dumpCommissionData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.CommissionController.CommissionController.loadCommissionData">
+<span class="sig-name descname"><span class="pre">loadCommissionData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/CommissionController.html#CommissionController.loadCommissionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.CommissionController.CommissionController.loadCommissionData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <span class="target" id="module-src.controller.PreferenceController"></span><dl class="py class">
@@ -1055,12 +1324,31 @@ Creates a dictionary with rolenames and roles.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.rowCount">
-<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x10c893840&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x11419ee40&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns number of rows at index
 :param parent:
 :type: QModelIndex
 :return: number of rows
 :type return: int</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.setData">
+<span class="sig-name descname"><span class="pre">setData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QModelIndex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Ellipsis</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.setData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.setData" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets data at given index and role to value except for role 3 which is quantity.
+the submitted value for quantity will be added to the current quantity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>QModelIndex</em>) – index to set data at</p></li>
+<li><p><strong>value</strong> (<em>int for id and wuantity</em><em>, </em><em>str for name</em>) – value to set</p></li>
+<li><p><strong>role</strong> – int for role (QtUserRole + 1 for id, QtUserRole + 2 for name, QtUserRole + 3 for quantity)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if successful, False if not</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1263,6 +1551,11 @@ Important Note: If isPallet is written, it maybe returns False in any case.</p>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.commissionViewModel.CommissionFilterProxyModel.lessThan">
+<span class="sig-name descname"><span class="pre">lessThan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PySide6.QtCore.QModelIndex</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QPersistentModelIndex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_right</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PySide6.QtCore.QModelIndex</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QPersistentModelIndex</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/viewmodel/commissionViewModel.html#CommissionFilterProxyModel.lessThan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionFilterProxyModel.lessThan" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.commissionViewModel.CommissionFilterProxyModel.setFilterString">
 <span class="sig-name descname"><span class="pre">setFilterString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filterString</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/commissionViewModel.html#CommissionFilterProxyModel.setFilterString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionFilterProxyModel.setFilterString" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1276,8 +1569,13 @@ Important Note: If isPallet is written, it maybe returns False in any case.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.viewmodel.commissionViewModel.CommissionViewModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.viewmodel.commissionViewModel.</span></span><span class="sig-name descname"><span class="pre">CommissionViewModel</span></span><a class="reference internal" href="_modules/src/viewmodel/commissionViewModel.html#CommissionViewModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionViewModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QAbstractListModel</span></code></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.viewmodel.commissionViewModel.</span></span><span class="sig-name descname"><span class="pre">CommissionViewModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commissionData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/commissionViewModel.html#CommissionViewModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionViewModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QAbstractTableModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.commissionViewModel.CommissionViewModel.columnCount">
+<span class="sig-name descname"><span class="pre">columnCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PySide6.QtCore.QModelIndex</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QPersistentModelIndex</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Invalid(PySide6.QtCore.QModelIndex)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/src/viewmodel/commissionViewModel.html#CommissionViewModel.columnCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionViewModel.columnCount" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.viewmodel.commissionViewModel.CommissionViewModel.commissionData">
 <span class="sig-name descname"><span class="pre">commissionData</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionViewModel.commissionData" title="Permalink to this definition">¶</a></dt>
@@ -1298,6 +1596,11 @@ string to be returned
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.commissionViewModel.CommissionViewModel.headerData">
+<span class="sig-name descname"><span class="pre">headerData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">section</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PySide6.QtCore.Qt.Orientation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Instance(Qt.DisplayRole)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/src/viewmodel/commissionViewModel.html#CommissionViewModel.headerData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionViewModel.headerData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.commissionViewModel.CommissionViewModel.indexOf">
 <span class="sig-name descname"><span class="pre">indexOf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commissionID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/commissionViewModel.html#CommissionViewModel.indexOf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionViewModel.indexOf" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -1316,11 +1619,6 @@ string to be returned
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.viewmodel.commissionViewModel.CommissionViewModel.loadCommissionData">
-<span class="sig-name descname"><span class="pre">loadCommissionData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/commissionViewModel.html#CommissionViewModel.loadCommissionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionViewModel.loadCommissionData" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.commissionViewModel.CommissionViewModel.roleNames">
 <span class="sig-name descname"><span class="pre">roleNames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/commissionViewModel.html#CommissionViewModel.roleNames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionViewModel.roleNames" title="Permalink to this definition">¶</a></dt>
 <dd><p>Must be implemendted.
@@ -1333,9 +1631,14 @@ Creates a dictionary with rolenames and roles.
 <span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PySide6.QtCore.QModelIndex</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QPersistentModelIndex</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Invalid(PySide6.QtCore.QModelIndex)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/src/viewmodel/commissionViewModel.html#CommissionViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.commissionViewModel.CommissionViewModel.setHeaderData">
+<span class="sig-name descname"><span class="pre">setHeaderData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">section</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PySide6.QtCore.Qt.Orientation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Instance(Qt.EditRole)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/viewmodel/commissionViewModel.html#CommissionViewModel.setHeaderData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionViewModel.setHeaderData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.viewmodel.commissionViewModel.CommissionViewModel.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;CommissionViewModel&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QAbstractListModel&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionViewModel.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;CommissionViewModel&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QAbstractTableModel&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionViewModel.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1374,6 +1677,7 @@ Creates a dictionary with rolenames and roles.
 <li class="toctree-l2"><a class="reference internal" href="#src.model.DataModel.Workbench"><code class="docutils literal notranslate"><span class="pre">Workbench</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.CommissionModel.CommissionData"><code class="docutils literal notranslate"><span class="pre">CommissionData</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.CommissionModel.CommissionState"><code class="docutils literal notranslate"><span class="pre">CommissionState</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.CommissionModel.Locations"><code class="docutils literal notranslate"><span class="pre">Locations</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.Preferences.Preferences"><code class="docutils literal notranslate"><span class="pre">Preferences</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.Preferences.abbPreferences"><code class="docutils literal notranslate"><span class="pre">abbPreferences</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.Preferences.modBusPreferences"><code class="docutils literal notranslate"><span class="pre">modBusPreferences</span></code></a></li>

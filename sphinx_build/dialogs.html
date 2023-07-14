@@ -524,185 +524,558 @@ TurtleDialog.qml</p>
 <span class="linenos">87</span><span class="p">}</span>
 </pre></div>
 </div>
+<p>Dialogvisualisierung um den Greifer manuell zu bearbeiten.
+GripperDialog.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span>import QtQuick 2.15
+<span class="linenos">  2</span>import QtQuick.Dialogs
+<span class="linenos">  3</span>import QtQuick.Controls 2.15
+<span class="linenos">  4</span>import QtQuick.Controls.Material 2.15
+<span class="linenos">  5</span>import QtQuick.Layouts 1.3
+<span class="linenos">  6</span>/*
+<span class="linenos">  7</span>  This QML File shows a Dialog which enables the user to manually override the storage data
+<span class="linenos">  8</span>  */
+<span class="linenos">  9</span>Dialog {
+<span class="linenos"> 10</span>    id: editDialog
+<span class="linenos"> 11</span>    title: &quot;Override Gripper&quot;
+<span class="linenos"> 12</span>    width: 400
+<span class="linenos"> 13</span>    height: stackLayout.currentIndex === 0 ? 600 : 400
+<span class="linenos"> 14</span>    anchors.centerIn: parent
+<span class="linenos"> 15</span>    property bool isPalletPresent: true
+<span class="linenos"> 16</span>    property bool isCupPresent: true
+<span class="linenos"> 17</span>    Behavior on height {
+<span class="linenos"> 18</span>        NumberAnimation {
+<span class="linenos"> 19</span>            duration: 100
+<span class="linenos"> 20</span>        }
+<span class="linenos"> 21</span>    }
+<span class="linenos"> 22</span>    // ColumnLayout helps to organize Items in vertical order.
+<span class="linenos"> 23</span>    ColumnLayout{
+<span class="linenos"> 24</span>        id: editGripperLayout
+<span class="linenos"> 25</span>        width: parent.width
+<span class="linenos"> 26</span>        height: parent.height
+<span class="linenos"> 27</span>        // This Row enables user to allocate the storage location
+<span class="linenos"> 28</span>        Row {
+<span class="linenos"> 29</span>            Text {
+<span class="linenos"> 30</span>                id: choiceText
+<span class="linenos"> 31</span>                width: parent.width/2
+<span class="linenos"> 32</span>                height: 50
+<span class="linenos"> 33</span>                text: qsTr(&quot;Item present: &quot;)
+<span class="linenos"> 34</span>                verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 35</span>            }
+<span class="linenos"> 36</span>            ComboBox{
+<span class="linenos"> 37</span>                id: choicePresent
+<span class="linenos"> 38</span>                model: [&quot;Pallet&quot;, &quot;Cup&quot;, &quot;Empty&quot;]
+<span class="linenos"> 39</span>                width: parent.width/2
+<span class="linenos"> 40</span>                height: 50
+<span class="linenos"> 41</span>
+<span class="linenos"> 42</span>            }
+<span class="linenos"> 43</span>            Layout.fillWidth: true
+<span class="linenos"> 44</span>        }
+<span class="linenos"> 45</span>        StackLayout{
+<span class="linenos"> 46</span>            id: stackLayout
+<span class="linenos"> 47</span>            currentIndex: choicePresent.currentIndex
+<span class="linenos"> 48</span>            ColumnLayout{
+<span class="linenos"> 49</span>                Text{
+<span class="linenos"> 50</span>                   id: palletText
+<span class="linenos"> 51</span>                   width: parent.width
+<span class="linenos"> 52</span>                   height: 50
+<span class="linenos"> 53</span>                   text: qsTr(&quot;Set Pallet Properties: &quot;)
+<span class="linenos"> 54</span>                   font.pixelSize: 20
+<span class="linenos"> 55</span>                   font.bold: true
+<span class="linenos"> 56</span>                   verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 57</span>                   horizontalAlignment: Text.AlignHCenter
+<span class="linenos"> 58</span>                   Layout.fillWidth: true
+<span class="linenos"> 59</span>                }
+<span class="linenos"> 60</span>                Row{
+<span class="linenos"> 61</span>                    Text{
+<span class="linenos"> 62</span>                        id: cupAText
+<span class="linenos"> 63</span>                        width: parent.width
+<span class="linenos"> 64</span>                        height: 50
+<span class="linenos"> 65</span>                        text: qsTr(&quot;Slot A: &quot;)
+<span class="linenos"> 66</span>                        font.pixelSize: 20
+<span class="linenos"> 67</span>                        font.bold: true
+<span class="linenos"> 68</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 69</span>                        horizontalAlignment: Text.AlignHCenter
+<span class="linenos"> 70</span>                    }
+<span class="linenos"> 71</span>                    Layout.fillWidth: true
+<span class="linenos"> 72</span>                }
+<span class="linenos"> 73</span>                Row{
+<span class="linenos"> 74</span>                    Label{
+<span class="linenos"> 75</span>                        id: cupA
+<span class="linenos"> 76</span>                        width: parent.width/2
+<span class="linenos"> 77</span>                        height: 50
+<span class="linenos"> 78</span>                        text: qsTr(&quot;Cup A: &quot;)
+<span class="linenos"> 79</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 80</span>                    }
+<span class="linenos"> 81</span>                    TextField{
+<span class="linenos"> 82</span>                        id: cupAEdit
+<span class="linenos"> 83</span>                        width: parent.width/2
+<span class="linenos"> 84</span>                        height: 50
+<span class="linenos"> 85</span>                        text: qsTr(&quot;&quot;)
+<span class="linenos"> 86</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 87</span>                    }
+<span class="linenos"> 88</span>                    Layout.fillWidth: true
+<span class="linenos"> 89</span>                }
+<span class="linenos"> 90</span>                Row{
+<span class="linenos"> 91</span>                    Label{
+<span class="linenos"> 92</span>                        id: prodA
+<span class="linenos"> 93</span>                        width: parent.width/2
+<span class="linenos"> 94</span>                        height: 50
+<span class="linenos"> 95</span>                        text: qsTr(&quot;Produkt A: &quot;)
+<span class="linenos"> 96</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 97</span>                    }
+<span class="linenos"> 98</span>                    ComboBox{
+<span class="linenos"> 99</span>                        id: prodAEdit
+<span class="linenos">100</span>                        width: parent.width/2
+<span class="linenos">101</span>                        height: 50
+<span class="linenos">102</span>                        model: productListModel
+<span class="linenos">103</span>                        textRole: &#39;name&#39;
+<span class="linenos">104</span>                        valueRole: &#39;id&#39;
+<span class="linenos">105</span>                    }
+<span class="linenos">106</span>                    Layout.fillWidth: true
+<span class="linenos">107</span>                }
+<span class="linenos">108</span>                Row{
+<span class="linenos">109</span>                    Text{
+<span class="linenos">110</span>                        id: cupBText
+<span class="linenos">111</span>                        width: parent.width
+<span class="linenos">112</span>                        height: 50
+<span class="linenos">113</span>                        text: qsTr(&quot;Slot B: &quot;)
+<span class="linenos">114</span>                        font.pixelSize: 20
+<span class="linenos">115</span>                        font.bold: true
+<span class="linenos">116</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos">117</span>                        horizontalAlignment: Text.AlignHCenter
+<span class="linenos">118</span>                    }
+<span class="linenos">119</span>                    Layout.fillWidth: true
+<span class="linenos">120</span>                }
+<span class="linenos">121</span>                Row{
+<span class="linenos">122</span>                    Label{
+<span class="linenos">123</span>                        id: cupB
+<span class="linenos">124</span>                        width: parent.width/2
+<span class="linenos">125</span>                        height: 50
+<span class="linenos">126</span>                        text: qsTr(&quot;Cup B: &quot;)
+<span class="linenos">127</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos">128</span>                    }
+<span class="linenos">129</span>                    TextField{
+<span class="linenos">130</span>                        id: cupBEdit
+<span class="linenos">131</span>                        width: parent.width/2
+<span class="linenos">132</span>                        height: 50
+<span class="linenos">133</span>                        text: qsTr(&quot;&quot;)
+<span class="linenos">134</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos">135</span>                    }
+<span class="linenos">136</span>                    Layout.fillWidth: true
+<span class="linenos">137</span>                }
+<span class="linenos">138</span>                Row{
+<span class="linenos">139</span>                    Label{
+<span class="linenos">140</span>                        id: prodB
+<span class="linenos">141</span>                        width: parent.width/2
+<span class="linenos">142</span>                        height: 50
+<span class="linenos">143</span>                        text: qsTr(&quot;Produkt B: &quot;)
+<span class="linenos">144</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos">145</span>                    }
+<span class="linenos">146</span>                    ComboBox{
+<span class="linenos">147</span>                        id: prodBEdit
+<span class="linenos">148</span>                        width: parent.width/2
+<span class="linenos">149</span>                        height: 50
+<span class="linenos">150</span>                        model: productListModel
+<span class="linenos">151</span>                        textRole: &#39;name&#39;
+<span class="linenos">152</span>                        valueRole: &#39;id&#39;
+<span class="linenos">153</span>                    }
+<span class="linenos">154</span>                    Layout.fillWidth: true
+<span class="linenos">155</span>                }
+<span class="linenos">156</span>                Layout.fillWidth: true
+<span class="linenos">157</span>            }
+<span class="linenos">158</span>            ColumnLayout{
+<span class="linenos">159</span>               Text{
+<span class="linenos">160</span>                   id: palletAText
+<span class="linenos">161</span>                   width: parent.width
+<span class="linenos">162</span>                   height: 50
+<span class="linenos">163</span>                   text: qsTr(&quot;Set Cup Properties: &quot;)
+<span class="linenos">164</span>                   font.pixelSize: 20
+<span class="linenos">165</span>                   font.bold: true
+<span class="linenos">166</span>                   verticalAlignment: Text.AlignVCenter
+<span class="linenos">167</span>                   horizontalAlignment: Text.AlignHCenter
+<span class="linenos">168</span>               }
+<span class="linenos">169</span>               Row{
+<span class="linenos">170</span>                    Label{
+<span class="linenos">171</span>                        id: cup
+<span class="linenos">172</span>                        width: parent.width/2
+<span class="linenos">173</span>                        height: 50
+<span class="linenos">174</span>                        text: qsTr(&quot;Cup: &quot;)
+<span class="linenos">175</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos">176</span>                    }
+<span class="linenos">177</span>                    TextField{
+<span class="linenos">178</span>                        id: cupEdit
+<span class="linenos">179</span>                        width: parent.width/2
+<span class="linenos">180</span>                        height: 50
+<span class="linenos">181</span>                        text: qsTr(&quot;&quot;)
+<span class="linenos">182</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos">183</span>                    }
+<span class="linenos">184</span>                    Layout.fillWidth: true
+<span class="linenos">185</span>               }
+<span class="linenos">186</span>               Row{
+<span class="linenos">187</span>                    Label{
+<span class="linenos">188</span>                        id: prod
+<span class="linenos">189</span>                        width: parent.width/2
+<span class="linenos">190</span>                        height: 50
+<span class="linenos">191</span>                        text: qsTr(&quot;Produkt: &quot;)
+<span class="linenos">192</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos">193</span>                    }
+<span class="linenos">194</span>                    ComboBox{
+<span class="linenos">195</span>                        id: prodEdit
+<span class="linenos">196</span>                        width: parent.width/2
+<span class="linenos">197</span>                        height: 50
+<span class="linenos">198</span>                        model: productListModel
+<span class="linenos">199</span>                        textRole: &#39;name&#39;
+<span class="linenos">200</span>                        valueRole: &#39;id&#39;
+<span class="linenos">201</span>                    }
+<span class="linenos">202</span>                    Layout.fillWidth: true
+<span class="linenos">203</span>               }
+<span class="linenos">204</span>               Layout.fillWidth: true
+<span class="linenos">205</span>            }
+<span class="linenos">206</span>            Rectangle{
+<span class="linenos">207</span>                id: empty
+<span class="linenos">208</span>                width: parent.width
+<span class="linenos">209</span>                height: 50
+<span class="linenos">210</span>                color: &quot;transparent&quot;
+<span class="linenos">211</span>            }
+<span class="linenos">212</span>            Layout.fillWidth: true
+<span class="linenos">213</span>        }
+<span class="linenos">214</span>
+<span class="linenos">215</span>    }
+<span class="linenos">216</span>    standardButtons: Dialog.Ok | Dialog.Cancel
+<span class="linenos">217</span>    onAccepted: {
+<span class="linenos">218</span>        console.log(&quot;Gripperdialog Accepted&quot;)
+<span class="linenos">219</span>        console.log(&quot;sending to inventoryController:&quot;)
+<span class="linenos">220</span>        let visPallet
+<span class="linenos">221</span>        let visCup
+<span class="linenos">222</span>        let vcupA
+<span class="linenos">223</span>        let vcupB
+<span class="linenos">224</span>        let vprodA
+<span class="linenos">225</span>        let vprodB
+<span class="linenos">226</span>        console.log(&quot;read choice: &quot;+ choicePresent.currentValue)
+<span class="linenos">227</span>        if (choicePresent.currentIndex === 0){
+<span class="linenos">228</span>            visPallet = true;
+<span class="linenos">229</span>            visCup = false;
+<span class="linenos">230</span>            vcupA = parseInt(cupAEdit.text);
+<span class="linenos">231</span>            vprodA = parseInt(prodAEdit.currentIndex);
+<span class="linenos">232</span>            vcupB = parseInt(cupBEdit.text);
+<span class="linenos">233</span>            vprodB = parseInt(prodBEdit.currentIndex);
+<span class="linenos">234</span>            console.log(&quot;cupA ID:&quot; + vcupA);
+<span class="linenos">235</span>            console.log(&quot;prodA: &quot;+ vprodA);
+<span class="linenos">236</span>            console.log(&quot;cupB ID:&quot; + vcupB);
+<span class="linenos">237</span>            console.log(&quot;prodB: &quot;+ vprodB);
+<span class="linenos">238</span>        }else if(choicePresent.currentIndex === 1){
+<span class="linenos">239</span>            visPallet = false;
+<span class="linenos">240</span>            visCup = true;
+<span class="linenos">241</span>            vcupA = parseInt(cupEdit.text);
+<span class="linenos">242</span>            vprodA = parseInt(prodEdit.currentIndex);
+<span class="linenos">243</span>            vcupB = 0;
+<span class="linenos">244</span>            vprodB = 0;
+<span class="linenos">245</span>            console.log(&quot;cupA ID:&quot; + vcupA);
+<span class="linenos">246</span>            console.log(&quot;prodA: &quot;+ vprodA);
+<span class="linenos">247</span>            console.log(&quot;cupB ID:&quot; + vcupB);
+<span class="linenos">248</span>            console.log(&quot;prodB: &quot;+ vprodB);
+<span class="linenos">249</span>        }
+<span class="linenos">250</span>        inventoryController.changeGripper(visPallet, visCup, vcupA, vprodA, vcupB, vprodB);
+<span class="linenos">251</span>        console.log(&quot;Gripperdialog Accepted&quot;)
+<span class="linenos">252</span>    }
+<span class="linenos">253</span>    onRejected: {
+<span class="linenos">254</span>        //console.log(&quot;Gripperdialog Rejected&quot;)
+<span class="linenos">255</span>    }
+<span class="linenos">256</span>    onOpened: {
+<span class="linenos">257</span>        console.log(&quot;GripperDialog Completed&quot;)
+<span class="linenos">258</span>        inventoryController.loadGripper()
+<span class="linenos">259</span>    }
+<span class="linenos">260</span>    Connections {
+<span class="linenos">261</span>        target: inventoryController
+<span class="linenos">262</span>        function onTransmitGripper(isPallet, isCup, CupA, ProdA, ProdAName, CupB, ProdB, ProdBName){
+<span class="linenos">263</span>            if(isPallet){
+<span class="linenos">264</span>                choicePresent.currentIndex = 0
+<span class="linenos">265</span>                cupAEdit.text = CupA
+<span class="linenos">266</span>                prodAEdit.currentIndex = ProdA
+<span class="linenos">267</span>                cupBEdit.text = CupB
+<span class="linenos">268</span>                prodBEdit.currentIndex = ProdB
+<span class="linenos">269</span>            }else{
+<span class="linenos">270</span>                choicePresent.currentIndex = 1
+<span class="linenos">271</span>                cupEdit.text = CupA
+<span class="linenos">272</span>                prodEdit.currentIndex = ProdA
+<span class="linenos">273</span>            }
+<span class="linenos">274</span>        }
+<span class="linenos">275</span>    }
+<span class="linenos">276</span>}
+</pre></div>
+</div>
 <p>Dialogvisualisierung für Programmeinstellungen.
 PreferenceDialog.qml</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="kn">import</span> <span class="nn">QtQuick</span> <span class="mf">2.9</span>
-<span class="linenos">  2</span><span class="kn">import</span> <span class="nn">QtQuick.Controls</span> <span class="mf">2.5</span>
-<span class="linenos">  3</span><span class="kn">import</span> <span class="nn">QtQuick.Controls.Material</span> <span class="mf">2.15</span>
-<span class="linenos">  4</span><span class="kn">import</span> <span class="nn">QtQuick.Layouts</span> <span class="mf">1.3</span>
-<span class="linenos">  5</span><span class="kn">import</span> <span class="nn">QtQuick.Dialogs</span>
-<span class="linenos">  6</span>
-<span class="linenos">  7</span><span class="n">Dialog</span> <span class="p">{</span>
-<span class="linenos">  8</span>    <span class="nb">id</span><span class="p">:</span> <span class="n">preferenceDialog</span>
-<span class="linenos">  9</span>    <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Preferences and Settings&quot;</span><span class="p">)</span>
-<span class="linenos"> 10</span>    <span class="n">Rectangle</span> <span class="p">{</span>
-<span class="linenos"> 11</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">mainRect</span>
-<span class="linenos"> 12</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
-<span class="linenos"> 13</span>        <span class="n">Text</span><span class="p">{</span>
-<span class="linenos"> 14</span>            <span class="nb">id</span><span class="p">:</span> <span class="n">text1</span>
-<span class="linenos"> 15</span>            <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Modbus Preferences&quot;</span><span class="p">)</span>
-<span class="linenos"> 16</span>            <span class="n">color</span> <span class="p">:</span> <span class="s2">&quot;white&quot;</span>
-<span class="linenos"> 17</span>            <span class="n">anchors</span><span class="p">{</span>
-<span class="linenos"> 18</span>                <span class="n">top</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
-<span class="linenos"> 19</span>                <span class="n">topMargin</span><span class="p">:</span> <span class="mi">10</span>
-<span class="linenos"> 20</span>                <span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
-<span class="linenos"> 21</span>                <span class="n">leftMargin</span><span class="p">:</span> <span class="mi">10</span>
-<span class="linenos"> 22</span>                <span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
-<span class="linenos"> 23</span>                <span class="n">rightMargin</span><span class="p">:</span> <span class="mi">10</span>
-<span class="linenos"> 24</span>            <span class="p">}</span>
-<span class="linenos"> 25</span>            <span class="n">font</span><span class="o">.</span><span class="n">pixelSize</span><span class="p">:</span> <span class="mi">24</span>
-<span class="linenos"> 26</span>            <span class="n">horizontalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignHCenter</span>
-<span class="linenos"> 27</span>        <span class="p">}</span>
-<span class="linenos"> 28</span>        <span class="n">ColumnLayout</span><span class="p">{</span>
-<span class="linenos"> 29</span>            <span class="n">anchors</span><span class="p">{</span>
-<span class="linenos"> 30</span>                <span class="n">top</span><span class="p">:</span> <span class="n">text1</span><span class="o">.</span><span class="n">bottom</span>
-<span class="linenos"> 31</span>                <span class="n">topMargin</span><span class="p">:</span> <span class="mi">20</span>
-<span class="linenos"> 32</span>                <span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
-<span class="linenos"> 33</span>                <span class="n">leftMargin</span><span class="p">:</span> <span class="mi">10</span>
-<span class="linenos"> 34</span>                <span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
-<span class="linenos"> 35</span>                <span class="n">rightMargin</span><span class="p">:</span> <span class="mi">10</span>
-<span class="linenos"> 36</span>                <span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
-<span class="linenos"> 37</span>                <span class="n">bottomMargin</span><span class="p">:</span> <span class="mi">10</span>
-<span class="linenos"> 38</span>            <span class="p">}</span>
-<span class="linenos"> 39</span>            <span class="n">Row</span><span class="p">{</span>
-<span class="linenos"> 40</span>
-<span class="linenos"> 41</span>                <span class="n">Label</span><span class="p">{</span>
-<span class="linenos"> 42</span>                    <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;IP Address&quot;</span><span class="p">)</span>
-<span class="linenos"> 43</span>                    <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">3</span>
-<span class="linenos"> 44</span>                    <span class="n">height</span><span class="p">:</span> <span class="n">modbusIpAddr</span><span class="o">.</span><span class="n">height</span>
-<span class="linenos"> 45</span>                    <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
-<span class="linenos"> 46</span>
-<span class="linenos"> 47</span>                <span class="p">}</span>
-<span class="linenos"> 48</span>                <span class="n">TextField</span><span class="p">{</span>
-<span class="linenos"> 49</span>                    <span class="nb">id</span><span class="p">:</span> <span class="n">modbusIpAddr</span>
-<span class="linenos"> 50</span>                    <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
-<span class="linenos"> 51</span>                    <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
-<span class="linenos"> 52</span>                <span class="p">}</span>
-<span class="linenos"> 53</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos"> 54</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos"> 55</span>            <span class="p">}</span>
-<span class="linenos"> 56</span>            <span class="n">Row</span><span class="p">{</span>
-<span class="linenos"> 57</span>
-<span class="linenos"> 58</span>                <span class="n">Label</span><span class="p">{</span>
-<span class="linenos"> 59</span>                    <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;IP Port&quot;</span><span class="p">)</span>
-<span class="linenos"> 60</span>                    <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">3</span>
-<span class="linenos"> 61</span>                    <span class="n">height</span><span class="p">:</span> <span class="n">modbusIpPort</span><span class="o">.</span><span class="n">height</span>
-<span class="linenos"> 62</span>                    <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
-<span class="linenos"> 63</span>                <span class="p">}</span>
-<span class="linenos"> 64</span>                <span class="n">TextField</span><span class="p">{</span>
-<span class="linenos"> 65</span>                    <span class="nb">id</span><span class="p">:</span> <span class="n">modbusIpPort</span>
-<span class="linenos"> 66</span>                    <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
-<span class="linenos"> 67</span>                    <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
-<span class="linenos"> 68</span>                <span class="p">}</span>
-<span class="linenos"> 69</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos"> 70</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos"> 71</span>            <span class="p">}</span>
-<span class="linenos"> 72</span>            <span class="n">Row</span><span class="p">{</span>
-<span class="linenos"> 73</span>                <span class="n">Label</span><span class="p">{</span>
-<span class="linenos"> 74</span>                    <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Max.Reconnects&quot;</span><span class="p">)</span>
-<span class="linenos"> 75</span>                    <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">3</span>
-<span class="linenos"> 76</span>                    <span class="n">height</span><span class="p">:</span> <span class="n">modbusMaxReconnects</span><span class="o">.</span><span class="n">height</span>
-<span class="linenos"> 77</span>                    <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
-<span class="linenos"> 78</span>                <span class="p">}</span>
-<span class="linenos"> 79</span>                <span class="n">TextField</span><span class="p">{</span>
-<span class="linenos"> 80</span>                    <span class="nb">id</span><span class="p">:</span> <span class="n">modbusMaxReconnects</span>
-<span class="linenos"> 81</span>                    <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
-<span class="linenos"> 82</span>                    <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
-<span class="linenos"> 83</span>                <span class="p">}</span>
-<span class="linenos"> 84</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos"> 85</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos"> 86</span>            <span class="p">}</span>
-<span class="linenos"> 87</span>            <span class="n">Button</span><span class="p">{</span>
-<span class="linenos"> 88</span>                <span class="nb">id</span><span class="p">:</span> <span class="n">modbusSaveButton</span>
-<span class="linenos"> 89</span>                <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Save&quot;</span><span class="p">)</span>
-<span class="linenos"> 90</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">maximumHeight</span><span class="p">:</span> <span class="mi">50</span>
-<span class="linenos"> 91</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos"> 92</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos"> 93</span>                <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
-<span class="linenos"> 94</span>                    <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Save button clicked&quot;</span><span class="p">)</span>
-<span class="linenos"> 95</span>                    <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">modbusIpAddr</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-<span class="linenos"> 96</span>                    <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">modbusIpPort</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-<span class="linenos"> 97</span>                <span class="p">}</span>
-<span class="linenos"> 98</span>            <span class="p">}</span>
-<span class="linenos"> 99</span>            <span class="n">Row</span><span class="p">{</span>
-<span class="linenos">100</span>                <span class="nb">id</span><span class="p">:</span> <span class="n">seperator</span>
-<span class="linenos">101</span>                <span class="n">Rectangle</span><span class="p">{</span>
-<span class="linenos">102</span>                    <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">103</span>                    <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">104</span>                    <span class="n">Layout</span><span class="o">.</span><span class="n">maximumHeight</span><span class="p">:</span> <span class="mi">3</span>
-<span class="linenos">105</span>                    <span class="n">color</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span>
-<span class="linenos">106</span>                <span class="p">}</span>
-<span class="linenos">107</span>            <span class="p">}</span>
-<span class="linenos">108</span>            <span class="n">Text</span><span class="p">{</span>
-<span class="linenos">109</span>                <span class="nb">id</span><span class="p">:</span> <span class="n">text2</span>
-<span class="linenos">110</span>                <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;ABB Robot Preferences&quot;</span><span class="p">)</span>
-<span class="linenos">111</span>                <span class="n">color</span> <span class="p">:</span> <span class="s2">&quot;white&quot;</span>
-<span class="linenos">112</span>                <span class="n">font</span><span class="o">.</span><span class="n">pixelSize</span><span class="p">:</span> <span class="mi">24</span>
-<span class="linenos">113</span>                <span class="n">horizontalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignHCenter</span>
-<span class="linenos">114</span>            <span class="p">}</span>
-<span class="linenos">115</span>            <span class="n">Row</span><span class="p">{</span>
-<span class="linenos">116</span>
-<span class="linenos">117</span>                <span class="n">Label</span><span class="p">{</span>
-<span class="linenos">118</span>                    <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;IP Address&quot;</span><span class="p">)</span>
-<span class="linenos">119</span>                    <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">3</span>
-<span class="linenos">120</span>                    <span class="n">height</span><span class="p">:</span> <span class="n">abbIpAddr</span><span class="o">.</span><span class="n">height</span>
-<span class="linenos">121</span>                    <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
-<span class="linenos">122</span>                <span class="p">}</span>
-<span class="linenos">123</span>                <span class="n">TextField</span><span class="p">{</span>
-<span class="linenos">124</span>                    <span class="nb">id</span><span class="p">:</span> <span class="n">abbIpAddr</span>
-<span class="linenos">125</span>                    <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
-<span class="linenos">126</span>                    <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
-<span class="linenos">127</span>                <span class="p">}</span>
-<span class="linenos">128</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">129</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">130</span>            <span class="p">}</span>
-<span class="linenos">131</span>            <span class="n">Row</span><span class="p">{</span>
-<span class="linenos">132</span>
-<span class="linenos">133</span>                <span class="n">Label</span><span class="p">{</span>
-<span class="linenos">134</span>                    <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;IP Port&quot;</span><span class="p">)</span>
-<span class="linenos">135</span>                    <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">3</span>
-<span class="linenos">136</span>                    <span class="n">height</span><span class="p">:</span> <span class="n">abbIpPort</span><span class="o">.</span><span class="n">height</span>
-<span class="linenos">137</span>                    <span class="n">verticalAlignment</span><span class="p">:</span> <span class="n">Text</span><span class="o">.</span><span class="n">AlignVCenter</span>
-<span class="linenos">138</span>                <span class="p">}</span>
-<span class="linenos">139</span>                <span class="n">TextField</span><span class="p">{</span>
-<span class="linenos">140</span>                    <span class="nb">id</span><span class="p">:</span> <span class="n">abbIpPort</span>
-<span class="linenos">141</span>                    <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
-<span class="linenos">142</span>                    <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
-<span class="linenos">143</span>                <span class="p">}</span>
-<span class="linenos">144</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">145</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">146</span>            <span class="p">}</span>
-<span class="linenos">147</span>            <span class="n">Button</span><span class="p">{</span>
-<span class="linenos">148</span>                <span class="nb">id</span><span class="p">:</span> <span class="n">abbSaveButton</span>
-<span class="linenos">149</span>                <span class="n">text</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;Save&quot;</span><span class="p">)</span>
-<span class="linenos">150</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">maximumHeight</span><span class="p">:</span> <span class="mi">50</span>
-<span class="linenos">151</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">fillWidth</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">152</span>                <span class="n">Layout</span><span class="o">.</span><span class="n">fillHeight</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">153</span>                <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
-<span class="linenos">154</span>                    <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Save button clicked&quot;</span><span class="p">)</span>
-<span class="linenos">155</span>                    <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">abbIpAddr</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-<span class="linenos">156</span>                    <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">abbIpPort</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-<span class="linenos">157</span>                <span class="p">}</span>
-<span class="linenos">158</span>            <span class="p">}</span>
-<span class="linenos">159</span>        <span class="p">}</span>
-<span class="linenos">160</span>
-<span class="linenos">161</span>    <span class="p">}</span>
-<span class="linenos">162</span>    <span class="n">Connections</span> <span class="p">{</span>
-<span class="linenos">163</span>        <span class="n">target</span><span class="p">:</span> <span class="n">preferenceController</span>
-<span class="linenos">164</span>
-<span class="linenos">165</span>        <span class="n">function</span> <span class="n">onSendPreferences</span><span class="p">(</span><span class="n">modbusip</span><span class="p">,</span> <span class="n">modbusport</span><span class="p">,</span> <span class="n">modbusmaxtries</span><span class="p">,</span> <span class="n">abbip</span><span class="p">,</span> <span class="n">abbport</span><span class="p">)</span> <span class="p">{</span>
-<span class="linenos">166</span>            <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Preferences loaded&quot;</span><span class="p">);</span>
-<span class="linenos">167</span>            <span class="n">modbusIpAddr</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">preferenceController</span><span class="o">.</span><span class="n">modbusIpAddr</span><span class="p">;</span>
-<span class="linenos">168</span>            <span class="n">modbusIpPort</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">preferenceController</span><span class="o">.</span><span class="n">modbusIpPort</span><span class="p">;</span>
-<span class="linenos">169</span>            <span class="n">modbusMaxReconnects</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">preferenceController</span><span class="o">.</span><span class="n">modbusMaxReconnects</span><span class="p">;</span>
-<span class="linenos">170</span>            <span class="n">abbIpAddr</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">preferenceController</span><span class="o">.</span><span class="n">abbIpAddr</span><span class="p">;</span>
-<span class="linenos">171</span>            <span class="n">abbIpPort</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">preferenceController</span><span class="o">.</span><span class="n">abbIpPort</span><span class="p">;</span>
-<span class="linenos">172</span>        <span class="p">}</span>
-<span class="linenos">173</span>    <span class="p">}</span>
-<span class="linenos">174</span>    <span class="n">onOpened</span><span class="p">:</span> <span class="p">{</span>
-<span class="linenos">175</span>        <span class="n">preferenceController</span><span class="o">.</span><span class="n">loadPreferences</span><span class="p">();</span>
-<span class="linenos">176</span>    <span class="p">}</span>
-<span class="linenos">177</span><span class="p">}</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span>import QtQuick 2.9
+<span class="linenos">  2</span>import QtQuick 2.15
+<span class="linenos">  3</span>import QtQuick.Controls 2.5
+<span class="linenos">  4</span>import QtQuick.Controls.Material 2.15
+<span class="linenos">  5</span>import QtQuick.Layouts 1.3
+<span class="linenos">  6</span>import QtQuick.Dialogs
+<span class="linenos">  7</span>
+<span class="linenos">  8</span>Dialog {
+<span class="linenos">  9</span>    id: preferenceDialog
+<span class="linenos"> 10</span>    title: qsTr(&quot;Preferences and Settings&quot;)
+<span class="linenos"> 11</span>    Rectangle {
+<span class="linenos"> 12</span>        id: mainRect
+<span class="linenos"> 13</span>        anchors.fill: parent
+<span class="linenos"> 14</span>        Text{
+<span class="linenos"> 15</span>            id: text1
+<span class="linenos"> 16</span>            text: qsTr(&quot;Modbus Preferences&quot;)
+<span class="linenos"> 17</span>            color : &quot;white&quot;
+<span class="linenos"> 18</span>            anchors{
+<span class="linenos"> 19</span>                top: parent.top
+<span class="linenos"> 20</span>                topMargin: 10
+<span class="linenos"> 21</span>                left: parent.left
+<span class="linenos"> 22</span>                leftMargin: 10
+<span class="linenos"> 23</span>                right: parent.right
+<span class="linenos"> 24</span>                rightMargin: 10
+<span class="linenos"> 25</span>            }
+<span class="linenos"> 26</span>            font.pixelSize: 24
+<span class="linenos"> 27</span>            horizontalAlignment: Text.AlignHCenter
+<span class="linenos"> 28</span>        }
+<span class="linenos"> 29</span>        ColumnLayout{
+<span class="linenos"> 30</span>            anchors{
+<span class="linenos"> 31</span>                top: text1.bottom
+<span class="linenos"> 32</span>                topMargin: 20
+<span class="linenos"> 33</span>                left: parent.left
+<span class="linenos"> 34</span>                leftMargin: 10
+<span class="linenos"> 35</span>                right: parent.right
+<span class="linenos"> 36</span>                rightMargin: 10
+<span class="linenos"> 37</span>                bottom: parent.bottom
+<span class="linenos"> 38</span>                bottomMargin: 10
+<span class="linenos"> 39</span>            }
+<span class="linenos"> 40</span>            Row{
+<span class="linenos"> 41</span>
+<span class="linenos"> 42</span>                Label{
+<span class="linenos"> 43</span>                    text: qsTr(&quot;IP Address&quot;)
+<span class="linenos"> 44</span>                    width: parent.width/3-25
+<span class="linenos"> 45</span>                    height: modbusIpAddr.height
+<span class="linenos"> 46</span>                    verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 47</span>
+<span class="linenos"> 48</span>                }
+<span class="linenos"> 49</span>                TextField{
+<span class="linenos"> 50</span>                    id: modbusIpAddr
+<span class="linenos"> 51</span>                    text: &quot;&quot;
+<span class="linenos"> 52</span>                    width: parent.width*2/3-25
+<span class="linenos"> 53</span>                    validator: RegularExpressionValidator {
+<span class="linenos"> 54</span>                        regularExpression: /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
+<span class="linenos"> 55</span>                        // /^means string must start at the beginning
+<span class="linenos"> 56</span>                        // {1,3} means 1 to 3 digits
+<span class="linenos"> 57</span>                        // \. means a dot, [0-9] means a digit
+<span class="linenos"> 58</span>                        // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
+<span class="linenos"> 59</span>                        // followed by 1 to 3 digits
+<span class="linenos"> 60</span>                    }
+<span class="linenos"> 61</span>                }
+<span class="linenos"> 62</span>                Image{
+<span class="linenos"> 63</span>                    id: modbusIpError
+<span class="linenos"> 64</span>                    source: &quot;../assets/icon_warning.svg&quot;
+<span class="linenos"> 65</span>                    width: Image.PreseveAspectFit
+<span class="linenos"> 66</span>                    height: modbusIpAddr.height
+<span class="linenos"> 67</span>                    visible: false
+<span class="linenos"> 68</span>                }
+<span class="linenos"> 69</span>                Layout.fillWidth: true
+<span class="linenos"> 70</span>                Layout.fillHeight: true
+<span class="linenos"> 71</span>            }
+<span class="linenos"> 72</span>            Row{
+<span class="linenos"> 73</span>
+<span class="linenos"> 74</span>                Label{
+<span class="linenos"> 75</span>                    text: qsTr(&quot;IP Port&quot;)
+<span class="linenos"> 76</span>                    width: parent.width/3-25
+<span class="linenos"> 77</span>                    height: modbusIpPort.height
+<span class="linenos"> 78</span>                    verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 79</span>                }
+<span class="linenos"> 80</span>                TextField{
+<span class="linenos"> 81</span>                    id: modbusIpPort
+<span class="linenos"> 82</span>                    text: &quot;&quot;
+<span class="linenos"> 83</span>                    width: parent.width*2/3-25
+<span class="linenos"> 84</span>                     validator: RegularExpressionValidator {
+<span class="linenos"> 85</span>                        regularExpression: /^[0-9]{1,5}$/
+<span class="linenos"> 86</span>                    }
+<span class="linenos"> 87</span>                }
+<span class="linenos"> 88</span>                Image{
+<span class="linenos"> 89</span>                    id: modbusPortError
+<span class="linenos"> 90</span>                    source: &quot;../assets/icon_warning.svg&quot;
+<span class="linenos"> 91</span>                    width: Image.PreseveAspectFit
+<span class="linenos"> 92</span>                    height: modbusIpPort.height
+<span class="linenos"> 93</span>                    visible: false
+<span class="linenos"> 94</span>                }
+<span class="linenos"> 95</span>                Layout.fillWidth: true
+<span class="linenos"> 96</span>                Layout.fillHeight: true
+<span class="linenos"> 97</span>            }
+<span class="linenos"> 98</span>            Row{
+<span class="linenos"> 99</span>                Label{
+<span class="linenos">100</span>                    text: qsTr(&quot;Max.Reconnects&quot;)
+<span class="linenos">101</span>                    width: parent.width/3-25
+<span class="linenos">102</span>                    height: modbusMaxReconnects.height
+<span class="linenos">103</span>                    verticalAlignment: Text.AlignVCenter
+<span class="linenos">104</span>                }
+<span class="linenos">105</span>                TextField{
+<span class="linenos">106</span>                    id: modbusMaxReconnects
+<span class="linenos">107</span>                    text: &quot;&quot;
+<span class="linenos">108</span>                    width: parent.width*2/3-25
+<span class="linenos">109</span>                    validator: RegularExpressionValidator {
+<span class="linenos">110</span>                        regularExpression: /^[0-9]{1,2}$/
+<span class="linenos">111</span>                    }
+<span class="linenos">112</span>                }
+<span class="linenos">113</span>                Image{
+<span class="linenos">114</span>                    id: modbusReconnectError
+<span class="linenos">115</span>                    source: &quot;../assets/icon_warning.svg&quot;
+<span class="linenos">116</span>                    width: Image.PreseveAspectFit
+<span class="linenos">117</span>                    height: modbusIpPort.height
+<span class="linenos">118</span>                    visible: false
+<span class="linenos">119</span>                }
+<span class="linenos">120</span>                Layout.fillWidth: true
+<span class="linenos">121</span>                Layout.fillHeight: true
+<span class="linenos">122</span>            }
+<span class="linenos">123</span>            Button{
+<span class="linenos">124</span>                id: modbusSaveButton
+<span class="linenos">125</span>                text: qsTr(&quot;Save&quot;)
+<span class="linenos">126</span>                Layout.maximumHeight: 50
+<span class="linenos">127</span>                Layout.fillWidth: true
+<span class="linenos">128</span>                Layout.fillHeight: true
+<span class="linenos">129</span>                onClicked: {
+<span class="linenos">130</span>                    console.log(&quot;Save button clicked&quot;)
+<span class="linenos">131</span>                    console.log(modbusIpAddr.text)
+<span class="linenos">132</span>                    console.log(modbusIpPort.text)
+<span class="linenos">133</span>                    preferenceController.setModBusPreferences(modbusIpAddr.text, modbusIpPort.text, modbusMaxReconnects.text);
+<span class="linenos">134</span>                }
+<span class="linenos">135</span>            }
+<span class="linenos">136</span>            Row{
+<span class="linenos">137</span>                id: seperator
+<span class="linenos">138</span>                Rectangle{
+<span class="linenos">139</span>                    Layout.fillWidth: true
+<span class="linenos">140</span>                    Layout.fillHeight: true
+<span class="linenos">141</span>                    Layout.maximumHeight: 3
+<span class="linenos">142</span>                    color: &quot;white&quot;
+<span class="linenos">143</span>                }
+<span class="linenos">144</span>            }
+<span class="linenos">145</span>            Text{
+<span class="linenos">146</span>                id: text2
+<span class="linenos">147</span>                text: qsTr(&quot;ABB Robot Preferences&quot;)
+<span class="linenos">148</span>                color : &quot;white&quot;
+<span class="linenos">149</span>                font.pixelSize: 24
+<span class="linenos">150</span>                horizontalAlignment: Text.AlignHCenter
+<span class="linenos">151</span>            }
+<span class="linenos">152</span>            Row{
+<span class="linenos">153</span>
+<span class="linenos">154</span>                Label{
+<span class="linenos">155</span>                    text: qsTr(&quot;IP Address&quot;)
+<span class="linenos">156</span>                    width: parent.width/3-25
+<span class="linenos">157</span>                    height: abbIpAddr.height
+<span class="linenos">158</span>                    verticalAlignment: Text.AlignVCenter
+<span class="linenos">159</span>                }
+<span class="linenos">160</span>                TextField{
+<span class="linenos">161</span>                    id: abbIpAddr
+<span class="linenos">162</span>                    text: &quot;&quot;
+<span class="linenos">163</span>                    width: parent.width*2/3-25
+<span class="linenos">164</span>                    validator: RegularExpressionValidator {
+<span class="linenos">165</span>                        regularExpression: /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
+<span class="linenos">166</span>                        // /^means string must start at the beginning
+<span class="linenos">167</span>                        // {1,3} means 1 to 3 digits
+<span class="linenos">168</span>                        // \. means a dot, [0-9] means a digit
+<span class="linenos">169</span>                        // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
+<span class="linenos">170</span>                        // followed by 1 to 3 digits
+<span class="linenos">171</span>                    }
+<span class="linenos">172</span>                }
+<span class="linenos">173</span>                Image{
+<span class="linenos">174</span>                    id: abbIpError
+<span class="linenos">175</span>                    source: &quot;../assets/icon_warning.svg&quot;
+<span class="linenos">176</span>                    width: Image.PreseveAspectFit
+<span class="linenos">177</span>                    height: modbusIpPort.height
+<span class="linenos">178</span>                    visible: false
+<span class="linenos">179</span>                }
+<span class="linenos">180</span>                Layout.fillWidth: true
+<span class="linenos">181</span>                Layout.fillHeight: true
+<span class="linenos">182</span>            }
+<span class="linenos">183</span>            Row{
+<span class="linenos">184</span>
+<span class="linenos">185</span>                Label{
+<span class="linenos">186</span>                    text: qsTr(&quot;IP Port&quot;)
+<span class="linenos">187</span>                    width: parent.width/3-25
+<span class="linenos">188</span>                    height: abbIpPort.height
+<span class="linenos">189</span>                    verticalAlignment: Text.AlignVCenter
+<span class="linenos">190</span>                }
+<span class="linenos">191</span>                TextField{
+<span class="linenos">192</span>                    id: abbIpPort
+<span class="linenos">193</span>                    text: &quot;&quot;
+<span class="linenos">194</span>                    width: parent.width*2/3-25
+<span class="linenos">195</span>                    validator: IntValidator {
+<span class="linenos">196</span>                        bottom: 0
+<span class="linenos">197</span>                        top: 65535
+<span class="linenos">198</span>                    }
+<span class="linenos">199</span>                    //RegularExpressionValidator {
+<span class="linenos">200</span>                    //    regularExpression: /^[0-9]{1,5}$/ // 1 to 5 digits
+<span class="linenos">201</span>                    //}
+<span class="linenos">202</span>                }
+<span class="linenos">203</span>                Image{
+<span class="linenos">204</span>                    id: abbPortError
+<span class="linenos">205</span>                    source: &quot;../assets/icon_warning.svg&quot;
+<span class="linenos">206</span>                    width: Image.PreseveAspectFit
+<span class="linenos">207</span>                    height: modbusIpPort.height
+<span class="linenos">208</span>                    visible: false
+<span class="linenos">209</span>                }
+<span class="linenos">210</span>                Layout.fillWidth: true
+<span class="linenos">211</span>                Layout.fillHeight: true
+<span class="linenos">212</span>            }
+<span class="linenos">213</span>            Button{
+<span class="linenos">214</span>                id: abbSaveButton
+<span class="linenos">215</span>                text: qsTr(&quot;Save&quot;)
+<span class="linenos">216</span>                Layout.maximumHeight: 50
+<span class="linenos">217</span>                Layout.fillWidth: true
+<span class="linenos">218</span>                Layout.fillHeight: true
+<span class="linenos">219</span>                onClicked: {
+<span class="linenos">220</span>                    console.log(&quot;Save button clicked&quot;)
+<span class="linenos">221</span>                    console.log(abbIpAddr.text)
+<span class="linenos">222</span>                    console.log(abbIpPort.text)
+<span class="linenos">223</span>                    preferenceController.setAbbPreferences(abbIpAddr.text, abbIpPort.text);
+<span class="linenos">224</span>                }
+<span class="linenos">225</span>            }
+<span class="linenos">226</span>        }
+<span class="linenos">227</span>
+<span class="linenos">228</span>    }
+<span class="linenos">229</span>    Connections {
+<span class="linenos">230</span>        target: preferenceController
+<span class="linenos">231</span>
+<span class="linenos">232</span>        function onSendPreferences(modbusip, modbusport, modbusmaxtries, abbip, abbport) {
+<span class="linenos">233</span>            console.log(&quot;Preferences loaded&quot;);
+<span class="linenos">234</span>            modbusIpAddr.text = modbusip;
+<span class="linenos">235</span>            modbusIpPort.text = modbusport;
+<span class="linenos">236</span>            modbusMaxReconnects.text = modbusmaxtries;
+<span class="linenos">237</span>            abbIpAddr.text = abbip;
+<span class="linenos">238</span>            abbIpPort.text = abbport;
+<span class="linenos">239</span>        }
+<span class="linenos">240</span>
+<span class="linenos">241</span>        function onModbusIPError(error){
+<span class="linenos">242</span>            modbusIpError.visible = error;
+<span class="linenos">243</span>            console.log(&quot;Modbus IP Error&quot; + error);
+<span class="linenos">244</span>        }
+<span class="linenos">245</span>
+<span class="linenos">246</span>        function onModbusPortError(error){
+<span class="linenos">247</span>            modbusPortError.visible = error;
+<span class="linenos">248</span>            console.log(&quot;Modbus Port Error&quot; + error);
+<span class="linenos">249</span>        }
+<span class="linenos">250</span>
+<span class="linenos">251</span>        function onModbusReconnectError(error){
+<span class="linenos">252</span>            modbusReconnectError.visible = error;
+<span class="linenos">253</span>            console.log(&quot;Modbus Reconnect Error&quot; + error);
+<span class="linenos">254</span>        }
+<span class="linenos">255</span>
+<span class="linenos">256</span>        function onAbbIPError(error){
+<span class="linenos">257</span>            abbIpError.visible = error;
+<span class="linenos">258</span>            console.log(&quot;ABB IP Error&quot; + error);
+<span class="linenos">259</span>        }
+<span class="linenos">260</span>
+<span class="linenos">261</span>        function onAbbPortError(error){
+<span class="linenos">262</span>            abbPortError.visible = error;
+<span class="linenos">263</span>            console.log(&quot;ABB Port Error&quot; + error);
+<span class="linenos">264</span>        }
+<span class="linenos">265</span>
+<span class="linenos">266</span>    }
+<span class="linenos">267</span>    onOpened: {
+<span class="linenos">268</span>        preferenceController.loadPreferences();
+<span class="linenos">269</span>    }
+<span class="linenos">270</span>}
 </pre></div>
 </div>
 </section>

@@ -32,30 +32,81 @@
           <div class="body" role="main">
             
   <h1>Source code for src.model.CommissionModel</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">StrEnum</span>
 
 <div class="viewcode-block" id="CommissionData"><a class="viewcode-back" href="../../../modules.html#src.model.CommissionModel.CommissionData">[docs]</a><span class="k">class</span> <span class="nc">CommissionData</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Data Class for CommissionData</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span><span class="n">cup</span><span class="p">,</span> <span class="n">pallet</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">cup</span><span class="p">,</span> <span class="n">pallet</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">source</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">object</span> <span class="o">=</span> <span class="nb">object</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cup</span> <span class="o">=</span> <span class="n">cup</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pallet</span> <span class="o">=</span> <span class="n">pallet</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">CommissionState</span><span class="o">.</span><span class="n">OPEN</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CommissionData: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">CommissionState</span><span class="o">.</span><span class="n">OPEN</span> <span class="k">if</span> <span class="n">state</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">state</span></div>
+        <span class="c1">#print(f&quot;CommissionData: {self.id}, {self.source}, {self.target}, {self.object}&quot;)</span>
 
-<div class="viewcode-block" id="CommissionState"><a class="viewcode-back" href="../../../modules.html#src.model.CommissionModel.CommissionState">[docs]</a><span class="k">class</span> <span class="nc">CommissionState</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="CommissionState"><a class="viewcode-back" href="../../../modules.html#src.model.CommissionModel.CommissionState">[docs]</a><span class="k">class</span> <span class="nc">CommissionState</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enum for CommissionData State</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">OPEN</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">PENDING</span> <span class="o">=</span><span class="mi">2</span>
-    <span class="n">PROGRESS</span> <span class="o">=</span> <span class="mi">3</span>
-    <span class="n">DONE</span> <span class="o">=</span> <span class="mi">4</span></div>
+    <span class="n">OPEN</span> <span class="o">=</span> <span class="s1">&#39;open&#39;</span>
+    <span class="n">PENDING</span> <span class="o">=</span><span class="s1">&#39;pending&#39;</span>
+    <span class="n">PROGRESS</span> <span class="o">=</span> <span class="s1">&#39;in progress&#39;</span>
+    <span class="n">DONE</span> <span class="o">=</span> <span class="s1">&#39;done&#39;</span></div>
+
+<div class="viewcode-block" id="Locations"><a class="viewcode-back" href="../../../modules.html#src.model.CommissionModel.Locations">[docs]</a><span class="k">class</span> <span class="nc">Locations</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Enum for CommissionDta locations source and target</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ROBOT</span> <span class="o">=</span> <span class="s1">&#39;Mobile Robot&#39;</span>
+    <span class="n">K1A</span> <span class="o">=</span> <span class="s1">&#39;Comm. table K1, slot A&#39;</span>
+    <span class="n">K1B</span> <span class="o">=</span> <span class="s1">&#39;Comm. table K1, slot B&#39;</span>
+    <span class="n">K2A</span> <span class="o">=</span> <span class="s1">&#39;Comm. table K2, slot A&#39;</span>
+    <span class="n">K2B</span> <span class="o">=</span> <span class="s1">&#39;Comm. table K2, slot B&#39;</span>
+    <span class="n">GRIPPER</span> <span class="o">=</span> <span class="s1">&#39;Gripper&#39;</span>
+    <span class="n">STORAGE</span> <span class="o">=</span> <span class="s1">&#39;Storage&#39;</span>
+    <span class="c1"># Storage locations</span>
+    <span class="n">L1A</span> <span class="o">=</span> <span class="s1">&#39;Storage L1 (top), front&#39;</span>
+    <span class="n">L1B</span> <span class="o">=</span> <span class="s1">&#39;Storage L1 (top), rear&#39;</span>
+    <span class="n">L2A</span> <span class="o">=</span> <span class="s1">&#39;Storage L2 (top), front&#39;</span>
+    <span class="n">L2B</span> <span class="o">=</span> <span class="s1">&#39;Storage L2 (top), rear&#39;</span>
+    <span class="n">L3A</span> <span class="o">=</span> <span class="s1">&#39;Storage L3 (top), front&#39;</span>
+    <span class="n">L3B</span> <span class="o">=</span> <span class="s1">&#39;Storage L3 (top), rear&#39;</span>
+    <span class="n">L4A</span> <span class="o">=</span> <span class="s1">&#39;Storage L4 (top), front&#39;</span>
+    <span class="n">L4B</span> <span class="o">=</span> <span class="s1">&#39;Storage L4 (top), rear&#39;</span>
+    <span class="n">L5A</span> <span class="o">=</span> <span class="s1">&#39;Storage L5 (top), front&#39;</span>
+    <span class="n">L5B</span> <span class="o">=</span> <span class="s1">&#39;Storage L5 (top), rear&#39;</span>
+    <span class="n">L6A</span> <span class="o">=</span> <span class="s1">&#39;Storage L6 (top), front&#39;</span>
+    <span class="n">L6B</span> <span class="o">=</span> <span class="s1">&#39;Storage L6 (mid), rear&#39;</span>
+    <span class="n">L7A</span> <span class="o">=</span> <span class="s1">&#39;Storage L7 (mid), front&#39;</span>
+    <span class="n">L7B</span> <span class="o">=</span> <span class="s1">&#39;Storage L7 (mid), rear&#39;</span>
+    <span class="n">L8A</span> <span class="o">=</span> <span class="s1">&#39;Storage L8 (mid), front&#39;</span>
+    <span class="n">L8B</span> <span class="o">=</span> <span class="s1">&#39;Storage L8 (mid), rear&#39;</span>
+    <span class="n">L9A</span> <span class="o">=</span> <span class="s1">&#39;Storage L9 (mid), front&#39;</span>
+    <span class="n">L9B</span> <span class="o">=</span> <span class="s1">&#39;Storage L9 (mid), rear&#39;</span>
+    <span class="n">L10A</span> <span class="o">=</span> <span class="s1">&#39;Storage L10 (mid), front&#39;</span>
+    <span class="n">L10B</span> <span class="o">=</span> <span class="s1">&#39;Storage L10 (mid), rear&#39;</span>
+    <span class="n">L11A</span> <span class="o">=</span> <span class="s1">&#39;Storage L11 (mid), front&#39;</span>
+    <span class="n">L11B</span> <span class="o">=</span> <span class="s1">&#39;Storage L11 (mid), rear&#39;</span>
+    <span class="n">L12A</span> <span class="o">=</span> <span class="s1">&#39;Storage L12 (mid), front&#39;</span>
+    <span class="n">L12B</span> <span class="o">=</span> <span class="s1">&#39;Storage L12 (mid), rear&#39;</span>
+    <span class="n">L13A</span> <span class="o">=</span> <span class="s1">&#39;Storage L13 (bot), front&#39;</span>
+    <span class="n">L13B</span> <span class="o">=</span> <span class="s1">&#39;Storage L13 (bot), rear&#39;</span>
+    <span class="n">L14A</span> <span class="o">=</span> <span class="s1">&#39;Storage L14 (bot), front&#39;</span>
+    <span class="n">L14B</span> <span class="o">=</span> <span class="s1">&#39;Storage L14 (bot), rear&#39;</span>
+    <span class="n">L15A</span> <span class="o">=</span> <span class="s1">&#39;Storage L15 (bot), front&#39;</span>
+    <span class="n">L15B</span> <span class="o">=</span> <span class="s1">&#39;Storage L15 (bot), rear&#39;</span>
+    <span class="n">L16A</span> <span class="o">=</span> <span class="s1">&#39;Storage L16 (bot), front&#39;</span>
+    <span class="n">L16B</span> <span class="o">=</span> <span class="s1">&#39;Storage L16 (bot), rear&#39;</span>
+    <span class="n">L17A</span> <span class="o">=</span> <span class="s1">&#39;Storage L17 (bot), front&#39;</span>
+    <span class="n">L17B</span> <span class="o">=</span> <span class="s1">&#39;Storage L17 (bot), rear&#39;</span>
+    <span class="n">L18A</span> <span class="o">=</span> <span class="s1">&#39;Storage L18 (bot), front&#39;</span>
+    <span class="n">L18B</span> <span class="o">=</span> <span class="s1">&#39;Storage L18 (bot), rear&#39;</span></div>
+
+
 </pre></div>
 
           </div>

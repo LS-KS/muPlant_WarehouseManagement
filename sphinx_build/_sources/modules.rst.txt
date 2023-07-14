@@ -54,6 +54,11 @@ Service
     :undoc-members:
     :show-inheritance:
 
+.. automodule:: src.service.AgentService
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 ViewModel
 ---------
 

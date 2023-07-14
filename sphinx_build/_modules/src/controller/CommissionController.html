@@ -37,6 +37,9 @@
 <span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QSortFilterProxyModel</span><span class="p">,</span> <span class="n">Slot</span><span class="p">,</span> <span class="n">Qt</span>
 <span class="kn">from</span> <span class="nn">PySide6</span> <span class="kn">import</span> <span class="n">QtCore</span>
 <span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QModelIndex</span>
+<span class="kn">from</span> <span class="nn">src.model.CommissionModel</span> <span class="kn">import</span> <span class="n">CommissionData</span><span class="p">,</span> <span class="n">CommissionState</span><span class="p">,</span> <span class="n">Locations</span>
+<span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
+<span class="kn">from</span> <span class="nn">yaml</span> <span class="kn">import</span> <span class="n">safe_load</span><span class="p">,</span> <span class="n">safe_dump</span>
 
 <div class="viewcode-block" id="CommissionController"><a class="viewcode-back" href="../../../modules.html#src.controller.CommissionController.CommissionController">[docs]</a><span class="k">class</span> <span class="nc">CommissionController</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -46,15 +49,55 @@
 <span class="sd">    OPCUAService.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">commissionViewModel</span> <span class="o">=</span> <span class="n">CommissionViewModel</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">commissionViewModel</span><span class="o">.</span><span class="n">loadCommissionData</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">Constants</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">commissionViewModel</span> <span class="o">=</span> <span class="n">CommissionViewModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loadCommissionData</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span> <span class="o">=</span> <span class="n">CommissionFilterProxyModel</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">setSourceModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commissionViewModel</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">setSourceModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commissionViewModel</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">setFilterCaseSensitivity</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">CaseInsensitive</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">setFilterKeyColumn</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">setFilterRole</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">setFilterString</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">setFilterString</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AscendingOrder</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="CommissionController.loadCommissionData"><a class="viewcode-back" href="../../../modules.html#src.controller.CommissionController.CommissionController.loadCommissionData">[docs]</a>    <span class="k">def</span> <span class="nf">loadCommissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">commissionData</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">Constants</span><span class="p">()</span><span class="o">.</span><span class="n">COMMISSIONDATA</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">safe_load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">source</span> <span class="o">=</span> <span class="n">Locations</span><span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="s1">&#39;CommissionData&#39;</span><span class="p">][</span><span class="s1">&#39;source&#39;</span><span class="p">]]</span>
+                <span class="n">target</span> <span class="o">=</span> <span class="n">Locations</span><span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="s1">&#39;CommissionData&#39;</span><span class="p">][</span><span class="s1">&#39;target&#39;</span><span class="p">]]</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="n">CommissionState</span><span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="s1">&#39;CommissionData&#39;</span><span class="p">][</span><span class="s1">&#39;state&#39;</span><span class="p">]]</span>
+                <span class="n">cup</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="s1">&#39;CommissionData&#39;</span><span class="p">][</span><span class="s1">&#39;cup&#39;</span><span class="p">])</span>
+                <span class="n">pallet</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="s1">&#39;CommissionData&#39;</span><span class="p">][</span><span class="s1">&#39;pallet&#39;</span><span class="p">])</span>
+                <span class="n">commissionData</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CommissionData</span><span class="p">(</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="s1">&#39;CommissionData&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]),</span>
+                    <span class="n">source</span><span class="p">,</span>
+                    <span class="n">target</span><span class="p">,</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="s1">&#39;CommissionData&#39;</span><span class="p">][</span><span class="s1">&#39;object&#39;</span><span class="p">]),</span>
+                    <span class="n">cup</span><span class="p">,</span>
+                    <span class="n">pallet</span><span class="p">,</span>
+                    <span class="n">state</span><span class="o">.</span><span class="n">value</span>
+                <span class="p">))</span>
+                <span class="c1">#print(commissionData[-1].source.value)</span>
+        <span class="k">return</span>  <span class="n">commissionData</span></div>
+
+<div class="viewcode-block" id="CommissionController.dumpCommissionData"><a class="viewcode-back" href="../../../modules.html#src.controller.CommissionController.CommissionController.dumpCommissionData">[docs]</a>    <span class="k">def</span> <span class="nf">dumpCommissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">commission</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commissionData</span><span class="p">:</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;CommissionData&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>
+                    <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">target</span><span class="p">,</span>
+                    <span class="s1">&#39;object&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">object</span><span class="p">,</span>
+                    <span class="s1">&#39;cup&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">cup</span><span class="p">,</span>
+                    <span class="s1">&#39;pallet&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">pallet</span><span class="p">,</span>
+                    <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">state</span>
+                <span class="p">}</span>
+            <span class="p">})</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">Constants</span><span class="p">()</span><span class="o">.</span><span class="n">COMMISSIONDATA</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">safe_dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div></div>
 
     
 </pre></div>
