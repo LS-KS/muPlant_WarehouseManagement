@@ -50,10 +50,12 @@ class CommissionViewModel(QtCore.QAbstractTableModel):
                 case 1: return self.commissionData[row].source.value
                 case 2: return self.commissionData[row].target.value
                 case 3: return self.commissionData[row].object
-                case 4: return self.commissionData[row].cup
-                case 5: return self.commissionData[row].pallet
+                case 4: return "Cup" if self.commissionData[row].cup else ""
+                case 5: return "Pallet" if self.commissionData[row].pallet else ""
                 case 6: return self.commissionData[row].state
                 case _: return None
+
+
 
     def roleNames(self):
         """
@@ -63,6 +65,7 @@ class CommissionViewModel(QtCore.QAbstractTableModel):
         """
         roles = {
             QtCore.Qt.UserRole + 1: b'text',
+            QtCore.Qt.UserRole + 2: b'state',
         }
         return roles
 
@@ -92,6 +95,20 @@ class CommissionFilterProxyModel(QSortFilterProxyModel):
     @Slot(str)
     def setFilterString(self, filterString):
         self.filterString = filterString
+
+    def lessThan(self, left_index, right_index):
+            if left_index.column() == 6:
+                left_data = self.sourceModel().data(left_index, QtCore.Qt.UserRole +1)
+                right_data = self.sourceModel().data(right_index, QtCore.Qt.UserRole +1)
+
+                # Define the desired sorting order
+                status_order = ["in progress", "pending", "open", "done"]
+
+                # Compare the status values based on the desired sorting order
+                return status_order.index(left_data) < status_order.index(right_data)
+
+            # For other columns, use the default sorting behavior
+            return super().lessThan(left_index, right_index)
 
 
 

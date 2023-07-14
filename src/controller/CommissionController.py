@@ -23,6 +23,7 @@ class CommissionController:
         self.commissionFilterProxyModel.setFilterKeyColumn(0)
         self.commissionFilterProxyModel.setFilterRole(Qt.UserRole + 1)
         self.commissionFilterProxyModel.setFilterString("")
+        self.commissionFilterProxyModel.sort(6, QtCore.Qt.AscendingOrder)
 
 
     def loadCommissionData(self):

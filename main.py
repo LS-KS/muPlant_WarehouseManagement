@@ -47,6 +47,8 @@ if __name__ == '__main__':
     commissionController.commissionFilterProxyModel.autoAcceptChildRows()
     engine.rootContext().setContextProperty("commissionController", commissionController)
     engine.rootContext().setContextProperty('commissionModel', commissionController.commissionFilterProxyModel)
+    #engine.rootContext().setContextProperty('commissionModel', commissionController.commissionViewModel)
+
 
     #creates preferenceController object and sets itself as rootContext
     preferenceController = PreferenceController(eventlogService)

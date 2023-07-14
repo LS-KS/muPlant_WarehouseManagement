@@ -45,7 +45,7 @@
     object: 222
     cup: false
     pallet: true
-    state: PENDING
+    state: DONE
 - CommissionData:
     id: 7
     source: K1B
@@ -53,7 +53,7 @@
     object: 777
     cup: true
     pallet: false
-    state: PROGRESS
+    state: OPEN
 - CommissionData:
     id: 8
     source: K2B
@@ -77,4 +77,4 @@
     object: 111
     cup: false
     pallet: true
-    state: PENDING
+    state: DONE

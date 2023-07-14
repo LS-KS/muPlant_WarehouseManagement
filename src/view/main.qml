@@ -82,6 +82,7 @@ Window {
                     }
                 }
             }
+            Action { text: qsTr("&Manual &Commission &Control")}
         }
         Menu {
             title: qsTr("&About")
