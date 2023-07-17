@@ -34,35 +34,19 @@ Data Model
 ==========
 
 Die Kommissionsliste wird in der Klasse `CommissionModel` des nachfolgenden Moduls verwaltet.
-
-.. automodule:: src.model.CommissionModel
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    :noindex:
+Es handelt sich dabei um das im Hauptteil der Software verwendete Datenmodell.
 
 Controller
 ==========
 
 Funktionen die das DatenModell betreffen, werden in der Klasse `CommissionController` des nachfolgenden Moduls implementiert.
-Dieses ist aber auch Teil des Hauptprogramms.
-
-.. automodule:: src.controller.CommissionController
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    :noindex:
-
+Es handelt sich dabei um den Controller, der im Hauptteil der Software verwendet (und auch dort beschrieben) wird.
 
 ViewModels
 ==========
 
 Daten des Datenmodells werden über das Modul `commissionViewModel` bereitgestellt.
-
-.. automodule:: src.viewModel.commissionViewModel
-    :members:
-    :undoc-members:
-    :show-inheritance:
+Es handelt sich dabei um das im Hauptteil der Software verwendete und beschriebene ViewModel.
 
 Views
 =====
@@ -71,5 +55,5 @@ Das Hauptfenster des PlugIns wird im Programm über die Menubar aufgerufen:
 Tools -> Manual Commission Control
 MCCPlugin.qml
 
-.. literalinclude:: ../../src/view/MCCPlugin.qml
+.. literalinclude:: ../src/view/MCCPlugin.qml
     :linenos:

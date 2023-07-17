@@ -62,298 +62,328 @@ Industrieroboter ABB IRB 120 gesendet werden.
 Der Funktionsumfang ist dabei durch die verfügbaren commands des Roboters begrenzt.</p>
 <section id="id1">
 <h3>Data Model<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
-<p>Die Kommissionsliste wird in der Klasse <cite>CommissionModel</cite> des nachfolgenden Moduls verwaltet.</p>
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">CommissionData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/CommissionModel.html#CommissionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Data Class for CommissionData</p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">CommissionState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/CommissionModel.html#CommissionState"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
-<p>Enum for CommissionData State</p>
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">DONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'done'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">OPEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'open'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">PENDING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pending'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">PROGRESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'in</span> <span class="pre">progress'</span></em></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">Locations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/CommissionModel.html#Locations"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
-<p>Enum for CommissionDta locations source and target</p>
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">GRIPPER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Gripper'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">K1A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K1,</span> <span class="pre">slot</span> <span class="pre">A'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">K1B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K1,</span> <span class="pre">slot</span> <span class="pre">B'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">K2A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K2,</span> <span class="pre">slot</span> <span class="pre">A'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">K2B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K2,</span> <span class="pre">slot</span> <span class="pre">B'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L10A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L10</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L10B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L10</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L11A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L11</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L11B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L11</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L12A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L12</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L12B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L12</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L13A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L13</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L13B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L13</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L14A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L14</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L14B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L14</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L15A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L15</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L15B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L15</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L16A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L16</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L16B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L16</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L17A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L17</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L17B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L17</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L18A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L18</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L18B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L18</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L1A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L1</span> <span class="pre">(top),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L1B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L1</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L2A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L2</span> <span class="pre">(top),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L2B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L2</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L3A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L3</span> <span class="pre">(top),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L3B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L3</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L4A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L4</span> <span class="pre">(top),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L4B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L4</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L5A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L5</span> <span class="pre">(top),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L5B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L5</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L6A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L6</span> <span class="pre">(top),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L6B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L6</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L7A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L7</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L7B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L7</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L8A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L8</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L8B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L8</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L9A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L9</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">L9B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L9</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">ROBOT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Mobile</span> <span class="pre">Robot'</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">STORAGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage'</span></em></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<p>Die Kommissionsliste wird in der Klasse <cite>CommissionModel</cite> des nachfolgenden Moduls verwaltet.
+Es handelt sich dabei um das im Hauptteil der Software verwendete Datenmodell.</p>
 </section>
 <section id="id2">
 <h3>Controller<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 <p>Funktionen die das DatenModell betreffen, werden in der Klasse <cite>CommissionController</cite> des nachfolgenden Moduls implementiert.
-Dieses ist aber auch Teil des Hauptprogramms.</p>
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.controller.CommissionController.</span></span><span class="sig-name descname"><span class="pre">CommissionController</span></span><a class="reference internal" href="_modules/src/controller/CommissionController.html#CommissionController"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This class is used to provide a viewModel for all commission data
-commission data source is a database file where all commissions are saved.
-While operating commissions will be passed to CommisioonController by ModbusService or
-OPCUAService.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">dumpCommissionData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/CommissionController.html#CommissionController.dumpCommissionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">loadCommissionData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/CommissionController.html#CommissionController.loadCommissionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+Es handelt sich dabei um den Controller, der im Hauptteil der Software verwendet (und auch dort beschrieben) wird.</p>
 </section>
 <section id="id3">
 <h3>ViewModels<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
-<p>Daten des Datenmodells werden über das Modul <cite>commissionViewModel</cite> bereitgestellt.</p>
+<p>Daten des Datenmodells werden über das Modul <cite>commissionViewModel</cite> bereitgestellt.
+Es handelt sich dabei um das im Hauptteil der Software verwendete und beschriebene ViewModel.</p>
 </section>
 <section id="id4">
 <h3>Views<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
 <p>Das Hauptfenster des PlugIns wird im Programm über die Menubar aufgerufen:
 Tools -&gt; Manual Commission Control
 MCCPlugin.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span>import QtQuick 2.9
+<span class="linenos">  2</span>import QtQuick.Controls 2.5
+<span class="linenos">  3</span>import QtQuick.Controls.Material
+<span class="linenos">  4</span>import QtQuick.Layouts 1.3
+<span class="linenos">  5</span>
+<span class="linenos">  6</span>
+<span class="linenos">  7</span>// View implementation of Manual Commission Control which allows
+<span class="linenos">  8</span>// Plugin allows to manipulate commission stack
+<span class="linenos">  9</span>
+<span class="linenos"> 10</span>Window {
+<span class="linenos"> 11</span>    id: mccWindow
+<span class="linenos"> 12</span>    width: Screen.width/3
+<span class="linenos"> 13</span>    height: 2*Screen.width/3
+<span class="linenos"> 14</span>    visible: true
+<span class="linenos"> 15</span>
+<span class="linenos"> 16</span>    ColumnLayout{
+<span class="linenos"> 17</span>        id: basicLayout
+<span class="linenos"> 18</span>        anchors.fill: parent
+<span class="linenos"> 19</span>        anchors.margins: 50
+<span class="linenos"> 20</span>        Layout.fillWidth: true
+<span class="linenos"> 21</span>        Layout.fillHeight: true
+<span class="linenos"> 22</span>        Row{
+<span class="linenos"> 23</span>            id: header
+<span class="linenos"> 24</span>            Text{
+<span class="linenos"> 25</span>                id: headerText
+<span class="linenos"> 26</span>                text: &quot;Manual Commission Control&quot;
+<span class="linenos"> 27</span>                font.pixelSize: 20
+<span class="linenos"> 28</span>                font.bold: true
+<span class="linenos"> 29</span>            }
+<span class="linenos"> 30</span>            Layout.fillWidth: true
+<span class="linenos"> 31</span>        }
+<span class="linenos"> 32</span>        Row{
+<span class="linenos"> 33</span>            Label{
+<span class="linenos"> 34</span>                id: mccModbusLabel
+<span class="linenos"> 35</span>                text: &quot;Modbus Connection&quot;
+<span class="linenos"> 36</span>                font.pixelSize: 15
+<span class="linenos"> 37</span>                height: mccModbusStatusRect.height
+<span class="linenos"> 38</span>                width: parent.width/2
+<span class="linenos"> 39</span>            }
+<span class="linenos"> 40</span>            Rectangle{
+<span class="linenos"> 41</span>                id: mccModbusStatusRect
+<span class="linenos"> 42</span>                color: mccModbusStatusText.connected? &quot;green&quot;:&quot;red&quot;
+<span class="linenos"> 43</span>                height: 30
+<span class="linenos"> 44</span>                width: parent.width/2
+<span class="linenos"> 45</span>                Text{
+<span class="linenos"> 46</span>                    id: mccModbusStatusText
+<span class="linenos"> 47</span>                    property var connected: false
+<span class="linenos"> 48</span>                    text: connected? &quot;Connected&quot; : &quot;Disconnected&quot;
+<span class="linenos"> 49</span>                    font.pixelSize: 15
+<span class="linenos"> 50</span>                    anchors.centerIn: mccModbusStatusRect
+<span class="linenos"> 51</span>                }
+<span class="linenos"> 52</span>            }
+<span class="linenos"> 53</span>            Layout.fillWidth: true
+<span class="linenos"> 54</span>        }
+<span class="linenos"> 55</span>        Rectangle{
+<span class="linenos"> 56</span>            id: mccSeperator
+<span class="linenos"> 57</span>            height: 3
+<span class="linenos"> 58</span>            color: &quot;black&quot;
+<span class="linenos"> 59</span>            Layout.fillWidth: true
+<span class="linenos"> 60</span>        }
+<span class="linenos"> 61</span>        Row{
+<span class="linenos"> 62</span>            Text{
+<span class="linenos"> 63</span>                id: mccCommissionHeader
+<span class="linenos"> 64</span>                text: &quot;Create Commission&quot;
+<span class="linenos"> 65</span>                font.pixelSize: 15
+<span class="linenos"> 66</span>                font.bold: true
+<span class="linenos"> 67</span>            }
+<span class="linenos"> 68</span>            Layout.fillWidth: true
+<span class="linenos"> 69</span>        }
+<span class="linenos"> 70</span>        Row{
+<span class="linenos"> 71</span>            Label{
+<span class="linenos"> 72</span>                id: mccObjectLabel
+<span class="linenos"> 73</span>                text: &quot;transportable Object&quot;
+<span class="linenos"> 74</span>                font.pixelSize: 15
+<span class="linenos"> 75</span>                height: mccCommissionObject.height
+<span class="linenos"> 76</span>                width: parent.width/2
+<span class="linenos"> 77</span>            }
+<span class="linenos"> 78</span>            ComboBox{
+<span class="linenos"> 79</span>                id: mccCommissionObject
+<span class="linenos"> 80</span>                height: 30
+<span class="linenos"> 81</span>                width: parent.width/2
+<span class="linenos"> 82</span>                model: [&#39;Cup&#39;, &#39;Pallet&#39;]
+<span class="linenos"> 83</span>            }
+<span class="linenos"> 84</span>            Layout.fillWidth: true
+<span class="linenos"> 85</span>        }
+<span class="linenos"> 86</span>        Row{
+<span class="linenos"> 87</span>            Label{
+<span class="linenos"> 88</span>                id: mccSourceLabel
+<span class="linenos"> 89</span>                text: &quot;Source&quot;
+<span class="linenos"> 90</span>                font.pixelSize: 15
+<span class="linenos"> 91</span>                height: mccCommissionSource.height
+<span class="linenos"> 92</span>                width: parent.width/2
+<span class="linenos"> 93</span>            }
+<span class="linenos"> 94</span>            ComboBox{
+<span class="linenos"> 95</span>                id: mccCommissionSource
+<span class="linenos"> 96</span>                height: 30
+<span class="linenos"> 97</span>                width: parent.width/2
+<span class="linenos"> 98</span>                model: [&#39;Mobile Robot&#39;, &#39;Commission Table&#39;, &#39;Storage&#39;]
+<span class="linenos"> 99</span>            }
+<span class="linenos">100</span>            Layout.fillWidth: true
+<span class="linenos">101</span>        }
+<span class="linenos">102</span>        Row{
+<span class="linenos">103</span>            Label{
+<span class="linenos">104</span>                id: mccCommissionDetail
+<span class="linenos">105</span>                text: &quot;Detailed Source&quot;
+<span class="linenos">106</span>                font.pixelSize: 15
+<span class="linenos">107</span>                height: mccCommissionDetailSource.height
+<span class="linenos">108</span>                width: parent.width/2
+<span class="linenos">109</span>            }
+<span class="linenos">110</span>            ComboBox{
+<span class="linenos">111</span>                id: mccCommissionDetailSource
+<span class="linenos">112</span>                height: 30
+<span class="linenos">113</span>                width: parent.width/2
+<span class="linenos">114</span>                model: {
+<span class="linenos">115</span>                    if (mccCommissionSource.currentText === &quot;Mobile Robot&quot;){
+<span class="linenos">116</span>                        return [&#39;-&#39;]
+<span class="linenos">117</span>                    } else if (mccCommissionSource.currentText === &quot;Commission Table&quot;){
+<span class="linenos">118</span>                        return [&#39;K1&#39;, &#39;K2&#39;]
+<span class="linenos">119</span>                    } else if (mccCommissionSource.currentText === &quot;Storage&quot;){
+<span class="linenos">120</span>                        return [&#39;L1&#39;, &#39;L2&#39;, &#39;L3&#39;, &#39;L4&#39;, &#39;L5&#39;, &#39;L6&#39;, &#39;L7&#39;, &#39;L8&#39;,
+<span class="linenos">121</span>                                &#39;L9&#39;, &#39;L10&#39;, &#39;L11&#39;, &#39;L12&#39;, &#39;L13&#39;, &#39;L14&#39;, &#39;L15&#39;,
+<span class="linenos">122</span>                                &#39;L16&#39;, &#39;L17&#39;, &#39;L18&#39;]
+<span class="linenos">123</span>                    }
+<span class="linenos">124</span>                }
+<span class="linenos">125</span>            }
+<span class="linenos">126</span>            Layout.fillWidth: true
+<span class="linenos">127</span>        }
+<span class="linenos">128</span>        Row{
+<span class="linenos">129</span>            Label{
+<span class="linenos">130</span>                id: mccSourceSlotLabel
+<span class="linenos">131</span>                text: &quot;Slot&quot;
+<span class="linenos">132</span>                font.pixelSize: 15
+<span class="linenos">133</span>                height: mccCommissionSourceSlot.height
+<span class="linenos">134</span>                width: parent.width/2 
+<span class="linenos">135</span>            }
+<span class="linenos">136</span>            ComboBox{
+<span class="linenos">137</span>                id: mccCommissionSourceSlot
+<span class="linenos">138</span>                height: 30
+<span class="linenos">139</span>                width: parent.width/2
+<span class="linenos">140</span>                model: {
+<span class="linenos">141</span>                    if ( mccCommissionObject.currentValue == &#39;Cup&#39;){
+<span class="linenos">142</span>                        if (mccCommissionSource.currentValue == &#39;Mobile Robot&#39;){
+<span class="linenos">143</span>                            return [&#39;-&#39;]
+<span class="linenos">144</span>                        }else{
+<span class="linenos">145</span>                            return [&#39;a&#39;, &#39;b&#39;]
+<span class="linenos">146</span>                        }
+<span class="linenos">147</span>                    }else{
+<span class="linenos">148</span>                        return [&#39;NA&#39;]
+<span class="linenos">149</span>                    }
+<span class="linenos">150</span>                }
+<span class="linenos">151</span>            }
+<span class="linenos">152</span>            Layout.fillWidth: true
+<span class="linenos">153</span>        }
+<span class="linenos">154</span>        Row{
+<span class="linenos">155</span>            Label{
+<span class="linenos">156</span>                id: mccDestinationLabel
+<span class="linenos">157</span>                text: &quot;Destination&quot;
+<span class="linenos">158</span>                font.pixelSize: 15
+<span class="linenos">159</span>                height: mccCommissionDestination.height
+<span class="linenos">160</span>                width: parent.width/2 
+<span class="linenos">161</span>            }
+<span class="linenos">162</span>            ComboBox{
+<span class="linenos">163</span>                id: mccCommissionDestination
+<span class="linenos">164</span>                height: 30
+<span class="linenos">165</span>                width: parent.width/2
+<span class="linenos">166</span>                model: [&#39;Mobile Robot&#39;, &#39;Commission Table&#39;, &#39;Storage&#39;]
+<span class="linenos">167</span>            }
+<span class="linenos">168</span>            Layout.fillWidth: true
+<span class="linenos">169</span>        }
+<span class="linenos">170</span>        Row{
+<span class="linenos">171</span>            Label{
+<span class="linenos">172</span>                id: mccCommissionDestDetail
+<span class="linenos">173</span>                text: &quot;Detailed Source&quot;
+<span class="linenos">174</span>                font.pixelSize: 15
+<span class="linenos">175</span>                height: mccCommissionDetailSource.height
+<span class="linenos">176</span>                width: parent.width/2
+<span class="linenos">177</span>            }
+<span class="linenos">178</span>            ComboBox{
+<span class="linenos">179</span>                id: mccCommissionDetailDestination
+<span class="linenos">180</span>                height: 30
+<span class="linenos">181</span>                width: parent.width/2
+<span class="linenos">182</span>                model: {
+<span class="linenos">183</span>                    if (mccCommissionDestination.currentText === &quot;Mobile Robot&quot;){
+<span class="linenos">184</span>                        return [&#39;-&#39;]
+<span class="linenos">185</span>                    } else if (mccCommissionDestination.currentText === &quot;Commission Table&quot;){
+<span class="linenos">186</span>                        return [&#39;K1&#39;, &#39;K2&#39;]
+<span class="linenos">187</span>                    } else if (mccCommissionDestination.currentText === &quot;Storage&quot;){
+<span class="linenos">188</span>                        return [&#39;L1&#39;, &#39;L2&#39;, &#39;L3&#39;, &#39;L4&#39;, &#39;L5&#39;, &#39;L6&#39;, &#39;L7&#39;, &#39;L8&#39;,
+<span class="linenos">189</span>                                &#39;L9&#39;, &#39;L10&#39;, &#39;L11&#39;, &#39;L12&#39;, &#39;L13&#39;, &#39;L14&#39;, &#39;L15&#39;,
+<span class="linenos">190</span>                                &#39;L16&#39;, &#39;L17&#39;, &#39;L18&#39;]
+<span class="linenos">191</span>                    }
+<span class="linenos">192</span>                }
+<span class="linenos">193</span>            }
+<span class="linenos">194</span>            Layout.fillWidth: true
+<span class="linenos">195</span>        }
+<span class="linenos">196</span>        Row{
+<span class="linenos">197</span>            Label{
+<span class="linenos">198</span>                id: mccDestinationSlotLabel
+<span class="linenos">199</span>                text: &quot;Slot&quot;
+<span class="linenos">200</span>                font.pixelSize: 15
+<span class="linenos">201</span>                height: mccCommissionSourceSlot.height
+<span class="linenos">202</span>                width: parent.width/2 
+<span class="linenos">203</span>            }
+<span class="linenos">204</span>            ComboBox{
+<span class="linenos">205</span>                id: mccCommissionDestinationSlot
+<span class="linenos">206</span>                height: 30
+<span class="linenos">207</span>                width: parent.width/2
+<span class="linenos">208</span>                model: {
+<span class="linenos">209</span>                    if ( mccCommissionObject.currentValue == &#39;Cup&#39;){
+<span class="linenos">210</span>                        if (mccCommissionSource.currentValue == &#39;Mobile Robot&#39;){
+<span class="linenos">211</span>                            return [&#39;-&#39;]
+<span class="linenos">212</span>                        }else{
+<span class="linenos">213</span>                            return [&#39;a&#39;, &#39;b&#39;]
+<span class="linenos">214</span>                        }
+<span class="linenos">215</span>                    }else{
+<span class="linenos">216</span>                        return [&#39;NA&#39;]
+<span class="linenos">217</span>                    }
+<span class="linenos">218</span>                }
+<span class="linenos">219</span>            }
+<span class="linenos">220</span>            Layout.fillWidth: true
+<span class="linenos">221</span>        }
+<span class="linenos">222</span>        Row{
+<span class="linenos">223</span>            Button{
+<span class="linenos">224</span>                id: checkButton
+<span class="linenos">225</span>                text: &quot;Check Commission&quot;
+<span class="linenos">226</span>                font.pixelSize: 15
+<span class="linenos">227</span>                height: 30
+<span class="linenos">228</span>                width: parent.width/2
+<span class="linenos">229</span>            }
+<span class="linenos">230</span>            Button{
+<span class="linenos">231</span>                id: submitButton
+<span class="linenos">232</span>                text: &quot;Submit Commission&quot;
+<span class="linenos">233</span>                font.pixelSize: 15
+<span class="linenos">234</span>                height: 30
+<span class="linenos">235</span>                width: parent.width/2
+<span class="linenos">236</span>                enabled: false
+<span class="linenos">237</span>            }
+<span class="linenos">238</span>            Layout.fillWidth: true
+<span class="linenos">239</span>        }
+<span class="linenos">240</span>        Rectangle{
+<span class="linenos">241</span>            id: mccSeperator2
+<span class="linenos">242</span>            height: 3
+<span class="linenos">243</span>            color: &quot;black&quot;
+<span class="linenos">244</span>            Layout.fillWidth: true
+<span class="linenos">245</span>        }
+<span class="linenos">246</span>        Row{
+<span class="linenos">247</span>            id: rfidHeader
+<span class="linenos">248</span>            Text{
+<span class="linenos">249</span>                id: rfidHeaderText
+<span class="linenos">250</span>                text: &quot;Manual RFID I/O&quot;
+<span class="linenos">251</span>                font.pixelSize: 20
+<span class="linenos">252</span>                font.bold: true
+<span class="linenos">253</span>            }
+<span class="linenos">254</span>            Layout.fillWidth: true
+<span class="linenos">255</span>        }
+<span class="linenos">256</span>        Row{
+<span class="linenos">257</span>            Label{
+<span class="linenos">258</span>                id: rfidCupLabel
+<span class="linenos">259</span>                text: &quot;Cup-ID&quot;
+<span class="linenos">260</span>                font.pixelSize: 15
+<span class="linenos">261</span>                height: rfidCup.height
+<span class="linenos">262</span>                width: parent.width/2
+<span class="linenos">263</span>            }
+<span class="linenos">264</span>            TextField{
+<span class="linenos">265</span>                id: rfidCup
+<span class="linenos">266</span>                height: 30
+<span class="linenos">267</span>                width: parent.width/2
+<span class="linenos">268</span>            }
+<span class="linenos">269</span>            Layout.fillWidth: true
+<span class="linenos">270</span>        }
+<span class="linenos">271</span>        Row{
+<span class="linenos">272</span>            Label{
+<span class="linenos">273</span>                id: rfidProductLabel
+<span class="linenos">274</span>                text: &quot;Product-ID&quot;
+<span class="linenos">275</span>                font.pixelSize: 15
+<span class="linenos">276</span>                height: rfidProduct.height
+<span class="linenos">277</span>                width: parent.width/2
+<span class="linenos">278</span>            }
+<span class="linenos">279</span>            TextField{
+<span class="linenos">280</span>                id: rfidProduct
+<span class="linenos">281</span>                height: 30
+<span class="linenos">282</span>                width: parent.width/2
+<span class="linenos">283</span>            }
+<span class="linenos">284</span>            Layout.fillWidth: true
+<span class="linenos">285</span>        }
+<span class="linenos">286</span>        Row{
+<span class="linenos">287</span>            Button{
+<span class="linenos">288</span>                id: rfidReadButton
+<span class="linenos">289</span>                text: &quot;Read RFID&quot;
+<span class="linenos">290</span>                height: 30
+<span class="linenos">291</span>                Layout.fillWidth: true
+<span class="linenos">292</span>            }
+<span class="linenos">293</span>            Button{
+<span class="linenos">294</span>                id: rfidWriteButton
+<span class="linenos">295</span>                text: &quot;Write RFID&quot;
+<span class="linenos">296</span>                height: 30
+<span class="linenos">297</span>                Layout.fillWidth: true
+<span class="linenos">298</span>            }
+<span class="linenos">299</span>            Layout.fillWidth: true
+<span class="linenos">300</span>        }
+<span class="linenos">301</span>    }
+<span class="linenos">302</span>}
+</pre></div>
+</div>
 </section>
 </section>
 </section>
