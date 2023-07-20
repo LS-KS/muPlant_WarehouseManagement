@@ -1,0 +1,27 @@
+- name: John
+  id: 1
+  workingState: 1
+  ipAddr: 192.168.0.100
+  ipPort: 1234
+  rfidStatus: 0
+  endPointipAddr: 192.168.0.200
+  endPointipPort: 5678
+  endPointModbus: 1
+  endPointStatus: 1
+  tagId: 12345
+  productID: 6789
+  cupSize: 1
+
+- name: Jane
+  id: 2
+  workingState: 1
+  ipAddr: 192.168.0.101
+  ipPort: 1235
+  rfidStatus: 1
+  endPointipAddr: 192.168.0.201
+  endPointipPort: 5679
+  endPointModbus: 0
+  endPointStatus: 0
+  tagId: 54321
+  productID: 9876
+  cupSize: 2

@@ -20,6 +20,7 @@ from PySide6.QtCore import Qt
 from src.controller.invController import invController
 from src.controller.CommissionController import CommissionController
 from src.controller.PreferenceController import PreferenceController
+from src.controller.RfidController import RfidController
 from src.service.EventlogService import EventlogService
 from src.constants.Constants import Constants
 
@@ -49,11 +50,14 @@ if __name__ == '__main__':
     engine.rootContext().setContextProperty('commissionModel', commissionController.commissionFilterProxyModel)
     #engine.rootContext().setContextProperty('commissionModel', commissionController.commissionViewModel)
 
-
-    #creates preferenceController object and sets itself as rootContext
+    # creates preferenceController object and sets itself as rootContext
     preferenceController = PreferenceController(eventlogService)
     engine.rootContext().setContextProperty("preferenceController", preferenceController)
 
+    # creates Controller and models for RFID Server Plugin
+    rfidController = RfidController()
+    engine.rootContext().setContextProperty("rfidController", rfidController)
+    engine.rootContext().setContextProperty("rfidModel", rfidController.rfidProxyViewModel)
 
     # define load main.qml file to start application
     qml_file =  str(Path(__file__).resolve().parent / "src" / "view" / "main.qml")

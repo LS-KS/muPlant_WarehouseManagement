@@ -71,7 +71,15 @@ Window {
         }
         Menu {
             title: qsTr("&Tools")
-            Action { text: qsTr("&RFID &Server") }
+            Action { 
+                text: qsTr("&RFID &Server") 
+                onTriggered: {
+                    var rfidServerComponent = Qt.createComponent("RFIDServerPlugin.qml");
+                    if (rfidServerComponent.status === Component.Ready){
+                        rfidServerComponent.createObject();
+                    }
+                }
+            }
             Action { text: qsTr("&Camera Application") }
             Action {
                 text: qsTr("&Show Productlist")
