@@ -22,7 +22,7 @@ Rectangle {
     property var prefHeight : infoLabel.height + entries.height +20
     property bool minimized: false
     property bool locked: false
-    border.color: "black"
+    border.color: "#1F82B2"
     border.width: 1
     radius: 5
     RowLayout{
