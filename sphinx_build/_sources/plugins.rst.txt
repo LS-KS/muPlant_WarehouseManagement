@@ -13,14 +13,49 @@ visualisiert. Die Daten werden außerdem über OPCUA im ganzen Netz zur Verfügu
 Data Model
 ==========
 
+Die Daten werden in der Klasse `RFIDModel` des nachfolgenden Moduls verwaltet.
+
+.. automodule:: src.model.RfidModel
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
 Controller
 ==========
+
+Die Controllerlogik wird in der Klasse `RFIDController` des nachfolgenden Moduls implementiert.
+
+.. automodule:: src.controller.RfidController
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 ViewModels
 ==========
 
+Für den Rfid Server ist sowohl ein QAbstractListModel als auch ein QSortFilterProxyModel implementiert.
+
+.. automodule:: src.viewmodel.RfidViewModel
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Views
 =====
+
+Das Rfid Server Plugin wird im Programm über die Menubar aufgerufen:
+Tools -> RFID Server. 
+Für die Darstellung sind zwei QML Dateien zuständig.
+RFIDServerPlugin.qml rendert das Hauptfenster. Es enthölt eine ListView, die die Daten des QAbstractListModel über das QSortFilterProxyModel darstellt.
+Die Daten werden in dem Delegate RfidDelegate.qml dargestellt.
+
+.. literalinclude:: ../src/view/RFIDServerPlugin.qml
+    :linenos:
+
+
+.. literalinclude:: ../src/view/RfidDelegate.qml
+    :linenos:
 
 Manual Commission Control
 _________________________

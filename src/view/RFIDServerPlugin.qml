@@ -46,7 +46,7 @@ Window {
             anchors.fill: parent
             model: rfidModel
             delegate: RfidDelegate{
-                
+                width: parent.width
             }
         }
     }

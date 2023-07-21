@@ -138,6 +138,8 @@
       <ul>
         <li><a href="modules.html#src.viewmodel.productlistViewModel.ProductListViewModel.data">(src.viewmodel.productlistViewModel.ProductListViewModel method)</a>
 </li>
+        <li><a href="plugins.html#src.viewmodel.RfidViewModel.RfidViewModel.data">(src.viewmodel.RfidViewModel.RfidViewModel method)</a>
+</li>
         <li><a href="modules.html#src.viewmodel.storageViewModel.StorageViewModel.data">(src.viewmodel.storageViewModel.StorageViewModel method)</a>
 </li>
       </ul></li>
@@ -146,6 +148,8 @@
       <li><a href="modules.html#src.model.CommissionModel.CommissionState.DONE">DONE (src.model.CommissionModel.CommissionState attribute)</a>
 </li>
       <li><a href="modules.html#src.controller.CommissionController.CommissionController.dumpCommissionData">dumpCommissionData() (src.controller.CommissionController.CommissionController method)</a>
+</li>
+      <li><a href="plugins.html#src.controller.RfidController.RfidController.dumpRfidNodes">dumpRfidNodes() (src.controller.RfidController.RfidController method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -335,6 +339,8 @@
 </li>
       <li><a href="modules.html#src.controller.PreferenceController.PreferenceController.loadPreferences">loadPreferences() (src.controller.PreferenceController.PreferenceController method)</a>
 </li>
+      <li><a href="plugins.html#src.controller.RfidController.RfidController.loadRfidNodes">loadRfidNodes() (src.controller.RfidController.RfidController method)</a>
+</li>
       <li><a href="modules.html#src.controller.invController.invController.loadStorage">loadStorage() (src.controller.invController.invController method)</a>
 </li>
       <li><a href="modules.html#src.controller.invController.invController.loadWorkbench">loadWorkbench() (src.controller.invController.invController method)</a>
@@ -367,11 +373,15 @@
 </li>
         <li><a href="modules.html#module-src.controller.PreferenceController">src.controller.PreferenceController</a>
 </li>
+        <li><a href="plugins.html#module-src.controller.RfidController">src.controller.RfidController</a>
+</li>
         <li><a href="modules.html#module-src.model.CommissionModel">src.model.CommissionModel</a>
 </li>
         <li><a href="modules.html#module-src.model.DataModel">src.model.DataModel</a>
 </li>
         <li><a href="modules.html#module-src.model.Preferences">src.model.Preferences</a>
+</li>
+        <li><a href="plugins.html#module-src.model.RfidModel">src.model.RfidModel</a>
 </li>
         <li><a href="modules.html#module-src.service.AgentService">src.service.AgentService</a>
 </li>
@@ -382,6 +392,8 @@
         <li><a href="modules.html#module-src.viewmodel.productlistViewModel">src.viewmodel.productlistViewModel</a>
 </li>
         <li><a href="modules.html#module-src.viewmodel.productSummaryViewModel">src.viewmodel.productSummaryViewModel</a>
+</li>
+        <li><a href="plugins.html#module-src.viewmodel.RfidViewModel">src.viewmodel.RfidViewModel</a>
 </li>
         <li><a href="modules.html#module-src.viewmodel.storageViewModel">src.viewmodel.storageViewModel</a>
 </li>
@@ -452,12 +464,22 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="plugins.html#src.controller.RfidController.RfidController">RfidController (class in src.controller.RfidController)</a>
+</li>
+      <li><a href="plugins.html#src.model.RfidModel.RfidModel">RfidModel (class in src.model.RfidModel)</a>
+</li>
+      <li><a href="plugins.html#src.viewmodel.RfidViewModel.RfidProxyViewModel">RfidProxyViewModel (class in src.viewmodel.RfidViewModel)</a>
+</li>
+      <li><a href="plugins.html#src.viewmodel.RfidViewModel.RfidViewModel">RfidViewModel (class in src.viewmodel.RfidViewModel)</a>
+</li>
       <li><a href="modules.html#src.model.CommissionModel.Locations.ROBOT">ROBOT (src.model.CommissionModel.Locations attribute)</a>
 </li>
       <li><a href="modules.html#src.viewmodel.commissionViewModel.CommissionViewModel.roleNames">roleNames() (src.viewmodel.commissionViewModel.CommissionViewModel method)</a>
 
       <ul>
         <li><a href="modules.html#src.viewmodel.productlistViewModel.ProductListViewModel.roleNames">(src.viewmodel.productlistViewModel.ProductListViewModel method)</a>
+</li>
+        <li><a href="plugins.html#src.viewmodel.RfidViewModel.RfidViewModel.roleNames">(src.viewmodel.RfidViewModel.RfidViewModel method)</a>
 </li>
         <li><a href="modules.html#src.viewmodel.storageViewModel.StorageViewModel.roleNames">(src.viewmodel.storageViewModel.StorageViewModel method)</a>
 </li>
@@ -470,6 +492,8 @@
 
       <ul>
         <li><a href="modules.html#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount">(src.viewmodel.productlistViewModel.ProductListViewModel method)</a>
+</li>
+        <li><a href="plugins.html#src.viewmodel.RfidViewModel.RfidViewModel.rowCount">(src.viewmodel.RfidViewModel.RfidViewModel method)</a>
 </li>
         <li><a href="modules.html#src.viewmodel.storageViewModel.StorageViewModel.rowCount">(src.viewmodel.storageViewModel.StorageViewModel method)</a>
 </li>
@@ -563,8 +587,13 @@
         <li><a href="modules.html#module-src.controller.PreferenceController">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    src.controller.RfidController
+
+      <ul>
+        <li><a href="plugins.html#module-src.controller.RfidController">module</a>
+</li>
+      </ul></li>
       <li>
     src.model.CommissionModel
 
@@ -572,6 +601,8 @@
         <li><a href="modules.html#module-src.model.CommissionModel">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     src.model.DataModel
 
@@ -584,6 +615,13 @@
 
       <ul>
         <li><a href="modules.html#module-src.model.Preferences">module</a>
+</li>
+      </ul></li>
+      <li>
+    src.model.RfidModel
+
+      <ul>
+        <li><a href="plugins.html#module-src.model.RfidModel">module</a>
 </li>
       </ul></li>
       <li>
@@ -622,6 +660,13 @@
 </li>
       </ul></li>
       <li>
+    src.viewmodel.RfidViewModel
+
+      <ul>
+        <li><a href="plugins.html#module-src.viewmodel.RfidViewModel">module</a>
+</li>
+      </ul></li>
+      <li>
     src.viewmodel.storageViewModel
 
       <ul>
@@ -633,7 +678,11 @@
       <ul>
         <li><a href="modules.html#src.controller.PreferenceController.PreferenceController.staticMetaObject">(src.controller.PreferenceController.PreferenceController attribute)</a>
 </li>
+        <li><a href="plugins.html#src.controller.RfidController.RfidController.staticMetaObject">(src.controller.RfidController.RfidController attribute)</a>
+</li>
         <li><a href="modules.html#src.model.DataModel.Gripper.staticMetaObject">(src.model.DataModel.Gripper attribute)</a>
+</li>
+        <li><a href="plugins.html#src.model.RfidModel.RfidModel.staticMetaObject">(src.model.RfidModel.RfidModel attribute)</a>
 </li>
         <li><a href="modules.html#src.service.EventlogService.EventlogService.staticMetaObject">(src.service.EventlogService.EventlogService attribute)</a>
 </li>
@@ -644,6 +693,10 @@
         <li><a href="modules.html#src.viewmodel.productlistViewModel.ProductListViewModel.staticMetaObject">(src.viewmodel.productlistViewModel.ProductListViewModel attribute)</a>
 </li>
         <li><a href="modules.html#src.viewmodel.productSummaryViewModel.ProductSummaryViewModel.staticMetaObject">(src.viewmodel.productSummaryViewModel.ProductSummaryViewModel attribute)</a>
+</li>
+        <li><a href="plugins.html#src.viewmodel.RfidViewModel.RfidProxyViewModel.staticMetaObject">(src.viewmodel.RfidViewModel.RfidProxyViewModel attribute)</a>
+</li>
+        <li><a href="plugins.html#src.viewmodel.RfidViewModel.RfidViewModel.staticMetaObject">(src.viewmodel.RfidViewModel.RfidViewModel attribute)</a>
 </li>
         <li><a href="modules.html#src.viewmodel.storageViewModel.StorageViewModel.staticMetaObject">(src.viewmodel.storageViewModel.StorageViewModel attribute)</a>
 </li>

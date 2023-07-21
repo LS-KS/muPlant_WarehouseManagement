@@ -43,15 +43,401 @@ Dabei werden alle RFID Reader der µPlant über Modbus ausgelesen und die ausgel
 visualisiert. Die Daten werden außerdem über OPCUA im ganzen Netz zur Verfügung gestellt.</p>
 <section id="data-model">
 <h3>Data Model<a class="headerlink" href="#data-model" title="Permalink to this heading">¶</a></h3>
+<p>Die Daten werden in der Klasse <cite>RFIDModel</cite> des nachfolgenden Moduls verwaltet.</p>
+<span class="target" id="module-src.model.RfidModel"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.model.RfidModel.RfidModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.RfidModel.</span></span><span class="sig-name descname"><span class="pre">RfidModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QObject</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/RfidModel.html#RfidModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.RfidModel.RfidModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.RfidModel.RfidModel.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;RfidModel&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="controller">
 <h3>Controller<a class="headerlink" href="#controller" title="Permalink to this heading">¶</a></h3>
+<p>Die Controllerlogik wird in der Klasse <cite>RFIDController</cite> des nachfolgenden Moduls implementiert.</p>
+<span class="target" id="module-src.controller.RfidController"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.controller.RfidController.</span></span><span class="sig-name descname"><span class="pre">RfidController</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QObject</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.dumpRfidNodes">
+<span class="sig-name descname"><span class="pre">dumpRfidNodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.dumpRfidNodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.dumpRfidNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves all RFID-Nodes from rfidViewModel to file RfidData.yaml.
+:returns: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.loadRfidNodes">
+<span class="sig-name descname"><span class="pre">loadRfidNodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.loadRfidNodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.loadRfidNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads all RFID-Nodes from file RfidData.yaml and overwrites data in rfidViewModel.
+:returns: None</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;RfidController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.RfidController.RfidController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="viewmodels">
 <h3>ViewModels<a class="headerlink" href="#viewmodels" title="Permalink to this heading">¶</a></h3>
+<p>Für den Rfid Server ist sowohl ein QAbstractListModel als auch ein QSortFilterProxyModel implementiert.</p>
+<span class="target" id="module-src.viewmodel.RfidViewModel"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.viewmodel.RfidViewModel.RfidProxyViewModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.viewmodel.RfidViewModel.</span></span><span class="sig-name descname"><span class="pre">RfidProxyViewModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QObject</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/RfidViewModel.html#RfidProxyViewModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.RfidViewModel.RfidProxyViewModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QSortFilterProxyModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.RfidViewModel.RfidProxyViewModel.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;RfidProxyViewModel&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QSortFilterProxyModel&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.viewmodel.RfidViewModel.RfidProxyViewModel.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.viewmodel.RfidViewModel.RfidViewModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.viewmodel.RfidViewModel.</span></span><span class="sig-name descname"><span class="pre">RfidViewModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QObject</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/RfidViewModel.html#RfidViewModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.RfidViewModel.RfidViewModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QAbstractListModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.RfidViewModel.RfidViewModel.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QModelIndex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/RfidViewModel.html#RfidViewModel.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.RfidViewModel.RfidViewModel.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns Data from viewmodel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>QModelIndex</em>) – Used to index into the model</p></li>
+<li><p><strong>role</strong> (<em>int</em>) – Used to index into the model</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>returns data from viewmodel at given index and role</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.RfidViewModel.RfidViewModel.roleNames">
+<span class="sig-name descname"><span class="pre">roleNames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/RfidViewModel.html#RfidViewModel.roleNames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.RfidViewModel.RfidViewModel.roleNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented.
+:return: returns a dictionary of roles to index in data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.RfidViewModel.RfidViewModel.rowCount">
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent=&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/RfidViewModel.html#RfidViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.RfidViewModel.RfidViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>parent</strong> (<em>QModelIndex</em>) – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>returns number of rows from data at given index</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.RfidViewModel.RfidViewModel.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;RfidViewModel&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QAbstractListModel&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.viewmodel.RfidViewModel.RfidViewModel.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="views">
 <h3>Views<a class="headerlink" href="#views" title="Permalink to this heading">¶</a></h3>
+<p>Das Rfid Server Plugin wird im Programm über die Menubar aufgerufen:
+Tools -&gt; RFID Server.
+Für die Darstellung sind zwei QML Dateien zuständig.
+RFIDServerPlugin.qml rendert das Hauptfenster. Es enthölt eine ListView, die die Daten des QAbstractListModel über das QSortFilterProxyModel darstellt.
+Die Daten werden in dem Delegate RfidDelegate.qml dargestellt.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">QtQuick</span> <span class="mf">2.9</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">QtQuick.Controls</span> <span class="mf">2.5</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">QtQuick.Controls.Material</span>
+<span class="linenos"> 4</span><span class="kn">import</span> <span class="nn">QtQuick.Layouts</span> <span class="mf">1.3</span>
+<span class="linenos"> 5</span><span class="kn">import</span> <span class="nn">QtQuick.Window</span> <span class="mf">2.2</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="n">Window</span> <span class="p">{</span>
+<span class="linenos"> 8</span>    <span class="nb">id</span><span class="p">:</span> <span class="n">window</span>
+<span class="linenos"> 9</span>    <span class="n">visible</span><span class="p">:</span> <span class="n">true</span>
+<span class="linenos">10</span>    <span class="n">width</span><span class="p">:</span> <span class="mi">640</span>
+<span class="linenos">11</span>    <span class="n">height</span><span class="p">:</span> <span class="mi">480</span>
+<span class="linenos">12</span>    <span class="n">title</span><span class="p">:</span> <span class="n">qsTr</span><span class="p">(</span><span class="s2">&quot;RFID Server&quot;</span><span class="p">)</span>
+<span class="linenos">13</span>    <span class="n">Rectangle</span><span class="p">{</span>
+<span class="linenos">14</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">header</span>
+<span class="linenos">15</span>        <span class="n">height</span><span class="p">:</span> <span class="mi">50</span>
+<span class="linenos">16</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">top</span>
+<span class="linenos">17</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+<span class="linenos">18</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+<span class="linenos">19</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">:</span> <span class="mi">10</span>
+<span class="linenos">20</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">:</span> <span class="mi">10</span>
+<span class="linenos">21</span>        <span class="n">Text</span><span class="p">{</span>
+<span class="linenos">22</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;RFID Server&quot;</span>
+<span class="linenos">23</span>            <span class="n">font</span><span class="o">.</span><span class="n">pixelSize</span><span class="p">:</span> <span class="mi">14</span>
+<span class="linenos">24</span>            <span class="n">font</span><span class="o">.</span><span class="n">bold</span><span class="p">:</span> <span class="n">true</span>
+<span class="linenos">25</span>            <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+<span class="linenos">26</span>            <span class="n">anchors</span><span class="o">.</span><span class="n">verticalCenter</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">verticalCenter</span>
+<span class="linenos">27</span>        <span class="p">}</span>
+<span class="linenos">28</span>        <span class="n">Button</span><span class="p">{</span>
+<span class="linenos">29</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Add New&quot;</span>
+<span class="linenos">30</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
+<span class="linenos">31</span>                <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Start&quot;</span><span class="p">)</span>
+<span class="linenos">32</span>            <span class="p">}</span>
+<span class="linenos">33</span>            <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+<span class="linenos">34</span>            <span class="n">anchors</span><span class="o">.</span><span class="n">verticalCenter</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">verticalCenter</span>
+<span class="linenos">35</span>        <span class="p">}</span>
+<span class="linenos">36</span>    <span class="p">}</span>
+<span class="linenos">37</span>    <span class="n">Rectangle</span><span class="p">{</span>
+<span class="linenos">38</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">contentRect</span>
+<span class="linenos">39</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> <span class="n">header</span><span class="o">.</span><span class="n">bottom</span>
+<span class="linenos">40</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+<span class="linenos">41</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+<span class="linenos">42</span>        <span class="n">height</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">header</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span><span class="mi">50</span>
+<span class="linenos">43</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">margins</span><span class="p">:</span> <span class="mi">10</span>
+<span class="linenos">44</span>        <span class="n">ListView</span><span class="p">{</span>
+<span class="linenos">45</span>            <span class="nb">id</span><span class="p">:</span> <span class="n">listView</span>
+<span class="linenos">46</span>            <span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>
+<span class="linenos">47</span>            <span class="n">model</span><span class="p">:</span> <span class="n">rfidModel</span>
+<span class="linenos">48</span>            <span class="n">delegate</span><span class="p">:</span> <span class="n">RfidDelegate</span><span class="p">{</span>
+<span class="linenos">49</span>                <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span>
+<span class="linenos">50</span>            <span class="p">}</span>
+<span class="linenos">51</span>        <span class="p">}</span>
+<span class="linenos">52</span>    <span class="p">}</span>
+<span class="linenos">53</span>    <span class="n">RowLayout</span><span class="p">{</span>
+<span class="linenos">54</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">leftFooter</span>
+<span class="linenos">55</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
+<span class="linenos">56</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+<span class="linenos">57</span>        <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="mi">6</span>
+<span class="linenos">58</span>        <span class="n">height</span><span class="p">:</span> <span class="mi">50</span>
+<span class="linenos">59</span>        <span class="n">Button</span><span class="p">{</span>
+<span class="linenos">60</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Select All&quot;</span>
+<span class="linenos">61</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
+<span class="linenos">62</span>                <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Select All&quot;</span><span class="p">)</span>
+<span class="linenos">63</span>            <span class="p">}</span>
+<span class="linenos">64</span>        <span class="p">}</span>
+<span class="linenos">65</span>        <span class="n">Button</span><span class="p">{</span>
+<span class="linenos">66</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Select None&quot;</span>
+<span class="linenos">67</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
+<span class="linenos">68</span>                <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Select None&quot;</span><span class="p">)</span>
+<span class="linenos">69</span>            <span class="p">}</span>
+<span class="linenos">70</span>        <span class="p">}</span>
+<span class="linenos">71</span>    <span class="p">}</span>
+<span class="linenos">72</span>    <span class="n">RowLayout</span><span class="p">{</span>
+<span class="linenos">73</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">rightFooter</span>
+<span class="linenos">74</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
+<span class="linenos">75</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+<span class="linenos">76</span>        <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span><span class="mi">3</span><span class="o">/</span><span class="mi">6</span>
+<span class="linenos">77</span>        <span class="n">height</span><span class="p">:</span> <span class="mi">50</span>
+<span class="linenos">78</span>        <span class="n">Button</span><span class="p">{</span>
+<span class="linenos">79</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Remove Selected&quot;</span>
+<span class="linenos">80</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
+<span class="linenos">81</span>                <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Remove Selected&quot;</span><span class="p">)</span>
+<span class="linenos">82</span>            <span class="p">}</span>
+<span class="linenos">83</span>        <span class="p">}</span>
+<span class="linenos">84</span>        <span class="n">Button</span><span class="p">{</span>
+<span class="linenos">85</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Start Selected&quot;</span>
+<span class="linenos">86</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
+<span class="linenos">87</span>                <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Start Selected&quot;</span><span class="p">)</span>
+<span class="linenos">88</span>            <span class="p">}</span>
+<span class="linenos">89</span>        <span class="p">}</span>
+<span class="linenos">90</span>        <span class="n">Button</span><span class="p">{</span>
+<span class="linenos">91</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Stop Selected&quot;</span>
+<span class="linenos">92</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
+<span class="linenos">93</span>                <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Stop Selected&quot;</span><span class="p">)</span>
+<span class="linenos">94</span>            <span class="p">}</span>
+<span class="linenos">95</span>        <span class="p">}</span>
+<span class="linenos">96</span>    <span class="p">}</span>
+<span class="linenos">97</span>
+<span class="linenos">98</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span>import QtQuick 2.9
+<span class="linenos">  2</span>import QtQuick.Controls 2.5
+<span class="linenos">  3</span>import QtQuick.Controls.Material
+<span class="linenos">  4</span>import QtQuick.Layouts 1.3
+<span class="linenos">  5</span>
+<span class="linenos">  6</span>
+<span class="linenos">  7</span>Rectangle {
+<span class="linenos">  8</span>    id: root
+<span class="linenos">  9</span>    width: 400
+<span class="linenos"> 10</span>    height: 350
+<span class="linenos"> 11</span>    color: &quot;white&quot;
+<span class="linenos"> 12</span>    property string tagTextA: &quot;0&quot;
+<span class="linenos"> 13</span>    property string tagTextB: &quot;0&quot;
+<span class="linenos"> 14</span>    property string tagTextC: &quot;0&quot;
+<span class="linenos"> 15</span>    property bool minimized: false
+<span class="linenos"> 16</span>    border.color: &quot;black&quot;
+<span class="linenos"> 17</span>    border.width: 1
+<span class="linenos"> 18</span>    radius: 5
+<span class="linenos"> 19</span>    RowLayout{
+<span class="linenos"> 20</span>        id: infoLabel
+<span class="linenos"> 21</span>        anchors. top: parent.top
+<span class="linenos"> 22</span>        anchors. left: parent.left
+<span class="linenos"> 23</span>        anchors. right: parent.right
+<span class="linenos"> 24</span>        anchors. leftMargin: 20
+<span class="linenos"> 25</span>        anchors. rightMargin: 20
+<span class="linenos"> 26</span>        Layout.fillWidth: true
+<span class="linenos"> 27</span>        Image {
+<span class="linenos"> 28</span>            id: arrow
+<span class="linenos"> 29</span>            source: minimized === true ? &quot;../assets/angle-small-down.png&quot; : &quot;../assets/angle-small-up.png&quot;
+<span class="linenos"> 30</span>            height: 15
+<span class="linenos"> 31</span>            fillMode: Image.PreserveAspectFit
+<span class="linenos"> 32</span>            MouseArea {
+<span class="linenos"> 33</span>                anchors.fill: parent
+<span class="linenos"> 34</span>                onClicked: {
+<span class="linenos"> 35</span>                    minimized = minimized ? false : true
+<span class="linenos"> 36</span>                    root.height = minimized?  50 : 400
+<span class="linenos"> 37</span>                    entries.visible = entries.visible ? false: true
+<span class="linenos"> 38</span>                }
+<span class="linenos"> 39</span>            }
+<span class="linenos"> 40</span>        }
+<span class="linenos"> 41</span>        Text{
+<span class="linenos"> 42</span>            id: name
+<span class="linenos"> 43</span>            text: &quot;Node Name &quot;
+<span class="linenos"> 44</span>            font.bold: true
+<span class="linenos"> 45</span>        }
+<span class="linenos"> 46</span>        CheckBox{
+<span class="linenos"> 47</span>            id: isSelected
+<span class="linenos"> 48</span>            text: &quot;selected&quot;
+<span class="linenos"> 49</span>        }
+<span class="linenos"> 50</span>        Text{
+<span class="linenos"> 51</span>            property int textA: 0
+<span class="linenos"> 52</span>            property int textB: 0
+<span class="linenos"> 53</span>            property int textC: 0
+<span class="linenos"> 54</span>            text: &quot;Taginfo: &quot; + tagTextA + &quot; . &quot; + tagTextB + &quot; . &quot; + tagTextC
+<span class="linenos"> 55</span>        }
+<span class="linenos"> 56</span>        Text{
+<span class="linenos"> 57</span>            id: readerText
+<span class="linenos"> 58</span>            property bool reader: false
+<span class="linenos"> 59</span>            text: &quot;Reader: &quot; + reader 
+<span class="linenos"> 60</span>        }
+<span class="linenos"> 61</span>        Text{
+<span class="linenos"> 62</span>            id: endpointText
+<span class="linenos"> 63</span>            property bool reader: false
+<span class="linenos"> 64</span>            text: &quot;Endpoint: &quot; + reader 
+<span class="linenos"> 65</span>
+<span class="linenos"> 66</span>        }
+<span class="linenos"> 67</span>    }
+<span class="linenos"> 68</span>    ColumnLayout{
+<span class="linenos"> 69</span>        id: entries
+<span class="linenos"> 70</span>        anchors. top: infoLabel.bottom
+<span class="linenos"> 71</span>        anchors. left: parent.left
+<span class="linenos"> 72</span>        anchors. right: parent.right
+<span class="linenos"> 73</span>        anchors.leftMargin: 20
+<span class="linenos"> 74</span>        anchors.rightMargin: 20
+<span class="linenos"> 75</span>        clip: true
+<span class="linenos"> 76</span>        Row {
+<span class="linenos"> 77</span>            Label {
+<span class="linenos"> 78</span>                text: &quot;Name&quot; 
+<span class="linenos"> 79</span>                width: 120
+<span class="linenos"> 80</span>                height:  30
+<span class="linenos"> 81</span>
+<span class="linenos"> 82</span>            }
+<span class="linenos"> 83</span>            TextField{
+<span class="linenos"> 84</span>                id: nameText
+<span class="linenos"> 85</span>                width: parent.width - 120
+<span class="linenos"> 86</span>                height:  30
+<span class="linenos"> 87</span>            }
+<span class="linenos"> 88</span>            Layout.fillWidth: true
+<span class="linenos"> 89</span>            clip: true
+<span class="linenos"> 90</span>        }
+<span class="linenos"> 91</span>        Text{
+<span class="linenos"> 92</span>            text: &quot;Tag Reader&quot;
+<span class="linenos"> 93</span>            font.bold: true
+<span class="linenos"> 94</span>            height: 50
+<span class="linenos"> 95</span>        }
+<span class="linenos"> 96</span>        Row {
+<span class="linenos"> 97</span>            Label{
+<span class="linenos"> 98</span>                text: &quot;  Ip Adress: &quot;
+<span class="linenos"> 99</span>                width: 120
+<span class="linenos">100</span>                height:  30
+<span class="linenos">101</span>            }
+<span class="linenos">102</span>            TextField{
+<span class="linenos">103</span>                id: readerIpAdress
+<span class="linenos">104</span>                text: &quot;&quot;
+<span class="linenos">105</span>                width: parent.width - 120
+<span class="linenos">106</span>                height:  30
+<span class="linenos">107</span>            }
+<span class="linenos">108</span>            Layout.fillWidth: true
+<span class="linenos">109</span>            clip: true
+<span class="linenos">110</span>        }
+<span class="linenos">111</span>        Row {
+<span class="linenos">112</span>            Label{
+<span class="linenos">113</span>                text: &quot;  Port: &quot;
+<span class="linenos">114</span>                width: 120
+<span class="linenos">115</span>                height:  30
+<span class="linenos">116</span>            }
+<span class="linenos">117</span>            TextField{
+<span class="linenos">118</span>                id: readerPort
+<span class="linenos">119</span>                text: &quot;&quot;
+<span class="linenos">120</span>                width: parent.width - 120
+<span class="linenos">121</span>                height:  30
+<span class="linenos">122</span>            }
+<span class="linenos">123</span>            Layout.fillWidth: true
+<span class="linenos">124</span>            clip: true
+<span class="linenos">125</span>        }
+<span class="linenos">126</span>        Text{
+<span class="linenos">127</span>            text: &quot;Tag Endpoint&quot;
+<span class="linenos">128</span>            font.bold: true
+<span class="linenos">129</span>            height: 50
+<span class="linenos">130</span>        }
+<span class="linenos">131</span>        Row {
+<span class="linenos">132</span>            Label{
+<span class="linenos">133</span>                text: &quot;  Ip Adress: &quot;
+<span class="linenos">134</span>                width: 120
+<span class="linenos">135</span>                height:  30
+<span class="linenos">136</span>            }
+<span class="linenos">137</span>            TextField{
+<span class="linenos">138</span>                id: endpointIpAdress
+<span class="linenos">139</span>                text: &quot;&quot;
+<span class="linenos">140</span>                width: parent.width - 120
+<span class="linenos">141</span>                height:  30
+<span class="linenos">142</span>            }
+<span class="linenos">143</span>            Layout.fillWidth: true
+<span class="linenos">144</span>            clip: true
+<span class="linenos">145</span>        }
+<span class="linenos">146</span>        Row {
+<span class="linenos">147</span>            Label{
+<span class="linenos">148</span>                text: &quot;  Port: &quot;
+<span class="linenos">149</span>                width: 120
+<span class="linenos">150</span>                height:  30
+<span class="linenos">151</span>            }
+<span class="linenos">152</span>            TextField{
+<span class="linenos">153</span>                id: endpointPort
+<span class="linenos">154</span>                text: &quot;&quot;
+<span class="linenos">155</span>                width: parent.width - 120
+<span class="linenos">156</span>                height:  30
+<span class="linenos">157</span>            }
+<span class="linenos">158</span>            Layout.fillWidth: true
+<span class="linenos">159</span>            clip: true
+<span class="linenos">160</span>        }
+<span class="linenos">161</span>        Row{
+<span class="linenos">162</span>            Label{
+<span class="linenos">163</span>                text: &quot;  Modbus Address: &quot;
+<span class="linenos">164</span>                width: 120
+<span class="linenos">165</span>                height:  30
+<span class="linenos">166</span>
+<span class="linenos">167</span>            }
+<span class="linenos">168</span>            TextField{
+<span class="linenos">169</span>                id: endpointModbusAddress
+<span class="linenos">170</span>                text: &quot;&quot;
+<span class="linenos">171</span>                width: parent.width - 120
+<span class="linenos">172</span>                height:  30
+<span class="linenos">173</span>            }
+<span class="linenos">174</span>            Layout.fillWidth: true
+<span class="linenos">175</span>            clip: true
+<span class="linenos">176</span>        }
+<span class="linenos">177</span>        Behavior on visible { PropertyAnimation{ duration: minimized? 10 : 1000; easing.type: Easing.InOutQuad}}
+<span class="linenos">178</span>    }
+<span class="linenos">179</span>    Behavior on height { PropertyAnimation{ duration: 1000; easing.type: Easing.OutCubic}}
+<span class="linenos">180</span>}
+</pre></div>
+</div>
 </section>
 </section>
 <section id="manual-commission-control">

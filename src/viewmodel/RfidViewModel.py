@@ -3,6 +3,8 @@ from PySide6 import QtCore
 from PySide6.QtCore import QModelIndex
 from PySide6.QtCore import Qt, QObject
 from src.model.RfidModel import RfidModel
+
+
 class RfidViewModel(QtCore.QAbstractListModel):
 
     def __init__(self, parent: QObject | None = None) -> None:

@@ -58,51 +58,55 @@
 <span class="linenos">20</span><span class="kn">from</span> <span class="nn">src.controller.invController</span> <span class="kn">import</span> <span class="n">invController</span>
 <span class="linenos">21</span><span class="kn">from</span> <span class="nn">src.controller.CommissionController</span> <span class="kn">import</span> <span class="n">CommissionController</span>
 <span class="linenos">22</span><span class="kn">from</span> <span class="nn">src.controller.PreferenceController</span> <span class="kn">import</span> <span class="n">PreferenceController</span>
-<span class="linenos">23</span><span class="kn">from</span> <span class="nn">src.service.EventlogService</span> <span class="kn">import</span> <span class="n">EventlogService</span>
-<span class="linenos">24</span><span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
-<span class="linenos">25</span>
+<span class="linenos">23</span><span class="kn">from</span> <span class="nn">src.controller.RfidController</span> <span class="kn">import</span> <span class="n">RfidController</span>
+<span class="linenos">24</span><span class="kn">from</span> <span class="nn">src.service.EventlogService</span> <span class="kn">import</span> <span class="n">EventlogService</span>
+<span class="linenos">25</span><span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
 <span class="linenos">26</span>
-<span class="linenos">27</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-<span class="linenos">28</span>    <span class="n">app</span> <span class="o">=</span> <span class="n">QGuiApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
-<span class="linenos">29</span>    <span class="n">engine</span> <span class="o">=</span> <span class="n">QQmlApplicationEngine</span><span class="p">()</span>
-<span class="linenos">30</span>    <span class="n">constants</span> <span class="o">=</span> <span class="n">Constants</span><span class="p">()</span>
-<span class="linenos">31</span>    <span class="c1"># create inventoryController with included Data Model and sets itself and viewModels  as rootContext</span>
-<span class="linenos">32</span>    <span class="n">inventoryController</span> <span class="o">=</span> <span class="n">invController</span><span class="p">()</span>
-<span class="linenos">33</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">29</span>    <span class="n">app</span> <span class="o">=</span> <span class="n">QGuiApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+<span class="linenos">30</span>    <span class="n">engine</span> <span class="o">=</span> <span class="n">QQmlApplicationEngine</span><span class="p">()</span>
+<span class="linenos">31</span>    <span class="n">constants</span> <span class="o">=</span> <span class="n">Constants</span><span class="p">()</span>
+<span class="linenos">32</span>    <span class="c1"># create inventoryController with included Data Model and sets itself and viewModels  as rootContext</span>
+<span class="linenos">33</span>    <span class="n">inventoryController</span> <span class="o">=</span> <span class="n">invController</span><span class="p">()</span>
 <span class="linenos">34</span>
-<span class="linenos">35</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;inventoryController&quot;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="p">)</span>
-<span class="linenos">36</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;storageModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">storageViewModel</span><span class="p">)</span>
-<span class="linenos">37</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productListModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productlistViewModel</span><span class="p">)</span>
-<span class="linenos">38</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productSummaryModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productSummaryViewModel</span><span class="p">)</span>
-<span class="linenos">39</span>
-<span class="linenos">40</span>    <span class="c1"># creates EventlogService object and sets itself as rootContext</span>
-<span class="linenos">41</span>    <span class="n">eventlogService</span> <span class="o">=</span> <span class="n">EventlogService</span><span class="p">()</span>
-<span class="linenos">42</span>    <span class="n">inventoryController</span><span class="o">.</span><span class="n">eventlogService</span> <span class="o">=</span> <span class="n">eventlogService</span>
-<span class="linenos">43</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;eventLogController&quot;</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">)</span>
-<span class="linenos">44</span>
-<span class="linenos">45</span>    <span class="c1"># creates CommissionController object and sets itself as rootContext</span>
-<span class="linenos">46</span>    <span class="n">commissionController</span> <span class="o">=</span>  <span class="n">CommissionController</span><span class="p">()</span>
-<span class="linenos">47</span>    <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">autoAcceptChildRows</span><span class="p">()</span>
-<span class="linenos">48</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;commissionController&quot;</span><span class="p">,</span> <span class="n">commissionController</span><span class="p">)</span>
-<span class="linenos">49</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;commissionModel&#39;</span><span class="p">,</span> <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="p">)</span>
-<span class="linenos">50</span>    <span class="c1">#engine.rootContext().setContextProperty(&#39;commissionModel&#39;, commissionController.commissionViewModel)</span>
-<span class="linenos">51</span>
+<span class="linenos">35</span>
+<span class="linenos">36</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;inventoryController&quot;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="p">)</span>
+<span class="linenos">37</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;storageModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">storageViewModel</span><span class="p">)</span>
+<span class="linenos">38</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productListModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productlistViewModel</span><span class="p">)</span>
+<span class="linenos">39</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productSummaryModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productSummaryViewModel</span><span class="p">)</span>
+<span class="linenos">40</span>
+<span class="linenos">41</span>    <span class="c1"># creates EventlogService object and sets itself as rootContext</span>
+<span class="linenos">42</span>    <span class="n">eventlogService</span> <span class="o">=</span> <span class="n">EventlogService</span><span class="p">()</span>
+<span class="linenos">43</span>    <span class="n">inventoryController</span><span class="o">.</span><span class="n">eventlogService</span> <span class="o">=</span> <span class="n">eventlogService</span>
+<span class="linenos">44</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;eventLogController&quot;</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">)</span>
+<span class="linenos">45</span>
+<span class="linenos">46</span>    <span class="c1"># creates CommissionController object and sets itself as rootContext</span>
+<span class="linenos">47</span>    <span class="n">commissionController</span> <span class="o">=</span>  <span class="n">CommissionController</span><span class="p">()</span>
+<span class="linenos">48</span>    <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">autoAcceptChildRows</span><span class="p">()</span>
+<span class="linenos">49</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;commissionController&quot;</span><span class="p">,</span> <span class="n">commissionController</span><span class="p">)</span>
+<span class="linenos">50</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;commissionModel&#39;</span><span class="p">,</span> <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="p">)</span>
+<span class="linenos">51</span>    <span class="c1">#engine.rootContext().setContextProperty(&#39;commissionModel&#39;, commissionController.commissionViewModel)</span>
 <span class="linenos">52</span>
-<span class="linenos">53</span>    <span class="c1">#creates preferenceController object and sets itself as rootContext</span>
+<span class="linenos">53</span>    <span class="c1"># creates preferenceController object and sets itself as rootContext</span>
 <span class="linenos">54</span>    <span class="n">preferenceController</span> <span class="o">=</span> <span class="n">PreferenceController</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">)</span>
 <span class="linenos">55</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;preferenceController&quot;</span><span class="p">,</span> <span class="n">preferenceController</span><span class="p">)</span>
 <span class="linenos">56</span>
-<span class="linenos">57</span>
-<span class="linenos">58</span>    <span class="c1"># define load main.qml file to start application</span>
-<span class="linenos">59</span>    <span class="n">qml_file</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;view&quot;</span> <span class="o">/</span> <span class="s2">&quot;main.qml&quot;</span><span class="p">)</span>
-<span class="linenos">60</span>    <span class="n">engine</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">qml_file</span><span class="p">)</span>
+<span class="linenos">57</span>    <span class="c1"># creates Controller and models for RFID Server Plugin</span>
+<span class="linenos">58</span>    <span class="n">rfidController</span> <span class="o">=</span> <span class="n">RfidController</span><span class="p">()</span>
+<span class="linenos">59</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;rfidController&quot;</span><span class="p">,</span> <span class="n">rfidController</span><span class="p">)</span>
+<span class="linenos">60</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;rfidModel&quot;</span><span class="p">,</span> <span class="n">rfidController</span><span class="o">.</span><span class="n">rfidProxyViewModel</span><span class="p">)</span>
 <span class="linenos">61</span>
-<span class="linenos">62</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">engine</span><span class="o">.</span><span class="n">rootObjects</span><span class="p">():</span>
-<span class="linenos">63</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="linenos">64</span>
-<span class="linenos">65</span>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">())</span>
-<span class="linenos">66</span>
-<span class="linenos">67</span>
+<span class="linenos">62</span>    <span class="c1"># define load main.qml file to start application</span>
+<span class="linenos">63</span>    <span class="n">qml_file</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;view&quot;</span> <span class="o">/</span> <span class="s2">&quot;main.qml&quot;</span><span class="p">)</span>
+<span class="linenos">64</span>    <span class="n">engine</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">qml_file</span><span class="p">)</span>
+<span class="linenos">65</span>
+<span class="linenos">66</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">engine</span><span class="o">.</span><span class="n">rootObjects</span><span class="p">():</span>
+<span class="linenos">67</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">68</span>
+<span class="linenos">69</span>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">())</span>
+<span class="linenos">70</span>
+<span class="linenos">71</span>
 </pre></div>
 </div>
 </section>
@@ -1347,7 +1351,7 @@ Creates a dictionary with rolenames and roles.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.rowCount">
-<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x10fd928c0&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x10b3744c0&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns number of rows at index
 :param parent:
 :type: QModelIndex
