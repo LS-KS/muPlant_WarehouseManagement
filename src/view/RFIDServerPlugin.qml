@@ -47,6 +47,15 @@ Window {
             model: rfidModel
             delegate: RfidDelegate{
                 width: parent.width
+                tagTextA: model.tagId
+                tagTextB: model.productID
+                tagTextC: model.cupSize
+                nameText: model.name
+                readerIpAdress: model.ipAddr
+                readerPort: model.ipPort
+                endpointIpAdress: model.endPointipAddr
+                endpointPort: model.endPointipPort
+                endpointModbusAddress: model.endPointModbus
             }
         }
     }
@@ -57,15 +66,15 @@ Window {
         width: parent.width *2/6
         height: 50
         Button{
-            text: "Select All"
-            onClicked: {
-                console.log("Select All")
-            }
+            text: "Select All - not implemented"
         }
         Button{
             text: "Select None"
             onClicked: {
-                console.log("Select None")
+                console.log("Select None - not implemented")
+                for (var i = 0 ; i < listView.model.count; i++){
+                    listView.model.get(i).isSelected.checked = false;
+                }
             }
         }
     }

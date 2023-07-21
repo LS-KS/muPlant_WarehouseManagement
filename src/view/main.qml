@@ -74,9 +74,13 @@ Window {
             Action { 
                 text: qsTr("&RFID &Server") 
                 onTriggered: {
+                    console.log("Start RFID-Server...")
                     var rfidServerComponent = Qt.createComponent("RFIDServerPlugin.qml");
                     if (rfidServerComponent.status === Component.Ready){
                         rfidServerComponent.createObject();
+                    }
+                    if(rfidServerComponent.status == Component.Error){
+                        console.log("Error while loading RFID-Server-Plugin: "+ rfidServerComponent.errorString())
                     }
                 }
             }

@@ -1,18 +1,27 @@
 import QtQuick 2.9
+import QtQuick 2.15
 import QtQuick.Controls 2.5
-import QtQuick.Controls.Material
+import QtQuick.Controls.Material 2.15
 import QtQuick.Layouts 1.3
 
 
 Rectangle {
     id: root
     width: 400
-    height: 350
+    height: infoLabel.height + entries.height +20
     color: "white"
     property string tagTextA: "0"
     property string tagTextB: "0"
     property string tagTextC: "0"
+    property string readerIpAdress: ""
+    property string readerPort: ""
+    property string endpointIpAdress: ""
+    property string endpointPort:""
+    property string endpointModbusAddress: ""
+    property string nameText: ""
+    property var prefHeight : infoLabel.height + entries.height +20
     property bool minimized: false
+    property bool locked: false
     border.color: "black"
     border.width: 1
     radius: 5
@@ -27,13 +36,13 @@ Rectangle {
         Image {
             id: arrow
             source: minimized === true ? "../assets/angle-small-down.png" : "../assets/angle-small-up.png"
-            height: 15
+            Layout.preferredHeight : 15
             fillMode: Image.PreserveAspectFit
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
                     minimized = minimized ? false : true
-                    root.height = minimized?  50 : 400
+                    root.height = minimized?  50 : prefHeight
                     entries.visible = entries.visible ? false: true
                 }
             }
@@ -62,8 +71,19 @@ Rectangle {
             id: endpointText
             property bool reader: false
             text: "Endpoint: " + reader 
-
         }
+        Image{
+            id: lock
+            source: locked === true ? "../assets/Lock_closed.svg" : "../assets/Lock_open.svg"
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    locked = locked ? false : true
+                }
+            }
+            Layout.preferredHeight : 0.4*70
+            Layout.preferredWidth : 0.4*50
+        }        
     }
     ColumnLayout{
         id: entries
@@ -81,9 +101,14 @@ Rectangle {
 
             }
             TextField{
-                id: nameText
+                id: nameTextField
                 width: parent.width - 120
                 height:  30
+                text: nameText
+                onTextChanged: {
+                    name.text = nameTextField.text
+                }
+                enabled: !locked
             }
             Layout.fillWidth: true
             clip: true
@@ -100,10 +125,19 @@ Rectangle {
                 height:  30
             }
             TextField{
-                id: readerIpAdress
-                text: ""
+                id: readerIpAdressField
+                text: readerIpAdress
                 width: parent.width - 120
                 height:  30
+                validator: RegularExpressionValidator {
+                    regularExpression: /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
+                    // /^means string must start at the beginning
+                    // {1,3} means 1 to 3 digits
+                    // \. means a dot, [0-9] means a digit
+                    // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
+                    // followed by 1 to 3 digits
+                }
+                enabled: !locked
             }
             Layout.fillWidth: true
             clip: true
@@ -115,10 +149,11 @@ Rectangle {
                 height:  30
             }
             TextField{
-                id: readerPort
-                text: ""
+                id: readerPortField
+                text: readerPort
                 width: parent.width - 120
                 height:  30
+                enabled: !locked
             }
             Layout.fillWidth: true
             clip: true
@@ -135,10 +170,19 @@ Rectangle {
                 height:  30
             }
             TextField{
-                id: endpointIpAdress
-                text: ""
+                id: endpointIpAdressField
+                text: endpointIpAdress
                 width: parent.width - 120
                 height:  30
+                validator: RegularExpressionValidator {
+                    regularExpression: /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
+                    // /^means string must start at the beginning
+                    // {1,3} means 1 to 3 digits
+                    // \. means a dot, [0-9] means a digit
+                    // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
+                    // followed by 1 to 3 digits
+                }
+                enabled: !locked
             }
             Layout.fillWidth: true
             clip: true
@@ -150,10 +194,11 @@ Rectangle {
                 height:  30
             }
             TextField{
-                id: endpointPort
-                text: ""
+                id: endpointPortField
+                text: endpointPort
                 width: parent.width - 120
                 height:  30
+                enabled: !locked
             }
             Layout.fillWidth: true
             clip: true
@@ -166,10 +211,19 @@ Rectangle {
 
             }
             TextField{
-                id: endpointModbusAddress
-                text: ""
+                id: endpointModbusAddressField
+                text: endpointModbusAddress
                 width: parent.width - 120
                 height:  30
+                validator: RegularExpressionValidator {
+                    regularExpression: /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
+                    // /^means string must start at the beginning
+                    // {1,3} means 1 to 3 digits
+                    // \. means a dot, [0-9] means a digit
+                    // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
+                    // followed by 1 to 3 digits
+                }
+                enabled: !locked
             }
             Layout.fillWidth: true
             clip: true

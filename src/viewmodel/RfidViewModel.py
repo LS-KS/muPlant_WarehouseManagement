@@ -55,10 +55,11 @@ class RfidViewModel(QtCore.QAbstractListModel):
         :type role: int
         :return: returns data from viewmodel at given index and role
         """
-        if index < 0 or index >= self.rowCount():
-            return None
+        
+        if not index.isValid or index.row() >= self.rowCount():
+            return "IndexError"
         else:
-            rfidData = self.rfidData[index]
+            rfidData = self.rfidData[index.row()]
             if role == Qt.UserRole + 1:
                 return rfidData.name
             if role == Qt.UserRole + 2:
@@ -85,8 +86,65 @@ class RfidViewModel(QtCore.QAbstractListModel):
                 return rfidData.productID
             if role == Qt.UserRole + 13:
                 return rfidData.cupSize
-            return None
-                
+            return "RoleError"
+        
+    def setData(self, index: QModelIndex, value: Any, role: int) -> bool:
+        """
+
+        Writes data to an index and returns true if success
+
+        :param index: Index at which data shall be changed
+        :type index: QModelIndex
+        :param value: New value to be written at index
+        :type value: int for any ID, string for products names and bool for pallet existance
+        :param role: Rolename to be written to
+        :return: returns False if writing was not successful. Otherwise, it returns the old value.
+
+        """
+        if index.row() >= self.rowCount() and not index.isvalid():
+            return False
+        if role == Qt.UserRole + 1:
+            self.rfidData[index.row()].name = value
+            return True
+        if role == Qt.UserRole + 2:
+            self.rfidData[index.row()].id = value
+            return True
+        if role == Qt.UserRole + 3:
+            self.rfidData[index.row()].workingState = value
+            return True
+        if role == Qt.UserRole + 4:
+            self.rfidData[index.row()].ipAddr = value
+            return True
+        if role == Qt.UserRole + 5:
+            self.rfidData[index.row()].ipPort = value
+            return True
+        if role == Qt.UserRole + 6:
+            self.rfidData[index.row()].rfidStatus = value
+            return True
+        if role == Qt.UserRole + 7:
+            self.rfidData[index.row()].endPointipAddr = value
+            return True
+        if role == Qt.UserRole + 8:
+            self.rfidData[index.row()].endPointipPort = value
+            return True
+        if role == Qt.UserRole + 9:
+            self.rfidData[index.row()].endPointModbus = value
+            return True
+        if role == Qt.UserRole + 10:
+            self.rfidData[index.row()].endPointStatus = value
+            return True
+        if role == Qt.UserRole + 11:
+            self.rfidData[index.row()].tagId = value
+            return True
+        if role == Qt.UserRole + 12:
+            self.rfidData[index.row()].productID = value
+            return True
+        if role == Qt.UserRole + 13:
+            self.rfidData[index.row()].cupSize = value
+            return True
+        return False
+
+
 
         
     
