@@ -23,8 +23,10 @@ class RfidController(QObject):
         
         """
 
-        for element in self.rfidViewmodel.rfidData:
+        for element in self.rfidViewModel.rfidData:
             element.selected = True
+            self.rfidViewModel.revert()
+        self.rfidViewModel.dataChanged.emit(self.rfidViewModel.index(0,0), self.rfidViewModel.index(self.rfidViewModel.rowCount(), 0))
     @Slot()
     def selectNone(self):
         """
@@ -32,7 +34,7 @@ class RfidController(QObject):
         :returns: None
         
         """
-        for element in self.rfidViewmodel.rfidData:
+        for element in self.rfidViewModel.rfidData:
             element.selected = False
 
     @Slot(int)
@@ -47,7 +49,7 @@ class RfidController(QObject):
                 return
 
     @Slot()
-    def startAll(self):
+    def startSelected(self):
         """
         starts all RFID-Nodes.
         :returns: None
@@ -56,9 +58,18 @@ class RfidController(QObject):
         print("not implemented yet")
 
     @Slot()
-    def stopAll(self):
+    def stopSelected(self):
         """
         stops all RFID-Nodes.
+        :returns: None
+        
+        """
+        print("not implemented yet")
+
+    @Slot()
+    def removeSelected(self):
+        """
+        removes all selected RFID-Nodes.
         :returns: None
         
         """

@@ -15,11 +15,11 @@ Rectangle {
         tagText.text = "Taginfo: " + tagTextA + " . " + tagTextB + " . " + tagTextC
     }
     property string tagTextB: "0"
-    onTagTextAChanged: {
+    onTagTextBChanged: {
         tagText.text = "Taginfo: " + tagTextA + " . " + tagTextB + " . " + tagTextC
     }
     property string tagTextC: "0"
-    onTagTextAChanged: {
+    onTagTextCChanged: {
         tagText.text = "Taginfo: " + tagTextA + " . " + tagTextB + " . " + tagTextC
     }
     property string readerIpAdress: ""
@@ -47,9 +47,6 @@ Rectangle {
         nameTextField.text = nameText
     }
     property bool selected: false
-    onSelectedChanged: {
-        isSelected.checked = selected
-    }
     property var prefHeight : infoLabel.height + entries.height +20
     property bool minimized: false
     property bool locked: false
@@ -86,20 +83,21 @@ Rectangle {
         CheckBox{
             id: isSelected
             text: "selected"
+            checked: selected
         }
         Text{
             id: tagText
-            text: "Taginfo: " + tagTextA + " . " + tagTextB + " . " + tagTextC
+            text: "Taginfo: " + 0 + " . " + 0 + " . " + 0
         }
         Text{
             id: readerText
             property bool reader: false
-            text: "Reader: " + reader 
+            text: "Reader: " + 0 
         }
         Text{
             id: endpointText
             property bool reader: false
-            text: "Endpoint: " + reader 
+            text: "Endpoint: " + 0 
         }
         Image{
             id: lock
@@ -133,7 +131,7 @@ Rectangle {
                 id: nameTextField
                 width: parent.width - 120
                 height:  30
-                text: nameText
+                text: ""
                 onTextChanged: {
                     name.text = nameTextField.text
                 }
@@ -155,7 +153,7 @@ Rectangle {
             }
             TextField{
                 id: readerIpAdressField
-                text: readerIpAdress
+                text: "0.0.0.0"
                 width: parent.width - 120
                 height:  30
                 validator: RegularExpressionValidator {
@@ -179,7 +177,7 @@ Rectangle {
             }
             TextField{
                 id: readerPortField
-                text: readerPort
+                text: "0"
                 width: parent.width - 120
                 height:  30
                 enabled: !locked
@@ -200,7 +198,7 @@ Rectangle {
             }
             TextField{
                 id: endpointIpAdressField
-                text: endpointIpAdress
+                text: "0.0.0.0"
                 width: parent.width - 120
                 height:  30
                 validator: RegularExpressionValidator {
@@ -224,7 +222,7 @@ Rectangle {
             }
             TextField{
                 id: endpointPortField
-                text: endpointPort
+                text: "0"
                 width: parent.width - 120
                 height:  30
                 enabled: !locked
@@ -241,7 +239,7 @@ Rectangle {
             }
             TextField{
                 id: endpointModbusAddressField
-                text: endpointModbusAddress
+                text: "0.0.0.0"
                 width: parent.width - 120
                 height:  30
                 validator: RegularExpressionValidator {

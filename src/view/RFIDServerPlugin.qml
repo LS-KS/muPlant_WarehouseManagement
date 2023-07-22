@@ -28,7 +28,7 @@ Window {
         Button{
             text: "Add New"
             onClicked: {
-                console.log("Start")
+                console.log("Add New - Not implemented yet")
             }
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
@@ -46,7 +46,7 @@ Window {
             anchors.fill: parent
             model: rfidModel
             delegate: RfidDelegate{
-                Layout.preferredWidth: contentRect.implicitWidth
+                width: contentRect.width
                 selected: model.selected
                 tagTextA: model.tagId
                 tagTextB: model.productID
@@ -57,6 +57,14 @@ Window {
                 endpointIpAdress: model.endPointipAddr
                 endpointPort: model.endPointipPort
                 endpointModbusAddress: model.endPointModbus
+                locked: true
+            }
+            Connections{
+                target: listView.model
+                function onDataChanged(index, index){
+                    listView.forceLayout()
+                    console.log("Data Changed")
+                }
             }
         }
     }
@@ -67,13 +75,16 @@ Window {
         width: parent.width *2/6
         height: 50
         Button{
-            text: "Select All - not implemented"
+            text: "Select All"
             onClicked:{
                 rfidController.selectAll()
             }
         }
         Button{
-            text: "Select None - not implemented"
+            text: "Select None"
+            onClicked:{
+                rfidController.selectNone()
+            }
         }
     }
     RowLayout{
@@ -85,20 +96,19 @@ Window {
         Button{
             text: "Remove Selected"
             onClicked: {
-                console.log("Remove Selected - not implemented")
+                rfidController.removeSelected()
             }
         }
         Button{
             text: "Start Selected"
             onClicked: {
-                console.log("Start Selected - not implemented")
-                
+                rfidController.startSelected()
             }
         }
         Button{
             text: "Stop Selected"
             onClicked: {
-                console.log("Stop Selected - not implemented")
+                rfidController.stopSelected()
             }
         }
     }
