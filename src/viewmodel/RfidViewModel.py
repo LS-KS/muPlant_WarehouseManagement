@@ -40,7 +40,8 @@ class RfidViewModel(QtCore.QAbstractListModel):
             Qt.UserRole + 10: b'endPointStatus',
             Qt.UserRole + 11: b'tagId',
             Qt.UserRole + 12: b'productID',
-            Qt.UserRole + 13: b'cupSize'
+            Qt.UserRole + 13: b'cupSize',
+            Qt.UserRole + 14: b'selected'
         }
         return roles
             
@@ -86,6 +87,8 @@ class RfidViewModel(QtCore.QAbstractListModel):
                 return rfidData.productID
             if role == Qt.UserRole + 13:
                 return rfidData.cupSize
+            if role == Qt.UserRole + 14:
+                return rfidData.selected
             return "RoleError"
         
     def setData(self, index: QModelIndex, value: Any, role: int) -> bool:
@@ -141,6 +144,9 @@ class RfidViewModel(QtCore.QAbstractListModel):
             return True
         if role == Qt.UserRole + 13:
             self.rfidData[index.row()].cupSize = value
+            return True
+        if role == Qt.UserRole + 14:
+            self.rfidData[index.row()].selected = value
             return True
         return False
 

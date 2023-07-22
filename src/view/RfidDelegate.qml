@@ -11,14 +11,45 @@ Rectangle {
     height: infoLabel.height + entries.height +20
     color: "white"
     property string tagTextA: "0"
+    onTagTextAChanged: {
+        tagText.text = "Taginfo: " + tagTextA + " . " + tagTextB + " . " + tagTextC
+    }
     property string tagTextB: "0"
+    onTagTextAChanged: {
+        tagText.text = "Taginfo: " + tagTextA + " . " + tagTextB + " . " + tagTextC
+    }
     property string tagTextC: "0"
+    onTagTextAChanged: {
+        tagText.text = "Taginfo: " + tagTextA + " . " + tagTextB + " . " + tagTextC
+    }
     property string readerIpAdress: ""
+    onReaderIpAdressChanged: {
+        readerIpAdressField.text = readerIpAdress
+    }
     property string readerPort: ""
+    onReaderPortChanged: {
+        readerPortField.text = readerPort
+    }
     property string endpointIpAdress: ""
+    onEndpointIpAdressChanged: {
+        endpointIpAdressField.text = endpointIpAdress
+    }
     property string endpointPort:""
+    onEndpointPortChanged: {
+        endpointPortField.text = endpointPort
+    }
     property string endpointModbusAddress: ""
+    onEndpointModbusAddressChanged: {
+        endpointModbusAddressField.text = endpointModbusAddress
+    }
     property string nameText: ""
+    onNameTextChanged: {
+        nameTextField.text = nameText
+    }
+    property bool selected: false
+    onSelectedChanged: {
+        isSelected.checked = selected
+    }
     property var prefHeight : infoLabel.height + entries.height +20
     property bool minimized: false
     property bool locked: false
@@ -57,9 +88,7 @@ Rectangle {
             text: "selected"
         }
         Text{
-            property int textA: 0
-            property int textB: 0
-            property int textC: 0
+            id: tagText
             text: "Taginfo: " + tagTextA + " . " + tagTextB + " . " + tagTextC
         }
         Text{

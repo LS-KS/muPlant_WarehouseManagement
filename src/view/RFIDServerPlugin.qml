@@ -46,7 +46,8 @@ Window {
             anchors.fill: parent
             model: rfidModel
             delegate: RfidDelegate{
-                width: parent.width
+                Layout.preferredWidth: contentRect.implicitWidth
+                selected: model.selected
                 tagTextA: model.tagId
                 tagTextB: model.productID
                 tagTextC: model.cupSize
@@ -67,15 +68,12 @@ Window {
         height: 50
         Button{
             text: "Select All - not implemented"
+            onClicked:{
+                rfidController.selectAll()
+            }
         }
         Button{
-            text: "Select None"
-            onClicked: {
-                console.log("Select None - not implemented")
-                for (var i = 0 ; i < listView.model.count; i++){
-                    listView.model.get(i).isSelected.checked = false;
-                }
-            }
+            text: "Select None - not implemented"
         }
     }
     RowLayout{
@@ -87,19 +85,20 @@ Window {
         Button{
             text: "Remove Selected"
             onClicked: {
-                console.log("Remove Selected")
+                console.log("Remove Selected - not implemented")
             }
         }
         Button{
             text: "Start Selected"
             onClicked: {
-                console.log("Start Selected")
+                console.log("Start Selected - not implemented")
+                
             }
         }
         Button{
             text: "Stop Selected"
             onClicked: {
-                console.log("Stop Selected")
+                console.log("Stop Selected - not implemented")
             }
         }
     }

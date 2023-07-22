@@ -23,3 +23,5 @@ class RfidModel(QObject):
         self.tagId : int = 0
         self.productID : int = 0
         self.cupSize : int = 0
+
+        self.selected : bool = False
