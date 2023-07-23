@@ -34,6 +34,7 @@ class RfidViewModel(QtCore.QAbstractListModel):
         for i, field in enumerate(fields(RfidModel)):
             d[Qt.DisplayRole + i] = field.name.encode()
         return d
+    
             
     
     def data(self, index: QModelIndex, role: int = Qt.DisplayRole) -> typing.Any:
@@ -50,6 +51,7 @@ class RfidViewModel(QtCore.QAbstractListModel):
         if 0 <= index.row() < self.rowCount():
             node = self.rfidData[index.row()]
             field = self.roleNames().get(role)
+            print("field: "+ str(field), "role: " + str(role))
             if field:
                 return getattr(node, field.decode())
 
@@ -67,63 +69,64 @@ class RfidViewModel(QtCore.QAbstractListModel):
         :return: returns False if writing was not successful. Otherwise, it returns the old value.
 
         """
+        role = Qt.UserRole + role
         if index.row() >= self.rowCount() and not index.isvalid():
             return False
-        if role == Qt.UserRole + 1:
+        if role == Qt.UserRole:
             self.rfidData[index.row()].name = value
-            self.dataChanged.emit(index, index, [role])
+            self.dataChanged.emit(index, index)
+            return True
+        if role == Qt.UserRole + 1:
+            self.rfidData[index.row()].idVal = value
+            self.dataChanged.emit(index, index)
             return True
         if role == Qt.UserRole + 2:
-            self.rfidData[index.row()].id = value
-            self.dataChanged.emit(index, index, [role])
+            self.rfidData[index.row()].workingState = value
+            self.dataChanged.emit(index, index)
             return True
         if role == Qt.UserRole + 3:
-            self.rfidData[index.row()].workingState = value
-            self.dataChanged.emit(index, index, [role])
+            self.rfidData[index.row()].ipAddr = value
+            self.dataChanged.emit(index, index)
             return True
         if role == Qt.UserRole + 4:
-            self.rfidData[index.row()].ipAddr = value
-            self.dataChanged.emit(index, index, [role])
+            self.rfidData[index.row()].ipPort = value
+            self.dataChanged.emit(index, index)
             return True
         if role == Qt.UserRole + 5:
-            self.rfidData[index.row()].ipPort = value
-            self.dataChanged.emit(index, index, [role])
+            self.rfidData[index.row()].rfidStatus = value
+            self.dataChanged.emit(index, index)
             return True
         if role == Qt.UserRole + 6:
-            self.rfidData[index.row()].rfidStatus = value
-            self.dataChanged.emit(index, index, [role])
+            self.rfidData[index.row()].endPointipAddr = value
+            self.dataChanged.emit(index, index)
             return True
         if role == Qt.UserRole + 7:
-            self.rfidData[index.row()].endPointipAddr = value
-            self.dataChanged.emit(index, index, [role])
+            self.rfidData[index.row()].endPointipPort = value
+            self.dataChanged.emit(index, index)
             return True
         if role == Qt.UserRole + 8:
-            self.rfidData[index.row()].endPointipPort = value
-            self.dataChanged.emit(index, index, [role])
+            self.rfidData[index.row()].endPointModbus = value
+            self.dataChanged.emit(index, index)
             return True
         if role == Qt.UserRole + 9:
-            self.rfidData[index.row()].endPointModbus = value
-            self.dataChanged.emit(index, index, [role])
+            self.rfidData[index.row()].endPointStatus = value
+            self.dataChanged.emit(index, index)
             return True
         if role == Qt.UserRole + 10:
-            self.rfidData[index.row()].endPointStatus = value
-            self.dataChanged.emit(index, index, [role])
+            self.rfidData[index.row()].tagId = value
+            self.dataChanged.emit(index, index)
             return True
         if role == Qt.UserRole + 11:
-            self.rfidData[index.row()].tagId = value
-            self.dataChanged.emit(index, index, [role])
+            self.rfidData[index.row()].productID = value
+            self.dataChanged.emit(index, index)
             return True
         if role == Qt.UserRole + 12:
-            self.rfidData[index.row()].productID = value
-            self.dataChanged.emit(index, index, [role])
+            self.rfidData[index.row()].cupSize = value
+            self.dataChanged.emit(index, index)
             return True
         if role == Qt.UserRole + 13:
-            self.rfidData[index.row()].cupSize = value
-            self.dataChanged.emit(index, index, [role])
-            return True
-        if role == Qt.UserRole + 14:
             self.rfidData[index.row()].selected = value
-            self.dataChanged.emit(index, index, [role])
+            self.dataChanged.emit(index, index)
             return True
         return False
 

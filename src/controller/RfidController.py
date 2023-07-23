@@ -4,6 +4,7 @@ from src.viewmodel.RfidViewModel import RfidViewModel, RfidProxyViewModel
 from src.constants.Constants import Constants
 from PySide6.QtCore import QObject, Signal, Slot, Qt
 from yaml import safe_load, safe_dump
+from dataclasses import fields
 
 class RfidController(QObject):
 
@@ -18,35 +19,58 @@ class RfidController(QObject):
     @Slot()
     def selectAll(self):
         """
-        marks all RFID-Nodes as selected.
-        :returns: None
-        
+        Marks all RFID-Nodes as selected.
         """
-        rows = self.rfidViewModel.rowCount()
-        for i in range(rows):
-            oldValue = self.rfidViewModel.data(self.rfidViewModel.index(i), Qt.UserRole + 14)
-            self.rfidViewModel.setData(self.rfidViewModel.index(i), True, Qt.UserRole + 14)
-            newValue = self.rfidViewModel.data(self.rfidViewModel.index(i), Qt.UserRole + 14)
-            print(f"Data changed from {oldValue} to {newValue} in index {i}")
+        nodes = [node.idVal for node in self.rfidViewModel.rfidData]
+        for node in nodes:
+            self.selectNode(node, True)
+
+
     @Slot()
     def selectNone(self):
         """
-        marks all RFID-Nodes as unselected.
-        :returns: None
-        
+        Marks all RFID-Nodes as selected.
         """
-        for element in self.rfidViewModel.rfidData:
-            element.selected = False
+        nodes = [node.idVal for node in self.rfidViewModel.rfidData]
+        [print(node) for node in nodes]
+        for node in nodes:
+            self.selectNode(node, False)
 
-    @Slot(int)
-    def select(self, id: int):
+    @Slot(int, bool)
+    def selectNode(self, id: int, selected: bool):
         """
         marks RFID-Node with id as selected.
         :returns: None
         """
-        for element in RfidViewModel.rfidData:
-            if element.id == id:
-                element.selected = True
+        rows = self.rfidViewModel.rowCount()
+        for i in range(rows):
+            print("i: " + str(i))
+            node = self.rfidViewModel.rfidData[i]
+            if node.idVal == id:
+                oldVal = node.selected
+                index = self.rfidViewModel.index(i, 0)
+                self.rfidViewModel.setData(index, selected, 13)
+                newVal = node.selected
+                print(f"Data changed from {oldVal} to {newVal} in index {index.row()}")
+            
+    @Slot(int,str, str, str, str, str, str)        
+    def saveNodeChanges(self, idVal, name, readerIp, readerPort, endpointIp, endpointPort, endpointModbus):
+        """
+        saves changes made to RFID-Nodes.
+        :returns: None
+        
+        """
+        nodes = [node.idVal for node in self.rfidViewModel.rfidData]
+        for i, node in enumerate(self.rfidViewModel.rfidData):
+            if node.idVal == idVal:
+                index = self.rfidViewModel.index(i, 0)
+                self.rfidViewModel.setData(index, name, 0)
+                self.rfidViewModel.setData(index, readerIp, 3)
+                self.rfidViewModel.setData(index, readerPort, 4)
+                self.rfidViewModel.setData(index, endpointIp, 6)
+                self.rfidViewModel.setData(index, endpointPort, 7)
+                self.rfidViewModel.setData(index, endpointModbus, 8)
+                self._dumpRfidNodes()
                 return
 
     @Slot()
@@ -79,32 +103,16 @@ class RfidController(QObject):
     def _loadRfidNodes(self):
         """
         Loads all RFID-Nodes from file RfidData.yaml and overwrites data in rfidViewModel.
+        List comprehension syntax is used in heavily shortened syntax to parse data into RfidModel.
+        This is possible through the dataclass decorator and YAML's safe_load function.
         :returns: None
         """
-
         with open(self.constants.RFID_DATA, 'r') as file:
             records = safe_load(file)
-            rfidData = []
             if records is None:
                 print("No RFID-Data found")
                 return
-            for record in records:
-                rfidModel = RfidModel(
-                    name= record['name'],
-                    id= record['id'],
-                    workingState= record['workingState'],
-                    ipAddr= record['ipAddr'],
-                    ipPort= record['ipPort'],
-                    rfidStatus= record['rfidStatus'],
-                    endPointipAddr= record['endPointipAddr'],
-                    endPointipPort= record['endPointipPort'],
-                    endPointModbus= record['endPointModbus'],
-                    endPointStatus= record['endPointStatus'],
-                    tagId= record['tagId'],
-                    productID= record['productID'],
-                    cupSize= record['cupSize']
-                )
-                rfidData.append(rfidModel)
+            rfidData = [RfidModel(**record) for record in records]
             self.rfidViewModel.rfidData = rfidData
 
     def _dumpRfidNodes(self):
@@ -113,5 +121,6 @@ class RfidController(QObject):
         :returns: None
         """
         with open(self.constants.RFID_DATA, 'w') as file:
-            safe_dump(self.rfidViewModel.rfidData, file)
+            dict = [record.__dict__ for record in self.rfidViewModel.rfidData]
+            safe_dump(dict, file)
 

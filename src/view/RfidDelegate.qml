@@ -46,6 +46,7 @@ Rectangle {
     onNameTextChanged: {
         nameTextField.text = nameText
     }
+    property int idVal: 0
     property bool selected: false
     property var prefHeight : infoLabel.height + entries.height +20
     property bool minimized: false
@@ -80,10 +81,18 @@ Rectangle {
             text: "Node Name "
             font.bold: true
         }
+        Text{
+            id: idValText
+            text: "(" + idVal + ")"
+        }
         CheckBox{
             id: isSelected
             text: "selected"
             checked: selected
+            onCheckedChanged: {
+                selected = isSelected.checked
+                rfidController.selectNode(idVal, selected)
+            }
         }
         Text{
             id: tagText
@@ -164,6 +173,9 @@ Rectangle {
                     // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
                     // followed by 1 to 3 digits
                 }
+                onEditingFinished: {
+                    saveButton.enabled = true
+                }
                 enabled: !locked
             }
             Layout.fillWidth: true
@@ -181,9 +193,13 @@ Rectangle {
                 width: parent.width - 120
                 height:  30
                 enabled: !locked
+                onEditingFinished: {
+                saveButton.enabled = true
+            }
             }
             Layout.fillWidth: true
             clip: true
+
         }
         Text{
             text: "Tag Endpoint"
@@ -210,6 +226,9 @@ Rectangle {
                     // followed by 1 to 3 digits
                 }
                 enabled: !locked
+                onEditingFinished: {
+                    saveButton.enabled = true
+                }
             }
             Layout.fillWidth: true
             clip: true
@@ -226,6 +245,9 @@ Rectangle {
                 width: parent.width - 120
                 height:  30
                 enabled: !locked
+                onEditingFinished: {
+                    saveButton.enabled = true
+                }
             }
             Layout.fillWidth: true
             clip: true
@@ -251,9 +273,30 @@ Rectangle {
                     // followed by 1 to 3 digits
                 }
                 enabled: !locked
+                onEditingFinished: {
+                    saveButton.enabled = true
+                }
             }
             Layout.fillWidth: true
             clip: true
+        }
+        Button{
+            id: saveButton
+            text: "Save Changes"
+            enabled: false
+            Layout.preferredHeight: 50
+            Layout.preferredWidth: 200
+            onClicked:{
+                rfidController.saveNodeChanges(
+                    idVal,
+                    nameTextField.text, 
+                    readerIpAdressField.text, 
+                    readerPortField.text, 
+                    endpointIpAdressField.text, 
+                    endpointPortField.text, 
+                    endpointModbusAddressField.text
+                )
+            }
         }
         Behavior on visible { PropertyAnimation{ duration: minimized? 10 : 1000; easing.type: Easing.InOutQuad}}
     }

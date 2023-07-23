@@ -77,12 +77,14 @@ Window {
         height: 50
         Button{
             text: "Select All"
+            Layout.preferredWidth: 150
             onClicked:{
-                //rfidController.selectAll()
+                rfidController.selectAll()
             }
         }
         Button{
             text: "Select None"
+            Layout.preferredWidth: 150
             onClicked:{
                 rfidController.selectNone()
             }
@@ -96,18 +98,21 @@ Window {
         height: 50
         Button{
             text: "Remove Selected"
+            Layout.preferredWidth: 150
             onClicked: {
                 rfidController.removeSelected()
             }
         }
         Button{
             text: "Start Selected"
+            Layout.preferredWidth: 150
             onClicked: {
                 rfidController.startSelected()
             }
         }
         Button{
             text: "Stop Selected"
+            Layout.preferredWidth: 150
             onClicked: {
                 rfidController.stopSelected()
             }

@@ -9,7 +9,7 @@ class RfidModel(QObject):
     It represents a record in the RfidViewModel class, which is rendered in the RFID Server plugin.
     """
     name: str = ""
-    id: int = 0
+    idVal: int = 0
     workingState: int = 0
     ipAddr: str = ""
     ipPort: int = 0
