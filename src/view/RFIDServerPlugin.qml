@@ -45,24 +45,21 @@ Window {
             id: listView
             anchors.fill: parent
             model: rfidModel
-            delegate: Text{
-                text: model.name + " " + model.selected
-                Layout.fillWidth: true
+            delegate: RfidDelegate{
+                width: contentRect.width
+                idVal: model.idVal
+                selected: model.selected
+                tagTextA: model.tagId
+                tagTextB: model.productID
+                tagTextC: model.cupSize
+                nameText: model.name
+                readerIpAdress: model.ipAddr
+                readerPort: model.ipPort
+                endpointIpAdress: model.endPointipAddr
+                endpointPort: model.endPointipPort
+                endpointModbusAddress: model.endPointModbus
+                locked: true
             }
-            //delegate: RfidDelegate{
-            //    width: contentRect.width
-            //    selected: model.selected
-            //    tagTextA: model.tagId
-            //    tagTextB: model.productID
-            //    tagTextC: model.cupSize
-            //    nameText: model.name
-            //    readerIpAdress: model.ipAddr
-            //    readerPort: model.ipPort
-            //    endpointIpAdress: model.endPointipAddr
-            //    endpointPort: model.endPointipPort
-            //    endpointModbusAddress: model.endPointModbus
-            //    locked: true
-            //}
             Connections{
                 target: listView.model
                 function onDataChanged(index, index){
@@ -81,7 +78,7 @@ Window {
         Button{
             text: "Select All"
             onClicked:{
-                rfidController.selectAll()
+                //rfidController.selectAll()
             }
         }
         Button{
