@@ -15,7 +15,8 @@ class RfidController(QObject):
         self._loadRfidNodes()
         self.rfidProxyViewModel = RfidProxyViewModel()
         self.rfidProxyViewModel.setSourceModel(self.rfidViewModel)
-    
+        self.rfidViewModel.controller = self
+
     @Slot()
     def selectAll(self):
         """
@@ -32,7 +33,6 @@ class RfidController(QObject):
         Marks all RFID-Nodes as selected.
         """
         nodes = [node.idVal for node in self.rfidViewModel.rfidData]
-        [print(node) for node in nodes]
         for node in nodes:
             self.selectNode(node, False)
 
@@ -124,3 +124,4 @@ class RfidController(QObject):
             dict = [record.__dict__ for record in self.rfidViewModel.rfidData]
             safe_dump(dict, file)
 
+    
