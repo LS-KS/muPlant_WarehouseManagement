@@ -13,14 +13,14 @@
   tagId: 12345
   workingState: 1
 - cupSize: 2
-  endPointModbus: 0
+  endPointModbus: '0'
   endPointStatus: 0
   endPointipAddr: 192.168.0.201
-  endPointipPort: 5679
+  endPointipPort: '5679'
   idVal: 2
   ipAddr: 192.168.0.101
-  ipPort: 1235
-  name: Jane
+  ipPort: '1235'
+  name: Jane's world
   productID: 9876
   rfidStatus: 1
   selected: false
