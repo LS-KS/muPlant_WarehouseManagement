@@ -3,7 +3,7 @@ from dataclasses import dataclass, fields
 import typing
 from PySide6 import QtCore
 from PySide6.QtCore import QModelIndex
-from PySide6.QtCore import Qt, QObject, QByteArray
+from PySide6.QtCore import Qt, QObject, QByteArray, Signal, Slot
 from src.model.RfidModel import RfidModel
 
 
@@ -13,6 +13,7 @@ class RfidViewModel(QtCore.QAbstractListModel):
     def __init__(self, parent: QObject | None = None) -> None:
         super().__init__(parent)
         self.rfidData :RfidModel = []
+        self.controller : RfidController = None
 
     def rowCount(self, parent=QModelIndex()):
         """
@@ -80,6 +81,23 @@ class RfidViewModel(QtCore.QAbstractListModel):
             return True
         print("field not found for role " + str(role))
         return False
+    
+    @Slot()
+    def add(self):
+        row = self.rowCount()
+        self.beginInsertRows(QModelIndex(), row, row)
+        idVal = self._createNewID()
+        self.rfidData.insert(row, RfidModel(idVal=idVal))
+        self.endInsertRows()
+
+    def _createNewID(self)-> int:
+        """
+        Creates the possible lowest integer as ID for a new RFID-Node.
+        :returns: int
+        """
+        ids = [node.idVal for node in self.rfidData]
+        ids.append(0)
+        return min(i for i in range(len(ids)+1) if i not in ids)
 
 
 

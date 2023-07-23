@@ -28,7 +28,7 @@ Window {
         Button{
             text: "Add New"
             onClicked: {
-                console.log("Add New - Not implemented yet")
+                listView.model.add()
             }
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
