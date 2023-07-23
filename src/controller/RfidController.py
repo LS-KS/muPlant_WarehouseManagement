@@ -22,11 +22,12 @@ class RfidController(QObject):
         :returns: None
         
         """
-
-        for element in self.rfidViewModel.rfidData:
-            element.selected = True
-            self.rfidViewModel.revert()
-        self.rfidViewModel.dataChanged.emit(self.rfidViewModel.index(0,0), self.rfidViewModel.index(self.rfidViewModel.rowCount(), 0))
+        rows = self.rfidViewModel.rowCount()
+        for i in range(rows):
+            oldValue = self.rfidViewModel.data(self.rfidViewModel.index(i), Qt.UserRole + 14)
+            self.rfidViewModel.setData(self.rfidViewModel.index(i), True, Qt.UserRole + 14)
+            newValue = self.rfidViewModel.data(self.rfidViewModel.index(i), Qt.UserRole + 14)
+            print(f"Data changed from {oldValue} to {newValue} in index {i}")
     @Slot()
     def selectNone(self):
         """
@@ -88,20 +89,21 @@ class RfidController(QObject):
                 print("No RFID-Data found")
                 return
             for record in records:
-                rfidModel = RfidModel()
-                rfidModel.name = record['name']
-                rfidModel.id = record['id']
-                rfidModel.workingState = record['workingState']
-                rfidModel.ipAddr = record['ipAddr']
-                rfidModel.ipPort = record['ipPort']
-                rfidModel.rfidStatus = record['rfidStatus']
-                rfidModel.endPointipAddr = record['endPointipAddr']
-                rfidModel.endPointipPort = record['endPointipPort']
-                rfidModel.endPointModbus = record['endPointModbus']
-                rfidModel.endPointStatus = record['endPointStatus']
-                rfidModel.tagId = record['tagId']
-                rfidModel.productID = record['productID']
-                rfidModel.cupSize = record['cupSize']
+                rfidModel = RfidModel(
+                    name= record['name'],
+                    id= record['id'],
+                    workingState= record['workingState'],
+                    ipAddr= record['ipAddr'],
+                    ipPort= record['ipPort'],
+                    rfidStatus= record['rfidStatus'],
+                    endPointipAddr= record['endPointipAddr'],
+                    endPointipPort= record['endPointipPort'],
+                    endPointModbus= record['endPointModbus'],
+                    endPointStatus= record['endPointStatus'],
+                    tagId= record['tagId'],
+                    productID= record['productID'],
+                    cupSize= record['cupSize']
+                )
                 rfidData.append(rfidModel)
             self.rfidViewModel.rfidData = rfidData
 
