@@ -1,8 +1,11 @@
 from typing import Any, Dict, Optional, Union
+from dataclasses import dataclass, fields
+import typing
 from PySide6 import QtCore
 from PySide6.QtCore import QModelIndex
-from PySide6.QtCore import Qt, QObject
+from PySide6.QtCore import Qt, QObject, QByteArray, Signal, Slot
 from src.model.RfidModel import RfidModel
+
 
 
 class RfidViewModel(QtCore.QAbstractListModel):
@@ -10,6 +13,7 @@ class RfidViewModel(QtCore.QAbstractListModel):
     def __init__(self, parent: QObject | None = None) -> None:
         super().__init__(parent)
         self.rfidData :RfidModel = []
+        self.controller  = None
 
     def rowCount(self, parent=QModelIndex()):
         """
@@ -21,31 +25,20 @@ class RfidViewModel(QtCore.QAbstractListModel):
 
         """
         return len(self.rfidData)
-    
-    def roleNames(self):
+        
+    def roleNames(self) -> dict[int, QByteArray]:
         """
         Must be implemented.
         :return: returns a dictionary of roles to index in data.
         """
-        roles = {
-            Qt.UserRole + 1: b'name',
-            Qt.UserRole + 2: b'id',
-            Qt.UserRole + 3: b'workingState',
-            Qt.UserRole + 4: b'ipAddr',
-            Qt.UserRole + 5: b'ipPort',
-            Qt.UserRole + 6: b'rfidStatus',
-            Qt.UserRole + 7: b'endPointipAddr',
-            Qt.UserRole + 8: b'endPointipPort',
-            Qt.UserRole + 9: b'endPointModbus',
-            Qt.UserRole + 10: b'endPointStatus',
-            Qt.UserRole + 11: b'tagId',
-            Qt.UserRole + 12: b'productID',
-            Qt.UserRole + 13: b'cupSize'
-        }
-        return roles
+        d = {}
+        for i, field in enumerate(fields(RfidModel)):
+            d[Qt.DisplayRole + i] = field.name.encode()
+        return d
+    
             
     
-    def data(self, index: QModelIndex, role: int):
+    def data(self, index: QModelIndex, role: int = Qt.DisplayRole) -> typing.Any:
         """
         Returns Data from viewmodel.
 
@@ -56,93 +49,55 @@ class RfidViewModel(QtCore.QAbstractListModel):
         :return: returns data from viewmodel at given index and role
         """
         
-        if not index.isValid or index.row() >= self.rowCount():
-            return "IndexError"
-        else:
-            rfidData = self.rfidData[index.row()]
-            if role == Qt.UserRole + 1:
-                return rfidData.name
-            if role == Qt.UserRole + 2:
-                return rfidData.id
-            if role == Qt.UserRole + 3:
-                return rfidData.workingState
-            if role == Qt.UserRole + 4:
-                return rfidData.ipAddr
-            if role == Qt.UserRole + 5:
-                return rfidData.ipPort
-            if role == Qt.UserRole + 6:
-                return rfidData.rfidStatus
-            if role == Qt.UserRole + 7:
-                return rfidData.endPointipAddr
-            if role == Qt.UserRole + 8:
-                return rfidData.endPointipPort
-            if role == Qt.UserRole + 9:
-                return rfidData.endPointModbus
-            if role == Qt.UserRole + 10:
-                return rfidData.endPointStatus
-            if role == Qt.UserRole + 11:
-                return rfidData.tagId
-            if role == Qt.UserRole + 12:
-                return rfidData.productID
-            if role == Qt.UserRole + 13:
-                return rfidData.cupSize
-            return "RoleError"
+        if 0 <= index.row() < self.rowCount():
+            node = self.rfidData[index.row()]
+            field = self.roleNames().get(role)
+            print("field: "+ str(field), "role: " + str(role))
+            if field:
+                return getattr(node, field.decode())
+
         
     def setData(self, index: QModelIndex, value: Any, role: int) -> bool:
         """
-
         Writes data to an index and returns true if success
 
         :param index: Index at which data shall be changed
-        :type index: QModelIndex
-        :param value: New value to be written at index
-        :type value: int for any ID, string for products names and bool for pallet existance
+            :type index: QModelIndex
+            :param value: New value to be written at index
+        :type value: int for any ID, string for products names and bool for pallet existence
         :param role: Rolename to be written to
         :return: returns False if writing was not successful. Otherwise, it returns the old value.
-
         """
-        if index.row() >= self.rowCount() and not index.isvalid():
+        role = Qt. DisplayRole + role
+        if index.row() >= self.rowCount() or not index.isValid():
             return False
-        if role == Qt.UserRole + 1:
-            self.rfidData[index.row()].name = value
+
+        roleNames = self.roleNames()
+        field = roleNames.get(role)
+        # print(str(field))
+        if field:
+            setattr(self.rfidData[index.row()], field.decode(), value)
+            self.dataChanged.emit(index, index, [role])
             return True
-        if role == Qt.UserRole + 2:
-            self.rfidData[index.row()].id = value
-            return True
-        if role == Qt.UserRole + 3:
-            self.rfidData[index.row()].workingState = value
-            return True
-        if role == Qt.UserRole + 4:
-            self.rfidData[index.row()].ipAddr = value
-            return True
-        if role == Qt.UserRole + 5:
-            self.rfidData[index.row()].ipPort = value
-            return True
-        if role == Qt.UserRole + 6:
-            self.rfidData[index.row()].rfidStatus = value
-            return True
-        if role == Qt.UserRole + 7:
-            self.rfidData[index.row()].endPointipAddr = value
-            return True
-        if role == Qt.UserRole + 8:
-            self.rfidData[index.row()].endPointipPort = value
-            return True
-        if role == Qt.UserRole + 9:
-            self.rfidData[index.row()].endPointModbus = value
-            return True
-        if role == Qt.UserRole + 10:
-            self.rfidData[index.row()].endPointStatus = value
-            return True
-        if role == Qt.UserRole + 11:
-            self.rfidData[index.row()].tagId = value
-            return True
-        if role == Qt.UserRole + 12:
-            self.rfidData[index.row()].productID = value
-            return True
-        if role == Qt.UserRole + 13:
-            self.rfidData[index.row()].cupSize = value
-            return True
+        print("field not found for role " + str(role))
         return False
+    
+    @Slot()
+    def add(self):
+        row = self.rowCount()
+        self.beginInsertRows(QModelIndex(), row, row)
+        idVal = self._createNewID()
+        self.rfidData.insert(row, RfidModel(idVal=idVal))
+        self.endInsertRows()
+
+    def _createNewID(self)-> int:
+        """
+        Creates the possible lowest integer as ID for a new RFID-Node.
+        :returns: int
+        """
+        ids = [node.idVal for node in self.rfidData]
+        ids.append(0)
+        return min(i for i in range(len(ids)+1) if i not in ids)
 
 
 

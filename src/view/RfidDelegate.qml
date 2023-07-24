@@ -1,4 +1,3 @@
-import QtQuick 2.9
 import QtQuick 2.15
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Material 2.15
@@ -19,6 +18,13 @@ Rectangle {
     property string endpointPort:""
     property string endpointModbusAddress: ""
     property string nameText: ""
+    property int idVal: 0
+    property bool selected: false
+    onSelectedChanged: {
+        if (isSelected.checked !== selected){
+            isSelected.checked = selected
+        }
+    }
     property var prefHeight : infoLabel.height + entries.height +20
     property bool minimized: false
     property bool locked: false
@@ -52,25 +58,36 @@ Rectangle {
             text: "Node Name "
             font.bold: true
         }
+        Text{
+            id: idValText
+            text: "(" + idVal + ")"
+        }
         CheckBox{
             id: isSelected
             text: "selected"
+            checked: false
+            onCheckedChanged: {
+                if (isSelected.checked !== selected){
+                    rfidController.selectNode(idVal, checked)
+                }
+            }
+            Component.onCompleted: {
+                isSelected.checked = selected
+            }
         }
         Text{
-            property int textA: 0
-            property int textB: 0
-            property int textC: 0
+            id: tagText
             text: "Taginfo: " + tagTextA + " . " + tagTextB + " . " + tagTextC
         }
         Text{
             id: readerText
             property bool reader: false
-            text: "Reader: " + reader 
+            text: "Reader: " + 0 
         }
         Text{
             id: endpointText
             property bool reader: false
-            text: "Endpoint: " + reader 
+            text: "Endpoint: " + 0 
         }
         Image{
             id: lock
@@ -104,7 +121,7 @@ Rectangle {
                 id: nameTextField
                 width: parent.width - 120
                 height:  30
-                text: nameText
+                text: ""
                 onTextChanged: {
                     name.text = nameTextField.text
                 }
@@ -126,7 +143,7 @@ Rectangle {
             }
             TextField{
                 id: readerIpAdressField
-                text: readerIpAdress
+                text: "0.0.0.0"
                 width: parent.width - 120
                 height:  30
                 validator: RegularExpressionValidator {
@@ -136,6 +153,9 @@ Rectangle {
                     // \. means a dot, [0-9] means a digit
                     // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
                     // followed by 1 to 3 digits
+                }
+                onEditingFinished: {
+                    saveButton.enabled = true
                 }
                 enabled: !locked
             }
@@ -150,13 +170,17 @@ Rectangle {
             }
             TextField{
                 id: readerPortField
-                text: readerPort
+                text: "0"
                 width: parent.width - 120
                 height:  30
                 enabled: !locked
+                onEditingFinished: {
+                saveButton.enabled = true
+            }
             }
             Layout.fillWidth: true
             clip: true
+
         }
         Text{
             text: "Tag Endpoint"
@@ -171,7 +195,7 @@ Rectangle {
             }
             TextField{
                 id: endpointIpAdressField
-                text: endpointIpAdress
+                text: "0.0.0.0"
                 width: parent.width - 120
                 height:  30
                 validator: RegularExpressionValidator {
@@ -183,6 +207,9 @@ Rectangle {
                     // followed by 1 to 3 digits
                 }
                 enabled: !locked
+                onEditingFinished: {
+                    saveButton.enabled = true
+                }
             }
             Layout.fillWidth: true
             clip: true
@@ -195,10 +222,13 @@ Rectangle {
             }
             TextField{
                 id: endpointPortField
-                text: endpointPort
+                text: "0"
                 width: parent.width - 120
                 height:  30
                 enabled: !locked
+                onEditingFinished: {
+                    saveButton.enabled = true
+                }
             }
             Layout.fillWidth: true
             clip: true
@@ -212,7 +242,7 @@ Rectangle {
             }
             TextField{
                 id: endpointModbusAddressField
-                text: endpointModbusAddress
+                text: "0.0.0.0"
                 width: parent.width - 120
                 height:  30
                 validator: RegularExpressionValidator {
@@ -224,9 +254,30 @@ Rectangle {
                     // followed by 1 to 3 digits
                 }
                 enabled: !locked
+                onEditingFinished: {
+                    saveButton.enabled = true
+                }
             }
             Layout.fillWidth: true
             clip: true
+        }
+        Button{
+            id: saveButton
+            text: "Save Changes"
+            enabled: false
+            Layout.preferredHeight: 50
+            Layout.preferredWidth: 200
+            onClicked:{
+                rfidController.saveNodeChanges(
+                    idVal,
+                    nameTextField.text, 
+                    readerIpAdressField.text, 
+                    readerPortField.text, 
+                    endpointIpAdressField.text, 
+                    endpointPortField.text, 
+                    endpointModbusAddressField.text
+                )
+            }
         }
         Behavior on visible { PropertyAnimation{ duration: minimized? 10 : 1000; easing.type: Easing.InOutQuad}}
     }

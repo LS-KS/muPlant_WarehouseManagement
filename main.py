@@ -57,7 +57,8 @@ if __name__ == '__main__':
     # creates Controller and models for RFID Server Plugin
     rfidController = RfidController()
     engine.rootContext().setContextProperty("rfidController", rfidController)
-    engine.rootContext().setContextProperty("rfidModel", rfidController.rfidProxyViewModel)
+    engine.rootContext().setContextProperty("rfidModel", rfidController.rfidViewModel)
+    #engine.rootContext().setContextProperty("rfidModel", rfidController.rfidProxyViewModel)
 
     # define load main.qml file to start application
     qml_file =  str(Path(__file__).resolve().parent / "src" / "view" / "main.qml")

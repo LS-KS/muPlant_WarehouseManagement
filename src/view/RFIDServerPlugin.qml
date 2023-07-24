@@ -28,7 +28,7 @@ Window {
         Button{
             text: "Add New"
             onClicked: {
-                console.log("Start")
+                listView.model.add()
             }
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
@@ -45,8 +45,11 @@ Window {
             id: listView
             anchors.fill: parent
             model: rfidModel
+            cacheBuffer: 0
             delegate: RfidDelegate{
-                width: parent.width
+                width: contentRect.width
+                idVal: model.idVal
+                selected: model.selected
                 tagTextA: model.tagId
                 tagTextB: model.productID
                 tagTextC: model.cupSize
@@ -56,6 +59,7 @@ Window {
                 endpointIpAdress: model.endPointipAddr
                 endpointPort: model.endPointipPort
                 endpointModbusAddress: model.endPointModbus
+                locked: true
             }
         }
     }
@@ -66,15 +70,17 @@ Window {
         width: parent.width *2/6
         height: 50
         Button{
-            text: "Select All - not implemented"
+            text: "Select All"
+            Layout.preferredWidth: 150
+            onClicked:{
+                rfidController.selectAll()
+            }
         }
         Button{
             text: "Select None"
-            onClicked: {
-                console.log("Select None - not implemented")
-                for (var i = 0 ; i < listView.model.count; i++){
-                    listView.model.get(i).isSelected.checked = false;
-                }
+            Layout.preferredWidth: 150
+            onClicked:{
+                rfidController.selectNone()
             }
         }
     }
@@ -86,20 +92,23 @@ Window {
         height: 50
         Button{
             text: "Remove Selected"
+            Layout.preferredWidth: 150
             onClicked: {
-                console.log("Remove Selected")
+                rfidController.removeSelected()
             }
         }
         Button{
             text: "Start Selected"
+            Layout.preferredWidth: 150
             onClicked: {
-                console.log("Start Selected")
+                rfidController.startSelected()
             }
         }
         Button{
             text: "Stop Selected"
+            Layout.preferredWidth: 150
             onClicked: {
-                console.log("Stop Selected")
+                rfidController.stopSelected()
             }
         }
     }

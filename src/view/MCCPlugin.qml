@@ -12,6 +12,7 @@ Window {
     width: Screen.width/3
     height: 2*Screen.width/3
     visible: true
+    property bool connected: false
     ScrollView{
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
         ScrollBar.vertical.policy: ScrollBar.AlwaysOn
@@ -20,7 +21,6 @@ Window {
         ColumnLayout{
             id: basicLayout
             Layout.fillWidth: true
-            spacing: 5
             RowLayout{
                 id: header
                 Text{
@@ -36,7 +36,7 @@ Window {
                     id: mccModbusLabel
                     text: "Modbus Connection"
                     font.pixelSize: 15
-                    height: mccModbusStatusRect.height
+                    Layout.preferredHeight: mccModbusStatusRect.height
                     Layout.preferredWidth: 200
                 }
                 Rectangle{
@@ -46,10 +46,8 @@ Window {
                     Layout.preferredWidth: mccModbusStatusText.width + 20
                     Text{
                         id: mccModbusStatusText
-                        property var connected: false
                         text: connected? "Connected" : "Disconnected"
                         font.pixelSize: 15
-                        anchors.centerIn: mccModbusStatusRect
                     }
                 }
                 Layout.fillWidth: true
@@ -66,6 +64,7 @@ Window {
                     text: "Create Commission"
                     font.pixelSize: 15
                     font.bold: true
+
                 }
                 Layout.fillWidth: true
             }
@@ -74,13 +73,13 @@ Window {
                     id: mccObjectLabel
                     text: "transportable Object"
                     font.pixelSize: 15
-                    height: mccCommissionObject.height
+                    Layout.preferredHeight: mccCommissionObject.height
                     Layout.preferredWidth: 200
                 }
                 ComboBox{
                     id: mccCommissionObject
                     Layout.preferredHeight : 50
-                    Layout.preferredWidth: parent.width - 200
+                    Layout.preferredWidth: 200
                     model: ['Cup', 'Pallet']
                 }
                 Layout.fillWidth: true
@@ -90,13 +89,13 @@ Window {
                     id: mccSourceLabel
                     text: "Source"
                     font.pixelSize: 15
-                    height: mccCommissionSource.height
+                    Layout.preferredHeight: mccCommissionSource.height
                     Layout.preferredWidth: 200
                 }
                 ComboBox{
                     id: mccCommissionSource
                     Layout.preferredHeight : 50
-                    Layout.preferredWidth: parent.width - 200
+                    Layout.preferredWidth: 200
                     model: ['Mobile Robot', 'Commission Table', 'Storage']
                 }
                 Layout.fillWidth: true
@@ -106,13 +105,13 @@ Window {
                     id: mccCommissionDetail
                     text: "Detailed Source"
                     font.pixelSize: 15
-                    height: mccCommissionDetailSource.height
+                    Layout.preferredHeight: mccCommissionDetailSource.height
                     Layout.preferredWidth: 200
                 }
                 ComboBox{
                     id: mccCommissionDetailSource
                     Layout.preferredHeight : 50
-                    Layout.preferredWidth: parent.width - 200
+                    Layout.preferredWidth: 200
                     model: {
                         if (mccCommissionSource.currentText === "Mobile Robot"){
                             return ['-']
@@ -132,16 +131,16 @@ Window {
                     id: mccSourceSlotLabel
                     text: "Slot"
                     font.pixelSize: 15
-                    height: mccCommissionSourceSlot.height
+                    Layout.preferredHeight: mccCommissionSourceSlot.height
                     Layout.preferredWidth: 200
                 }
                 ComboBox{
                     id: mccCommissionSourceSlot
                     Layout.preferredHeight : 50
-                    Layout.preferredWidth: parent.width - 200
+                    Layout.preferredWidth: 200
                     model: {
-                        if ( mccCommissionObject.currentValue == 'Cup'){
-                            if (mccCommissionSource.currentValue == 'Mobile Robot'){
+                        if ( mccCommissionObject.currentValue === 'Cup'){
+                            if (mccCommissionSource.currentValue === 'Mobile Robot'){
                                 return ['-']
                             }else{
                                 return ['a', 'b']
@@ -158,13 +157,13 @@ Window {
                     id: mccDestinationLabel
                     text: "Destination"
                     font.pixelSize: 15
-                    height: mccCommissionDestination.height
-                    Layout.preferredWidth: 200 
+                    Layout.preferredHeight: mccCommissionDestination.height
+                    Layout.preferredWidth: 200
                 }
                 ComboBox{
                     id: mccCommissionDestination
                     Layout.preferredHeight : 50
-                    Layout.preferredWidth: parent.width - 200
+                    Layout.preferredWidth: 200
                     model: ['Mobile Robot', 'Commission Table', 'Storage']
                 }
                 Layout.fillWidth: true
@@ -174,13 +173,13 @@ Window {
                     id: mccCommissionDestDetail
                     text: "Detailed Source"
                     font.pixelSize: 15
-                    height: mccCommissionDetailSource.height
+                    Layout.preferredHeight: mccCommissionDetailSource.height
                     Layout.preferredWidth: 200
                 }
                 ComboBox{
                     id: mccCommissionDetailDestination
                     Layout.preferredHeight : 50
-                    Layout.preferredWidth: parent.width - 200
+                    Layout.preferredWidth: 200
                     model: {
                         if (mccCommissionDestination.currentText === "Mobile Robot"){
                             return ['-']
@@ -200,16 +199,16 @@ Window {
                     id: mccDestinationSlotLabel
                     text: "Slot"
                     font.pixelSize: 15
-                    height: mccCommissionSourceSlot.height
+                    Layout.preferredHeight: mccCommissionSourceSlot.height
                     Layout.preferredWidth: 200
                 }
                 ComboBox{
                     id: mccCommissionDestinationSlot
                     Layout.preferredHeight : 50
-                    Layout.preferredWidth: parent.width - 200
+                    Layout.preferredWidth: 200
                     model: {
-                        if ( mccCommissionObject.currentValue == 'Cup'){
-                            if (mccCommissionSource.currentValue == 'Mobile Robot'){
+                        if ( mccCommissionObject.currentValue === 'Cup'){
+                            if (mccCommissionSource.currentValue === 'Mobile Robot'){
                                 return ['-']
                             }else{
                                 return ['a', 'b']
@@ -227,14 +226,14 @@ Window {
                     text: "Check Commission"
                     font.pixelSize: 15
                     Layout.preferredHeight : 50
-                    Layout.preferredWidth: parent.width - 200
+                    Layout.fillWidth: true
                 }
                 Button{
                     id: submitButton
                     text: "Submit Commission"
                     font.pixelSize: 15
                     Layout.preferredHeight : 50
-                    Layout.preferredWidth: parent.width - 200
+                    Layout.fillWidth: true
                     enabled: false
                 }
                 Layout.fillWidth: true
@@ -260,13 +259,13 @@ Window {
                     id: rfidCupLabel
                     text: "Cup-ID"
                     font.pixelSize: 15
-                    height: rfidCup.height
+                    Layout.preferredHeight: rfidCup.height
                     Layout.preferredWidth: 200
                 }
                 TextField{
                     id: rfidCup
                     Layout.preferredHeight : 50
-                    Layout.preferredWidth: parent.width - 200
+                    Layout.preferredWidth: 200
                 }
                 Layout.fillWidth: true
             }
@@ -275,13 +274,13 @@ Window {
                     id: rfidProductLabel
                     text: "Product-ID"
                     font.pixelSize: 15
-                    height: rfidProduct.height
+                    Layout.preferredHeight: rfidProduct.height
                     Layout.preferredWidth: 200
                 }
                 TextField{
                     id: rfidProduct
                     Layout.preferredHeight : 50
-                    Layout.preferredWidth: parent.width - 200
+                    Layout.preferredWidth: 200
                 }
                 Layout.fillWidth: true
             }

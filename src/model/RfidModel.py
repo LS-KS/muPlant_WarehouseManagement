@@ -1,25 +1,28 @@
 from PySide6.QtCore import QObject, Signal
+from PySide6.QtGui import QStandardItemModel, QStandardItem
+from dataclasses import dataclass
 
 
-class RfidModel(QObject):
+
+@dataclass
+class RfidModel(QStandardItem):
     """
     This class is used to store data from RFID-Reader and RFID-Endpoint.
-    It repensents a record in RfidViewModel class which is rendered in RFID Server plugin.
+    It represents a record in the RfidViewModel class, which is rendered in the RFID Server plugin.
     """
-    def __init__(self, parent: QObject | None = None) -> None:
-        super().__init__(parent)
-        self.name : str 
-        self.id : int = 0
-        self.workingState : int = 0
-        self.ipAddr : str = ""
-        self.ipPort : int = 0
-        self.rfidStatus : int = -1
+    name: str = ""
+    idVal: int = 0
+    workingState: int = 0
+    ipAddr: str = ""
+    ipPort: int = 0
+    rfidStatus: int = 0
+    endPointipAddr: str = ""
+    endPointipPort: int = 0
+    endPointModbus: int = 0
+    endPointStatus: int = 0
+    tagId: int = 0
+    productID: int = 0
+    cupSize: int = 0
+    selected: bool = False
 
-        self.endPointipAddr : str = ""
-        self.endPointipPort : int = 0
-        self.endPointModbus : int = 0
-        self.endPointStatus : int = -1
-
-        self.tagId : int = 0
-        self.productID : int = 0
-        self.cupSize : int = 0
+        
