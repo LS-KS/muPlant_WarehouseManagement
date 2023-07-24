@@ -60,7 +60,7 @@ Rectangle {
             id: name
             text: "Node Name "
             font.bold: true
-            onComponentCompleted: {
+            Component.onCompleted: {
                 name.text = nameText
             }
         }
@@ -132,6 +132,9 @@ Rectangle {
                     name.text = nameTextField.text
                 }
                 enabled: !locked
+                Component.onCompleted: {
+                    nameTextField.text = nameText
+                }
             }
             Layout.fillWidth: true
             clip: true
@@ -164,6 +167,9 @@ Rectangle {
                     saveButton.enabled = true
                 }
                 enabled: !locked
+                Component.onCompleted: {
+                    readerIpAdressField.text = readerIpAdress
+                }
             }
             Layout.fillWidth: true
             clip: true
@@ -182,7 +188,10 @@ Rectangle {
                 enabled: !locked
                 onEditingFinished: {
                 saveButton.enabled = true
-            }
+                }
+                Component.onCompleted: {
+                    readerPortField.text = readerPort
+                }
             }
             Layout.fillWidth: true
             clip: true
@@ -216,6 +225,9 @@ Rectangle {
                 onEditingFinished: {
                     saveButton.enabled = true
                 }
+                Component.onCompleted: {
+                    endpointIpAdressField.text = endpointIpAdress
+                }
             }
             Layout.fillWidth: true
             clip: true
@@ -234,6 +246,9 @@ Rectangle {
                 enabled: !locked
                 onEditingFinished: {
                     saveButton.enabled = true
+                }
+                Component.onCompleted: {
+                    endpointPortField.text = endpointPort
                 }
             }
             Layout.fillWidth: true
@@ -263,6 +278,9 @@ Rectangle {
                 onEditingFinished: {
                     saveButton.enabled = true
                 }
+                Component.onCompleted: {
+                    endpointModbusAddressField.text = endpointModbusAddress
+                }
             }
             Layout.fillWidth: true
             clip: true
@@ -283,6 +301,7 @@ Rectangle {
                     endpointPortField.text, 
                     endpointModbusAddressField.text
                 )
+                saveButton.enabled = false
             }
         }
         Behavior on visible { PropertyAnimation{ duration: minimized? 10 : 1000; easing.type: Easing.InOutQuad}}

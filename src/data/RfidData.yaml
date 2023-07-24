@@ -55,14 +55,14 @@
   tagId: 0
   workingState: 0
 - cupSize: 0
-  endPointModbus: '0'
+  endPointModbus: 543.443.121.867
   endPointStatus: 0
-  endPointipAddr: 0.0.0.0
-  endPointipPort: '0'
+  endPointipAddr: 879.155.255.70
+  endPointipPort: '0567'
   idVal: 5
-  ipAddr: 0.0.0.0
-  ipPort: '0'
-  name: new one
+  ipAddr: 127.0.0.0
+  ipPort: '56'
+  name: addedANewOne
   productID: 0
   rfidStatus: 0
   selected: false
