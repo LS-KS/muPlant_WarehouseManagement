@@ -52,6 +52,8 @@ class RfidController(QObject):
                 self.rfidViewModel.setData(index, selected, 13)
                 newVal = node.selected
                 print(f"Data changed from {oldVal} to {newVal} in index {index.row()}")
+                self.rfidViewModel.dataChanged.emit(index, index, [Qt.DisplayRole + 13])
+                
             
     @Slot(int,str, str, str, str, str, str)        
     def saveNodeChanges(self, idVal, name, readerIp, readerPort, endpointIp, endpointPort, endpointModbus):

@@ -1,9 +1,11 @@
 from PySide6.QtCore import QObject, Signal
+from PySide6.QtGui import QStandardItemModel, QStandardItem
 from dataclasses import dataclass
 
 
+
 @dataclass
-class RfidModel(QObject):
+class RfidModel(QStandardItem):
     """
     This class is used to store data from RFID-Reader and RFID-Endpoint.
     It represents a record in the RfidViewModel class, which is rendered in the RFID Server plugin.

@@ -1,12 +1,12 @@
 - cupSize: 1
   endPointModbus: '1'
   endPointStatus: 1
-  endPointipAddr: 192.168.0.200
+  endPointipAddr: 192.168.0.205
   endPointipPort: '5678'
   idVal: 1
   ipAddr: 192.168.0.100
   ipPort: '1234'
-  name: Johnnys RFID world
+  name: Johnnys RFID worlds
   productID: 6789
   rfidStatus: 0
   selected: false
@@ -26,3 +26,45 @@
   selected: false
   tagId: 54321
   workingState: 1
+- cupSize: 0
+  endPointModbus: 432.678.567.094
+  endPointStatus: 0
+  endPointipAddr: 470.432.423.097
+  endPointipPort: '4345'
+  idVal: 3
+  ipAddr: 478.890.342.098
+  ipPort: '654'
+  name: Timmys world
+  productID: 0
+  rfidStatus: 0
+  selected: false
+  tagId: 0
+  workingState: 0
+- cupSize: 0
+  endPointModbus: 123.543.765.234
+  endPointStatus: 0
+  endPointipAddr: 341.543.543.785
+  endPointipPort: '43432'
+  idVal: 4
+  ipAddr: 234.456.876.979
+  ipPort: '435'
+  name: Tom's world
+  productID: 0
+  rfidStatus: 0
+  selected: false
+  tagId: 0
+  workingState: 0
+- cupSize: 0
+  endPointModbus: '0'
+  endPointStatus: 0
+  endPointipAddr: 0.0.0.0
+  endPointipPort: '0'
+  idVal: 5
+  ipAddr: 0.0.0.0
+  ipPort: '0'
+  name: new one
+  productID: 0
+  rfidStatus: 0
+  selected: false
+  tagId: 0
+  workingState: 0

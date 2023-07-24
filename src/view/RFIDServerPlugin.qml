@@ -45,6 +45,7 @@ Window {
             id: listView
             anchors.fill: parent
             model: rfidModel
+            cacheBuffer: 0
             delegate: RfidDelegate{
                 width: contentRect.width
                 idVal: model.idVal
@@ -59,13 +60,6 @@ Window {
                 endpointPort: model.endPointipPort
                 endpointModbusAddress: model.endPointModbus
                 locked: true
-            }
-            Connections{
-                target: listView.model
-                function onDataChanged(index, index){
-                    listView.forceLayout()
-                    console.log("Data Changed")
-                }
             }
         }
     }

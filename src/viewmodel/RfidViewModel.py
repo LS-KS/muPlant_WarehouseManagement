@@ -13,7 +13,7 @@ class RfidViewModel(QtCore.QAbstractListModel):
     def __init__(self, parent: QObject | None = None) -> None:
         super().__init__(parent)
         self.rfidData :RfidModel = []
-        self.controller : RfidController = None
+        self.controller  = None
 
     def rowCount(self, parent=QModelIndex()):
         """
@@ -68,16 +68,16 @@ class RfidViewModel(QtCore.QAbstractListModel):
         :param role: Rolename to be written to
         :return: returns False if writing was not successful. Otherwise, it returns the old value.
         """
-        role = Qt.DisplayRole + role
+        role = Qt. DisplayRole + role
         if index.row() >= self.rowCount() or not index.isValid():
             return False
 
         roleNames = self.roleNames()
         field = roleNames.get(role)
-        print(str(field))
+        # print(str(field))
         if field:
             setattr(self.rfidData[index.row()], field.decode(), value)
-            self.dataChanged.emit(index, index)
+            self.dataChanged.emit(index, index, [role])
             return True
         print("field not found for role " + str(role))
         return False

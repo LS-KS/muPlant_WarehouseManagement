@@ -1,4 +1,3 @@
-import QtQuick 2.9
 import QtQuick 2.15
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Material 2.15
@@ -11,43 +10,21 @@ Rectangle {
     height: infoLabel.height + entries.height +20
     color: "white"
     property string tagTextA: "0"
-    onTagTextAChanged: {
-        tagText.text = "Taginfo: " + tagTextA + " . " + tagTextB + " . " + tagTextC
-    }
     property string tagTextB: "0"
-    onTagTextBChanged: {
-        tagText.text = "Taginfo: " + tagTextA + " . " + tagTextB + " . " + tagTextC
-    }
     property string tagTextC: "0"
-    onTagTextCChanged: {
-        tagText.text = "Taginfo: " + tagTextA + " . " + tagTextB + " . " + tagTextC
-    }
     property string readerIpAdress: ""
-    onReaderIpAdressChanged: {
-        readerIpAdressField.text = readerIpAdress
-    }
     property string readerPort: ""
-    onReaderPortChanged: {
-        readerPortField.text = readerPort
-    }
     property string endpointIpAdress: ""
-    onEndpointIpAdressChanged: {
-        endpointIpAdressField.text = endpointIpAdress
-    }
     property string endpointPort:""
-    onEndpointPortChanged: {
-        endpointPortField.text = endpointPort
-    }
     property string endpointModbusAddress: ""
-    onEndpointModbusAddressChanged: {
-        endpointModbusAddressField.text = endpointModbusAddress
-    }
     property string nameText: ""
-    onNameTextChanged: {
-        nameTextField.text = nameText
-    }
     property int idVal: 0
     property bool selected: false
+    onSelectedChanged: {
+        if (isSelected.checked !== selected){
+            isSelected.checked = selected
+        }
+    }
     property var prefHeight : infoLabel.height + entries.height +20
     property bool minimized: false
     property bool locked: false
@@ -88,15 +65,19 @@ Rectangle {
         CheckBox{
             id: isSelected
             text: "selected"
-            checked: selected
+            checked: false
             onCheckedChanged: {
-                selected = isSelected.checked
-                rfidController.selectNode(idVal, selected)
+                if (isSelected.checked !== selected){
+                    rfidController.selectNode(idVal, checked)
+                }
+            }
+            Component.onCompleted: {
+                isSelected.checked = selected
             }
         }
         Text{
             id: tagText
-            text: "Taginfo: " + 0 + " . " + 0 + " . " + 0
+            text: "Taginfo: " + tagTextA + " . " + tagTextB + " . " + tagTextC
         }
         Text{
             id: readerText
