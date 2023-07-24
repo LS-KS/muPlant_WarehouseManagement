@@ -18,6 +18,9 @@ Rectangle {
     property string endpointPort:""
     property string endpointModbusAddress: ""
     property string nameText: ""
+    onNameTextChanged: {
+        name.text = nameText
+    }
     property int idVal: 0
     property bool selected: false
     onSelectedChanged: {
@@ -57,6 +60,9 @@ Rectangle {
             id: name
             text: "Node Name "
             font.bold: true
+            onComponentCompleted: {
+                name.text = nameText
+            }
         }
         Text{
             id: idValText

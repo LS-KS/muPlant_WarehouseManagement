@@ -52,7 +52,7 @@ class RfidViewModel(QtCore.QAbstractListModel):
         if 0 <= index.row() < self.rowCount():
             node = self.rfidData[index.row()]
             field = self.roleNames().get(role)
-            print("field: "+ str(field), "role: " + str(role))
+            # print("field: "+ str(field), "role: " + str(role))
             if field:
                 return getattr(node, field.decode())
 
@@ -79,7 +79,7 @@ class RfidViewModel(QtCore.QAbstractListModel):
             setattr(self.rfidData[index.row()], field.decode(), value)
             self.dataChanged.emit(index, index, [role])
             return True
-        print("field not found for role " + str(role))
+        #print("field not found for role " + str(role))
         return False
     
     @Slot()
@@ -89,6 +89,20 @@ class RfidViewModel(QtCore.QAbstractListModel):
         idVal = self._createNewID()
         self.rfidData.insert(row, RfidModel(idVal=idVal))
         self.endInsertRows()
+
+    def removeRow(self, row: int, parent: QModelIndex) -> bool:
+        """
+        Removes a row from the model.
+        :param row: Row to be removed
+        :type row: int
+        :param parent: parent index
+        :type parent: QModelIndex
+        :return: returns True if row was removed successfully
+        """
+        self.beginRemoveRows(parent, row, row)
+        self.rfidData.pop(row)
+        self.endRemoveRows()
+        return True
 
     def _createNewID(self)-> int:
         """

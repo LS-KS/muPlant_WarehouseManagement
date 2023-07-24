@@ -2,7 +2,7 @@ from typing import Optional
 from src.model.RfidModel import RfidModel
 from src.viewmodel.RfidViewModel import RfidViewModel, RfidProxyViewModel
 from src.constants.Constants import Constants
-from PySide6.QtCore import QObject, Signal, Slot, Qt
+from PySide6.QtCore import QObject, Signal, Slot, Qt, QModelIndex
 from yaml import safe_load, safe_dump
 from dataclasses import fields
 
@@ -100,7 +100,11 @@ class RfidController(QObject):
         :returns: None
         
         """
-        print("not implemented yet")
+        nodes = [node.idVal for node in self.rfidViewModel.rfidData]
+        for i, node in enumerate(self.rfidViewModel.rfidData):
+            if node.selected == True:
+                index = self.rfidViewModel.index(i, 0)
+                self.rfidViewModel.removeRow(index.row(), QModelIndex())
 
     def _loadRfidNodes(self):
         """
