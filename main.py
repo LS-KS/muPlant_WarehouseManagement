@@ -23,6 +23,7 @@ from src.controller.PreferenceController import PreferenceController
 from src.controller.RfidController import RfidController
 from src.service.EventlogService import EventlogService
 from src.constants.Constants import Constants
+from src.service.AgentService import AgentService
 
 
 if __name__ == '__main__':
@@ -31,7 +32,6 @@ if __name__ == '__main__':
     constants = Constants()
     # create inventoryController with included Data Model and sets itself and viewModels  as rootContext
     inventoryController = invController()
-
 
     engine.rootContext().setContextProperty("inventoryController", inventoryController)
     engine.rootContext().setContextProperty('storageModel', inventoryController.storageViewModel)
@@ -42,6 +42,7 @@ if __name__ == '__main__':
     eventlogService = EventlogService()
     inventoryController.eventlogService = eventlogService
     engine.rootContext().setContextProperty("eventLogController", eventlogService)
+    
 
     # creates CommissionController object and sets itself as rootContext
     commissionController =  CommissionController()
@@ -53,6 +54,10 @@ if __name__ == '__main__':
     # creates preferenceController object and sets itself as rootContext
     preferenceController = PreferenceController(eventlogService)
     engine.rootContext().setContextProperty("preferenceController", preferenceController)
+
+    # creates AgentService object and sets itself as rootContext
+    agentservice = AgentService(eventlogService, preferenceController)
+    engine.rootContext().setContextProperty("agentService", agentservice)
 
     # creates Controller and models for RFID Server Plugin
     rfidController = RfidController()

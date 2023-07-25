@@ -122,7 +122,7 @@ Window {
             top: menuBar.bottom
         }
     }
-    // Ab hier Fensterfläche füllen
+    // Fill window with elements
     ProcessView{
         id: processView
         height: parent.height/2*1.2-headerLine.height
@@ -141,6 +141,10 @@ Window {
             left: processView.left
             top: headerLine.bottom
             margins: 10
+        }
+        onClicked: {
+            agentService.setupAgentService()
+
         }
     }
     StackLayoutView{
@@ -162,4 +166,5 @@ Window {
             top: headerLine.bottom
         }
     }
+    
 }
