@@ -22,6 +22,7 @@ from src.controller.CommissionController import CommissionController
 from src.controller.PreferenceController import PreferenceController
 from src.controller.RfidController import RfidController
 from src.service.EventlogService import EventlogService
+from src.service.OpcuaService import OpcuaService
 from src.constants.Constants import Constants
 from src.service.AgentService import AgentService
 
@@ -64,6 +65,10 @@ if __name__ == '__main__':
     engine.rootContext().setContextProperty("rfidController", rfidController)
     engine.rootContext().setContextProperty("rfidModel", rfidController.rfidViewModel)
     #engine.rootContext().setContextProperty("rfidModel", rfidController.rfidProxyViewModel)
+
+    # creates opcua service
+    opcuaService = OpcuaService(eventlogService, preferenceController)
+    engine.rootContext().setContextProperty("opcuaService", opcuaService)
 
     # define load main.qml file to start application
     qml_file =  str(Path(__file__).resolve().parent / "src" / "view" / "main.qml")
