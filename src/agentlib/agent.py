@@ -21,8 +21,8 @@ from pymodbus.device import ModbusDeviceIdentification
 from pymodbus.datastore import ModbusSequentialDataBlock
 from pymodbus.datastore import ModbusSlaveContext, ModbusServerContext
 
-import opcua as ua
-from opcua import Client
+import asyncua as ua
+from asyncua import Client
 
 
 # project internal librarys

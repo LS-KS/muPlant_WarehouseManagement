@@ -5,3 +5,5 @@ autostartRfidServer: false
 modbusip: 127.0.0.0
 modbusport: 65
 modbusreconnects: 90
+opcuaEndpoint: opc.tcp://0.0.0.0:4840/freeopcua/server/
+opcuaNamespace: http://examples.freeopcua.github.io

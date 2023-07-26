@@ -1,4 +1,5 @@
 
+
 '''
 µPlant WareHouse Management Software.
 Bachelor Thesis 2023
@@ -78,5 +79,6 @@ if __name__ == '__main__':
         sys.exit(-1)
 
     sys.exit(app.exec())
+
 
 

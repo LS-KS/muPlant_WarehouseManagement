@@ -87,6 +87,7 @@ class PreferenceController(QObject):
         self.preferences.plugins.autostartMcc = mcc
         self._dumpPreferencesYAML()
 
+
     @Slot()
     def loadPreferences(self):
         """
@@ -112,7 +113,9 @@ class PreferenceController(QObject):
                   'abbip': self.preferences.abb.ip,
                   'abbport': self.preferences.abb.port,
                   'autostartRfidServer': self.preferences.plugins.autostartRfidServer,
-                  'autostartMcc': self.preferences.plugins.autostartMcc},
+                  'autostartMcc': self.preferences.plugins.autostartMccPlugin,
+                  'opcuaEndpoint': self.preferences.opcua.endpoint,
+                  'opcuaNamespace': self.preferences.opcua.namespace},
                  file)
 
     def _loadPreferencesYAML(self):
@@ -128,6 +131,8 @@ class PreferenceController(QObject):
                 self.preferences.abb.setIP(read['abbip'])
                 self.preferences.abb.setPort(read['abbport'])
                 self.preferences.plugins.autostartRfidServer = read['autostartRfidServer']
-                self.preferences.plugins.autostartMcc = read['autostartMcc']
+                self.preferences.plugins.autostartMccPlugin = read['autostartMcc']
+                self.preferences.opcua.endpoint = read['opcuaEndpoint']
+                self.preferences.opcua.namespace = read['opcuaNamespace']
         except FileNotFoundError:
             pass

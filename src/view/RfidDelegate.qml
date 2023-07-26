@@ -93,7 +93,7 @@ Rectangle {
         Text{
             id: endpointText
             property bool reader: false
-            text: "Endpoint: " + 0 
+            text: "Endpoint: " + 0
         }
         Image{
             id: lock
@@ -187,7 +187,7 @@ Rectangle {
                 height:  30
                 enabled: !locked
                 onEditingFinished: {
-                saveButton.enabled = true
+                    saveButton.enabled = true
                 }
                 Component.onCompleted: {
                     readerPortField.text = readerPort

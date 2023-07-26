@@ -143,9 +143,9 @@ Window {
             margins: 10
         }
         onClicked: {
-            agentService.setupAgentService()
-
-        }
+            agentService.setupAgentService();
+            opcuaService.startOpcuaService();
+        } 
     }
     StackLayoutView{
         id: stackLayoutView
