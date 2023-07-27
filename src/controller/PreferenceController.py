@@ -14,7 +14,7 @@ class PreferenceController(QObject):
     modbusReconnectError = Signal(bool)
     abbIPError = Signal(bool)
     abbPortError = Signal(bool)
-    sendPreferences = Signal(str, int, int, str, int, bool, bool)
+    sendPreferences = Signal(str, int, int, str, int, bool, bool, str, str, str, str)
 
     def __init__(self, eventlogService: EventlogService):
         super().__init__()
@@ -49,6 +49,17 @@ class PreferenceController(QObject):
             self.modbusReconnectError.emit(False)
         if ipRes and portRes and reconnectRes:
             self._dumpPreferencesYAML()
+
+    @Slot(str, str)
+    def setOPCPreferences(self, enpoint, namespace, cUrl, cNamespace):
+        """
+        Sets the preferences for the OPC UA connection
+        """
+        self.preferences.opcua.endpoint = enpoint
+        self.preferences.opcua.namespace = namespace
+        self.preferences.opcua.clientUrl = cUrl
+        self.preferences.opcua.clientNamespace = cNamespace
+        self._dumpPreferencesYAML()
 
     @Slot(str, int)
     def setAbbPreferences(self, ip, port):
@@ -100,7 +111,11 @@ class PreferenceController(QObject):
                                   self.preferences.abb.ip,
                                   self.preferences.abb.port,
                                   self.preferences.plugins.autostartRfidServer,
-                                  self.preferences.plugins.autostartMcc)
+                                  self.preferences.plugins.autostartMccPlugin,
+                                  self.preferences.opcua.endpoint,
+                                  self.preferences.opcua.namespace,
+                                  self.preferences.opcua.clientUrl,
+                                  self.preferences.opcua.clientNamespace,)
 
     def _dumpPreferencesYAML(self):
         """
@@ -115,7 +130,9 @@ class PreferenceController(QObject):
                   'autostartRfidServer': self.preferences.plugins.autostartRfidServer,
                   'autostartMcc': self.preferences.plugins.autostartMccPlugin,
                   'opcuaEndpoint': self.preferences.opcua.endpoint,
-                  'opcuaNamespace': self.preferences.opcua.namespace},
+                  'opcuaNamespace': self.preferences.opcua.namespace,
+                  'clientUrl': self.preferences.opcua.clientUrl,
+                  'clientNamespace': self.preferences.opcua.clientNamespace},
                  file)
 
     def _loadPreferencesYAML(self):
@@ -134,5 +151,7 @@ class PreferenceController(QObject):
                 self.preferences.plugins.autostartMccPlugin = read['autostartMcc']
                 self.preferences.opcua.endpoint = read['opcuaEndpoint']
                 self.preferences.opcua.namespace = read['opcuaNamespace']
+                self.preferences.opcua.clientUrl = read['clientUrl']
+                self.preferences.opcua.clientNamespace = read['clientNamespace']
         except FileNotFoundError:
             pass

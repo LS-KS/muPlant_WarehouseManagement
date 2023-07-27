@@ -179,5 +179,7 @@ class OpcuaPreferences:
     def __init__(self):
         self.endpoint = None
         self.namespace = None
+        self.clientUrl = None
+        self.clientNamespace = None
 
     

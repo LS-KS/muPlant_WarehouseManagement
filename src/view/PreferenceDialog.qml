@@ -7,25 +7,9 @@ import QtQuick.Dialogs
 
 Dialog {
     id: preferenceDialog
-    title: qsTr("Preferences and Settings")
     Rectangle {
         id: mainRect
         anchors.fill: parent
-        Text{
-            id: text1
-            text: qsTr("Modbus Preferences")
-            color : "white"
-            anchors{
-                top: parent.top
-                topMargin: 10
-                left: parent.left
-                leftMargin: 10
-                right: parent.right
-                rightMargin: 10
-            }
-            font.pixelSize: 24
-            horizontalAlignment: Text.AlignHCenter
-        }
         ColumnLayout{
             anchors{
                 top: text1.bottom
@@ -34,11 +18,14 @@ Dialog {
                 leftMargin: 10
                 right: parent.right
                 rightMargin: 10
-                bottom: parent.bottom
-                bottomMargin: 10
             }
-            Row{
-
+            Text{ // Title for Modbus Preferences
+                id: text1
+                text: qsTr("Modbus Preferences")
+                color : "#1F82B2"
+                font.pixelSize: 24
+            }
+            Row{ // Modbus IP Address
                 Label{
                     text: qsTr("IP Address")
                     width: parent.width/3-25
@@ -68,8 +55,7 @@ Dialog {
                 }
                 Layout.fillWidth: true
             }
-            Row{
-
+            Row{ // Modbus IP Port
                 Label{
                     text: qsTr("IP Port")
                     width: parent.width/3-25
@@ -93,7 +79,7 @@ Dialog {
                 }
                 Layout.fillWidth: true
             }
-            Row{
+            Row{ // Modbus Max Reconnects
                 Label{
                     text: qsTr("Max.Reconnects")
                     width: parent.width/3-25
@@ -117,7 +103,7 @@ Dialog {
                 }
                 Layout.fillWidth: true
             }
-            Button{
+            Button{ // Save Button for Modbus
                 id: modbusSaveButton
                 text: qsTr("Save")
                 Layout.maximumHeight: 50
@@ -129,23 +115,13 @@ Dialog {
                     preferenceController.setModBusPreferences(modbusIpAddr.text, modbusIpPort.text, modbusMaxReconnects.text);
                 }
             }
-            Row{
-                id: seperator
-                Rectangle{
-                    Layout.fillWidth: true
-                    Layout.maximumHeight: 3
-                    color: "white"
-                }
-            }
-            Text{
+            Text{ // Title for ABB Preferences
                 id: text2
                 text: qsTr("ABB Robot Preferences")
-                color : "white"
+                color : "#1F82B2"
                 font.pixelSize: 24
-                horizontalAlignment: Text.AlignHCenter
             }
-            Row{
-
+            Row{ // ABB IP Address
                 Label{
                     text: qsTr("IP Address")
                     width: parent.width/3-25
@@ -174,7 +150,7 @@ Dialog {
                 }
                 Layout.fillWidth: true
             }
-            Row{
+            Row{ // ABB IP Port
                 Label{
                     text: qsTr("IP Port")
                     width: parent.width/3-25
@@ -202,7 +178,7 @@ Dialog {
                 }
                 Layout.fillWidth: true
             }
-            Button{
+            Button{ // Save Button for ABB
                 id: abbSaveButton
                 text: qsTr("Save")
                 Layout.maximumHeight: 50
@@ -214,7 +190,7 @@ Dialog {
                     preferenceController.setAbbPreferences(abbIpAddr.text, abbIpPort.text);
                 }
             }
-            CheckBox{
+            CheckBox{ // Run RFID Server plugin automatically with START
                 id: runRfidBox
                 text: qsTr("Run RFID Server automatically with START")
                 onCheckedChanged: {
@@ -222,7 +198,7 @@ Dialog {
                     preferenceController.setPlugInPreferences(runRfidBox.checked, runMccBox.checked);
                 }
             }
-            CheckBox{
+            CheckBox{ // Run MCC Server plugin automatically with START
                 id: runMccBox
                 text: qsTr("Run Manual Commission Control automatically with START")
                 onCheckedChanged: {
@@ -230,13 +206,88 @@ Dialog {
                     preferenceController.setPlugInPreferences(runRfidBox.checked, runMccBox.checked);
                 }
             }
+            Text{ // Title for OPC UA Preferences
+                id: text3
+                text: qsTr("OPC UA Preferences")
+                color : "#1F82B2"
+                font.pixelSize: 24
+            }
+            Row{ // OPC UA Server Endpoint
+                Label{
+                    text: qsTr("OPC UA Endpoint")
+                    width: parent.width/3-25
+                    height: abbIpPort.height
+                    verticalAlignment: Text.AlignVCenter
+                }
+                TextField{
+                    id: opcEndpoint
+                    text: ""
+                    width: parent.width*2/3 - 25
+                }
+                Layout.fillWidth: true
+            }
+            Row{ // OPC UA Server Namespace
+                Label{
+                    text: qsTr("OPC UA Namespace")
+                    width: parent.width/3-25
+                    height: abbIpPort.height
+                    verticalAlignment: Text.AlignVCenter
+                }
+                TextField{
+                    id: opcNamespace
+                    text: ""
+                    width: parent.width*2/3 - 25
+                }
+                Layout.fillWidth: true
+            }
+            Row{ // OPC UA Client URL
+                Label{
+                    text: qsTr("OPC UA Client URL")
+                    width: parent.width/3-25
+                    height: abbIpPort.height
+                    verticalAlignment: Text.AlignVCenter
+                }
+                TextField{
+                    id: opcCUrlField
+                    text: ""
+                    width: parent.width*2/3 - 25
+                }
+                Layout.fillWidth: true
+            }
+            Row{ // OPC UA Client Namespace
+                Label{
+                    text: qsTr("OPC UA Client Namespcace")
+                    width: parent.width/3-25
+                    height: abbIpPort.height
+                    verticalAlignment: Text.AlignVCenter
+                }
+                TextField{
+                    id: opcCNamespace
+                    text: ""
+                    width: parent.width*2/3 - 25
+                }
+                Layout.fillWidth: true
+            }
+            Button{ // Save Button for OPC UA
+                id: opcSaveButton
+                text: qsTr("Save")
+                Layout.maximumHeight: 50
+                Layout.fillWidth: true
+                onClicked: {
+                    console.log("Save button clicked")
+                    console.log(opcEndpoint.text)
+                    console.log(opcNamespace.text)
+                    console.log(opcCUrl.text)
+                    console.log(opcCNamespace.text)
+                    preferenceController.setOPCPreferences(opcEndpoint.text, opcNamespace.text, opcCUrl.text, opcCNamespace.text );
+                }
+            }
         }
-
     }
-    Connections {
+    Connections { // Write data to QML fields above when preferencecontroller emits signal sendPreferences
         target: preferenceController
 
-        function onSendPreferences(modbusip, modbusport, modbusmaxtries, abbip, abbport, rfid, mcc) {
+        function onSendPreferences(modbusip, modbusport, modbusmaxtries, abbip, abbport, rfid, mcc, opcEp, opcNs, opcCUrl, opcCNs) {
             console.log("Preferences loaded");
             modbusIpAddr.text = modbusip;
             modbusIpPort.text = modbusport;
@@ -245,35 +296,39 @@ Dialog {
             abbIpPort.text = abbport;
             runRfidBox.checked = rfid;
             runMccBox.checked = mcc;
+            opcEndpoint.text = opcEp;
+            opcNamespace.text = opcNs;
+            opcCUrlField.text = opcCUrl;
+            opcCNamespace.text = opcCNs;
         }
 
-        function onModbusIPError(error){
+        function onModbusIPError(error){ // Show error icon if IP address is invalid
             modbusIpError.visible = error;
             console.log("Modbus IP Error" + error);
         }
 
-        function onModbusPortError(error){
+        function onModbusPortError(error){ // Show error icon if IP port is invalid
             modbusPortError.visible = error;
             console.log("Modbus Port Error" + error);
         }
 
-        function onModbusReconnectError(error){
+        function onModbusReconnectError(error){ // Show error icon if max reconnects is invalid
             modbusReconnectError.visible = error;
             console.log("Modbus Reconnect Error" + error);
         }
 
-        function onAbbIPError(error){
+        function onAbbIPError(error){ // Show error icon if IP address is invalid
             abbIpError.visible = error;
             console.log("ABB IP Error" + error);
         }
 
-        function onAbbPortError(error){
+        function onAbbPortError(error){ // Show error icon if IP port is invalid
             abbPortError.visible = error;
             console.log("ABB Port Error" + error);
         }
 
     }
-    onOpened: {
+    onOpened: { // Load preferences when dialog is opened
         preferenceController.loadPreferences();
     }
 }

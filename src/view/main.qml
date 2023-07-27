@@ -42,7 +42,7 @@ Window {
     }
     PreferenceDialog{
         id : preferenceDialog
-        width: 500
+        width: 600
         height: Screen.height
         anchors.centerIn: parent
     }
