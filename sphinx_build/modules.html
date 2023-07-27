@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Main File &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -37,76 +37,89 @@
   <section id="main-file">
 <h1>Main File<a class="headerlink" href="#main-file" title="Permalink to this heading">¶</a></h1>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>
-<span class="linenos"> 2</span><span class="sd">&#39;&#39;&#39;</span>
-<span class="linenos"> 3</span><span class="sd">µPlant WareHouse Management Software.</span>
-<span class="linenos"> 4</span><span class="sd">Bachelor Thesis 2023</span>
-<span class="linenos"> 5</span><span class="sd">Author: L.Schink</span>
-<span class="linenos"> 6</span><span class="sd">Date Project Start: 20.06.2023</span>
-<span class="linenos"> 7</span><span class="sd">Language : Python 3.11</span>
-<span class="linenos"> 8</span>
-<span class="linenos"> 9</span><span class="sd">This Software implements warehouse logic from heterogene modular autonomic production site.</span>
-<span class="linenos">10</span><span class="sd">The warehouse works autonomous while receiving orders from modbus TCP/IP.</span>
-<span class="linenos">11</span><span class="sd">also OPC UA is implemented.</span>
-<span class="linenos">12</span>
-<span class="linenos">13</span><span class="sd">Uses  PySide6 with PyQt6.5.1 for GUI implementation</span>
-<span class="linenos">14</span><span class="sd">&#39;&#39;&#39;</span>
-<span class="linenos">15</span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="linenos">16</span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="linenos">17</span><span class="kn">from</span> <span class="nn">PySide6.QtGui</span> <span class="kn">import</span> <span class="n">QGuiApplication</span>
-<span class="linenos">18</span><span class="kn">from</span> <span class="nn">PySide6.QtQml</span> <span class="kn">import</span> <span class="n">QQmlApplicationEngine</span><span class="p">,</span> <span class="n">qmlRegisterType</span>
-<span class="linenos">19</span><span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">Qt</span>
-<span class="linenos">20</span><span class="kn">from</span> <span class="nn">src.controller.invController</span> <span class="kn">import</span> <span class="n">invController</span>
-<span class="linenos">21</span><span class="kn">from</span> <span class="nn">src.controller.CommissionController</span> <span class="kn">import</span> <span class="n">CommissionController</span>
-<span class="linenos">22</span><span class="kn">from</span> <span class="nn">src.controller.PreferenceController</span> <span class="kn">import</span> <span class="n">PreferenceController</span>
-<span class="linenos">23</span><span class="kn">from</span> <span class="nn">src.controller.RfidController</span> <span class="kn">import</span> <span class="n">RfidController</span>
-<span class="linenos">24</span><span class="kn">from</span> <span class="nn">src.service.EventlogService</span> <span class="kn">import</span> <span class="n">EventlogService</span>
-<span class="linenos">25</span><span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
-<span class="linenos">26</span>
-<span class="linenos">27</span>
-<span class="linenos">28</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-<span class="linenos">29</span>    <span class="n">app</span> <span class="o">=</span> <span class="n">QGuiApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
-<span class="linenos">30</span>    <span class="n">engine</span> <span class="o">=</span> <span class="n">QQmlApplicationEngine</span><span class="p">()</span>
-<span class="linenos">31</span>    <span class="n">constants</span> <span class="o">=</span> <span class="n">Constants</span><span class="p">()</span>
-<span class="linenos">32</span>    <span class="c1"># create inventoryController with included Data Model and sets itself and viewModels  as rootContext</span>
-<span class="linenos">33</span>    <span class="n">inventoryController</span> <span class="o">=</span> <span class="n">invController</span><span class="p">()</span>
-<span class="linenos">34</span>
-<span class="linenos">35</span>
-<span class="linenos">36</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;inventoryController&quot;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="p">)</span>
-<span class="linenos">37</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;storageModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">storageViewModel</span><span class="p">)</span>
-<span class="linenos">38</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productListModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productlistViewModel</span><span class="p">)</span>
-<span class="linenos">39</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productSummaryModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productSummaryViewModel</span><span class="p">)</span>
-<span class="linenos">40</span>
-<span class="linenos">41</span>    <span class="c1"># creates EventlogService object and sets itself as rootContext</span>
-<span class="linenos">42</span>    <span class="n">eventlogService</span> <span class="o">=</span> <span class="n">EventlogService</span><span class="p">()</span>
-<span class="linenos">43</span>    <span class="n">inventoryController</span><span class="o">.</span><span class="n">eventlogService</span> <span class="o">=</span> <span class="n">eventlogService</span>
-<span class="linenos">44</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;eventLogController&quot;</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">)</span>
-<span class="linenos">45</span>
-<span class="linenos">46</span>    <span class="c1"># creates CommissionController object and sets itself as rootContext</span>
-<span class="linenos">47</span>    <span class="n">commissionController</span> <span class="o">=</span>  <span class="n">CommissionController</span><span class="p">()</span>
-<span class="linenos">48</span>    <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">autoAcceptChildRows</span><span class="p">()</span>
-<span class="linenos">49</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;commissionController&quot;</span><span class="p">,</span> <span class="n">commissionController</span><span class="p">)</span>
-<span class="linenos">50</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;commissionModel&#39;</span><span class="p">,</span> <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="p">)</span>
-<span class="linenos">51</span>    <span class="c1">#engine.rootContext().setContextProperty(&#39;commissionModel&#39;, commissionController.commissionViewModel)</span>
-<span class="linenos">52</span>
-<span class="linenos">53</span>    <span class="c1"># creates preferenceController object and sets itself as rootContext</span>
-<span class="linenos">54</span>    <span class="n">preferenceController</span> <span class="o">=</span> <span class="n">PreferenceController</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">)</span>
-<span class="linenos">55</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;preferenceController&quot;</span><span class="p">,</span> <span class="n">preferenceController</span><span class="p">)</span>
-<span class="linenos">56</span>
-<span class="linenos">57</span>    <span class="c1"># creates Controller and models for RFID Server Plugin</span>
-<span class="linenos">58</span>    <span class="n">rfidController</span> <span class="o">=</span> <span class="n">RfidController</span><span class="p">()</span>
-<span class="linenos">59</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;rfidController&quot;</span><span class="p">,</span> <span class="n">rfidController</span><span class="p">)</span>
-<span class="linenos">60</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;rfidModel&quot;</span><span class="p">,</span> <span class="n">rfidController</span><span class="o">.</span><span class="n">rfidProxyViewModel</span><span class="p">)</span>
-<span class="linenos">61</span>
-<span class="linenos">62</span>    <span class="c1"># define load main.qml file to start application</span>
-<span class="linenos">63</span>    <span class="n">qml_file</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;view&quot;</span> <span class="o">/</span> <span class="s2">&quot;main.qml&quot;</span><span class="p">)</span>
-<span class="linenos">64</span>    <span class="n">engine</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">qml_file</span><span class="p">)</span>
-<span class="linenos">65</span>
-<span class="linenos">66</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">engine</span><span class="o">.</span><span class="n">rootObjects</span><span class="p">():</span>
-<span class="linenos">67</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="linenos">68</span>
-<span class="linenos">69</span>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">())</span>
-<span class="linenos">70</span>
-<span class="linenos">71</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="linenos"> 4</span><span class="sd">µPlant WareHouse Management Software.</span>
+<span class="linenos"> 5</span><span class="sd">Bachelor Thesis 2023</span>
+<span class="linenos"> 6</span><span class="sd">Author: L.Schink</span>
+<span class="linenos"> 7</span><span class="sd">Date Project Start: 20.06.2023</span>
+<span class="linenos"> 8</span><span class="sd">Language : Python 3.11</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="sd">This Software implements warehouse logic from heterogene modular autonomic production site.</span>
+<span class="linenos">11</span><span class="sd">The warehouse works autonomous while receiving orders from modbus TCP/IP.</span>
+<span class="linenos">12</span><span class="sd">also OPC UA is implemented.</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="sd">Uses  PySide6 with PyQt6.5.1 for GUI implementation</span>
+<span class="linenos">15</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="linenos">16</span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="linenos">17</span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="linenos">18</span><span class="kn">from</span> <span class="nn">PySide6.QtGui</span> <span class="kn">import</span> <span class="n">QGuiApplication</span>
+<span class="linenos">19</span><span class="kn">from</span> <span class="nn">PySide6.QtQml</span> <span class="kn">import</span> <span class="n">QQmlApplicationEngine</span><span class="p">,</span> <span class="n">qmlRegisterType</span>
+<span class="linenos">20</span><span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">Qt</span>
+<span class="linenos">21</span><span class="kn">from</span> <span class="nn">src.controller.invController</span> <span class="kn">import</span> <span class="n">invController</span>
+<span class="linenos">22</span><span class="kn">from</span> <span class="nn">src.controller.CommissionController</span> <span class="kn">import</span> <span class="n">CommissionController</span>
+<span class="linenos">23</span><span class="kn">from</span> <span class="nn">src.controller.PreferenceController</span> <span class="kn">import</span> <span class="n">PreferenceController</span>
+<span class="linenos">24</span><span class="kn">from</span> <span class="nn">src.controller.RfidController</span> <span class="kn">import</span> <span class="n">RfidController</span>
+<span class="linenos">25</span><span class="kn">from</span> <span class="nn">src.service.EventlogService</span> <span class="kn">import</span> <span class="n">EventlogService</span>
+<span class="linenos">26</span><span class="kn">from</span> <span class="nn">src.service.OpcuaService</span> <span class="kn">import</span> <span class="n">OpcuaService</span>
+<span class="linenos">27</span><span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
+<span class="linenos">28</span><span class="kn">from</span> <span class="nn">src.service.AgentService</span> <span class="kn">import</span> <span class="n">AgentService</span>
+<span class="linenos">29</span>
+<span class="linenos">30</span>
+<span class="linenos">31</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">32</span>    <span class="n">app</span> <span class="o">=</span> <span class="n">QGuiApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+<span class="linenos">33</span>    <span class="n">engine</span> <span class="o">=</span> <span class="n">QQmlApplicationEngine</span><span class="p">()</span>
+<span class="linenos">34</span>    <span class="n">constants</span> <span class="o">=</span> <span class="n">Constants</span><span class="p">()</span>
+<span class="linenos">35</span>    <span class="c1"># create inventoryController with included Data Model and sets itself and viewModels  as rootContext</span>
+<span class="linenos">36</span>    <span class="n">inventoryController</span> <span class="o">=</span> <span class="n">invController</span><span class="p">()</span>
+<span class="linenos">37</span>
+<span class="linenos">38</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;inventoryController&quot;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="p">)</span>
+<span class="linenos">39</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;storageModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">storageViewModel</span><span class="p">)</span>
+<span class="linenos">40</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productListModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productlistViewModel</span><span class="p">)</span>
+<span class="linenos">41</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productSummaryModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productSummaryViewModel</span><span class="p">)</span>
+<span class="linenos">42</span>
+<span class="linenos">43</span>    <span class="c1"># creates EventlogService object and sets itself as rootContext</span>
+<span class="linenos">44</span>    <span class="n">eventlogService</span> <span class="o">=</span> <span class="n">EventlogService</span><span class="p">()</span>
+<span class="linenos">45</span>    <span class="n">inventoryController</span><span class="o">.</span><span class="n">eventlogService</span> <span class="o">=</span> <span class="n">eventlogService</span>
+<span class="linenos">46</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;eventLogController&quot;</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">)</span>
+<span class="linenos">47</span>    
+<span class="linenos">48</span>
+<span class="linenos">49</span>    <span class="c1"># creates CommissionController object and sets itself as rootContext</span>
+<span class="linenos">50</span>    <span class="n">commissionController</span> <span class="o">=</span>  <span class="n">CommissionController</span><span class="p">()</span>
+<span class="linenos">51</span>    <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">autoAcceptChildRows</span><span class="p">()</span>
+<span class="linenos">52</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;commissionController&quot;</span><span class="p">,</span> <span class="n">commissionController</span><span class="p">)</span>
+<span class="linenos">53</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;commissionModel&#39;</span><span class="p">,</span> <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="p">)</span>
+<span class="linenos">54</span>    <span class="c1">#engine.rootContext().setContextProperty(&#39;commissionModel&#39;, commissionController.commissionViewModel)</span>
+<span class="linenos">55</span>
+<span class="linenos">56</span>    <span class="c1"># creates preferenceController object and sets itself as rootContext</span>
+<span class="linenos">57</span>    <span class="n">preferenceController</span> <span class="o">=</span> <span class="n">PreferenceController</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">)</span>
+<span class="linenos">58</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;preferenceController&quot;</span><span class="p">,</span> <span class="n">preferenceController</span><span class="p">)</span>
+<span class="linenos">59</span>
+<span class="linenos">60</span>    <span class="c1"># creates AgentService object and sets itself as rootContext</span>
+<span class="linenos">61</span>    <span class="n">agentservice</span> <span class="o">=</span> <span class="n">AgentService</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">,</span> <span class="n">preferenceController</span><span class="p">)</span>
+<span class="linenos">62</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;agentService&quot;</span><span class="p">,</span> <span class="n">agentservice</span><span class="p">)</span>
+<span class="linenos">63</span>
+<span class="linenos">64</span>    <span class="c1"># creates Controller and models for RFID Server Plugin</span>
+<span class="linenos">65</span>    <span class="n">rfidController</span> <span class="o">=</span> <span class="n">RfidController</span><span class="p">()</span>
+<span class="linenos">66</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;rfidController&quot;</span><span class="p">,</span> <span class="n">rfidController</span><span class="p">)</span>
+<span class="linenos">67</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;rfidModel&quot;</span><span class="p">,</span> <span class="n">rfidController</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="p">)</span>
+<span class="linenos">68</span>    <span class="c1">#engine.rootContext().setContextProperty(&quot;rfidModel&quot;, rfidController.rfidProxyViewModel)</span>
+<span class="linenos">69</span>
+<span class="linenos">70</span>    <span class="c1"># creates opcua service</span>
+<span class="linenos">71</span>    <span class="n">opcuaService</span> <span class="o">=</span> <span class="n">OpcuaService</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">,</span> <span class="n">preferenceController</span><span class="p">)</span>
+<span class="linenos">72</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;opcuaService&quot;</span><span class="p">,</span> <span class="n">opcuaService</span><span class="p">)</span>
+<span class="linenos">73</span>
+<span class="linenos">74</span>    <span class="c1"># define load main.qml file to start application</span>
+<span class="linenos">75</span>    <span class="n">qml_file</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;view&quot;</span> <span class="o">/</span> <span class="s2">&quot;main.qml&quot;</span><span class="p">)</span>
+<span class="linenos">76</span>    <span class="n">engine</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">qml_file</span><span class="p">)</span>
+<span class="linenos">77</span>
+<span class="linenos">78</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">engine</span><span class="o">.</span><span class="n">rootObjects</span><span class="p">():</span>
+<span class="linenos">79</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">80</span>
+<span class="linenos">81</span>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">())</span>
+<span class="linenos">82</span>
+<span class="linenos">83</span>
+<span class="linenos">84</span>
 </pre></div>
 </div>
 </section>
@@ -748,6 +761,12 @@ it throws a ValueError.</p>
 </dd></dl>
 
 <span class="target" id="module-src.model.Preferences"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.model.Preferences.OpcuaPreferences">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">OpcuaPreferences</span></span><a class="reference internal" href="_modules/src/model/Preferences.html#OpcuaPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.OpcuaPreferences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="src.model.Preferences.PlugInPreferences">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">PlugInPreferences</span></span><a class="reference internal" href="_modules/src/model/Preferences.html#PlugInPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.PlugInPreferences" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -1205,6 +1224,12 @@ OPCUAService.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.setOPCPreferences">
+<span class="sig-name descname"><span class="pre">setOPCPreferences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cUrl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cNamespace</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/PreferenceController.html#PreferenceController.setOPCPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.setOPCPreferences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the preferences for the OPC UA connection</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.setPlugInPreferences">
 <span class="sig-name descname"><span class="pre">setPlugInPreferences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rfid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mcc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/PreferenceController.html#PreferenceController.setPlugInPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.setPlugInPreferences" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the preferences if plugins are automatically enabled or not</p>
@@ -1223,7 +1248,7 @@ OPCUAService.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.controller.PreferenceController.PreferenceController.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;PreferenceController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusIPError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusPortError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusReconnectError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Signal,</span> <span class="pre">signature=abbIPError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Signal,</span> <span class="pre">signature=abbPortError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Signal,</span> <span class="pre">signature=sendPreferences(QString,int,int,QString,int,bool,bool),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">bool,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setModBusPreferences(QString,int,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setAbbPreferences(QString,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setPlugInPreferences(bool,bool),</span> <span class="pre">parameters=bool,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#14</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadPreferences()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;PreferenceController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusIPError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusPortError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=modbusReconnectError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Signal,</span> <span class="pre">signature=abbIPError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Signal,</span> <span class="pre">signature=abbPortError(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Signal,</span> <span class="pre">signature=sendPreferences(QString,int,int,QString,int,bool,bool,QString,QString,QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">bool,</span> <span class="pre">bool,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setModBusPreferences(QString,int,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setOPCPreferences(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setAbbPreferences(QString,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int</span>&#160;&#160; <span class="pre">#14</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setPlugInPreferences(bool,bool),</span> <span class="pre">parameters=bool,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#15</span> <span class="pre">type=Slot,</span> <span class="pre">signature=loadPreferences()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.PreferenceController.PreferenceController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1275,7 +1300,107 @@ OPCUAService.</p>
 
 </dd></dl>
 
-<span class="target" id="module-src.service.AgentService"></span></section>
+<span class="target" id="module-src.service.AgentService"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.service.AgentService.AgentService">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.AgentService.</span></span><span class="sig-name descname"><span class="pre">AgentService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventlogService</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/AgentService.html#AgentService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.AgentService.AgentService" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.AgentService.AgentService.setupAgentService">
+<span class="sig-name descname"><span class="pre">setupAgentService</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/AgentService.html#AgentService.setupAgentService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.AgentService.AgentService.setupAgentService" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets up AgentService</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.AgentService.AgentService.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;AgentService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setupAgentService()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.AgentService.AgentService.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-src.service.OpcuaService"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaClientHandle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">OpcuaClientHandle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QObject</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/OpcuaService.html#OpcuaClientHandle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaClientHandle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QThread</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaClientHandle.main">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/OpcuaService.html#OpcuaClientHandle.main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaClientHandle.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaClientHandle.quit">
+<span class="sig-name descname"><span class="pre">quit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/service/OpcuaService.html#OpcuaClientHandle.quit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaClientHandle.quit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaClientHandle.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/service/OpcuaService.html#OpcuaClientHandle.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaClientHandle.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaClientHandle.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PySide6.QtCore.QThread.Priority</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Instance(PySide6.QtCore.QThread.Priority.InheritPriority)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/service/OpcuaService.html#OpcuaClientHandle.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaClientHandle.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaClientHandle.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;OpcuaClientHandle&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.OpcuaService.OpcuaClientHandle.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">OpcuaServerHandle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/OpcuaService.html#OpcuaServerHandle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QThread</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.func">
+<span class="sig-name descname"><span class="pre">func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.func" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.main">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/service/OpcuaService.html#OpcuaServerHandle.main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.quit">
+<span class="sig-name descname"><span class="pre">quit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/service/OpcuaService.html#OpcuaServerHandle.quit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.quit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/service/OpcuaService.html#OpcuaServerHandle.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PySide6.QtCore.QThread.Priority</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Instance(PySide6.QtCore.QThread.Priority.InheritPriority)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/service/OpcuaService.html#OpcuaServerHandle.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;OpcuaServerHandle&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaService">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">OpcuaService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventlogService</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QObject</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/OpcuaService.html#OpcuaService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaService" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaService.startOpcuaService">
+<span class="sig-name descname"><span class="pre">startOpcuaService</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/OpcuaService.html#OpcuaService.startOpcuaService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaService.startOpcuaService" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaService.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;OpcuaService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Slot,</span> <span class="pre">signature=startOpcuaService()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.OpcuaService.OpcuaService.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-src.viewmodel.productlistViewModel">
 <span id="viewmodel"></span><h1>ViewModel<a class="headerlink" href="#module-src.viewmodel.productlistViewModel" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
@@ -1351,7 +1476,7 @@ Creates a dictionary with rolenames and roles.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.rowCount">
-<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x10b3744c0&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x00000278120AC300&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns number of rows at index
 :param parent:
 :type: QModelIndex
@@ -1705,6 +1830,7 @@ Creates a dictionary with rolenames and roles.
 <li class="toctree-l2"><a class="reference internal" href="#src.model.CommissionModel.CommissionData"><code class="docutils literal notranslate"><span class="pre">CommissionData</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.CommissionModel.CommissionState"><code class="docutils literal notranslate"><span class="pre">CommissionState</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.CommissionModel.Locations"><code class="docutils literal notranslate"><span class="pre">Locations</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.model.Preferences.OpcuaPreferences"><code class="docutils literal notranslate"><span class="pre">OpcuaPreferences</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.Preferences.PlugInPreferences"><code class="docutils literal notranslate"><span class="pre">PlugInPreferences</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.Preferences.Preferences"><code class="docutils literal notranslate"><span class="pre">Preferences</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#src.model.Preferences.abbPreferences"><code class="docutils literal notranslate"><span class="pre">abbPreferences</span></code></a></li>
@@ -1719,6 +1845,10 @@ Creates a dictionary with rolenames and roles.
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#module-src.service.EventlogService">Service</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#src.service.EventlogService.EventlogService"><code class="docutils literal notranslate"><span class="pre">EventlogService</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.service.AgentService.AgentService"><code class="docutils literal notranslate"><span class="pre">AgentService</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.service.OpcuaService.OpcuaClientHandle"><code class="docutils literal notranslate"><span class="pre">OpcuaClientHandle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.service.OpcuaService.OpcuaServerHandle"><code class="docutils literal notranslate"><span class="pre">OpcuaServerHandle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.service.OpcuaService.OpcuaService"><code class="docutils literal notranslate"><span class="pre">OpcuaService</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#module-src.viewmodel.productlistViewModel">ViewModel</a><ul>

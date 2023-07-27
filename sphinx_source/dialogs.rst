@@ -1,11 +1,22 @@
+.. toctree::
+   :maxdepth: 1
+   :caption: Contents:
+
+   StorageDialog
+
+   WorkbenchDialog
+
+   TurtleDialog
+
+   GripperDialog
+
+   PreferenceDialog
+
+
 Dialogs
 _______
 
-Dialogvisualisierung um das Lager manuell zu bearbeiten.
-StorageDialog.qml
 
-.. literalinclude:: ../src/view/StorageDialog.qml
-    :linenos:
 
 Dialogvisualisierung um den Kommissioniertisch manuell zu bearbeiten.
 WorkbenchDialog.qml

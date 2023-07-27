@@ -59,6 +59,11 @@ Service
     :undoc-members:
     :show-inheritance:
 
+.. automodule:: src.service.OpcuaService
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 ViewModel
 ---------
 
