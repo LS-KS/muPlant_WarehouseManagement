@@ -18,12 +18,21 @@ Das GUI ist in QML geschrieben und wird durch die QML-Engine des Qt-Frameworks g
 
    Views/CupView
 
+   Views/PalletteView
+
+   Views/ProcessView
+
    Views/InventoryView
 
    Views/EventView
 
    Views/GripperDialog
 
+   Views/PreferenceDialog
+
+   Views/ProductList
+   
+   Views/MCCPlugin
 
 
 Hauptfenster:
