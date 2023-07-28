@@ -33,7 +33,7 @@
             
   <h1>Source code for src.model.DataModel</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QObject</span><span class="p">,</span> <span class="n">Signal</span>
-<div class="viewcode-block" id="Inventory"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Inventory">[docs]</a><span class="k">class</span> <span class="nc">Inventory</span><span class="p">:</span>
+<div class="viewcode-block" id="Inventory"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Inventory">[docs]</a><span class="k">class</span> <span class="nc">Inventory</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements the storage rack in µPlant.</span>
 <span class="sd">    holds an 2D List which represents row col in the factory.</span>
@@ -60,14 +60,14 @@
             <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pallets</span><span class="p">[</span><span class="n">row</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">StorageElement</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">inventory</span><span class="o">=</span><span class="bp">self</span><span class="p">))</span>
 
-<div class="viewcode-block" id="Inventory.getStoragePallet"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Inventory.getStoragePallet">[docs]</a>    <span class="k">def</span> <span class="nf">getStoragePallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
+<div class="viewcode-block" id="Inventory.getStoragePallet"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Inventory.getStoragePallet">[docs]</a>    <span class="k">def</span> <span class="nf">getStoragePallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param row:</span>
 <span class="sd">        :param col:</span>
 <span class="sd">        :return: Returns Pallet object at given position</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pallets</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">pallet</span></div>
-<div class="viewcode-block" id="Inventory.setStoragePallet"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Inventory.setStoragePallet">[docs]</a>    <span class="k">def</span> <span class="nf">setStoragePallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">pallet</span><span class="p">):</span>
+<div class="viewcode-block" id="Inventory.setStoragePallet"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Inventory.setStoragePallet">[docs]</a>    <span class="k">def</span> <span class="nf">setStoragePallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">pallet</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets a pallet into the storage at given position.</span>
 <span class="sd">        Throws ValueError if storage Position is not empty.</span>
@@ -86,7 +86,7 @@
             <span class="k">if</span> <span class="n">pallet</span><span class="o">.</span><span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">pallets</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]:</span>
                 <span class="n">pallet</span><span class="o">.</span><span class="n">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pallets</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">])</span></div></div>
 
-<div class="viewcode-block" id="MobileRobot"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.MobileRobot">[docs]</a><span class="k">class</span> <span class="nc">MobileRobot</span><span class="p">:</span>
+<div class="viewcode-block" id="MobileRobot"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.MobileRobot">[docs]</a><span class="k">class</span> <span class="nc">MobileRobot</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements Mobile Robot class from µPlant.</span>
 <span class="sd">    can store up to one cup in two different sizes.</span>
@@ -100,7 +100,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cup</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="MobileRobot.setCup"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.MobileRobot.setCup">[docs]</a>    <span class="k">def</span> <span class="nf">setCup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cup</span><span class="p">):</span>
+<div class="viewcode-block" id="MobileRobot.setCup"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.MobileRobot.setCup">[docs]</a>    <span class="k">def</span> <span class="nf">setCup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cup</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        sets Cup on mobile Robot.</span>
 
@@ -118,7 +118,7 @@
             <span class="k">if</span> <span class="n">cup</span><span class="o">.</span><span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
                 <span class="n">cup</span><span class="o">.</span><span class="n">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="Workbench"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Workbench">[docs]</a><span class="k">class</span> <span class="nc">Workbench</span><span class="p">:</span>
+<div class="viewcode-block" id="Workbench"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Workbench">[docs]</a><span class="k">class</span> <span class="nc">Workbench</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements Workbench class from µPlant.</span>
 <span class="sd">    Workbench stores up to two palette items.</span>
@@ -136,7 +136,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">k2</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="Workbench.setK1"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Workbench.setK1">[docs]</a>    <span class="k">def</span> <span class="nf">setK1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pallet</span><span class="p">):</span>
+<div class="viewcode-block" id="Workbench.setK1"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Workbench.setK1">[docs]</a>    <span class="k">def</span> <span class="nf">setK1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pallet</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets or removes a Pallet object in location spot k1.</span>
 <span class="sd">        Raises an ValueError if K1 is already occupied</span>
@@ -165,7 +165,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">k1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">k2</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">k2</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="Workbench.setK2"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Workbench.setK2">[docs]</a>    <span class="k">def</span> <span class="nf">setK2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pallet</span><span class="p">):</span>
+<div class="viewcode-block" id="Workbench.setK2"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Workbench.setK2">[docs]</a>    <span class="k">def</span> <span class="nf">setK2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pallet</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets or removes a Pallet object in location spot k2.</span>
 <span class="sd">        Raises an ValueError if K2 is already occupied</span>
@@ -194,7 +194,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">k1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">k2</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="kc">None</span></div></div>
 
-<div class="viewcode-block" id="Gripper"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Gripper">[docs]</a><span class="k">class</span> <span class="nc">Gripper</span><span class="p">(</span><span class="n">QObject</span><span class="p">):</span>
+<div class="viewcode-block" id="Gripper"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Gripper">[docs]</a><span class="k">class</span> <span class="nc">Gripper</span><span class="p">(</span><span class="n">QObject</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements Gripper data class from µPlant industrial robotic arm.</span>
 <span class="sd">    Gripper stores a cup or a pallet object while transport operation is in progress.</span>
@@ -211,7 +211,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">object</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">objectChanged</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="c1">#isPallet, isCup, cup, prod, productname, cup, row, productname</span>
 
-<div class="viewcode-block" id="Gripper.setObject"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Gripper.setObject">[docs]</a>    <span class="k">def</span> <span class="nf">setObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Gripper.setObject"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Gripper.setObject">[docs]</a>    <span class="k">def</span> <span class="nf">setObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        takes a Cup or Pallet data object.</span>
 <span class="sd">        raises an ValueError if gripper already has an object.</span>
@@ -233,7 +233,7 @@
             <span class="k">if</span> <span class="nb">object</span><span class="o">.</span><span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
                 <span class="nb">object</span><span class="o">.</span><span class="n">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Gripper.emitObject"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Gripper.emitObject">[docs]</a>    <span class="k">def</span> <span class="nf">emitObject</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Gripper.emitObject"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Gripper.emitObject">[docs]</a>    <span class="k">def</span> <span class="nf">emitObject</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        emits a signal with the current object data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -262,7 +262,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Object is not a Cup or Pallet object!&quot;</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="Product"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Product">[docs]</a><span class="k">class</span> <span class="nc">Product</span><span class="p">:</span>
+<div class="viewcode-block" id="Product"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Product">[docs]</a><span class="k">class</span> <span class="nc">Product</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements Product class from µPlant.</span>
 <span class="sd">    Cup stores an id and name beside a list of Cups filled with the product.</span>
@@ -287,7 +287,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cups</span> <span class="o">=</span> <span class="p">[]</span>
 
-<div class="viewcode-block" id="Product.withCup"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Product.withCup">[docs]</a>    <span class="k">def</span> <span class="nf">withCup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cup</span><span class="p">):</span>
+<div class="viewcode-block" id="Product.withCup"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Product.withCup">[docs]</a>    <span class="k">def</span> <span class="nf">withCup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cup</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds a Cup object to the cups list if it is not already in the list.</span>
 
@@ -306,7 +306,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;cup is not Cup object&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Product.withoutCup"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Product.withoutCup">[docs]</a>    <span class="k">def</span> <span class="nf">withoutCup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cup</span><span class="p">):</span>
+<div class="viewcode-block" id="Product.withoutCup"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Product.withoutCup">[docs]</a>    <span class="k">def</span> <span class="nf">withoutCup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cup</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Removes a Cup object from the cups list if it is not already removed from the list.</span>
 
@@ -321,7 +321,7 @@
         <span class="k">if</span> <span class="n">cup</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="bp">self</span><span class="p">:</span>
             <span class="n">cup</span><span class="o">.</span><span class="n">setProduct</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="Cup"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Cup">[docs]</a><span class="k">class</span> <span class="nc">Cup</span><span class="p">:</span>
+<div class="viewcode-block" id="Cup"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Cup">[docs]</a><span class="k">class</span> <span class="nc">Cup</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements Cup class from µPlant which exists in two sizes.</span>
 <span class="sd">    Only small size matters for warehouse management so size will be ignored.</span>
@@ -351,7 +351,7 @@
             <span class="n">product</span><span class="o">.</span><span class="n">withCup</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Cup.getID"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Cup.getID">[docs]</a>    <span class="k">def</span> <span class="nf">getID</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Cup.getID"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Cup.getID">[docs]</a>    <span class="k">def</span> <span class="nf">getID</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the id of the cup.</span>
 
@@ -360,7 +360,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span></div>
 
-<div class="viewcode-block" id="Cup.getProduct"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Cup.getProduct">[docs]</a>    <span class="k">def</span> <span class="nf">getProduct</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Cup.getProduct"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Cup.getProduct">[docs]</a>    <span class="k">def</span> <span class="nf">getProduct</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the product stored in the cup.</span>
 
@@ -369,7 +369,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span></div>
 
-<div class="viewcode-block" id="Cup.setID"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Cup.setID">[docs]</a>    <span class="k">def</span> <span class="nf">setID</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+<div class="viewcode-block" id="Cup.setID"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Cup.setID">[docs]</a>    <span class="k">def</span> <span class="nf">setID</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the id of the cup.</span>
 
@@ -378,7 +378,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span></div>
 
-<div class="viewcode-block" id="Cup.setProduct"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Cup.setProduct">[docs]</a>    <span class="k">def</span> <span class="nf">setProduct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">product</span><span class="p">):</span>
+<div class="viewcode-block" id="Cup.setProduct"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Cup.setProduct">[docs]</a>    <span class="k">def</span> <span class="nf">setProduct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">product</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the product stored in the cup. If the cup already has a product,</span>
 <span class="sd">        calls the withoutCup method on the existing product before setting the new product.</span>
@@ -410,7 +410,7 @@
                 <span class="n">product</span><span class="o">.</span><span class="n">cups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Cup.setLocation"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Cup.setLocation">[docs]</a>    <span class="k">def</span> <span class="nf">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
+<div class="viewcode-block" id="Cup.setLocation"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Cup.setLocation">[docs]</a>    <span class="k">def</span> <span class="nf">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the storage stored the cup is stored in.</span>
 <span class="sd">        Note, that the Cup cannot now the exact spot of the storage item.</span>
@@ -446,7 +446,7 @@
                 <span class="n">oldValue</span><span class="o">.</span><span class="n">slotB</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="bp">self</span></div></div>
 
-<div class="viewcode-block" id="Pallet"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Pallet">[docs]</a><span class="k">class</span> <span class="nc">Pallet</span><span class="p">:</span>
+<div class="viewcode-block" id="Pallet"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Pallet">[docs]</a><span class="k">class</span> <span class="nc">Pallet</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements Pallet class from µPlant which stores up tp two cups.</span>
 <span class="sd">    Cup objects are stored in slotA and slotB and shall be set by corresponding methods.</span>
@@ -468,7 +468,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">slotB</span> <span class="o">=</span> <span class="kc">None</span>
 
 
-<div class="viewcode-block" id="Pallet.setSlotA"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Pallet.setSlotA">[docs]</a>    <span class="k">def</span> <span class="nf">setSlotA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cup</span><span class="p">):</span>
+<div class="viewcode-block" id="Pallet.setSlotA"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Pallet.setSlotA">[docs]</a>    <span class="k">def</span> <span class="nf">setSlotA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cup</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets or removes a Cup obeject in the front slot of this pallet object.</span>
 <span class="sd">        If the slot already has a cup,</span>
@@ -496,7 +496,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slotA</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">slotB</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">slotB</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="Pallet.setSlotB"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Pallet.setSlotB">[docs]</a>    <span class="k">def</span> <span class="nf">setSlotB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cup</span><span class="p">):</span>
+<div class="viewcode-block" id="Pallet.setSlotB"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Pallet.setSlotB">[docs]</a>    <span class="k">def</span> <span class="nf">setSlotB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cup</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets or removes a Cup obeject in the rear slot of this pallet object.</span>
 <span class="sd">        If the slot already has a cup,</span>
@@ -524,7 +524,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slotB</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">slotA</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">slotA</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="Pallet.setLocation"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.Pallet.setLocation">[docs]</a>    <span class="k">def</span> <span class="nf">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storageElement</span><span class="p">):</span>
+<div class="viewcode-block" id="Pallet.setLocation"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.Pallet.setLocation">[docs]</a>    <span class="k">def</span> <span class="nf">setLocation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storageElement</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">==</span> <span class="n">storageElement</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>
         <span class="n">oldValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span>
@@ -547,7 +547,7 @@
                 <span class="k">if</span> <span class="n">storageElement</span><span class="o">.</span><span class="n">object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
                     <span class="n">storageElement</span><span class="o">.</span><span class="n">setObject</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="StorageElement"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.StorageElement">[docs]</a><span class="k">class</span> <span class="nc">StorageElement</span><span class="p">:</span>
+<div class="viewcode-block" id="StorageElement"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.StorageElement">[docs]</a><span class="k">class</span> <span class="nc">StorageElement</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    StorageElement represents a slot in µPlant storage bar, so there are 18 static objects.</span>
 <span class="sd">    Each usually holds one or none pallet object which should be also the same.</span>
@@ -577,7 +577,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pallet</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inventory</span> <span class="o">=</span> <span class="n">inventory</span>
 
-<div class="viewcode-block" id="StorageElement.setPallet"><a class="viewcode-back" href="../../../modules.html#src.model.DataModel.StorageElement.setPallet">[docs]</a>    <span class="k">def</span> <span class="nf">setPallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pallet</span><span class="p">):</span>
+<div class="viewcode-block" id="StorageElement.setPallet"><a class="viewcode-back" href="../../../DataModel.html#src.model.DataModel.StorageElement.setPallet">[docs]</a>    <span class="k">def</span> <span class="nf">setPallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pallet</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets or removes a Pallet object in location spot of the storage bar.</span>
 <span class="sd">        If the storage element already has a pallet object,</span>
@@ -625,14 +625,8 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Main File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.model.DataModel">Data Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.controller.invController">Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.service.EventlogService">Service</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.viewmodel.productlistViewModel">ViewModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../view.html">View</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../dialogs.html">Dialogs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../constants.html">Constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datafiles.html">Data Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plugins.html">PlugIn’s</a></li>
 </ul>

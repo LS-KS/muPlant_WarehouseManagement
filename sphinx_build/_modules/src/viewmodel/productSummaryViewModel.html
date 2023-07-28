@@ -36,7 +36,7 @@
 <span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QSortFilterProxyModel</span><span class="p">,</span> <span class="n">Slot</span><span class="p">,</span> <span class="n">Qt</span>
 
 
-<div class="viewcode-block" id="ProductSummaryViewModel"><a class="viewcode-back" href="../../../modules.html#src.viewmodel.productSummaryViewModel.ProductSummaryViewModel">[docs]</a><span class="k">class</span> <span class="nc">ProductSummaryViewModel</span> <span class="p">(</span><span class="n">QSortFilterProxyModel</span><span class="p">):</span>
+<div class="viewcode-block" id="ProductSummaryViewModel"><a class="viewcode-back" href="../../../ViewModel.html#src.viewmodel.productSummaryViewModel.ProductSummaryViewModel">[docs]</a><span class="k">class</span> <span class="nc">ProductSummaryViewModel</span> <span class="p">(</span><span class="n">QSortFilterProxyModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class is used to provide a viewModel which can be filtered.</span>
 <span class="sd">    It is used to give the user the ability to filter products with no stored quantity.</span>
@@ -54,7 +54,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">showZeroQuantity</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setSourceModel</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ProductSummaryViewModel.setShowZero"><a class="viewcode-back" href="../../../modules.html#src.viewmodel.productSummaryViewModel.ProductSummaryViewModel.setShowZero">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+<div class="viewcode-block" id="ProductSummaryViewModel.setShowZero"><a class="viewcode-back" href="../../../ViewModel.html#src.viewmodel.productSummaryViewModel.ProductSummaryViewModel.setShowZero">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">setShowZero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">bool</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Slot to either show or hide products with zero quantity</span>
@@ -66,7 +66,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">invalidateFilter</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">revert</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ProductSummaryViewModel.filterAcceptsRow"><a class="viewcode-back" href="../../../modules.html#src.viewmodel.productSummaryViewModel.ProductSummaryViewModel.filterAcceptsRow">[docs]</a>    <span class="k">def</span> <span class="nf">filterAcceptsRow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sourceRow</span><span class="p">,</span> <span class="n">sourceParent</span><span class="p">):</span>
+<div class="viewcode-block" id="ProductSummaryViewModel.filterAcceptsRow"><a class="viewcode-back" href="../../../ViewModel.html#src.viewmodel.productSummaryViewModel.ProductSummaryViewModel.filterAcceptsRow">[docs]</a>    <span class="k">def</span> <span class="nf">filterAcceptsRow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sourceRow</span><span class="p">,</span> <span class="n">sourceParent</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Implements the filter logic.</span>
 <span class="sd">        First sets the index of the sourceModel and determines the quantity field to filter.</span>
@@ -103,14 +103,8 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Main File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.model.DataModel">Data Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.controller.invController">Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.service.EventlogService">Service</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.viewmodel.productlistViewModel">ViewModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../view.html">View</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../dialogs.html">Dialogs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../constants.html">Constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datafiles.html">Data Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plugins.html">PlugIn’s</a></li>
 </ul>

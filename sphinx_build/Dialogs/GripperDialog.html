@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>GripperDialog &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="gripperdialog">
+<h1>GripperDialog<a class="headerlink" href="#gripperdialog" title="Permalink to this heading">¶</a></h1>
+<p>Dialogvisualisierung um den Greifer manuell zu bearbeiten.
+GripperDialog.qml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span>import QtQuick 2.15
+<span class="linenos">  2</span>import QtQuick.Dialogs
+<span class="linenos">  3</span>import QtQuick.Controls 2.15
+<span class="linenos">  4</span>import QtQuick.Controls.Material 2.15
+<span class="linenos">  5</span>import QtQuick.Layouts 1.3
+<span class="linenos">  6</span>/*
+<span class="linenos">  7</span>  This QML File shows a Dialog which enables the user to manually override the storage data
+<span class="linenos">  8</span>  */
+<span class="linenos">  9</span>Dialog {
+<span class="linenos"> 10</span>    id: editDialog
+<span class="linenos"> 11</span>    title: &quot;Override Gripper&quot;
+<span class="linenos"> 12</span>    width: 400
+<span class="linenos"> 13</span>    height: stackLayout.currentIndex === 0 ? 600 : 400
+<span class="linenos"> 14</span>    anchors.centerIn: parent
+<span class="linenos"> 15</span>    property bool isPalletPresent: true
+<span class="linenos"> 16</span>    property bool isCupPresent: true
+<span class="linenos"> 17</span>    Behavior on height {
+<span class="linenos"> 18</span>        NumberAnimation {
+<span class="linenos"> 19</span>            duration: 100
+<span class="linenos"> 20</span>        }
+<span class="linenos"> 21</span>    }
+<span class="linenos"> 22</span>    // ColumnLayout helps to organize Items in vertical order.
+<span class="linenos"> 23</span>    ColumnLayout{
+<span class="linenos"> 24</span>        id: editGripperLayout
+<span class="linenos"> 25</span>        width: parent.width
+<span class="linenos"> 26</span>        height: parent.height
+<span class="linenos"> 27</span>        // This Row enables user to allocate the storage location
+<span class="linenos"> 28</span>        Row {
+<span class="linenos"> 29</span>            Text {
+<span class="linenos"> 30</span>                id: choiceText
+<span class="linenos"> 31</span>                width: parent.width/2
+<span class="linenos"> 32</span>                height: 50
+<span class="linenos"> 33</span>                text: qsTr(&quot;Item present: &quot;)
+<span class="linenos"> 34</span>                verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 35</span>            }
+<span class="linenos"> 36</span>            ComboBox{
+<span class="linenos"> 37</span>                id: choicePresent
+<span class="linenos"> 38</span>                model: [&quot;Pallet&quot;, &quot;Cup&quot;, &quot;Empty&quot;]
+<span class="linenos"> 39</span>                width: parent.width/2
+<span class="linenos"> 40</span>                height: 50
+<span class="linenos"> 41</span>
+<span class="linenos"> 42</span>            }
+<span class="linenos"> 43</span>            Layout.fillWidth: true
+<span class="linenos"> 44</span>        }
+<span class="linenos"> 45</span>        StackLayout{
+<span class="linenos"> 46</span>            id: stackLayout
+<span class="linenos"> 47</span>            currentIndex: choicePresent.currentIndex
+<span class="linenos"> 48</span>            ColumnLayout{
+<span class="linenos"> 49</span>                Text{
+<span class="linenos"> 50</span>                   id: palletText
+<span class="linenos"> 51</span>                   width: parent.width
+<span class="linenos"> 52</span>                   height: 50
+<span class="linenos"> 53</span>                   text: qsTr(&quot;Set Pallet Properties: &quot;)
+<span class="linenos"> 54</span>                   font.pixelSize: 20
+<span class="linenos"> 55</span>                   font.bold: true
+<span class="linenos"> 56</span>                   verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 57</span>                   horizontalAlignment: Text.AlignHCenter
+<span class="linenos"> 58</span>                   Layout.fillWidth: true
+<span class="linenos"> 59</span>                }
+<span class="linenos"> 60</span>                Row{
+<span class="linenos"> 61</span>                    Text{
+<span class="linenos"> 62</span>                        id: cupAText
+<span class="linenos"> 63</span>                        width: parent.width
+<span class="linenos"> 64</span>                        height: 50
+<span class="linenos"> 65</span>                        text: qsTr(&quot;Slot A: &quot;)
+<span class="linenos"> 66</span>                        font.pixelSize: 20
+<span class="linenos"> 67</span>                        font.bold: true
+<span class="linenos"> 68</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 69</span>                        horizontalAlignment: Text.AlignHCenter
+<span class="linenos"> 70</span>                    }
+<span class="linenos"> 71</span>                    Layout.fillWidth: true
+<span class="linenos"> 72</span>                }
+<span class="linenos"> 73</span>                Row{
+<span class="linenos"> 74</span>                    Label{
+<span class="linenos"> 75</span>                        id: cupA
+<span class="linenos"> 76</span>                        width: parent.width/2
+<span class="linenos"> 77</span>                        height: 50
+<span class="linenos"> 78</span>                        text: qsTr(&quot;Cup A: &quot;)
+<span class="linenos"> 79</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 80</span>                    }
+<span class="linenos"> 81</span>                    TextField{
+<span class="linenos"> 82</span>                        id: cupAEdit
+<span class="linenos"> 83</span>                        width: parent.width/2
+<span class="linenos"> 84</span>                        height: 50
+<span class="linenos"> 85</span>                        text: qsTr(&quot;&quot;)
+<span class="linenos"> 86</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 87</span>                    }
+<span class="linenos"> 88</span>                    Layout.fillWidth: true
+<span class="linenos"> 89</span>                }
+<span class="linenos"> 90</span>                Row{
+<span class="linenos"> 91</span>                    Label{
+<span class="linenos"> 92</span>                        id: prodA
+<span class="linenos"> 93</span>                        width: parent.width/2
+<span class="linenos"> 94</span>                        height: 50
+<span class="linenos"> 95</span>                        text: qsTr(&quot;Produkt A: &quot;)
+<span class="linenos"> 96</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos"> 97</span>                    }
+<span class="linenos"> 98</span>                    ComboBox{
+<span class="linenos"> 99</span>                        id: prodAEdit
+<span class="linenos">100</span>                        width: parent.width/2
+<span class="linenos">101</span>                        height: 50
+<span class="linenos">102</span>                        model: productListModel
+<span class="linenos">103</span>                        textRole: &#39;name&#39;
+<span class="linenos">104</span>                        valueRole: &#39;id&#39;
+<span class="linenos">105</span>                    }
+<span class="linenos">106</span>                    Layout.fillWidth: true
+<span class="linenos">107</span>                }
+<span class="linenos">108</span>                Row{
+<span class="linenos">109</span>                    Text{
+<span class="linenos">110</span>                        id: cupBText
+<span class="linenos">111</span>                        width: parent.width
+<span class="linenos">112</span>                        height: 50
+<span class="linenos">113</span>                        text: qsTr(&quot;Slot B: &quot;)
+<span class="linenos">114</span>                        font.pixelSize: 20
+<span class="linenos">115</span>                        font.bold: true
+<span class="linenos">116</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos">117</span>                        horizontalAlignment: Text.AlignHCenter
+<span class="linenos">118</span>                    }
+<span class="linenos">119</span>                    Layout.fillWidth: true
+<span class="linenos">120</span>                }
+<span class="linenos">121</span>                Row{
+<span class="linenos">122</span>                    Label{
+<span class="linenos">123</span>                        id: cupB
+<span class="linenos">124</span>                        width: parent.width/2
+<span class="linenos">125</span>                        height: 50
+<span class="linenos">126</span>                        text: qsTr(&quot;Cup B: &quot;)
+<span class="linenos">127</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos">128</span>                    }
+<span class="linenos">129</span>                    TextField{
+<span class="linenos">130</span>                        id: cupBEdit
+<span class="linenos">131</span>                        width: parent.width/2
+<span class="linenos">132</span>                        height: 50
+<span class="linenos">133</span>                        text: qsTr(&quot;&quot;)
+<span class="linenos">134</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos">135</span>                    }
+<span class="linenos">136</span>                    Layout.fillWidth: true
+<span class="linenos">137</span>                }
+<span class="linenos">138</span>                Row{
+<span class="linenos">139</span>                    Label{
+<span class="linenos">140</span>                        id: prodB
+<span class="linenos">141</span>                        width: parent.width/2
+<span class="linenos">142</span>                        height: 50
+<span class="linenos">143</span>                        text: qsTr(&quot;Produkt B: &quot;)
+<span class="linenos">144</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos">145</span>                    }
+<span class="linenos">146</span>                    ComboBox{
+<span class="linenos">147</span>                        id: prodBEdit
+<span class="linenos">148</span>                        width: parent.width/2
+<span class="linenos">149</span>                        height: 50
+<span class="linenos">150</span>                        model: productListModel
+<span class="linenos">151</span>                        textRole: &#39;name&#39;
+<span class="linenos">152</span>                        valueRole: &#39;id&#39;
+<span class="linenos">153</span>                    }
+<span class="linenos">154</span>                    Layout.fillWidth: true
+<span class="linenos">155</span>                }
+<span class="linenos">156</span>                Layout.fillWidth: true
+<span class="linenos">157</span>            }
+<span class="linenos">158</span>            ColumnLayout{
+<span class="linenos">159</span>               Text{
+<span class="linenos">160</span>                   id: palletAText
+<span class="linenos">161</span>                   width: parent.width
+<span class="linenos">162</span>                   height: 50
+<span class="linenos">163</span>                   text: qsTr(&quot;Set Cup Properties: &quot;)
+<span class="linenos">164</span>                   font.pixelSize: 20
+<span class="linenos">165</span>                   font.bold: true
+<span class="linenos">166</span>                   verticalAlignment: Text.AlignVCenter
+<span class="linenos">167</span>                   horizontalAlignment: Text.AlignHCenter
+<span class="linenos">168</span>               }
+<span class="linenos">169</span>               Row{
+<span class="linenos">170</span>                    Label{
+<span class="linenos">171</span>                        id: cup
+<span class="linenos">172</span>                        width: parent.width/2
+<span class="linenos">173</span>                        height: 50
+<span class="linenos">174</span>                        text: qsTr(&quot;Cup: &quot;)
+<span class="linenos">175</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos">176</span>                    }
+<span class="linenos">177</span>                    TextField{
+<span class="linenos">178</span>                        id: cupEdit
+<span class="linenos">179</span>                        width: parent.width/2
+<span class="linenos">180</span>                        height: 50
+<span class="linenos">181</span>                        text: qsTr(&quot;&quot;)
+<span class="linenos">182</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos">183</span>                    }
+<span class="linenos">184</span>                    Layout.fillWidth: true
+<span class="linenos">185</span>               }
+<span class="linenos">186</span>               Row{
+<span class="linenos">187</span>                    Label{
+<span class="linenos">188</span>                        id: prod
+<span class="linenos">189</span>                        width: parent.width/2
+<span class="linenos">190</span>                        height: 50
+<span class="linenos">191</span>                        text: qsTr(&quot;Produkt: &quot;)
+<span class="linenos">192</span>                        verticalAlignment: Text.AlignVCenter
+<span class="linenos">193</span>                    }
+<span class="linenos">194</span>                    ComboBox{
+<span class="linenos">195</span>                        id: prodEdit
+<span class="linenos">196</span>                        width: parent.width/2
+<span class="linenos">197</span>                        height: 50
+<span class="linenos">198</span>                        model: productListModel
+<span class="linenos">199</span>                        textRole: &#39;name&#39;
+<span class="linenos">200</span>                        valueRole: &#39;id&#39;
+<span class="linenos">201</span>                    }
+<span class="linenos">202</span>                    Layout.fillWidth: true
+<span class="linenos">203</span>               }
+<span class="linenos">204</span>               Layout.fillWidth: true
+<span class="linenos">205</span>            }
+<span class="linenos">206</span>            Rectangle{
+<span class="linenos">207</span>                id: empty
+<span class="linenos">208</span>                width: parent.width
+<span class="linenos">209</span>                height: 50
+<span class="linenos">210</span>                color: &quot;transparent&quot;
+<span class="linenos">211</span>            }
+<span class="linenos">212</span>            Layout.fillWidth: true
+<span class="linenos">213</span>        }
+<span class="linenos">214</span>
+<span class="linenos">215</span>    }
+<span class="linenos">216</span>    standardButtons: Dialog.Ok | Dialog.Cancel
+<span class="linenos">217</span>    onAccepted: {
+<span class="linenos">218</span>        console.log(&quot;Gripperdialog Accepted&quot;)
+<span class="linenos">219</span>        console.log(&quot;sending to inventoryController:&quot;)
+<span class="linenos">220</span>        let visPallet
+<span class="linenos">221</span>        let visCup
+<span class="linenos">222</span>        let vcupA
+<span class="linenos">223</span>        let vcupB
+<span class="linenos">224</span>        let vprodA
+<span class="linenos">225</span>        let vprodB
+<span class="linenos">226</span>        console.log(&quot;read choice: &quot;+ choicePresent.currentValue)
+<span class="linenos">227</span>        if (choicePresent.currentIndex === 0){
+<span class="linenos">228</span>            visPallet = true;
+<span class="linenos">229</span>            visCup = false;
+<span class="linenos">230</span>            vcupA = parseInt(cupAEdit.text);
+<span class="linenos">231</span>            vprodA = parseInt(prodAEdit.currentIndex);
+<span class="linenos">232</span>            vcupB = parseInt(cupBEdit.text);
+<span class="linenos">233</span>            vprodB = parseInt(prodBEdit.currentIndex);
+<span class="linenos">234</span>            console.log(&quot;cupA ID:&quot; + vcupA);
+<span class="linenos">235</span>            console.log(&quot;prodA: &quot;+ vprodA);
+<span class="linenos">236</span>            console.log(&quot;cupB ID:&quot; + vcupB);
+<span class="linenos">237</span>            console.log(&quot;prodB: &quot;+ vprodB);
+<span class="linenos">238</span>        }else if(choicePresent.currentIndex === 1){
+<span class="linenos">239</span>            visPallet = false;
+<span class="linenos">240</span>            visCup = true;
+<span class="linenos">241</span>            vcupA = parseInt(cupEdit.text);
+<span class="linenos">242</span>            vprodA = parseInt(prodEdit.currentIndex);
+<span class="linenos">243</span>            vcupB = 0;
+<span class="linenos">244</span>            vprodB = 0;
+<span class="linenos">245</span>            console.log(&quot;cupA ID:&quot; + vcupA);
+<span class="linenos">246</span>            console.log(&quot;prodA: &quot;+ vprodA);
+<span class="linenos">247</span>            console.log(&quot;cupB ID:&quot; + vcupB);
+<span class="linenos">248</span>            console.log(&quot;prodB: &quot;+ vprodB);
+<span class="linenos">249</span>        }
+<span class="linenos">250</span>        inventoryController.changeGripper(visPallet, visCup, vcupA, vprodA, vcupB, vprodB);
+<span class="linenos">251</span>        console.log(&quot;Gripperdialog Accepted&quot;)
+<span class="linenos">252</span>    }
+<span class="linenos">253</span>    onRejected: {
+<span class="linenos">254</span>        //console.log(&quot;Gripperdialog Rejected&quot;)
+<span class="linenos">255</span>    }
+<span class="linenos">256</span>    onOpened: {
+<span class="linenos">257</span>        console.log(&quot;GripperDialog Completed&quot;)
+<span class="linenos">258</span>        inventoryController.loadGripper()
+<span class="linenos">259</span>    }
+<span class="linenos">260</span>    Connections {
+<span class="linenos">261</span>        target: inventoryController
+<span class="linenos">262</span>        function onTransmitGripper(isPallet, isCup, CupA, ProdA, ProdAName, CupB, ProdB, ProdBName){
+<span class="linenos">263</span>            if(isPallet){
+<span class="linenos">264</span>                choicePresent.currentIndex = 0
+<span class="linenos">265</span>                cupAEdit.text = CupA
+<span class="linenos">266</span>                prodAEdit.currentIndex = ProdA
+<span class="linenos">267</span>                cupBEdit.text = CupB
+<span class="linenos">268</span>                prodBEdit.currentIndex = ProdB
+<span class="linenos">269</span>            }else{
+<span class="linenos">270</span>                choicePresent.currentIndex = 1
+<span class="linenos">271</span>                cupEdit.text = CupA
+<span class="linenos">272</span>                prodEdit.currentIndex = ProdA
+<span class="linenos">273</span>            }
+<span class="linenos">274</span>        }
+<span class="linenos">275</span>    }
+<span class="linenos">276</span>}
+</pre></div>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">µPlant Warehouse Management</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../view.html">View</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datafiles.html">Data Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugins.html">PlugIn’s</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Lennart Schink.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/Dialogs/GripperDialog.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

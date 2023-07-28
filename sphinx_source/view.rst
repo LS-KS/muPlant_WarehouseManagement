@@ -1,7 +1,30 @@
 
 View
-----
-Die Nachfolgenden Dateien stellen den Quellcode für das GUI dar.
+====
+Das GUI ist in QML geschrieben und wird durch die QML-Engine des Qt-Frameworks gerendert.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Contents:
+   :glob:
+   
+   Views/MainView
+
+   Views/HeaderLine
+
+   Views/Help
+
+   Views/CommissionView
+
+   Views/CupView
+
+   Views/InventoryView
+
+   Views/EventView
+
+   Views/GripperDialog
+
+
 
 Hauptfenster:
 main.qml
@@ -21,11 +44,6 @@ TurtleView.qml
 .. literalinclude:: ../src/view/TurtleView.qml
     :linenos:
 
-Ansicht eines Bechers mit ID und Produktname
-CupView.qml
-
-.. literalinclude:: ../src/view/CupView.qml
-    :linenos:
 
 Ansicht einer Palette mit Becher:
 PalletteView.qml

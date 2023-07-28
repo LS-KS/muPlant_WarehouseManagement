@@ -9,6 +9,7 @@ Welcome to µPlant Warehouse Management's documentation!
 .. toctree::
    :maxdepth: 3
    :caption: Contents:
+   :glob:
 
    readme
 
@@ -17,8 +18,6 @@ Welcome to µPlant Warehouse Management's documentation!
    view
 
    dialogs
-
-   constants
 
    datafiles
 

@@ -34,7 +34,7 @@
   <h1>Source code for src.model.CommissionModel</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">StrEnum</span>
 
-<div class="viewcode-block" id="CommissionData"><a class="viewcode-back" href="../../../modules.html#src.model.CommissionModel.CommissionData">[docs]</a><span class="k">class</span> <span class="nc">CommissionData</span><span class="p">:</span>
+<div class="viewcode-block" id="CommissionData"><a class="viewcode-back" href="../../../DataModel.html#src.model.CommissionModel.CommissionData">[docs]</a><span class="k">class</span> <span class="nc">CommissionData</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Data Class for CommissionData</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -48,7 +48,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">CommissionState</span><span class="o">.</span><span class="n">OPEN</span> <span class="k">if</span> <span class="n">state</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">state</span></div>
         <span class="c1">#print(f&quot;CommissionData: {self.id}, {self.source}, {self.target}, {self.object}&quot;)</span>
 
-<div class="viewcode-block" id="CommissionState"><a class="viewcode-back" href="../../../modules.html#src.model.CommissionModel.CommissionState">[docs]</a><span class="k">class</span> <span class="nc">CommissionState</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<div class="viewcode-block" id="CommissionState"><a class="viewcode-back" href="../../../DataModel.html#src.model.CommissionModel.CommissionState">[docs]</a><span class="k">class</span> <span class="nc">CommissionState</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enum for CommissionData State</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -57,7 +57,7 @@
     <span class="n">PROGRESS</span> <span class="o">=</span> <span class="s1">&#39;in progress&#39;</span>
     <span class="n">DONE</span> <span class="o">=</span> <span class="s1">&#39;done&#39;</span></div>
 
-<div class="viewcode-block" id="Locations"><a class="viewcode-back" href="../../../modules.html#src.model.CommissionModel.Locations">[docs]</a><span class="k">class</span> <span class="nc">Locations</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<div class="viewcode-block" id="Locations"><a class="viewcode-back" href="../../../DataModel.html#src.model.CommissionModel.Locations">[docs]</a><span class="k">class</span> <span class="nc">Locations</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enum for CommissionDta locations source and target</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -128,14 +128,8 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Main File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.model.DataModel">Data Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.controller.invController">Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.service.EventlogService">Service</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.viewmodel.productlistViewModel">ViewModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../view.html">View</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../dialogs.html">Dialogs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../constants.html">Constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datafiles.html">Data Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plugins.html">PlugIn’s</a></li>
 </ul>

@@ -41,7 +41,7 @@
 <span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
 <span class="kn">from</span> <span class="nn">yaml</span> <span class="kn">import</span> <span class="n">safe_load</span><span class="p">,</span> <span class="n">safe_dump</span>
 
-<div class="viewcode-block" id="CommissionController"><a class="viewcode-back" href="../../../modules.html#src.controller.CommissionController.CommissionController">[docs]</a><span class="k">class</span> <span class="nc">CommissionController</span><span class="p">:</span>
+<div class="viewcode-block" id="CommissionController"><a class="viewcode-back" href="../../../Controller.html#src.controller.CommissionController.CommissionController">[docs]</a><span class="k">class</span> <span class="nc">CommissionController</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class is used to provide a viewModel for all commission data</span>
 <span class="sd">    commission data source is a database file where all commissions are saved.</span>
@@ -60,7 +60,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AscendingOrder</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="CommissionController.loadCommissionData"><a class="viewcode-back" href="../../../modules.html#src.controller.CommissionController.CommissionController.loadCommissionData">[docs]</a>    <span class="k">def</span> <span class="nf">loadCommissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CommissionController.loadCommissionData"><a class="viewcode-back" href="../../../Controller.html#src.controller.CommissionController.CommissionController.loadCommissionData">[docs]</a>    <span class="k">def</span> <span class="nf">loadCommissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">commissionData</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">Constants</span><span class="p">()</span><span class="o">.</span><span class="n">COMMISSIONDATA</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">safe_load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
@@ -82,7 +82,7 @@
                 <span class="c1">#print(commissionData[-1].source.value)</span>
         <span class="k">return</span>  <span class="n">commissionData</span></div>
 
-<div class="viewcode-block" id="CommissionController.dumpCommissionData"><a class="viewcode-back" href="../../../modules.html#src.controller.CommissionController.CommissionController.dumpCommissionData">[docs]</a>    <span class="k">def</span> <span class="nf">dumpCommissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CommissionController.dumpCommissionData"><a class="viewcode-back" href="../../../Controller.html#src.controller.CommissionController.CommissionController.dumpCommissionData">[docs]</a>    <span class="k">def</span> <span class="nf">dumpCommissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">commission</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commissionData</span><span class="p">:</span>
             <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
@@ -121,14 +121,8 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Main File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.model.DataModel">Data Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.controller.invController">Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.service.EventlogService">Service</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.viewmodel.productlistViewModel">ViewModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../view.html">View</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../dialogs.html">Dialogs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../constants.html">Constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datafiles.html">Data Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plugins.html">PlugIn’s</a></li>
 </ul>

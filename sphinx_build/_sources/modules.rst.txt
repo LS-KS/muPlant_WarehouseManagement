@@ -3,92 +3,26 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Main File
----------
-.. literalinclude:: ../main.py
-    :language: python
-    :linenos:
+Module
+======
 
+Nachfolgend sind alle Python Module aufgelistet und beschrieben.
 
-Data Model
-----------
+.. toctree::
+   :maxdepth: 1
+   :caption: Contents:
+   :glob:
+   
+   Modules/MainFile
 
-.. automodule:: src.model.DataModel
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   Modules/DataModel
 
-.. automodule:: src.model.CommissionModel
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   Modules/Controller
 
-.. automodule:: src.model.Preferences
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   Modules/Service
 
-Controller
-----------
+   Modules/ViewModel
 
-.. automodule:: src.controller.invController
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-.. automodule:: src.controller.CommissionController
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-.. automodule:: src.controller.PreferenceController
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-Service
--------
-
-.. automodule:: src.service.EventlogService
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-.. automodule:: src.service.AgentService
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-.. automodule:: src.service.OpcuaService
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-ViewModel
----------
-
-.. automodule:: src.viewmodel.productlistViewModel
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-.. automodule:: src.viewmodel.productSummaryViewModel
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-.. automodule:: src.viewmodel.storageViewModel
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-.. automodule:: src.viewmodel.commissionViewModel
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-
-
+   Modules/constants
 
 

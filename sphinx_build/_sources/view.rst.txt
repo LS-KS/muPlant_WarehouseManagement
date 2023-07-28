@@ -1,7 +1,7 @@
 
 View
-----
-Die Nachfolgenden Dateien stellen den Quellcode für das GUI dar.
+====
+Das GUI ist in QML geschrieben und wird durch die QML-Engine des Qt-Frameworks gerendert.
 
 Hauptfenster:
 main.qml

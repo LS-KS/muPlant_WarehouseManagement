@@ -33,7 +33,7 @@
             
   <h1>Source code for src.model.Preferences</h1><div class="highlight"><pre>
 <span></span>
-<div class="viewcode-block" id="Preferences"><a class="viewcode-back" href="../../../modules.html#src.model.Preferences.Preferences">[docs]</a><span class="k">class</span> <span class="nc">Preferences</span><span class="p">:</span>
+<div class="viewcode-block" id="Preferences"><a class="viewcode-back" href="../../../DataModel.html#src.model.Preferences.Preferences">[docs]</a><span class="k">class</span> <span class="nc">Preferences</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class is used to store the preferences of the program</span>
 
@@ -44,13 +44,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span> <span class="o">=</span> <span class="n">PlugInPreferences</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">opcua</span> <span class="o">=</span> <span class="n">OpcuaPreferences</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="modBusPreferences"><a class="viewcode-back" href="../../../modules.html#src.model.Preferences.modBusPreferences">[docs]</a><span class="k">class</span> <span class="nc">modBusPreferences</span><span class="p">:</span>
+<div class="viewcode-block" id="modBusPreferences"><a class="viewcode-back" href="../../../DataModel.html#src.model.Preferences.modBusPreferences">[docs]</a><span class="k">class</span> <span class="nc">modBusPreferences</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">maxReconnects</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="modBusPreferences.setIP"><a class="viewcode-back" href="../../../modules.html#src.model.Preferences.modBusPreferences.setIP">[docs]</a>    <span class="k">def</span> <span class="nf">setIP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="modBusPreferences.setIP"><a class="viewcode-back" href="../../../DataModel.html#src.model.Preferences.modBusPreferences.setIP">[docs]</a>    <span class="k">def</span> <span class="nf">setIP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method sets the modBus IP address and returns True if valid.</span>
 <span class="sd">        Returns False if ip syntax is invalid.</span>
@@ -63,7 +63,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="modBusPreferences.setPort"><a class="viewcode-back" href="../../../modules.html#src.model.Preferences.modBusPreferences.setPort">[docs]</a>    <span class="k">def</span> <span class="nf">setPort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="modBusPreferences.setPort"><a class="viewcode-back" href="../../../DataModel.html#src.model.Preferences.modBusPreferences.setPort">[docs]</a>    <span class="k">def</span> <span class="nf">setPort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method sets the modBus port and returns True if valid.</span>
 <span class="sd">        Returns False if port syntax is invalid.</span>
@@ -76,7 +76,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="modBusPreferences.setMaxReconnects"><a class="viewcode-back" href="../../../modules.html#src.model.Preferences.modBusPreferences.setMaxReconnects">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxReconnects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tries</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="modBusPreferences.setMaxReconnects"><a class="viewcode-back" href="../../../DataModel.html#src.model.Preferences.modBusPreferences.setMaxReconnects">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxReconnects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tries</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__validatemaxTries</span><span class="p">(</span><span class="n">tries</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">maxReconnects</span> <span class="o">=</span> <span class="n">tries</span>
             <span class="k">return</span> <span class="kc">True</span>
@@ -131,13 +131,13 @@
             <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">65535</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span></div>
-<div class="viewcode-block" id="abbPreferences"><a class="viewcode-back" href="../../../modules.html#src.model.Preferences.abbPreferences">[docs]</a><span class="k">class</span> <span class="nc">abbPreferences</span><span class="p">:</span>
+<div class="viewcode-block" id="abbPreferences"><a class="viewcode-back" href="../../../DataModel.html#src.model.Preferences.abbPreferences">[docs]</a><span class="k">class</span> <span class="nc">abbPreferences</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="abbPreferences.setIP"><a class="viewcode-back" href="../../../modules.html#src.model.Preferences.abbPreferences.setIP">[docs]</a>    <span class="k">def</span> <span class="nf">setIP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="abbPreferences.setIP"><a class="viewcode-back" href="../../../DataModel.html#src.model.Preferences.abbPreferences.setIP">[docs]</a>    <span class="k">def</span> <span class="nf">setIP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method sets the abb IP address and returns True if valid.</span>
 <span class="sd">        Returns False if ip syntax is invalid.</span>
@@ -150,7 +150,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="abbPreferences.setPort"><a class="viewcode-back" href="../../../modules.html#src.model.Preferences.abbPreferences.setPort">[docs]</a>    <span class="k">def</span> <span class="nf">setPort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="abbPreferences.setPort"><a class="viewcode-back" href="../../../DataModel.html#src.model.Preferences.abbPreferences.setPort">[docs]</a>    <span class="k">def</span> <span class="nf">setPort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method sets the abb port and returns True if valid.</span>
 <span class="sd">        Returns False if port syntax is invalid.</span>
@@ -203,12 +203,12 @@
                 <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span></div>
     
-<div class="viewcode-block" id="PlugInPreferences"><a class="viewcode-back" href="../../../modules.html#src.model.Preferences.PlugInPreferences">[docs]</a><span class="k">class</span> <span class="nc">PlugInPreferences</span><span class="p">:</span>
+<div class="viewcode-block" id="PlugInPreferences"><a class="viewcode-back" href="../../../DataModel.html#src.model.Preferences.PlugInPreferences">[docs]</a><span class="k">class</span> <span class="nc">PlugInPreferences</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">autostartRfidServer</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">autostartMccPlugin</span> <span class="o">=</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="OpcuaPreferences"><a class="viewcode-back" href="../../../modules.html#src.model.Preferences.OpcuaPreferences">[docs]</a><span class="k">class</span> <span class="nc">OpcuaPreferences</span><span class="p">:</span>
+<div class="viewcode-block" id="OpcuaPreferences"><a class="viewcode-back" href="../../../DataModel.html#src.model.Preferences.OpcuaPreferences">[docs]</a><span class="k">class</span> <span class="nc">OpcuaPreferences</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">=</span> <span class="kc">None</span>
@@ -238,14 +238,8 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Main File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.model.DataModel">Data Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.controller.invController">Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.service.EventlogService">Service</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.viewmodel.productlistViewModel">ViewModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../view.html">View</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../dialogs.html">Dialogs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../constants.html">Constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datafiles.html">Data Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plugins.html">PlugIn’s</a></li>
 </ul>

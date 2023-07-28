@@ -1,5 +1,5 @@
 Constants
----------
+=========
 
 Speichert alle URI's zu Dateien und PlugIn's
 

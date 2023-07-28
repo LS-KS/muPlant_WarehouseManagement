@@ -1,43 +1,20 @@
+Dialogs
+_______
+
+Das QML Item Dialog ist ein Container füt Dialoge, die über dem aktuellen Fenster eingeblendet werden, sobald sie ausgeführt werden. 
+Dialoge werden im WareHouseManagement dazu verwendet, die Programmeinstellungen wie z.B. die IP-Adresse des Roboters zu ändern und um 
+manualle Überschreibungen durch den Benutzer zu ermöglichen - z.B. im Lager. 
+
 .. toctree::
    :maxdepth: 1
    :caption: Contents:
 
-   StorageDialog
+   Dialogs/StorageDialog
 
-   WorkbenchDialog
+   Dialogs/WorbenchDialog
 
-   TurtleDialog
+   Dialogs/TurtleDialog
 
-   GripperDialog
+   Dialogs/GripperDialog
 
-   PreferenceDialog
-
-
-Dialogs
-_______
-
-
-
-Dialogvisualisierung um den Kommissioniertisch manuell zu bearbeiten.
-WorkbenchDialog.qml
-
-.. literalinclude:: ../src/view/WorkbenchDialog.qml
-    :linenos:
-
-Dialogvisualisierung um den mobilen Roboter manuell zu bearbeiten.
-TurtleDialog.qml
-
-.. literalinclude:: ../src/view/TurtleDialog.qml
-    :linenos:
-
-Dialogvisualisierung um den Greifer manuell zu bearbeiten.
-GripperDialog.qml
-
-.. literalinclude:: ../src/view/GripperDialog.qml
-    :linenos:
-
-Dialogvisualisierung für Programmeinstellungen.
-PreferenceDialog.qml
-
-.. literalinclude:: ../src/view/PreferenceDialog.qml
-    :linenos:
+   Dialogs/PreferenceDialog

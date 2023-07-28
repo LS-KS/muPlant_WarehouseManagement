@@ -16,8 +16,8 @@
     <script src="_static/copybutton.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="PlugIn’s" href="plugins.html" />
-    <link rel="prev" title="Constants" href="constants.html" />
+    <link rel="next" title="Produktdaten" href="DataFiles/ProductData.html" />
+    <link rel="prev" title="PreferenceDialog" href="Dialogs/PreferenceDialog.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -36,188 +36,14 @@
             
   <section id="data-files">
 <h1>Data Files<a class="headerlink" href="#data-files" title="Permalink to this heading">¶</a></h1>
-<p>Produkte.db:
-Speichert alle möglichen Produktvarianten mit Id und Bezeichnung</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="mi">0</span><span class="p">;</span><span class="n">Kein</span> <span class="n">Becher</span>
-<span class="linenos"> 2</span><span class="mi">1</span><span class="p">;</span><span class="n">Leerer</span> <span class="n">Becher</span>
-<span class="linenos"> 3</span><span class="mi">2</span><span class="p">;</span><span class="n">Wasser</span> 
-<span class="linenos"> 4</span><span class="mi">3</span><span class="p">;</span><span class="n">Grüner</span> <span class="n">Tee</span>
-<span class="linenos"> 5</span><span class="mi">4</span><span class="p">;</span><span class="n">Schwarzer</span> <span class="n">Tee</span> 
-<span class="linenos"> 6</span><span class="mi">5</span><span class="p">;</span><span class="n">Erdbeere</span>
-<span class="linenos"> 7</span><span class="mi">6</span><span class="p">;</span><span class="n">Mango</span>
-<span class="linenos"> 8</span><span class="mi">7</span><span class="p">;</span><span class="n">Chinesische</span> <span class="n">Haselnuss</span>
-<span class="linenos"> 9</span><span class="mi">8</span><span class="p">;</span><span class="n">Pfirsich</span>
-<span class="linenos">10</span><span class="mi">9</span><span class="p">;</span><span class="n">Kiwi</span>
-<span class="linenos">11</span><span class="mi">10</span><span class="p">;</span><span class="n">Wassermelone</span>
-<span class="linenos">12</span><span class="mi">11</span><span class="p">;</span><span class="n">Honigmelone</span>
-<span class="linenos">13</span><span class="mi">12</span><span class="p">;</span><span class="n">Kokos</span>
-<span class="linenos">14</span><span class="mi">13</span><span class="p">;</span><span class="n">Passionsfrucht</span>
-<span class="linenos">15</span><span class="mi">14</span><span class="p">;</span><span class="n">Birne</span>
-<span class="linenos">16</span><span class="mi">15</span><span class="p">;</span><span class="n">Blaubeere</span>
-<span class="linenos">17</span><span class="mi">16</span><span class="p">;</span><span class="n">Schoko</span>
-<span class="linenos">18</span><span class="mi">17</span><span class="p">;</span><span class="n">Vanille</span>
-<span class="linenos">19</span><span class="mi">18</span><span class="p">;</span><span class="n">Karamell</span>
-<span class="linenos">20</span><span class="mi">19</span><span class="p">;</span><span class="n">Apfel</span>
-<span class="linenos">21</span><span class="mi">20</span><span class="p">;</span><span class="n">Grüner</span> <span class="n">Apfel</span>
-<span class="linenos">22</span><span class="mi">21</span><span class="p">;</span><span class="n">Traube</span>
-<span class="linenos">23</span><span class="mi">22</span><span class="p">;</span><span class="n">Waldmeister</span>
-<span class="linenos">24</span><span class="mi">23</span><span class="p">;</span><span class="n">Papaya</span>
-<span class="linenos">25</span><span class="mi">24</span><span class="p">;</span><span class="n">Pfefferminz</span> 
-<span class="linenos">26</span><span class="mi">25</span><span class="p">;</span><span class="n">Holunder</span>
-<span class="linenos">27</span><span class="mi">26</span><span class="p">;</span><span class="n">Mandel</span>
-<span class="linenos">28</span><span class="mi">27</span><span class="p">;</span><span class="n">Ananas</span>
-<span class="linenos">29</span><span class="mi">28</span><span class="p">;</span><span class="n">Kaffee</span>
-<span class="linenos">30</span><span class="mi">29</span><span class="p">;</span><span class="n">Blutorange</span>
-<span class="linenos">31</span><span class="mi">30</span><span class="p">;</span><span class="n">Zitrone</span>
-<span class="linenos">32</span><span class="mi">31</span><span class="p">;</span><span class="n">Fanta</span>
-<span class="linenos">33</span><span class="mi">32</span><span class="p">;</span><span class="n">Sprite</span>
-<span class="linenos">34</span><span class="mi">33</span><span class="p">;</span><span class="n">Cola</span>
-</pre></div>
-</div>
-<p>StorageData.db
-Speichert ein Abbild des Regalinhalts.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1"># Row,Col:IsPalletPresent:CupID_a,ProductID_a|CupID_b,ProductID_b</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">123</span><span class="p">,</span><span class="mi">12</span>
-<span class="linenos"> 4</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
-<span class="linenos"> 5</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
-<span class="linenos"> 6</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
-<span class="linenos"> 7</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
-<span class="linenos"> 8</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span>
-<span class="linenos">11</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span>
-<span class="linenos">12</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span>
-<span class="linenos">13</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">15</span><span class="p">,</span><span class="mi">23</span><span class="o">|</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span>
-<span class="linenos">14</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="o">|</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span>
-<span class="linenos">15</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
-<span class="linenos">16</span>
-<span class="linenos">17</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
-<span class="linenos">18</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
-<span class="linenos">19</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span>
-<span class="linenos">20</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
-<span class="linenos">21</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="o">|</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span>
-<span class="linenos">22</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">9</span><span class="p">,</span><span class="mi">1</span><span class="o">|</span><span class="mi">8</span><span class="p">,</span><span class="mi">1</span>
-<span class="linenos">23</span>
-</pre></div>
-</div>
-<p>CommissData.db
-Altes Format der Kommissionsdatenbank. Wird nicht mehr verwendet.
-Aktuelle Kommissionsdatenbank ist CommissionData.yaml</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="c1"># Row,Col:IsPalletPresent:CupID_a,ProductID_a|CupID_b,ProductID_b</span>
-<span class="linenos">2</span>
-<span class="linenos">3</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
-<span class="linenos">4</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="o">|</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
-<span class="linenos">5</span>
-</pre></div>
-</div>
-<p>CommissionData.db
-Speichert alle Kommissionsaufträge (neue implementierung)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="c1">#id,source,target,object,cup,pallet,state</span>
-<span class="linenos">2</span>
-<span class="linenos">3</span>
-<span class="linenos">4</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
-<span class="linenos">5</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
-</pre></div>
-</div>
-<p>Preferences.yaml
-Speichert die Einstellungen des Programms</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">abbip</span><span class="p">:</span> <span class="mf">127.0.0.1</span>
-<span class="linenos"> 2</span><span class="n">abbport</span><span class="p">:</span> <span class="mi">9</span>
-<span class="linenos"> 3</span><span class="n">autostartMcc</span><span class="p">:</span> <span class="n">false</span>
-<span class="linenos"> 4</span><span class="n">autostartRfidServer</span><span class="p">:</span> <span class="n">false</span>
-<span class="linenos"> 5</span><span class="n">clientNamespace</span><span class="p">:</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">examples</span><span class="o">.</span><span class="n">freeopcua</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span>
-<span class="linenos"> 6</span><span class="n">clientUrl</span><span class="p">:</span> <span class="n">opc</span><span class="o">.</span><span class="n">tcp</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">4840</span><span class="o">/</span><span class="n">freeopcua</span><span class="o">/</span><span class="n">server</span><span class="o">/</span>
-<span class="linenos"> 7</span><span class="n">modbusip</span><span class="p">:</span> <span class="mf">127.0.0.0</span>
-<span class="linenos"> 8</span><span class="n">modbusport</span><span class="p">:</span> <span class="mi">65</span>
-<span class="linenos"> 9</span><span class="n">modbusreconnects</span><span class="p">:</span> <span class="mi">90</span>
-<span class="linenos">10</span><span class="n">opcuaEndpoint</span><span class="p">:</span> <span class="n">opc</span><span class="o">.</span><span class="n">tcp</span><span class="p">:</span><span class="o">//</span><span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">4840</span><span class="o">/</span><span class="n">freeopcua</span><span class="o">/</span><span class="n">server</span><span class="o">/</span>
-<span class="linenos">11</span><span class="n">opcuaNamespace</span><span class="p">:</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">examples</span><span class="o">.</span><span class="n">freeopcua</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span>
-</pre></div>
-</div>
-<p>CommissionData.yaml
-Speichert alle Kommissionsaufträge (neue implementierung)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="o">-</span> <span class="n">CommissionData</span><span class="p">:</span>
-<span class="linenos"> 2</span>    <span class="nb">id</span><span class="p">:</span> <span class="mi">1</span>
-<span class="linenos"> 3</span>    <span class="n">source</span><span class="p">:</span> <span class="n">K1A</span>
-<span class="linenos"> 4</span>    <span class="n">target</span><span class="p">:</span> <span class="n">L2A</span>
-<span class="linenos"> 5</span>    <span class="nb">object</span><span class="p">:</span> <span class="mi">123</span>
-<span class="linenos"> 6</span>    <span class="n">cup</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos"> 7</span>    <span class="n">pallet</span><span class="p">:</span> <span class="n">false</span>
-<span class="linenos"> 8</span>    <span class="n">state</span><span class="p">:</span> <span class="n">OPEN</span>
-<span class="linenos"> 9</span><span class="o">-</span> <span class="n">CommissionData</span><span class="p">:</span>
-<span class="linenos">10</span>    <span class="nb">id</span><span class="p">:</span> <span class="mi">2</span>
-<span class="linenos">11</span>    <span class="n">source</span><span class="p">:</span> <span class="n">K2A</span>
-<span class="linenos">12</span>    <span class="n">target</span><span class="p">:</span> <span class="n">L4B</span>
-<span class="linenos">13</span>    <span class="nb">object</span><span class="p">:</span> <span class="mi">456</span>
-<span class="linenos">14</span>    <span class="n">cup</span><span class="p">:</span> <span class="n">false</span>
-<span class="linenos">15</span>    <span class="n">pallet</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">16</span>    <span class="n">state</span><span class="p">:</span> <span class="n">PENDING</span>
-<span class="linenos">17</span><span class="o">-</span> <span class="n">CommissionData</span><span class="p">:</span>
-<span class="linenos">18</span>    <span class="nb">id</span><span class="p">:</span> <span class="mi">3</span>
-<span class="linenos">19</span>    <span class="n">source</span><span class="p">:</span> <span class="n">K1B</span>
-<span class="linenos">20</span>    <span class="n">target</span><span class="p">:</span> <span class="n">L6A</span>
-<span class="linenos">21</span>    <span class="nb">object</span><span class="p">:</span> <span class="mi">789</span>
-<span class="linenos">22</span>    <span class="n">cup</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">23</span>    <span class="n">pallet</span><span class="p">:</span> <span class="n">false</span>
-<span class="linenos">24</span>    <span class="n">state</span><span class="p">:</span> <span class="n">PROGRESS</span>
-<span class="linenos">25</span><span class="o">-</span> <span class="n">CommissionData</span><span class="p">:</span>
-<span class="linenos">26</span>    <span class="nb">id</span><span class="p">:</span> <span class="mi">4</span>
-<span class="linenos">27</span>    <span class="n">source</span><span class="p">:</span> <span class="n">K2B</span>
-<span class="linenos">28</span>    <span class="n">target</span><span class="p">:</span> <span class="n">L8B</span>
-<span class="linenos">29</span>    <span class="nb">object</span><span class="p">:</span> <span class="mi">999</span>
-<span class="linenos">30</span>    <span class="n">cup</span><span class="p">:</span> <span class="n">false</span>
-<span class="linenos">31</span>    <span class="n">pallet</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">32</span>    <span class="n">state</span><span class="p">:</span> <span class="n">DONE</span>
-<span class="linenos">33</span><span class="o">-</span> <span class="n">CommissionData</span><span class="p">:</span>
-<span class="linenos">34</span>    <span class="nb">id</span><span class="p">:</span> <span class="mi">5</span>
-<span class="linenos">35</span>    <span class="n">source</span><span class="p">:</span> <span class="n">K1A</span>
-<span class="linenos">36</span>    <span class="n">target</span><span class="p">:</span> <span class="n">L10A</span>
-<span class="linenos">37</span>    <span class="nb">object</span><span class="p">:</span> <span class="mi">555</span>
-<span class="linenos">38</span>    <span class="n">cup</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">39</span>    <span class="n">pallet</span><span class="p">:</span> <span class="n">false</span>
-<span class="linenos">40</span>    <span class="n">state</span><span class="p">:</span> <span class="n">OPEN</span>
-<span class="linenos">41</span><span class="o">-</span> <span class="n">CommissionData</span><span class="p">:</span>
-<span class="linenos">42</span>    <span class="nb">id</span><span class="p">:</span> <span class="mi">6</span>
-<span class="linenos">43</span>    <span class="n">source</span><span class="p">:</span> <span class="n">K2A</span>
-<span class="linenos">44</span>    <span class="n">target</span><span class="p">:</span> <span class="n">L12B</span>
-<span class="linenos">45</span>    <span class="nb">object</span><span class="p">:</span> <span class="mi">222</span>
-<span class="linenos">46</span>    <span class="n">cup</span><span class="p">:</span> <span class="n">false</span>
-<span class="linenos">47</span>    <span class="n">pallet</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">48</span>    <span class="n">state</span><span class="p">:</span> <span class="n">DONE</span>
-<span class="linenos">49</span><span class="o">-</span> <span class="n">CommissionData</span><span class="p">:</span>
-<span class="linenos">50</span>    <span class="nb">id</span><span class="p">:</span> <span class="mi">7</span>
-<span class="linenos">51</span>    <span class="n">source</span><span class="p">:</span> <span class="n">K1B</span>
-<span class="linenos">52</span>    <span class="n">target</span><span class="p">:</span> <span class="n">L14A</span>
-<span class="linenos">53</span>    <span class="nb">object</span><span class="p">:</span> <span class="mi">777</span>
-<span class="linenos">54</span>    <span class="n">cup</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">55</span>    <span class="n">pallet</span><span class="p">:</span> <span class="n">false</span>
-<span class="linenos">56</span>    <span class="n">state</span><span class="p">:</span> <span class="n">OPEN</span>
-<span class="linenos">57</span><span class="o">-</span> <span class="n">CommissionData</span><span class="p">:</span>
-<span class="linenos">58</span>    <span class="nb">id</span><span class="p">:</span> <span class="mi">8</span>
-<span class="linenos">59</span>    <span class="n">source</span><span class="p">:</span> <span class="n">K2B</span>
-<span class="linenos">60</span>    <span class="n">target</span><span class="p">:</span> <span class="n">L16B</span>
-<span class="linenos">61</span>    <span class="nb">object</span><span class="p">:</span> <span class="mi">888</span>
-<span class="linenos">62</span>    <span class="n">cup</span><span class="p">:</span> <span class="n">false</span>
-<span class="linenos">63</span>    <span class="n">pallet</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">64</span>    <span class="n">state</span><span class="p">:</span> <span class="n">DONE</span>
-<span class="linenos">65</span><span class="o">-</span> <span class="n">CommissionData</span><span class="p">:</span>
-<span class="linenos">66</span>    <span class="nb">id</span><span class="p">:</span> <span class="mi">9</span>
-<span class="linenos">67</span>    <span class="n">source</span><span class="p">:</span> <span class="n">K1A</span>
-<span class="linenos">68</span>    <span class="n">target</span><span class="p">:</span> <span class="n">L18A</span>
-<span class="linenos">69</span>    <span class="nb">object</span><span class="p">:</span> <span class="mi">444</span>
-<span class="linenos">70</span>    <span class="n">cup</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">71</span>    <span class="n">pallet</span><span class="p">:</span> <span class="n">false</span>
-<span class="linenos">72</span>    <span class="n">state</span><span class="p">:</span> <span class="n">OPEN</span>
-<span class="linenos">73</span><span class="o">-</span> <span class="n">CommissionData</span><span class="p">:</span>
-<span class="linenos">74</span>    <span class="nb">id</span><span class="p">:</span> <span class="mi">10</span>
-<span class="linenos">75</span>    <span class="n">source</span><span class="p">:</span> <span class="n">K2A</span>
-<span class="linenos">76</span>    <span class="n">target</span><span class="p">:</span> <span class="n">L3B</span>
-<span class="linenos">77</span>    <span class="nb">object</span><span class="p">:</span> <span class="mi">111</span>
-<span class="linenos">78</span>    <span class="n">cup</span><span class="p">:</span> <span class="n">false</span>
-<span class="linenos">79</span>    <span class="n">pallet</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos">80</span>    <span class="n">state</span><span class="p">:</span> <span class="n">DONE</span>
-</pre></div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="DataFiles/ProductData.html">Produktdaten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DataFiles/StorageData.html">Lagerdaten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DataFiles/CommissData.html">Kommissionsdaten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DataFiles/PreferenceData.html">Programmeinstellungen</a></li>
+</ul>
 </div>
 </section>
 
@@ -241,15 +67,16 @@ Speichert alle Kommissionsaufträge (neue implementierung)</p>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Main File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html#module-src.model.DataModel">Data Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html#module-src.controller.invController">Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html#module-src.service.EventlogService">Service</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html#module-src.viewmodel.productlistViewModel">ViewModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="view.html">View</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dialogs.html">Dialogs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="constants.html">Constants</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Data Files</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="DataFiles/ProductData.html">Produktdaten</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DataFiles/StorageData.html">Lagerdaten</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DataFiles/CommissData.html">Kommissionsdaten</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DataFiles/PreferenceData.html">Programmeinstellungen</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">PlugIn’s</a></li>
 </ul>
 
@@ -257,8 +84,8 @@ Speichert alle Kommissionsaufträge (neue implementierung)</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="constants.html" title="previous chapter">Constants</a></li>
-      <li>Next: <a href="plugins.html" title="next chapter">PlugIn’s</a></li>
+      <li>Previous: <a href="Dialogs/PreferenceDialog.html" title="previous chapter">PreferenceDialog</a></li>
+      <li>Next: <a href="DataFiles/ProductData.html" title="next chapter">Produktdaten</a></li>
   </ul></li>
 </ul>
 </div>

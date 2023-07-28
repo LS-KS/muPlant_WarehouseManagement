@@ -40,7 +40,7 @@
 <span class="kn">from</span> <span class="nn">yaml</span> <span class="kn">import</span> <span class="n">safe_load</span><span class="p">,</span> <span class="n">safe_dump</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">fields</span>
 
-<div class="viewcode-block" id="RfidController"><a class="viewcode-back" href="../../../plugins.html#src.controller.RfidController.RfidController">[docs]</a><span class="k">class</span> <span class="nc">RfidController</span><span class="p">(</span><span class="n">QObject</span><span class="p">):</span>
+<div class="viewcode-block" id="RfidController"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController">[docs]</a><span class="k">class</span> <span class="nc">RfidController</span><span class="p">(</span><span class="n">QObject</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">QObject</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
@@ -51,7 +51,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">rfidProxyViewModel</span><span class="o">.</span><span class="n">setSourceModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">controller</span> <span class="o">=</span> <span class="bp">self</span>
 
-<div class="viewcode-block" id="RfidController.selectAll"><a class="viewcode-back" href="../../../plugins.html#src.controller.RfidController.RfidController.selectAll">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
+<div class="viewcode-block" id="RfidController.selectAll"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.selectAll">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">selectAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Marks all RFID-Nodes as selected.</span>
@@ -61,7 +61,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">selectNode</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="RfidController.selectNone"><a class="viewcode-back" href="../../../plugins.html#src.controller.RfidController.RfidController.selectNone">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
+<div class="viewcode-block" id="RfidController.selectNone"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.selectNone">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">selectNone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Marks all RFID-Nodes as selected.</span>
@@ -70,7 +70,7 @@
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">selectNode</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RfidController.selectNode"><a class="viewcode-back" href="../../../plugins.html#src.controller.RfidController.RfidController.selectNode">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+<div class="viewcode-block" id="RfidController.selectNode"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.selectNode">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">selectNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">selected</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        marks RFID-Node with id as selected.</span>
@@ -89,7 +89,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">dataChanged</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="p">[</span><span class="n">Qt</span><span class="o">.</span><span class="n">DisplayRole</span> <span class="o">+</span> <span class="mi">13</span><span class="p">])</span></div>
                 
             
-<div class="viewcode-block" id="RfidController.saveNodeChanges"><a class="viewcode-back" href="../../../plugins.html#src.controller.RfidController.RfidController.saveNodeChanges">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>        
+<div class="viewcode-block" id="RfidController.saveNodeChanges"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.saveNodeChanges">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>        
     <span class="k">def</span> <span class="nf">saveNodeChanges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idVal</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">readerIp</span><span class="p">,</span> <span class="n">readerPort</span><span class="p">,</span> <span class="n">endpointIp</span><span class="p">,</span> <span class="n">endpointPort</span><span class="p">,</span> <span class="n">endpointModbus</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        saves changes made to RFID-Nodes.</span>
@@ -109,7 +109,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_dumpRfidNodes</span><span class="p">()</span>
                 <span class="k">return</span></div>
 
-<div class="viewcode-block" id="RfidController.startSelected"><a class="viewcode-back" href="../../../plugins.html#src.controller.RfidController.RfidController.startSelected">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
+<div class="viewcode-block" id="RfidController.startSelected"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.startSelected">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">startSelected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        starts all RFID-Nodes.</span>
@@ -118,7 +118,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;not implemented yet&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RfidController.stopSelected"><a class="viewcode-back" href="../../../plugins.html#src.controller.RfidController.RfidController.stopSelected">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
+<div class="viewcode-block" id="RfidController.stopSelected"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.stopSelected">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">stopSelected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        stops all RFID-Nodes.</span>
@@ -127,7 +127,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;not implemented yet&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RfidController.removeSelected"><a class="viewcode-back" href="../../../plugins.html#src.controller.RfidController.RfidController.removeSelected">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
+<div class="viewcode-block" id="RfidController.removeSelected"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.removeSelected">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">removeSelected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        removes all selected RFID-Nodes.</span>
@@ -186,14 +186,8 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Main File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.model.DataModel">Data Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.controller.invController">Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.service.EventlogService">Service</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.viewmodel.productlistViewModel">ViewModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../view.html">View</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../dialogs.html">Dialogs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../constants.html">Constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datafiles.html">Data Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plugins.html">PlugIn’s</a></li>
 </ul>

@@ -44,7 +44,6 @@ if __name__ == '__main__':
     eventlogService = EventlogService()
     inventoryController.eventlogService = eventlogService
     engine.rootContext().setContextProperty("eventLogController", eventlogService)
-    
 
     # creates CommissionController object and sets itself as rootContext
     commissionController =  CommissionController()

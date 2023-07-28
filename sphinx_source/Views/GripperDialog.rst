@@ -1,0 +1,8 @@
+Dialog: Greifer
+===============
+
+Um den Greifer im Programm manuell zu überschreiben, wird im QML Type 'ProcessView.qml' ein Dialog impllementiert.
+Dieser Dialog ist in der Datei 'GripperDialog.qml' implementiert: 
+
+.. literalinclude:: ../../src/GripperDialog.qml
+   :language: javascript

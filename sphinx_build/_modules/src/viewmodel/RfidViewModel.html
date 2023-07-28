@@ -42,14 +42,14 @@
 
 
 
-<div class="viewcode-block" id="RfidViewModel"><a class="viewcode-back" href="../../../plugins.html#src.viewmodel.RfidViewModel.RfidViewModel">[docs]</a><span class="k">class</span> <span class="nc">RfidViewModel</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QAbstractListModel</span><span class="p">):</span>
+<div class="viewcode-block" id="RfidViewModel"><a class="viewcode-back" href="../../../RFIDServer.html#src.viewmodel.RfidViewModel.RfidViewModel">[docs]</a><span class="k">class</span> <span class="nc">RfidViewModel</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QAbstractListModel</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">QObject</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rfidData</span> <span class="p">:</span><span class="n">RfidModel</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">controller</span>  <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="RfidViewModel.rowCount"><a class="viewcode-back" href="../../../plugins.html#src.viewmodel.RfidViewModel.RfidViewModel.rowCount">[docs]</a>    <span class="k">def</span> <span class="nf">rowCount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">QModelIndex</span><span class="p">()):</span>
+<div class="viewcode-block" id="RfidViewModel.rowCount"><a class="viewcode-back" href="../../../RFIDServer.html#src.viewmodel.RfidViewModel.RfidViewModel.rowCount">[docs]</a>    <span class="k">def</span> <span class="nf">rowCount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">QModelIndex</span><span class="p">()):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Must be implemented.</span>
 
@@ -60,7 +60,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfidData</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="RfidViewModel.roleNames"><a class="viewcode-back" href="../../../plugins.html#src.viewmodel.RfidViewModel.RfidViewModel.roleNames">[docs]</a>    <span class="k">def</span> <span class="nf">roleNames</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">QByteArray</span><span class="p">]:</span>
+<div class="viewcode-block" id="RfidViewModel.roleNames"><a class="viewcode-back" href="../../../RFIDServer.html#src.viewmodel.RfidViewModel.RfidViewModel.roleNames">[docs]</a>    <span class="k">def</span> <span class="nf">roleNames</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">QByteArray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Must be implemented.</span>
 <span class="sd">        :return: returns a dictionary of roles to index in data.</span>
@@ -72,7 +72,7 @@
     
             
     
-<div class="viewcode-block" id="RfidViewModel.data"><a class="viewcode-back" href="../../../plugins.html#src.viewmodel.RfidViewModel.RfidViewModel.data">[docs]</a>    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">QModelIndex</span><span class="p">,</span> <span class="n">role</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">DisplayRole</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="RfidViewModel.data"><a class="viewcode-back" href="../../../RFIDServer.html#src.viewmodel.RfidViewModel.RfidViewModel.data">[docs]</a>    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">QModelIndex</span><span class="p">,</span> <span class="n">role</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">DisplayRole</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns Data from viewmodel.</span>
 
@@ -91,7 +91,7 @@
                 <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span></div>
 
         
-<div class="viewcode-block" id="RfidViewModel.setData"><a class="viewcode-back" href="../../../plugins.html#src.viewmodel.RfidViewModel.RfidViewModel.setData">[docs]</a>    <span class="k">def</span> <span class="nf">setData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">QModelIndex</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">role</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="RfidViewModel.setData"><a class="viewcode-back" href="../../../RFIDServer.html#src.viewmodel.RfidViewModel.RfidViewModel.setData">[docs]</a>    <span class="k">def</span> <span class="nf">setData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">QModelIndex</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">role</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Writes data to an index and returns true if success</span>
 
@@ -116,7 +116,7 @@
         <span class="c1">#print(&quot;field not found for role &quot; + str(role))</span>
         <span class="k">return</span> <span class="kc">False</span></div>
     
-<div class="viewcode-block" id="RfidViewModel.add"><a class="viewcode-back" href="../../../plugins.html#src.viewmodel.RfidViewModel.RfidViewModel.add">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
+<div class="viewcode-block" id="RfidViewModel.add"><a class="viewcode-back" href="../../../RFIDServer.html#src.viewmodel.RfidViewModel.RfidViewModel.add">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">beginInsertRows</span><span class="p">(</span><span class="n">QModelIndex</span><span class="p">(),</span> <span class="n">row</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
@@ -124,7 +124,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">rfidData</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">RfidModel</span><span class="p">(</span><span class="n">idVal</span><span class="o">=</span><span class="n">idVal</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">endInsertRows</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="RfidViewModel.removeRow"><a class="viewcode-back" href="../../../plugins.html#src.viewmodel.RfidViewModel.RfidViewModel.removeRow">[docs]</a>    <span class="k">def</span> <span class="nf">removeRow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">QModelIndex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="RfidViewModel.removeRow"><a class="viewcode-back" href="../../../RFIDServer.html#src.viewmodel.RfidViewModel.RfidViewModel.removeRow">[docs]</a>    <span class="k">def</span> <span class="nf">removeRow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">QModelIndex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Removes a row from the model.</span>
 <span class="sd">        :param row: Row to be removed</span>
@@ -152,7 +152,7 @@
         
     
 
-<div class="viewcode-block" id="RfidProxyViewModel"><a class="viewcode-back" href="../../../plugins.html#src.viewmodel.RfidViewModel.RfidProxyViewModel">[docs]</a><span class="k">class</span> <span class="nc">RfidProxyViewModel</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSortFilterProxyModel</span><span class="p">):</span>
+<div class="viewcode-block" id="RfidProxyViewModel"><a class="viewcode-back" href="../../../RFIDServer.html#src.viewmodel.RfidViewModel.RfidProxyViewModel">[docs]</a><span class="k">class</span> <span class="nc">RfidProxyViewModel</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QSortFilterProxyModel</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">QObject</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span></div>
@@ -177,14 +177,8 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Main File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.model.DataModel">Data Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.controller.invController">Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.service.EventlogService">Service</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.viewmodel.productlistViewModel">ViewModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../view.html">View</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../dialogs.html">Dialogs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../constants.html">Constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datafiles.html">Data Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plugins.html">PlugIn’s</a></li>
 </ul>

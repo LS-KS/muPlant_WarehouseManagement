@@ -37,7 +37,7 @@
 <span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">Qt</span>
 
 
-<div class="viewcode-block" id="StorageViewModel"><a class="viewcode-back" href="../../../modules.html#src.viewmodel.storageViewModel.StorageViewModel">[docs]</a><span class="k">class</span> <span class="nc">StorageViewModel</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QAbstractTableModel</span><span class="p">):</span>
+<div class="viewcode-block" id="StorageViewModel"><a class="viewcode-back" href="../../../ViewModel.html#src.viewmodel.storageViewModel.StorageViewModel">[docs]</a><span class="k">class</span> <span class="nc">StorageViewModel</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QAbstractTableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    implements Qt&#39;s QAbstractTableModel to share inventoryControllers Inventory </span>
 <span class="sd">    data with qml engine. This Viewmodel is populated and updated by inventoryController. </span>
@@ -57,7 +57,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">storageData</span> <span class="o">=</span> <span class="n">storageData</span>
 
-<div class="viewcode-block" id="StorageViewModel.rowCount"><a class="viewcode-back" href="../../../modules.html#src.viewmodel.storageViewModel.StorageViewModel.rowCount">[docs]</a>    <span class="k">def</span> <span class="nf">rowCount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">QModelIndex</span><span class="p">()):</span>
+<div class="viewcode-block" id="StorageViewModel.rowCount"><a class="viewcode-back" href="../../../ViewModel.html#src.viewmodel.storageViewModel.StorageViewModel.rowCount">[docs]</a>    <span class="k">def</span> <span class="nf">rowCount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">QModelIndex</span><span class="p">()):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Must be implemented.</span>
@@ -69,7 +69,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">storageData</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="StorageViewModel.columnCount"><a class="viewcode-back" href="../../../modules.html#src.viewmodel.storageViewModel.StorageViewModel.columnCount">[docs]</a>    <span class="k">def</span> <span class="nf">columnCount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">QModelIndex</span><span class="p">()):</span>
+<div class="viewcode-block" id="StorageViewModel.columnCount"><a class="viewcode-back" href="../../../ViewModel.html#src.viewmodel.storageViewModel.StorageViewModel.columnCount">[docs]</a>    <span class="k">def</span> <span class="nf">columnCount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">QModelIndex</span><span class="p">()):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Must be implemented.</span>
@@ -81,7 +81,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="mi">6</span></div>
 
-<div class="viewcode-block" id="StorageViewModel.roleNames"><a class="viewcode-back" href="../../../modules.html#src.viewmodel.storageViewModel.StorageViewModel.roleNames">[docs]</a>    <span class="k">def</span> <span class="nf">roleNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="StorageViewModel.roleNames"><a class="viewcode-back" href="../../../ViewModel.html#src.viewmodel.storageViewModel.StorageViewModel.roleNames">[docs]</a>    <span class="k">def</span> <span class="nf">roleNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Must be implemented.</span>
@@ -103,7 +103,7 @@
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">roles</span></div>
 
-<div class="viewcode-block" id="StorageViewModel.data"><a class="viewcode-back" href="../../../modules.html#src.viewmodel.storageViewModel.StorageViewModel.data">[docs]</a>    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">role</span><span class="p">):</span>
+<div class="viewcode-block" id="StorageViewModel.data"><a class="viewcode-back" href="../../../ViewModel.html#src.viewmodel.storageViewModel.StorageViewModel.data">[docs]</a>    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">role</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Returns Data from viewmodel.</span>
@@ -140,7 +140,7 @@
             <span class="k">return</span> <span class="n">inventory</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="StorageViewModel.setData"><a class="viewcode-back" href="../../../modules.html#src.viewmodel.storageViewModel.StorageViewModel.setData">[docs]</a>    <span class="k">def</span> <span class="nf">setData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">role</span><span class="p">):</span>
+<div class="viewcode-block" id="StorageViewModel.setData"><a class="viewcode-back" href="../../../ViewModel.html#src.viewmodel.storageViewModel.StorageViewModel.setData">[docs]</a>    <span class="k">def</span> <span class="nf">setData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">role</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Writes data to an index and returns the old value if success</span>
@@ -190,7 +190,7 @@
 
 
 <span class="c1"># Data class for Inventory:</span>
-<div class="viewcode-block" id="StorageData"><a class="viewcode-back" href="../../../modules.html#src.viewmodel.storageViewModel.StorageData">[docs]</a><span class="k">class</span> <span class="nc">StorageData</span><span class="p">:</span>
+<div class="viewcode-block" id="StorageData"><a class="viewcode-back" href="../../../ViewModel.html#src.viewmodel.storageViewModel.StorageData">[docs]</a><span class="k">class</span> <span class="nc">StorageData</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    Basic subclass which represents a spot in Storage visualisation.</span>
@@ -280,14 +280,8 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Main File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.model.DataModel">Data Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.controller.invController">Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.service.EventlogService">Service</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-src.viewmodel.productlistViewModel">ViewModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../view.html">View</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../dialogs.html">Dialogs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../constants.html">Constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datafiles.html">Data Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plugins.html">PlugIn’s</a></li>
 </ul>
