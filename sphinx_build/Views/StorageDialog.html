@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Dialog: Lager überschreiben &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Dialog: Mobilen Roboter überschreiben" href="TurtleDialog.html" />
+    <link rel="prev" title="Dialog: Programmeinstellungen" href="PreferenceDialog.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="dialog-lager-uberschreiben">
+<h1>Dialog: Lager überschreiben<a class="headerlink" href="#dialog-lager-uberschreiben" title="Permalink to this heading">¶</a></h1>
+<p>Dieser Dialog wird über das QML Item <cite>StorageView.qml</cite> aufgerufen und ist in der
+Datei <cite>StorageDialog.qml</cite> implementiert:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="w"> </span><span class="mf">2.15</span>
+<span class="linenos">  2</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Dialogs</span>
+<span class="linenos">  3</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Controls</span><span class="w"> </span><span class="mf">2.15</span>
+<span class="linenos">  4</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Controls</span><span class="p">.</span><span class="nx">Material</span><span class="w"> </span><span class="mf">2.15</span>
+<span class="linenos">  5</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Layouts</span><span class="w"> </span><span class="mf">1.3</span>
+<span class="linenos">  6</span><span class="cm">/*</span>
+<span class="linenos">  7</span><span class="cm">  This QML File shows a Dialog which enables the user to manually override the storage data</span>
+<span class="linenos">  8</span><span class="cm">  */</span>
+<span class="linenos">  9</span><span class="nx">Dialog</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 10</span><span class="w">    </span><span class="nx">Material</span><span class="p">.</span><span class="nx">accent</span><span class="o">:</span><span class="w"> </span><span class="nx">Material</span><span class="p">.</span><span class="nx">DarkBlue</span>
+<span class="linenos"> 11</span><span class="w">    </span><span class="nx">Material</span><span class="p">.</span><span class="nx">primary</span><span class="o">:</span><span class="w"> </span><span class="nx">Material</span><span class="p">.</span><span class="nx">Dark</span>
+<span class="linenos"> 12</span><span class="w">    </span><span class="nx">Material</span><span class="p">.</span><span class="nx">foreground</span><span class="o">:</span><span class="w"> </span><span class="nx">Material</span><span class="p">.</span><span class="nx">White</span>
+<span class="linenos"> 13</span><span class="w">    </span><span class="nx">Material</span><span class="p">.</span><span class="nx">background</span><span class="o">:</span><span class="w"> </span><span class="nx">Material</span><span class="p">.</span><span class="nx">Black</span>
+<span class="linenos"> 14</span>
+<span class="linenos"> 15</span><span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">editDialog</span>
+<span class="linenos"> 16</span><span class="w">    </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Override Storage&quot;</span>
+<span class="linenos"> 17</span><span class="w">    </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="mf">400</span>
+<span class="linenos"> 18</span><span class="w">    </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="mf">600</span>
+<span class="linenos"> 19</span><span class="w">    </span><span class="nx">property</span><span class="w"> </span><span class="nx">bool</span><span class="w"> </span><span class="nx">isPalletPresent</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 20</span><span class="w">    </span><span class="c1">// ColumnLayout helps to organize Items in vertical order.</span>
+<span class="linenos"> 21</span><span class="w">    </span><span class="nx">ColumnLayout</span><span class="p">{</span>
+<span class="linenos"> 22</span><span class="w">        </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">editDialogLayout</span>
+<span class="linenos"> 23</span><span class="w">        </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">width</span>
+<span class="linenos"> 24</span><span class="w">        </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">height</span>
+<span class="linenos"> 25</span><span class="w">        </span><span class="c1">// This Row enables user to allocate the storage location</span>
+<span class="linenos"> 26</span><span class="w">        </span><span class="nx">Row</span><span class="p">{</span>
+<span class="linenos"> 27</span><span class="w">            </span><span class="nx">Text</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 28</span><span class="w">                </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">location</span>
+<span class="linenos"> 29</span><span class="w">                </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Location: &quot;</span><span class="p">)</span>
+<span class="linenos"> 30</span><span class="w">                </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">width</span><span class="o">/</span><span class="mf">2</span>
+<span class="linenos"> 31</span><span class="w">                </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nx">setLocation</span><span class="p">.</span><span class="nx">height</span>
+<span class="linenos"> 32</span><span class="w">                </span><span class="nx">verticalAlignment</span><span class="o">:</span><span class="w"> </span><span class="nx">Text</span><span class="p">.</span><span class="nx">AlignVCenter</span>
+<span class="linenos"> 33</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 34</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 35</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos"> 36</span><span class="w">            </span><span class="c1">// Comobobox has List of all possible hardcoded storage locations</span>
+<span class="linenos"> 37</span><span class="w">            </span><span class="nx">ComboBox</span><span class="p">{</span>
+<span class="linenos"> 38</span><span class="w">                </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">setLocation</span>
+<span class="linenos"> 39</span><span class="w">                </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;L1&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L2&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L3&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L4&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L5&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L6&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L7&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L8&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L9&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L10&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L11&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L12&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L13&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L14&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L15&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L16&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L17&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L18&#39;</span><span class="p">]</span>
+<span class="linenos"> 40</span><span class="w">                </span><span class="nx">onCurrentValueChanged</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 41</span><span class="w">                    </span><span class="k">if</span><span class="p">(</span><span class="nx">setLocation</span><span class="p">.</span><span class="nx">currentValue</span><span class="w"> </span><span class="o">!==</span><span class="s1">&#39;&#39;</span><span class="p">){</span>
+<span class="linenos"> 42</span><span class="w">                        </span><span class="nx">inventoryController</span><span class="p">.</span><span class="nx">loadStorage</span><span class="p">(</span><span class="nx">setLocation</span><span class="p">.</span><span class="nx">currentValue</span><span class="p">,</span><span class="w"> </span><span class="nx">setAB</span><span class="p">.</span><span class="nx">currentValue</span><span class="p">)</span>
+<span class="linenos"> 43</span><span class="w">                    </span><span class="p">}</span>
+<span class="linenos"> 44</span><span class="w">                </span><span class="p">}</span>
+<span class="linenos"> 45</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 46</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 47</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos"> 48</span><span class="w">            </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 49</span><span class="w">            </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 50</span><span class="w">            </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">alignment</span><span class="o">:</span><span class="w"> </span><span class="nx">Qt</span><span class="p">.</span><span class="nx">AlignCenter</span>
+<span class="linenos"> 51</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 52</span><span class="w">        </span><span class="nx">Row</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 53</span><span class="w">            </span><span class="nx">Text</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 54</span><span class="w">                </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">palletText</span>
+<span class="linenos"> 55</span><span class="w">                </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">width</span><span class="o">/</span><span class="mf">2</span>
+<span class="linenos"> 56</span><span class="w">                </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nx">palletPresent</span><span class="p">.</span><span class="nx">height</span>
+<span class="linenos"> 57</span><span class="w">                </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Pallet present: &quot;</span><span class="p">)</span>
+<span class="linenos"> 58</span><span class="w">                </span><span class="nx">verticalAlignment</span><span class="o">:</span><span class="w"> </span><span class="nx">Text</span><span class="p">.</span><span class="nx">AlignVCenter</span>
+<span class="linenos"> 59</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 60</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 61</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos"> 62</span><span class="w">            </span><span class="nx">ComboBox</span><span class="p">{</span>
+<span class="linenos"> 63</span><span class="w">                </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">palletPresent</span>
+<span class="linenos"> 64</span><span class="w">                </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;No&quot;</span><span class="p">]</span>
+<span class="linenos"> 65</span><span class="w">                </span><span class="nx">onCurrentValueChanged</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 66</span><span class="w">                    </span><span class="k">if</span><span class="p">(</span><span class="nx">palletPresent</span><span class="p">.</span><span class="nx">currentValue</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">&quot;Yes&quot;</span><span class="p">){</span>
+<span class="linenos"> 67</span><span class="w">                        </span><span class="nx">isPalletPresent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 68</span><span class="w">                    </span><span class="p">}</span>
+<span class="linenos"> 69</span><span class="w">                    </span><span class="k">else</span><span class="p">{</span>
+<span class="linenos"> 70</span><span class="w">                        </span><span class="nx">isPalletPresent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="linenos"> 71</span><span class="w">                    </span><span class="p">}</span>
+<span class="linenos"> 72</span><span class="w">                </span><span class="p">}</span>
+<span class="linenos"> 73</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 74</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 75</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos"> 76</span>
+<span class="linenos"> 77</span><span class="w">            </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 78</span><span class="w">            </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 79</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 80</span><span class="w">        </span><span class="c1">// This Row enables the user to select either he wants to override the cup in front or at the backside.</span>
+<span class="linenos"> 81</span><span class="w">        </span><span class="nx">Row</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 82</span><span class="w">            </span><span class="nx">Text</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 83</span><span class="w">                </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">slotText</span>
+<span class="linenos"> 84</span><span class="w">                </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">width</span><span class="o">/</span><span class="mf">2</span>
+<span class="linenos"> 85</span><span class="w">                </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nx">setAB</span><span class="p">.</span><span class="nx">height</span>
+<span class="linenos"> 86</span><span class="w">                </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Product a or b: &quot;</span><span class="p">)</span>
+<span class="linenos"> 87</span><span class="w">                </span><span class="nx">verticalAlignment</span><span class="o">:</span><span class="w"> </span><span class="nx">Text</span><span class="p">.</span><span class="nx">AlignVCenter</span>
+<span class="linenos"> 88</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 89</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 90</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos"> 91</span><span class="w">            </span><span class="nx">ComboBox</span><span class="p">{</span>
+<span class="linenos"> 92</span><span class="w">                </span><span class="c1">// a = front, b = back</span>
+<span class="linenos"> 93</span><span class="w">                </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">setAB</span>
+<span class="linenos"> 94</span><span class="w">                </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="p">]</span>
+<span class="linenos"> 95</span><span class="w">                </span><span class="c1">// load actual storage values if storage location is changed and not empty</span>
+<span class="linenos"> 96</span><span class="w">                </span><span class="nx">onCurrentValueChanged</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 97</span><span class="w">                    </span><span class="k">if</span><span class="p">(</span><span class="nx">setLocation</span><span class="p">.</span><span class="nx">currentValue</span><span class="w"> </span><span class="o">!==</span><span class="s1">&#39;&#39;</span><span class="p">){</span>
+<span class="linenos"> 98</span><span class="w">                        </span><span class="nx">inventoryController</span><span class="p">.</span><span class="nx">loadStorage</span><span class="p">(</span><span class="nx">setLocation</span><span class="p">.</span><span class="nx">currentValue</span><span class="p">,</span><span class="w"> </span><span class="nx">setAB</span><span class="p">.</span><span class="nx">currentValue</span><span class="p">)</span>
+<span class="linenos"> 99</span><span class="w">                    </span><span class="p">}</span>
+<span class="linenos">100</span><span class="w">                </span><span class="p">}</span>
+<span class="linenos">101</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">102</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">103</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">104</span><span class="w">           </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">105</span><span class="w">           </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">106</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">107</span><span class="w">        </span><span class="c1">// This row has a textlabel and textfield which enables the user to override Cup ID</span>
+<span class="linenos">108</span><span class="w">        </span><span class="nx">Row</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">109</span><span class="w">            </span><span class="nx">Text</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">110</span><span class="w">                </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">cupText</span>
+<span class="linenos">111</span><span class="w">                </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">width</span><span class="o">/</span><span class="mf">2</span>
+<span class="linenos">112</span><span class="w">                </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nx">setCup</span><span class="p">.</span><span class="nx">height</span>
+<span class="linenos">113</span><span class="w">                </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Set Cup ID: &quot;</span><span class="p">)</span>
+<span class="linenos">114</span><span class="w">                </span><span class="nx">verticalAlignment</span><span class="o">:</span><span class="w"> </span><span class="nx">Text</span><span class="p">.</span><span class="nx">AlignVCenter</span>
+<span class="linenos">115</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">116</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">117</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">118</span><span class="w">            </span><span class="nx">TextField</span><span class="p">{</span>
+<span class="linenos">119</span><span class="w">                </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">setCup</span>
+<span class="linenos">120</span><span class="w">                </span><span class="c1">// limit the cup ID to positive integer between 0 and 9999</span>
+<span class="linenos">121</span><span class="w">                </span><span class="nx">validator</span><span class="o">:</span><span class="w"> </span><span class="nx">IntValidator</span><span class="p">{</span>
+<span class="linenos">122</span><span class="w">                    </span><span class="nx">bottom</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span>
+<span class="linenos">123</span><span class="w">                    </span><span class="nx">top</span><span class="o">:</span><span class="w"> </span><span class="mf">9999</span>
+<span class="linenos">124</span><span class="w">                </span><span class="p">}</span>
+<span class="linenos">125</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">126</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">127</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">128</span><span class="w">            </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">129</span><span class="w">            </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">130</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">131</span><span class="w">        </span><span class="c1">// This row enables the user to override product id in storage</span>
+<span class="linenos">132</span><span class="w">        </span><span class="nx">Row</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">133</span><span class="w">            </span><span class="nx">Text</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">134</span><span class="w">                </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">setProd</span>
+<span class="linenos">135</span><span class="w">                </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">width</span><span class="o">/</span><span class="mf">2</span>
+<span class="linenos">136</span><span class="w">                </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nx">setProduct</span><span class="p">.</span><span class="nx">height</span>
+<span class="linenos">137</span><span class="w">                </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Set Product ID:&quot;</span><span class="p">)</span>
+<span class="linenos">138</span><span class="w">                </span><span class="nx">verticalAlignment</span><span class="o">:</span><span class="w"> </span><span class="nx">Text</span><span class="p">.</span><span class="nx">AlignVCenter</span>
+<span class="linenos">139</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">140</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">141</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">142</span><span class="w">            </span><span class="nx">ComboBox</span><span class="p">{</span>
+<span class="linenos">143</span><span class="w">                </span><span class="nx">id</span><span class="o">:</span><span class="nx">setProduct</span>
+<span class="linenos">144</span><span class="w">                </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="nx">productListModel</span>
+<span class="linenos">145</span><span class="w">                </span><span class="nx">textRole</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;name&#39;</span>
+<span class="linenos">146</span><span class="w">                </span><span class="nx">valueRole</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;id&#39;</span>
+<span class="linenos">147</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">148</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">149</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">150</span><span class="w">            </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">151</span><span class="w">            </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">152</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">153</span><span class="w">        </span><span class="nx">Text</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">154</span><span class="w">                </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">warningText</span>
+<span class="linenos">155</span><span class="w">                </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">width</span>
+<span class="linenos">156</span><span class="w">                </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="mf">200</span>
+<span class="linenos">157</span><span class="w">                </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;WARNING: Pallet not present! This will erase current Cups in both slots!&quot;</span><span class="p">)</span>
+<span class="linenos">158</span><span class="w">                </span><span class="nx">verticalAlignment</span><span class="o">:</span><span class="w"> </span><span class="nx">Text</span><span class="p">.</span><span class="nx">AlignVCenter</span>
+<span class="linenos">159</span><span class="w">                </span><span class="nx">opacity</span><span class="o">:</span><span class="w"> </span><span class="nx">isPalletPresent</span><span class="o">?</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">1</span>
+<span class="linenos">160</span><span class="w">                </span><span class="nx">wrapMode</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;WordWrap&quot;</span>
+<span class="linenos">161</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">162</span><span class="w">                </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">163</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">164</span><span class="w">        </span><span class="c1">// clearbutton enables the user to set values for cup and product which implicate that the storage is empty</span>
+<span class="linenos">165</span><span class="w">        </span><span class="nx">DialogButtonBox</span><span class="p">{</span>
+<span class="linenos">166</span><span class="w">            </span><span class="nx">Button</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">167</span><span class="w">                </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">clearButton</span>
+<span class="linenos">168</span><span class="w">                </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Clear&quot;</span>
+<span class="linenos">169</span><span class="w">                </span><span class="nx">onClicked</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">170</span><span class="w">                    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Clear Clicked&quot;</span><span class="p">)</span>
+<span class="linenos">171</span><span class="w">                    </span><span class="nx">setProduct</span><span class="p">.</span><span class="nx">currentIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span>
+<span class="linenos">172</span><span class="w">                    </span><span class="nx">setCup</span><span class="p">.</span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;0&quot;</span>
+<span class="linenos">173</span><span class="w">                </span><span class="p">}</span>
+<span class="linenos">174</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">175</span>
+<span class="linenos">176</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">177</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">178</span><span class="w">    </span><span class="c1">// standardbuttons are buttons which perform standard tasks.</span>
+<span class="linenos">179</span><span class="w">    </span><span class="nx">standardButtons</span><span class="o">:</span><span class="w"> </span><span class="nx">Dialog</span><span class="p">.</span><span class="nx">Ok</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Dialog</span><span class="p">.</span><span class="nx">Cancel</span>
+<span class="linenos">180</span><span class="w">    </span><span class="c1">// signal which is emitted when Dialog.OK is clicked. It calls changeStorage() function of InventoryController</span>
+<span class="linenos">181</span><span class="w">    </span><span class="nx">onAccepted</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">182</span><span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;location: &quot;</span><span class="o">+</span><span class="w"> </span><span class="nx">setLocation</span><span class="p">.</span><span class="nx">currentText</span><span class="p">)</span>
+<span class="linenos">183</span><span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;slot: &quot;</span><span class="w"> </span><span class="o">+</span><span class="nx">setAB</span><span class="p">.</span><span class="nx">currentText</span><span class="p">)</span>
+<span class="linenos">184</span><span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;cup: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">setCup</span><span class="p">.</span><span class="nx">text</span><span class="p">)</span>
+<span class="linenos">185</span><span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;product: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">setProduct</span><span class="p">.</span><span class="nx">currentValue</span><span class="p">)</span>
+<span class="linenos">186</span><span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;isPalletPresent: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">palletPresent</span><span class="p">.</span><span class="nx">currentValue</span><span class="p">)</span>
+<span class="linenos">187</span><span class="w">        </span><span class="nx">inventoryController</span><span class="p">.</span><span class="nx">changeStorage</span><span class="p">(</span><span class="nx">setLocation</span><span class="p">.</span><span class="nx">currentText</span><span class="p">,</span><span class="w"> </span><span class="nx">setAB</span><span class="p">.</span><span class="nx">currentText</span><span class="p">,</span><span class="w"> </span><span class="nx">setCup</span><span class="p">.</span><span class="nx">text</span><span class="p">,</span><span class="w"> </span><span class="nx">setProduct</span><span class="p">.</span><span class="nx">currentValue</span><span class="p">,</span><span class="w"> </span><span class="nx">palletPresent</span><span class="p">.</span><span class="nx">currentValue</span><span class="p">)</span>
+<span class="linenos">188</span><span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Ok clicked&quot;</span><span class="p">)</span>
+<span class="linenos">189</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">190</span><span class="w">    </span><span class="nx">onRejected</span><span class="o">:</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Cancel clicked&quot;</span><span class="p">)</span>
+<span class="linenos">191</span><span class="w">    </span><span class="c1">// Connect InventoryController&#39;s transmitData Signal to this qml file. If storage is set and InventoryController&#39;s loadStorage() function is called</span>
+<span class="linenos">192</span><span class="w">    </span><span class="c1">// data will be transmitted by this signal</span>
+<span class="linenos">193</span><span class="w">    </span><span class="nx">Connections</span><span class="p">{</span>
+<span class="linenos">194</span><span class="w">        </span><span class="nx">target</span><span class="o">:</span><span class="w"> </span><span class="nx">inventoryController</span>
+<span class="linenos">195</span><span class="w">        </span><span class="kd">function</span><span class="w"> </span><span class="nx">onTransmitStorageData</span><span class="p">(</span><span class="nx">slot</span><span class="p">,</span><span class="w"> </span><span class="nx">cup</span><span class="p">,</span><span class="w"> </span><span class="nx">product</span><span class="p">,</span><span class="w"> </span><span class="nx">isPallet</span><span class="p">){</span>
+<span class="linenos">196</span><span class="w">            </span><span class="nx">setCup</span><span class="p">.</span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">cup</span>
+<span class="linenos">197</span><span class="w">            </span><span class="nx">setProduct</span><span class="p">.</span><span class="nx">currentIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">product</span>
+<span class="linenos">198</span><span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="nx">isPallet</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">true</span><span class="p">){</span>
+<span class="linenos">199</span><span class="w">                </span><span class="nx">palletPresent</span><span class="p">.</span><span class="nx">currentIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span>
+<span class="linenos">200</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">201</span><span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="nx">isPallet</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">false</span><span class="p">){</span>
+<span class="linenos">202</span><span class="w">                </span><span class="nx">palletPresent</span><span class="p">.</span><span class="nx">currentIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1</span>
+<span class="linenos">203</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">204</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">205</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">206</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">µPlant Warehouse Management</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../view.html">View</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="MainView.html">Hauptansicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HeaderLine.html">Kopf - Banner der Anwendung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Help.html">Hilfe - Ansicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CupView.html">Becheransicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ProductView.html">Produktansicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ProcessView.html">Prozessansicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StorageView.html">Lageransicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="InventoryView.html">Ansicht der Inventarzusammenfassung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="EventView.html">Eventlog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CommissionView.html">Kommissionsansicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StackLayoutView.html">StackLayoutView</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GripperDialog.html">Dialog: Greifer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PreferenceDialog.html">Dialog: Programmeinstellungen</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Dialog: Lager überschreiben</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurtleDialog.html">Dialog: Mobilen Roboter überschreiben</a></li>
+<li class="toctree-l2"><a class="reference internal" href="WorkbenchDialog.html">Dialog: Kommissioniertisch überschreiben</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ProductList.html">Produktliste</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MCCPlugin.html">Manual Commission Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RfidServerPlugin.html">RFID Server PlugIn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RfidDelegate.html">RFID Delegate</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dialogs.html">Dialogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datafiles.html">Data Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugins.html">PlugIn’s</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../view.html">View</a><ul>
+      <li>Previous: <a href="PreferenceDialog.html" title="previous chapter">Dialog: Programmeinstellungen</a></li>
+      <li>Next: <a href="TurtleDialog.html" title="next chapter">Dialog: Mobilen Roboter überschreiben</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Lennart Schink.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/Views/StorageDialog.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

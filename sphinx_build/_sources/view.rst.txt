@@ -3,89 +3,49 @@ View
 ====
 Das GUI ist in QML geschrieben und wird durch die QML-Engine des Qt-Frameworks gerendert.
 
-Hauptfenster:
-main.qml
+.. toctree::
+   :maxdepth: 1
+   :caption: Contents:
+   :glob:
+   
+   Views/MainView
 
-.. literalinclude:: ../src/view/main.qml
-    :linenos:
+   Views/HeaderLine
 
-Banner mit Logo und Programmtitel:
-HeaderLine.qml
+   Views/Help
 
-.. literalinclude:: ../src/view/HeaderLine.qml
-    :linenos:
+   Views/CupView
 
-Ansicht mit mobilem Roboter inklusive Becher und Sensoren:
-TurtleView.qml
+   Views/PaletteView
 
-.. literalinclude:: ../src/view/TurtleView.qml
-    :linenos:
+   Views/ProductView
 
-Ansicht eines Bechers mit ID und Produktname
-CupView.qml
+   Views/ProcessView
 
-.. literalinclude:: ../src/view/CupView.qml
-    :linenos:
+   Views/StorageView
 
-Ansicht einer Palette mit Becher:
-PalletteView.qml
+   Views/InventoryView
 
-.. literalinclude:: ../src/view/PalletteView.qml
-    :linenos:
+   Views/EventView
 
-Alternative Ansicht einer Palette mit zwei Becher:
-ProductView.qml
+   Views/CommissionView
 
-.. literalinclude:: ../src/view/ProductView.qml
-    :linenos:
+   Views/StackLayoutView
 
-Visualisierung des Anlagenschemas der Lagerzelle:
-ProcessView.qml
+   Views/GripperDialog
 
-.. literalinclude:: ../src/view/ProcessView.qml
-    :linenos:
+   Views/PreferenceDialog
 
-Visualisierung des gesamten Lagerregals:
-StorageView.qml
+   Views/StorageDialog
 
-.. literalinclude:: ../src/view/StorageView.qml
-    :linenos:
+   Views/TurtleDialog
 
-Visualisierung des Eventloggers:
-EventView.qml
+   Views/WorkbenchDialog
 
-.. literalinclude:: ../src/view/EventView.qml
-    :linenos:
+   Views/ProductList
+   
+   Views/MCCPlugin
 
-Visualisierung der Registeransicht:
-StackLayoutView.qml
+   Views/RfidServerPlugin
 
-.. literalinclude:: ../src/view/StackLayoutView.qml
-    :linenos:
-
-Visualisierung der Kommissionen:
-CommissionView.qml
-
-.. literalinclude:: ../src/view/CommissionView.qml
-    :linenos:
-
-Visualisierung der Inventarzusammenfassung:
-InventoryView.qml
-
-.. literalinclude:: ../src/view/InventoryView.qml
-    :linenos:
-
-
-Eine einfache Produktliste zur Überischt kann im Hauptfenster über
-Tools --> Show Productlist aufgerufen werden. Sie wird in einem neuen Fenster gerendert.
-ProductListView.qml
-
-.. literalinclude:: ../src/view/ProductList.qml
-    :linenos:
-
-
-Ein Fenster kann über die Menüleiste unter File --> Help aufgerufen werden
-um die Code-Dokumentation aufzurufen.
-
-..literalinclude:: ../src/view/Help.qml
-    :linenos:
+   Views/RfidDelegate

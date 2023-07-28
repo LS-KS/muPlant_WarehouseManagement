@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Produktliste &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Manual Commission Control" href="MCCPlugin.html" />
+    <link rel="prev" title="Dialog: Kommissioniertisch überschreiben" href="WorkbenchDialog.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="produktliste">
+<h1>Produktliste<a class="headerlink" href="#produktliste" title="Permalink to this heading">¶</a></h1>
+<p>Die Produktliste kann als separates Fenster eingeblendet werden und gibt eine Übersicht über die Zuordnungen von Produkt und ID.
+Sie ist in dem QML Type <cite>ProductList.qml</cite> implementiert:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="w"> </span><span class="mf">2.9</span>
+<span class="linenos"> 2</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Controls</span><span class="w"> </span><span class="mf">2.5</span>
+<span class="linenos"> 3</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Controls</span><span class="p">.</span><span class="nx">Material</span>
+<span class="linenos"> 4</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Layouts</span><span class="w"> </span><span class="mf">1.3</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="nx">Window</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="nx">visible</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="mf">300</span>
+<span class="linenos">10</span><span class="w">    </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="mf">480</span>
+<span class="linenos">11</span><span class="w">    </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Productlist&quot;</span><span class="p">)</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="w">    </span><span class="nx">Material</span><span class="p">.</span><span class="nx">theme</span><span class="o">:</span><span class="w"> </span><span class="nx">Material</span><span class="p">.</span><span class="nx">Dark</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="w">    </span><span class="nx">ListView</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">16</span><span class="w">        </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">listView</span>
+<span class="linenos">17</span><span class="w">        </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">fill</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span>
+<span class="linenos">18</span><span class="w">        </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">margins</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span>
+<span class="linenos">19</span><span class="w">        </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="nx">productListModel</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="w">        </span><span class="nx">delegate</span><span class="o">:</span><span class="w"> </span><span class="nx">Rectangle</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">22</span><span class="w">            </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="mf">30</span>
+<span class="linenos">23</span><span class="w">            </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;white&quot;</span>
+<span class="linenos">24</span><span class="w">            </span><span class="nx">Text</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">25</span><span class="w">                </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="nx">model</span><span class="p">.</span><span class="nx">id</span><span class="w"> </span><span class="o">+</span><span class="s2">&quot; - &quot;</span><span class="o">+</span><span class="w"> </span><span class="nx">model</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">+</span><span class="s2">&quot; - &quot;</span><span class="o">+</span><span class="w"> </span><span class="nx">model</span><span class="p">.</span><span class="nx">quantity</span>
+<span class="linenos">26</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">27</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">28</span><span class="w">        </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">29</span><span class="w">        </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos">30</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">31</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">µPlant Warehouse Management</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../view.html">View</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="MainView.html">Hauptansicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HeaderLine.html">Kopf - Banner der Anwendung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Help.html">Hilfe - Ansicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CupView.html">Becheransicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ProductView.html">Produktansicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ProcessView.html">Prozessansicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StorageView.html">Lageransicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="InventoryView.html">Ansicht der Inventarzusammenfassung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="EventView.html">Eventlog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CommissionView.html">Kommissionsansicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StackLayoutView.html">StackLayoutView</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GripperDialog.html">Dialog: Greifer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PreferenceDialog.html">Dialog: Programmeinstellungen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StorageDialog.html">Dialog: Lager überschreiben</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurtleDialog.html">Dialog: Mobilen Roboter überschreiben</a></li>
+<li class="toctree-l2"><a class="reference internal" href="WorkbenchDialog.html">Dialog: Kommissioniertisch überschreiben</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Produktliste</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MCCPlugin.html">Manual Commission Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RfidServerPlugin.html">RFID Server PlugIn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RfidDelegate.html">RFID Delegate</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dialogs.html">Dialogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datafiles.html">Data Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugins.html">PlugIn’s</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../view.html">View</a><ul>
+      <li>Previous: <a href="WorkbenchDialog.html" title="previous chapter">Dialog: Kommissioniertisch überschreiben</a></li>
+      <li>Next: <a href="MCCPlugin.html" title="next chapter">Manual Commission Control</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Lennart Schink.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/Views/ProductList.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
