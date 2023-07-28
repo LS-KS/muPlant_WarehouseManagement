@@ -17,9 +17,15 @@ class OpcuaServerHandle(QThread):
         self.opcuaServer = None
     
     def run(self):
+        """
+        Must be implemented for QThread. Wraps asyncio function in sync function.
+        """
         asyncio.run(self.main())
 
     def quit(self):
+        """
+        Must be implemented for QThread. Stops QThread and deletes it.
+        """
         print("OpcuaServerHandle stopping...")
         super().quit()
         super().wait()
@@ -28,15 +34,26 @@ class OpcuaServerHandle(QThread):
 
     @uamethod
     def func(parent, value):
+        """
+        Example function for opcua server
+        """
         return value * 2
     
     def start(self):
+        """
+        Must be implemented for QThread. Starts QThread 
+        and creates an opcua server object.
+        """
         print("OpcuaServerHandle started")
         super().start()
         self.server = Server()
         print("OpcuaServerHandle running...")
 
     async def main(self) -> None:
+        """
+        Main function for opcua server
+
+        """
         _logger = logging.getLogger(__name__)
         # setup our server
         
@@ -116,7 +133,10 @@ class OpcuaClientHandle(QThread):
         print("OpcuaClientHandle stopped and deleted")
 
 class OpcuaService(QObject):
-
+    """
+    Class for handling opcua server and client. 
+    will hold two QThreads for opcua server and client which wraps async functions.
+    """
     def __init__(self, eventlogService : EventlogService, preferenceController : PreferenceController, parent: QObject | None = None) -> None:
         super().__init__(parent)
         self.eventlogService = eventlogService
