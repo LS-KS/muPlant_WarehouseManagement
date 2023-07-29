@@ -13,7 +13,8 @@ class Constants:
         #self.COMMISSIONDATA = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "CommissionData.db"
         self.COMMISSIONDATA = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "CommissionData.yaml"
         self.PRODUCTLISTAPP_QML = "../src/view/ProductList.qml"
-        self.PREFERENCES = "src/data/Preferences.yaml"
+        self.PREFERENCES = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "Preferences.yaml"
+        #self.PREFERENCES = "src/data/Preferences.yaml"
         self.RFID_DATA = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "RfidData.yaml"
 
 

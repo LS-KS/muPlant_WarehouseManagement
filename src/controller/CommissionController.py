@@ -17,6 +17,7 @@ class CommissionController:
     def __init__(self):
         self.constants = Constants()
         self.commissionViewModel = CommissionViewModel(self.loadCommissionData())
+        self.dumpCommissionData()
         self.commissionFilterProxyModel = CommissionFilterProxyModel()
         self.commissionFilterProxyModel.setSourceModel(self.commissionViewModel)
         self.commissionFilterProxyModel.setFilterCaseSensitivity(Qt.CaseInsensitive)
@@ -43,23 +44,29 @@ class CommissionController:
                     int(line['CommissionData']['object']),
                     cup,
                     pallet,
-                    state.value
+                    state
                 ))
                 #print(commissionData[-1].source.value)
+            self.sortComissionData(commissionData)
+
         return  commissionData
+
+    def sortComissionData(self, commissionData):
+        statusOrder = ["in progress", "pending", "open", "done"]
+        commissionData.sort(key=lambda commission: statusOrder.index(commission.state.value))
 
     def dumpCommissionData(self):
         data = []
-        for commission in self.commissionData:
+        for commission in self.commissionViewModel.commissionData:
             data.append({
                 'CommissionData': {
                     'id': commission.id,
-                    'source': commission.source,
-                    'target': commission.target,
+                    'source': commission.source.name,
+                    'target': commission.target.name,
                     'object': commission.object,
                     'cup': commission.cup,
                     'pallet': commission.pallet,
-                    'state': commission.state
+                    'state': commission.state.name
                 }
             })
         with open(Constants().COMMISSIONDATA, 'w') as file:

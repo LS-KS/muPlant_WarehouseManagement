@@ -6,12 +6,12 @@ class CommissionData:
     """
     def __init__(self, id, source, target, object, cup, pallet, state = None):
         self.id = id
-        self.source = source
-        self.target = target
+        self.source : Locations = source
+        self.target : Locations = target
         self.object = object
         self.cup = cup
         self.pallet = pallet
-        self.state = CommissionState.OPEN if state is None else state
+        self.state : CommissionState = CommissionState.OPEN if state is None else state
         #print(f"CommissionData: {self.id}, {self.source}, {self.target}, {self.object}")
 
 class CommissionState(StrEnum):

@@ -3,6 +3,7 @@ from src.service.EventlogService import EventlogService
 from yaml import load, dump, Loader, Dumper
 from src.model.Preferences import Preferences
 from src.constants.Constants import Constants
+from pathlib import Path
 
 
 class PreferenceController(QObject):
@@ -153,5 +154,6 @@ class PreferenceController(QObject):
                 self.preferences.opcua.namespace = read['opcuaNamespace']
                 self.preferences.opcua.clientUrl = read['clientUrl']
                 self.preferences.opcua.clientNamespace = read['clientNamespace']
-        except FileNotFoundError:
-            pass
+        except FileNotFoundError as e:
+            self.eventLogService.writeEvent("Preferences", "Preferences file not found No preferences can be loaded.")
+            print("Preferences file not found No preferences can be loaded." + str(e))

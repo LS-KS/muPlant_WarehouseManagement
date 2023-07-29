@@ -1,80 +1,80 @@
 - CommissionData:
-    id: 1
-    source: K1A
-    target: L2A
-    object: 123
     cup: true
-    pallet: false
-    state: OPEN
-- CommissionData:
-    id: 2
-    source: K2A
-    target: L4B
-    object: 456
-    cup: false
-    pallet: true
-    state: PENDING
-- CommissionData:
     id: 3
-    source: K1B
-    target: L6A
     object: 789
-    cup: true
     pallet: false
-    state: PROGRESS
-- CommissionData:
-    id: 4
-    source: K2B
-    target: L8B
-    object: 999
-    cup: false
-    pallet: true
-    state: DONE
-- CommissionData:
-    id: 5
-    source: K1A
-    target: L10A
-    object: 555
-    cup: true
-    pallet: false
-    state: OPEN
-- CommissionData:
-    id: 6
-    source: K2A
-    target: L12B
-    object: 222
-    cup: false
-    pallet: true
-    state: DONE
-- CommissionData:
-    id: 7
     source: K1B
-    target: L14A
-    object: 777
-    cup: true
-    pallet: false
-    state: OPEN
+    state: PROGRESS
+    target: L6A
 - CommissionData:
-    id: 8
-    source: K2B
-    target: L16B
-    object: 888
     cup: false
+    id: 2
+    object: 456
     pallet: true
-    state: DONE
-- CommissionData:
-    id: 9
-    source: K1A
-    target: L18A
-    object: 444
-    cup: true
-    pallet: false
-    state: OPEN
-- CommissionData:
-    id: 10
     source: K2A
-    target: L3B
-    object: 111
+    state: PENDING
+    target: L4B
+- CommissionData:
+    cup: true
+    id: 1
+    object: 123
+    pallet: false
+    source: K1A
+    state: OPEN
+    target: L2A
+- CommissionData:
+    cup: true
+    id: 5
+    object: 555
+    pallet: false
+    source: K1A
+    state: OPEN
+    target: L10A
+- CommissionData:
+    cup: true
+    id: 7
+    object: 777
+    pallet: false
+    source: K1B
+    state: OPEN
+    target: L14A
+- CommissionData:
+    cup: true
+    id: 9
+    object: 444
+    pallet: false
+    source: K1A
+    state: OPEN
+    target: L18A
+- CommissionData:
     cup: false
+    id: 4
+    object: 999
     pallet: true
+    source: K2B
     state: DONE
+    target: L8B
+- CommissionData:
+    cup: false
+    id: 6
+    object: 222
+    pallet: true
+    source: K2A
+    state: DONE
+    target: L12B
+- CommissionData:
+    cup: false
+    id: 8
+    object: 888
+    pallet: true
+    source: K2B
+    state: DONE
+    target: L16B
+- CommissionData:
+    cup: false
+    id: 10
+    object: 111
+    pallet: true
+    source: K2A
+    state: DONE
+    target: L3B

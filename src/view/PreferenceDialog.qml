@@ -12,7 +12,7 @@ Dialog {
         anchors.fill: parent
         ColumnLayout{
             anchors{
-                top: text1.bottom
+                top: parent.top
                 topMargin: 10
                 left: parent.left
                 leftMargin: 10
@@ -31,7 +31,6 @@ Dialog {
                     width: parent.width/3-25
                     height: modbusIpAddr.height
                     verticalAlignment: Text.AlignVCenter
-
                 }
                 TextField{
                     id: modbusIpAddr
@@ -257,6 +256,7 @@ Dialog {
             Row{ // OPC UA Client Namespace
                 Label{
                     text: qsTr("OPC UA Client Namespcace")
+                    wrapMode: Text.WordWrap
                     width: parent.width/3-25
                     height: abbIpPort.height
                     verticalAlignment: Text.AlignVCenter
@@ -290,16 +290,27 @@ Dialog {
         function onSendPreferences(modbusip, modbusport, modbusmaxtries, abbip, abbport, rfid, mcc, opcEp, opcNs, opcCUrl, opcCNs) {
             console.log("Preferences loaded");
             modbusIpAddr.text = modbusip;
+            console.log("modbusip:" + modbusip);
             modbusIpPort.text = modbusport;
+            console.log("modbusport:" + modbusport);
             modbusMaxReconnects.text = modbusmaxtries;
+            console.log("modbusmaxtries:" + modbusmaxtries);
             abbIpAddr.text = abbip;
+            console.log("abbip:" + abbip);
             abbIpPort.text = abbport;
+            console.log("abbport:" + abbport);
             runRfidBox.checked = rfid;
+            console.log("rfid:" + rfid);
             runMccBox.checked = mcc;
+            console.log("mcc:" + mcc);
             opcEndpoint.text = opcEp;
+            console.log("opcEp:" + opcEp);
             opcNamespace.text = opcNs;
+            console.log("opcNs:" + opcNs);
             opcCUrlField.text = opcCUrl;
+            console.log("opcCUrl:" + opcCUrl);
             opcCNamespace.text = opcCNs;
+            console.log("opcCNs:" + opcCNs);
         }
 
         function onModbusIPError(error){ // Show error icon if IP address is invalid

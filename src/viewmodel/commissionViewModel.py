@@ -1,7 +1,19 @@
+from typing import Union
 from PySide6.QtCore import QSortFilterProxyModel, Slot, Qt, QModelIndex
 from PySide6 import QtCore
 
 class CommissionViewModel(QtCore.QAbstractTableModel):
+
+    """
+    ViewModel für Kommissionsdaten. Stellt die Kommissionsdaten in einer Tabelle für 
+    die QML Engine bereit. 
+    Achtung: im QML Type wird das ProxyModel verwendet, nicht das ViewModel direkt.
+
+    :param commissionData: Kommissionsdaten
+    :type commissionData: list
+    :param parent: parent
+    :type parent: QObject
+    """
     lastId = 0
     commissionData = []
     def __init__(self, commissionData, parent=None):
@@ -52,7 +64,7 @@ class CommissionViewModel(QtCore.QAbstractTableModel):
                 case 3: return self.commissionData[row].object
                 case 4: return "Cup" if self.commissionData[row].cup else ""
                 case 5: return "Pallet" if self.commissionData[row].pallet else ""
-                case 6: return self.commissionData[row].state
+                case 6: return self.commissionData[row].state.value
                 case _: return None
 
 
@@ -71,6 +83,7 @@ class CommissionViewModel(QtCore.QAbstractTableModel):
 
     def indexOf(self, commissionID):
         """
+        Returns index of given commission ID
 
         :param commissionID: commission ID
         :type commissionID: int
@@ -85,6 +98,11 @@ class CommissionViewModel(QtCore.QAbstractTableModel):
 
 
 class CommissionFilterProxyModel(QSortFilterProxyModel):
+    """
+    ProxyModel für Kommissionsdaten. Stellt die Kommissionsdaten in einer Tabelle für 
+    die QML Engine bereit.
+    Die Liste ist nach dem Bearbeitungsstatus sortiert.
+    """
     def __init__(self, parent=None):
         super().__init__(parent)
         self.filterString = ""
@@ -102,13 +120,22 @@ class CommissionFilterProxyModel(QSortFilterProxyModel):
                 right_data = self.sourceModel().data(right_index, QtCore.Qt.UserRole +1)
 
                 # Define the desired sorting order
-                status_order = ["in progress", "pending", "open", "done"]
-
+                status_order = ["in progress", "pending", "open", "done"]              
                 # Compare the status values based on the desired sorting order
                 return status_order.index(left_data) < status_order.index(right_data)
-
+                
             # For other columns, use the default sorting behavior
             return super().lessThan(left_index, right_index)
+    
+    def mapToSource(self, proxyIndex: QModelIndex ) -> QModelIndex:
+        """
+        Maps the sorted inices back to the source model.
+        """
+        return super().mapToSource(proxyIndex)
+        
+
+    
+
 
 
 
