@@ -174,6 +174,11 @@ This way pallets don’t have to bear their location.</p>
 </dl>
 <p>:param invController : InventoryController</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="src.model.DataModel.Inventory.calcLocations">
+<span class="sig-name descname"><span class="pre">calcLocations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Inventory.calcLocations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Inventory.calcLocations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Inventory.getStoragePallet">
 <span class="sig-name descname"><span class="pre">getStoragePallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Inventory.getStoragePallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Inventory.getStoragePallet" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -356,6 +361,228 @@ Each usually holds one or none pallet object which should be also the same.
 :type pallet: Pallet
 :param inventory: parent class of StorageElement
 :type inventory: Inventory</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Locations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Enum for CommissionDta locations source and target</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.GRIPPER">
+<span class="sig-name descname"><span class="pre">GRIPPER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Gripper'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.GRIPPER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.K1A">
+<span class="sig-name descname"><span class="pre">K1A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K1,</span> <span class="pre">slot</span> <span class="pre">A'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.K1A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.K1B">
+<span class="sig-name descname"><span class="pre">K1B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K1,</span> <span class="pre">slot</span> <span class="pre">B'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.K1B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.K2A">
+<span class="sig-name descname"><span class="pre">K2A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K2,</span> <span class="pre">slot</span> <span class="pre">A'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.K2A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.K2B">
+<span class="sig-name descname"><span class="pre">K2B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K2,</span> <span class="pre">slot</span> <span class="pre">B'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.K2B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L10A">
+<span class="sig-name descname"><span class="pre">L10A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L10</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L10A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L10B">
+<span class="sig-name descname"><span class="pre">L10B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L10</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L10B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L11A">
+<span class="sig-name descname"><span class="pre">L11A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L11</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L11A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L11B">
+<span class="sig-name descname"><span class="pre">L11B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L11</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L11B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L12A">
+<span class="sig-name descname"><span class="pre">L12A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L12</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L12A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L12B">
+<span class="sig-name descname"><span class="pre">L12B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L12</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L12B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L13A">
+<span class="sig-name descname"><span class="pre">L13A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L13</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L13A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L13B">
+<span class="sig-name descname"><span class="pre">L13B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L13</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L13B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L14A">
+<span class="sig-name descname"><span class="pre">L14A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L14</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L14A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L14B">
+<span class="sig-name descname"><span class="pre">L14B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L14</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L14B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L15A">
+<span class="sig-name descname"><span class="pre">L15A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L15</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L15A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L15B">
+<span class="sig-name descname"><span class="pre">L15B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L15</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L15B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L16A">
+<span class="sig-name descname"><span class="pre">L16A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L16</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L16A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L16B">
+<span class="sig-name descname"><span class="pre">L16B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L16</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L16B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L17A">
+<span class="sig-name descname"><span class="pre">L17A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L17</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L17A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L17B">
+<span class="sig-name descname"><span class="pre">L17B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L17</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L17B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L18A">
+<span class="sig-name descname"><span class="pre">L18A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L18</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L18A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L18B">
+<span class="sig-name descname"><span class="pre">L18B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L18</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L18B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L1A">
+<span class="sig-name descname"><span class="pre">L1A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L1</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L1A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L1B">
+<span class="sig-name descname"><span class="pre">L1B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L1</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L1B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L2A">
+<span class="sig-name descname"><span class="pre">L2A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L2</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L2A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L2B">
+<span class="sig-name descname"><span class="pre">L2B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L2</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L2B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L3A">
+<span class="sig-name descname"><span class="pre">L3A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L3</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L3A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L3B">
+<span class="sig-name descname"><span class="pre">L3B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L3</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L3B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L4A">
+<span class="sig-name descname"><span class="pre">L4A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L4</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L4A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L4B">
+<span class="sig-name descname"><span class="pre">L4B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L4</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L4B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L5A">
+<span class="sig-name descname"><span class="pre">L5A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L5</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L5A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L5B">
+<span class="sig-name descname"><span class="pre">L5B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L5</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L5B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L6A">
+<span class="sig-name descname"><span class="pre">L6A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L6</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L6A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L6B">
+<span class="sig-name descname"><span class="pre">L6B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L6</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L6B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L7A">
+<span class="sig-name descname"><span class="pre">L7A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L7</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L7A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L7B">
+<span class="sig-name descname"><span class="pre">L7B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L7</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L7B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L8A">
+<span class="sig-name descname"><span class="pre">L8A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L8</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L8A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L8B">
+<span class="sig-name descname"><span class="pre">L8B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L8</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L8B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L9A">
+<span class="sig-name descname"><span class="pre">L9A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L9</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L9A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L9B">
+<span class="sig-name descname"><span class="pre">L9B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L9</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L9B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.ROBOT">
+<span class="sig-name descname"><span class="pre">ROBOT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Mobile</span> <span class="pre">Robot'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.ROBOT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.STORAGE">
+<span class="sig-name descname"><span class="pre">STORAGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.STORAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.setPallet">
 <span class="sig-name descname"><span class="pre">setPallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#StorageElement.setPallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.StorageElement.setPallet" title="Permalink to this definition">¶</a></dt>

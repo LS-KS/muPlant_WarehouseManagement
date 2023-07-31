@@ -39,18 +39,24 @@
 <span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QModelIndex</span>
 <span class="kn">from</span> <span class="nn">src.model.CommissionModel</span> <span class="kn">import</span> <span class="n">CommissionData</span><span class="p">,</span> <span class="n">CommissionState</span><span class="p">,</span> <span class="n">Locations</span>
 <span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
+<span class="kn">from</span> <span class="nn">src.controller.invController</span> <span class="kn">import</span> <span class="n">invController</span>
 <span class="kn">from</span> <span class="nn">yaml</span> <span class="kn">import</span> <span class="n">safe_load</span><span class="p">,</span> <span class="n">safe_dump</span>
+<span class="kn">from</span> <span class="nn">src.model.DataModel</span> <span class="kn">import</span> <span class="n">Cup</span><span class="p">,</span> <span class="n">Pallet</span><span class="p">,</span> <span class="n">Product</span><span class="p">,</span> <span class="n">StorageElement</span><span class="p">,</span> <span class="n">Inventory</span><span class="p">,</span> <span class="n">Workbench</span>
+<span class="kn">from</span> <span class="nn">src.service.EventlogService</span> <span class="kn">import</span> <span class="n">EventlogService</span>
 
-<div class="viewcode-block" id="CommissionController"><a class="viewcode-back" href="../../../Controller.html#src.controller.CommissionController.CommissionController">[docs]</a><span class="k">class</span> <span class="nc">CommissionController</span><span class="p">:</span>
+<div class="viewcode-block" id="CommissionController"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.CommissionController.CommissionController">[docs]</a><span class="k">class</span> <span class="nc">CommissionController</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class is used to provide a viewModel for all commission data</span>
 <span class="sd">    commission data source is a database file where all commissions are saved.</span>
 <span class="sd">    While operating commissions will be passed to CommisioonController by ModbusService or</span>
 <span class="sd">    OPCUAService.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inventoryController</span><span class="p">:</span> <span class="n">invController</span><span class="p">,</span> <span class="n">eventlogService</span> <span class="p">:</span> <span class="n">EventlogService</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">Constants</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span> <span class="o">=</span> <span class="n">inventoryController</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span> <span class="o">=</span> <span class="n">eventlogService</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">commissionViewModel</span> <span class="o">=</span> <span class="n">CommissionViewModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loadCommissionData</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dumpCommissionData</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span> <span class="o">=</span> <span class="n">CommissionFilterProxyModel</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">setSourceModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commissionViewModel</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">setFilterCaseSensitivity</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">CaseInsensitive</span><span class="p">)</span>
@@ -58,9 +64,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">setFilterRole</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">setFilterString</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AscendingOrder</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validateCommissionData</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="CommissionController.loadCommissionData"><a class="viewcode-back" href="../../../Controller.html#src.controller.CommissionController.CommissionController.loadCommissionData">[docs]</a>    <span class="k">def</span> <span class="nf">loadCommissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CommissionController.loadCommissionData"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.CommissionController.CommissionController.loadCommissionData">[docs]</a>    <span class="k">def</span> <span class="nf">loadCommissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">commissionData</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">Constants</span><span class="p">()</span><span class="o">.</span><span class="n">COMMISSIONDATA</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">safe_load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
@@ -77,27 +84,380 @@
                     <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="s1">&#39;CommissionData&#39;</span><span class="p">][</span><span class="s1">&#39;object&#39;</span><span class="p">]),</span>
                     <span class="n">cup</span><span class="p">,</span>
                     <span class="n">pallet</span><span class="p">,</span>
-                    <span class="n">state</span><span class="o">.</span><span class="n">value</span>
+                    <span class="n">state</span>
                 <span class="p">))</span>
                 <span class="c1">#print(commissionData[-1].source.value)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sortComissionData</span><span class="p">(</span><span class="n">commissionData</span><span class="p">)</span>
+
         <span class="k">return</span>  <span class="n">commissionData</span></div>
 
-<div class="viewcode-block" id="CommissionController.dumpCommissionData"><a class="viewcode-back" href="../../../Controller.html#src.controller.CommissionController.CommissionController.dumpCommissionData">[docs]</a>    <span class="k">def</span> <span class="nf">dumpCommissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CommissionController.sortComissionData"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.CommissionController.CommissionController.sortComissionData">[docs]</a>    <span class="k">def</span> <span class="nf">sortComissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commissionData</span><span class="p">):</span>
+        <span class="n">statusOrder</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;in progress&quot;</span><span class="p">,</span> <span class="s2">&quot;pending&quot;</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="s2">&quot;done&quot;</span><span class="p">]</span>
+        <span class="n">commissionData</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">commission</span><span class="p">:</span> <span class="n">statusOrder</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">commission</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">value</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="CommissionController.dumpCommissionData"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.CommissionController.CommissionController.dumpCommissionData">[docs]</a>    <span class="k">def</span> <span class="nf">dumpCommissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">commission</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commissionData</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">commission</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commissionViewModel</span><span class="o">.</span><span class="n">commissionData</span><span class="p">:</span>
             <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
                 <span class="s1">&#39;CommissionData&#39;</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
-                    <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>
-                    <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">target</span><span class="p">,</span>
+                    <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                     <span class="s1">&#39;object&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">object</span><span class="p">,</span>
                     <span class="s1">&#39;cup&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">cup</span><span class="p">,</span>
                     <span class="s1">&#39;pallet&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">pallet</span><span class="p">,</span>
-                    <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">state</span>
+                    <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">commission</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">name</span>
                 <span class="p">}</span>
             <span class="p">})</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">Constants</span><span class="p">()</span><span class="o">.</span><span class="n">COMMISSIONDATA</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-            <span class="n">safe_dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div></div>
+            <span class="n">safe_dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CommissionController.validateCommissionData"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.CommissionController.CommissionController.validateCommissionData">[docs]</a>    <span class="k">def</span> <span class="nf">validateCommissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function validates the commission data.</span>
+<span class="sd">        It makes a copy of the inventory and simulates all commissions.</span>
+<span class="sd">        Through structure a whole new instance has to be created the hard way. </span>
+
+<span class="sd">        Writes an event in event log if a commission is invalid.</span>
+
+<span class="sd">        Returns: True if all commissions are valid, False if not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">inventory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setupInventoryCopy</span><span class="p">()</span>
+        <span class="n">workbench</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setupWorkbenchCopy</span><span class="p">()</span>
+        <span class="n">valid</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">commission</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commissionViewModel</span><span class="o">.</span><span class="n">commissionData</span><span class="p">:</span>
+            <span class="p">[</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">cup</span><span class="p">,</span> <span class="n">pallet</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">commission</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">commission</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">commission</span><span class="o">.</span><span class="n">cup</span><span class="p">,</span> <span class="n">commission</span><span class="o">.</span><span class="n">pallet</span><span class="p">,</span> <span class="n">commission</span><span class="o">.</span><span class="n">object</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">cup</span> <span class="o">&amp;</span> <span class="n">pallet</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: cup and pallet are set&quot;</span><span class="p">)</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="n">cup</span> <span class="o">==</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">pallet</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: nor cup or pallet are set&quot;</span><span class="p">)</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">source</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: source and target are the same&quot;</span><span class="p">)</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">source</span> <span class="o">==</span> <span class="n">Locations</span><span class="o">.</span><span class="n">ROBOT</span><span class="p">:</span>
+                <span class="c1"># always assume that robot delivers correct object</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">source</span> <span class="o">==</span> <span class="n">Locations</span><span class="o">.</span><span class="n">STORAGE</span><span class="p">:</span>
+                <span class="c1"># TODO: check if object is in storage</span>
+                <span class="c1"># TODO: optional: check if future commissions target possible locations</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">source</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="c1"># source is a Storage-Location</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verifyStorageElementSource</span><span class="p">(</span><span class="n">commission</span><span class="p">,</span> <span class="n">cup</span><span class="p">,</span> <span class="n">inventory</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">pallet</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">valid</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">source</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="c1"># source is a Workbench-Location</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verifyWorkbenchSource</span><span class="p">(</span><span class="n">commission</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">valid</span><span class="p">,</span> <span class="n">workbench</span><span class="p">,</span> <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: source is not valid&quot;</span><span class="p">)</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="c1"># check target location</span>
+            <span class="k">if</span> <span class="n">target</span> <span class="o">==</span> <span class="n">Locations</span><span class="o">.</span><span class="n">ROBOT</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">target</span> <span class="o">==</span> <span class="n">Locations</span><span class="o">.</span><span class="n">STORAGE</span><span class="p">:</span>
+                <span class="c1"># TODO: check if object is in storage</span>
+                <span class="c1"># TODO: optional: check if future commissions target possible locations</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="c1"># target is a Storage-Location</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verifyStorageElementTarget</span><span class="p">(</span><span class="n">commission</span><span class="p">,</span><span class="n">cup</span><span class="p">,</span> <span class="n">pallet</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">valid</span><span class="p">,</span> <span class="n">inventory</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="c1"># target is a Workbench-Location</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verifyWorkbenchTarget</span><span class="p">(</span><span class="n">commission</span><span class="p">,</span><span class="n">cup</span><span class="p">,</span><span class="n">pallet</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">valid</span><span class="p">,</span> <span class="n">workbench</span><span class="p">)</span>
+            <span class="c1"># transform Location</span>
+        <span class="k">return</span> <span class="n">valid</span></div>
+
+    <span class="k">def</span> <span class="nf">_verifyStorageElementSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commission</span> <span class="p">:</span> <span class="n">CommissionData</span><span class="p">,</span> <span class="n">cup</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">inventory</span><span class="p">:</span> <span class="n">Inventory</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">pallet</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">source</span> <span class="p">:</span> <span class="n">Locations</span><span class="p">,</span> <span class="n">valid</span> <span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies the storage element for a given commission.</span>
+<span class="sd">        This method checks the specified storage element (cup or pallet) at the source location to validate the commission.</span>
+
+<span class="sd">        :param commission: The commission being verified.</span>
+<span class="sd">        :type commission: CommissionData</span>
+<span class="sd">        :param cup: If True, the storage element is a cup; otherwise, it&#39;s a pallet.</span>
+<span class="sd">        :type cup: bool</span>
+<span class="sd">        :param inventory: Copy of invController&#39;s inventory object.</span>
+<span class="sd">        :type: Inventory</span>
+<span class="sd">        :param object: The ID of the cup or pallet being verified.</span>
+<span class="sd">        :type object: int</span>
+<span class="sd">        :param pallet: If True, the storage element is a pallet; otherwise, it&#39;s a cup.</span>
+<span class="sd">        :type pallet: bool</span>
+<span class="sd">        :param source: The source location of the storage element to be verified.</span>
+<span class="sd">        :type source: Location</span>
+<span class="sd">        :param valid: The current validity status of the commission being verified.</span>
+<span class="sd">        :type valid: bool</span>
+<span class="sd">        :return bool: The updated validity status of the commission after the verification process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">source_row</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">//</span> <span class="mi">6</span>
+        <span class="n">source_col</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">%</span> <span class="mi">6</span>
+        <span class="n">slot</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># claclulate slot from StrEnum name</span>
+        <span class="n">sE</span> <span class="o">=</span> <span class="n">inventory</span><span class="o">.</span><span class="n">pallets</span><span class="p">[</span><span class="n">source_row</span><span class="p">][</span><span class="n">source_col</span><span class="p">]</span> <span class="c1"># get the StorageElement at the dest location</span>
+
+        <span class="k">if</span> <span class="n">cup</span><span class="p">:</span>
+            <span class="n">slot</span> <span class="o">=</span> <span class="n">sE</span><span class="o">.</span><span class="n">pallet</span><span class="o">.</span><span class="n">slotA</span> <span class="k">if</span> <span class="n">slot</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span> <span class="k">else</span> <span class="n">sE</span><span class="o">.</span><span class="n">pallet</span><span class="o">.</span><span class="n">slotB</span> <span class="c1"># get the slot of the pallet</span>
+            <span class="c1"># check source location for cup</span>
+            <span class="k">if</span> <span class="n">slot</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># StorageElement maybe empty</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: source location </span><span class="si">{</span><span class="n">source</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is empty&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">valid</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">slot</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                                <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: cup -id at row, col, slot = [</span><span class="si">{</span><span class="n">source_row</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">source_col</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">slot</span><span class="si">}</span><span class="s2">] does not match with source&quot;</span><span class="p">)</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">pallet</span><span class="p">:</span>
+            <span class="c1"># check source location for pallet</span>
+            <span class="k">if</span> <span class="n">sE</span><span class="o">.</span><span class="n">pallet</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># StorageElement maybe empty</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: source location is empty&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">valid</span>
+        <span class="k">return</span> <span class="n">valid</span>
+
+    <span class="k">def</span> <span class="nf">_verifyWorkbenchSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commission</span><span class="p">:</span> <span class="n">CommissionData</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="n">Locations</span><span class="p">,</span> <span class="n">valid</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">workbench</span><span class="p">:</span> <span class="n">Workbench</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies the workbench element for a given commission.</span>
+<span class="sd">        This method checks the specified storage element (cup or pallet) at the source location to validate the commission.</span>
+
+<span class="sd">        :param commission: The commission being verified.</span>
+<span class="sd">        :type commission: CommissionData</span>
+<span class="sd">        :param object: The object being verified (cup or pallet).</span>
+<span class="sd">        :type object: int</span>
+<span class="sd">        :param loc: The source location of the object.</span>
+<span class="sd">        :type loc: Locations</span>
+<span class="sd">        :param valid: The current validity status of the commission.</span>
+<span class="sd">        :type valid: bool</span>
+<span class="sd">        :param workbench: The workbench object.</span>
+<span class="sd">        :type workbench: Workbench</span>
+
+
+<span class="sd">        :return bool: The updated validity status of the commission after the verification process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">workbench</span><span class="o">.</span><span class="n">k1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">slotA</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">slotA</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                                            <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: cup -id at workbench slot 1A does not match with source&quot;</span><span class="p">)</span>
+                            <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                                        <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: No cup at workbench slot </span><span class="si">{</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">elif</span> <span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">slotB</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">slotB</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                                            <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: cup -id at workbench slot 1B does not match with source&quot;</span><span class="p">)</span>
+                            <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                                        <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: No cup at workbench slot </span><span class="si">{</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                                    <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: Could not resolve source slot&quot;</span><span class="p">)</span>
+                    <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                                <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: No pallet at </span><span class="si">{</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">workbench</span><span class="o">.</span><span class="n">k2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">slotA</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">slotA</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                                            <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: cup -id at workbench slot </span><span class="si">{</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> does not match with source&quot;</span><span class="p">)</span>
+                            <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                                        <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: No cup at workbench slot </span><span class="si">{</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">elif</span> <span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">slotB</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">slotB</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                                            <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: cup -id at workbench slot </span><span class="si">{</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> does not match with source&quot;</span><span class="p">)</span>
+                            <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                                        <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: No cup at workbench slot </span><span class="si">{</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                                    <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: Could not resolve source slot&quot;</span><span class="p">)</span>
+                    <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                                <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: No pallet at </span><span class="si">{</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                            <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: Workbench slot </span><span class="si">{</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> could not be resolved&quot;</span><span class="p">)</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">valid</span>
+
+    <span class="k">def</span> <span class="nf">_verifyWorkbenchTarget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commission</span><span class="p">:</span> <span class="n">CommissionData</span><span class="p">,</span> <span class="n">cup</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">pallet</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="n">Locations</span><span class="p">,</span> <span class="n">valid</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">workbench</span><span class="p">:</span> <span class="n">Workbench</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies the workbench element for a given commission target.</span>
+<span class="sd">        This method checks the specified target:</span>
+<span class="sd">        If cup is True, the target must contain a pallet object and the targeted slot must be empty.</span>
+<span class="sd">        If pallet is True, the target must not contain a pallet.</span>
+
+<span class="sd">        :param commission: The commission being verified.</span>
+<span class="sd">        :type commission: CommissionData</span>
+<span class="sd">        :param cup: True if the commission is a cup, False otherwise.</span>
+<span class="sd">        :type cup: bool</span>
+<span class="sd">        :param pallet: True if the commission is a pallet, False otherwise.</span>
+<span class="sd">        :type pallet: bool</span>
+<span class="sd">        :param loc: The target location of the object.</span>
+<span class="sd">        :type loc: Locations</span>
+<span class="sd">        :param valid: The current validity status of the commission.</span>
+<span class="sd">        :type valid: bool</span>
+<span class="sd">        :param workbench: The workbench object.</span>
+<span class="sd">        :type workbench: Workbench</span>
+<span class="sd">        :return valid: The updated validity status of the commission after the verification process.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">sE</span> <span class="o">=</span> <span class="n">workbench</span><span class="o">.</span><span class="n">k1</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">workbench</span><span class="o">.</span><span class="n">k2</span>
+        <span class="k">if</span> <span class="n">pallet</span> <span class="ow">and</span> <span class="n">sE</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                            <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: target location </span><span class="si">{</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is not empty.&quot;</span><span class="p">)</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">valid</span>
+        <span class="k">elif</span> <span class="n">cup</span> <span class="ow">and</span> <span class="n">sE</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                            <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: target location </span><span class="si">{</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is empty.&quot;</span><span class="p">)</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">valid</span>
+        <span class="n">slot</span> <span class="o">=</span> <span class="n">sE</span><span class="o">.</span><span class="n">slotA</span> <span class="k">if</span> <span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span> <span class="k">else</span> <span class="n">sE</span><span class="o">.</span><span class="n">slotB</span>
+        <span class="k">if</span> <span class="n">cup</span> <span class="ow">and</span> <span class="n">slot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                            <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: target location </span><span class="si">{</span><span class="n">loc</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is not empty.&quot;</span><span class="p">)</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">valid</span>
+        <span class="k">return</span> <span class="n">valid</span>
+
+    <span class="k">def</span> <span class="nf">_verifyStorageElementTarget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commission</span><span class="p">:</span> <span class="n">CommissionData</span><span class="p">,</span> <span class="n">cup</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">pallet</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Locations</span><span class="p">,</span> <span class="n">valid</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">inventory</span><span class="p">:</span> <span class="n">Inventory</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies the storage element for a given commission target.</span>
+<span class="sd">        This method checks the specified target:</span>
+<span class="sd">        If cup is True, the target must contain a pallet object and the targeted slot must be empty.</span>
+<span class="sd">        If pallet is True, the target must not contain a pallet.</span>
+
+<span class="sd">        :param commission: The commission being verified.</span>
+<span class="sd">        :type commission: CommissionData</span>
+<span class="sd">        :param cup: True if the commission is a cup, False otherwise.</span>
+<span class="sd">        :type cup: bool</span>
+<span class="sd">        :param pallet: True if the commission is a pallet, False otherwise.</span>
+<span class="sd">        :type pallet: bool</span>
+<span class="sd">        :param target: The target location of the object.</span>
+<span class="sd">        :type target: Locations</span>
+<span class="sd">        :param valid: The current validity status of the commission.</span>
+<span class="sd">        :type valid: bool</span>
+<span class="sd">        :param inventory: copy of invController&#39;s inventory.</span>
+<span class="sd">        :type inventory: Inventory</span>
+<span class="sd">        :return valid: The updated validity status of the commission after the verification process.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">locName</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">locName</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">locName</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">//</span><span class="mi">6</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">locName</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">%</span><span class="mi">6</span>
+        <span class="n">sE</span> <span class="o">=</span> <span class="n">inventory</span><span class="o">.</span><span class="n">pallets</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">pallet</span>
+        <span class="k">if</span> <span class="n">pallet</span> <span class="ow">and</span> <span class="n">sE</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                            <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: target location </span><span class="si">{</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is not empty.&quot;</span><span class="p">)</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">valid</span>
+        <span class="k">elif</span> <span class="n">cup</span> <span class="ow">and</span> <span class="n">sE</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                            <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: target location </span><span class="si">{</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> has no pallet.&quot;</span><span class="p">)</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">valid</span>
+        <span class="n">slot</span> <span class="o">=</span> <span class="n">sE</span><span class="o">.</span><span class="n">slotA</span> <span class="k">if</span> <span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span> <span class="k">else</span> <span class="n">sE</span><span class="o">.</span><span class="n">slotB</span>
+        <span class="k">if</span> <span class="n">cup</span> <span class="ow">and</span> <span class="n">slot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;CommissionController&quot;</span><span class="p">,</span>
+                                            <span class="sa">f</span><span class="s2">&quot;Commission </span><span class="si">{</span><span class="n">commission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> is invalid: target location </span><span class="si">{</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is not empty.&quot;</span><span class="p">)</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">valid</span>
+        <span class="k">return</span> <span class="n">valid</span>
+
+    <span class="k">def</span> <span class="nf">_setupWorkbenchCopy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a copy of invController&#39;s workbench object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">workbench</span> <span class="o">=</span> <span class="n">Workbench</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">workbench</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="n">Pallet</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">slotA</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">slotA</span> <span class="o">=</span> <span class="n">Cup</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">slotA</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="n">product</span><span class="o">=</span><span class="n">Product</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">slotA</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">slotB</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">slotB</span> <span class="o">=</span> <span class="n">Cup</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">slotB</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="n">product</span><span class="o">=</span><span class="n">Product</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">slotB</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">workbench</span><span class="o">.</span><span class="n">k2</span> <span class="o">=</span> <span class="n">Pallet</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">slotA</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">slotA</span> <span class="o">=</span> <span class="n">Cup</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">slotA</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="n">product</span><span class="o">=</span><span class="n">Product</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">slotA</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">slotB</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">slotB</span> <span class="o">=</span> <span class="n">Cup</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">slotB</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="n">product</span><span class="o">=</span><span class="n">Product</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">slotB</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">workbench</span>
+
+    <span class="k">def</span> <span class="nf">_setupInventoryCopy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a copy of invController&#39;s inventory object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">inventory</span> <span class="o">=</span> <span class="n">Inventory</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+                <span class="n">sE</span><span class="p">:</span> <span class="n">StorageElement</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inventoryController</span><span class="o">.</span><span class="n">inventory</span><span class="o">.</span><span class="n">pallets</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span>
+                <span class="n">pallet</span> <span class="o">=</span> <span class="n">sE</span><span class="o">.</span><span class="n">pallet</span>
+                <span class="n">loc</span> <span class="o">=</span> <span class="n">sE</span><span class="o">.</span><span class="n">locations</span>
+                <span class="n">prodA</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">prodB</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">cupA</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">cuB</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="n">pallet</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">pallet</span><span class="o">.</span><span class="n">slotA</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">cupA</span> <span class="o">=</span> <span class="n">pallet</span><span class="o">.</span><span class="n">slotA</span><span class="o">.</span><span class="n">id</span>
+                        <span class="k">if</span> <span class="n">pallet</span><span class="o">.</span><span class="n">slotA</span><span class="o">.</span><span class="n">product</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">prodA</span> <span class="o">=</span> <span class="n">pallet</span><span class="o">.</span><span class="n">slotA</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">id</span>
+                    <span class="k">if</span> <span class="n">pallet</span><span class="o">.</span><span class="n">slotB</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">cupB</span> <span class="o">=</span> <span class="n">pallet</span><span class="o">.</span><span class="n">slotB</span><span class="o">.</span><span class="n">id</span>
+                        <span class="k">if</span> <span class="n">pallet</span><span class="o">.</span><span class="n">slotB</span><span class="o">.</span><span class="n">product</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">prodB</span> <span class="o">=</span> <span class="n">pallet</span><span class="o">.</span><span class="n">slotB</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">id</span>
+                    <span class="n">nSE</span> <span class="o">=</span> <span class="n">inventory</span><span class="o">.</span><span class="n">pallets</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span>
+                    <span class="n">nSE</span><span class="o">.</span><span class="n">locations</span> <span class="o">=</span> <span class="n">loc</span>
+                    <span class="n">nSE</span><span class="o">.</span><span class="n">pallet</span> <span class="o">=</span> <span class="n">Pallet</span><span class="p">()</span>
+                    <span class="n">slotA</span> <span class="o">=</span> <span class="n">Cup</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">cupA</span><span class="p">,</span> <span class="n">product</span><span class="o">=</span><span class="n">Product</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">prodA</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+                    <span class="n">slotB</span> <span class="o">=</span> <span class="n">Cup</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">cupB</span><span class="p">,</span> <span class="n">product</span><span class="o">=</span><span class="n">Product</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">prodB</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+                    <span class="n">nSE</span><span class="o">.</span><span class="n">pallet</span><span class="o">.</span><span class="n">setSlotA</span><span class="p">(</span><span class="n">slotA</span><span class="p">)</span>
+                    <span class="n">nSE</span><span class="o">.</span><span class="n">pallet</span><span class="o">.</span><span class="n">setSlotB</span><span class="p">(</span><span class="n">slotB</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inventory</span></div>
+
+
 
     
 </pre></div>
@@ -123,6 +483,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../view.html">View</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dialogs.html">Dialogs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datafiles.html">Data Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plugins.html">PlugIn’s</a></li>
 </ul>

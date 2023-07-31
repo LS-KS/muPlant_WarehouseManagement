@@ -116,7 +116,7 @@ Creates a dictionary with rolenames and roles.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.rowCount">
-<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x10b66ba40&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x112042f80&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns number of rows at index
 :param parent:
 :type: QModelIndex
@@ -363,6 +363,12 @@ Important Note: If isPallet is written, it maybe returns False in any case.</p>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.commissionViewModel.CommissionFilterProxyModel.mapToSource">
+<span class="sig-name descname"><span class="pre">mapToSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxyIndex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QModelIndex</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">QModelIndex</span></span></span><a class="reference internal" href="../_modules/src/viewmodel/commissionViewModel.html#CommissionFilterProxyModel.mapToSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionFilterProxyModel.mapToSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maps the sorted inices back to the source model.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.commissionViewModel.CommissionFilterProxyModel.setFilterString">
 <span class="sig-name descname"><span class="pre">setFilterString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filterString</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/viewmodel/commissionViewModel.html#CommissionFilterProxyModel.setFilterString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionFilterProxyModel.setFilterString" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -410,7 +416,8 @@ string to be returned
 <dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.commissionViewModel.CommissionViewModel.indexOf">
 <span class="sig-name descname"><span class="pre">indexOf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commissionID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/viewmodel/commissionViewModel.html#CommissionViewModel.indexOf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.commissionViewModel.CommissionViewModel.indexOf" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Returns index of given commission ID</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>commissionID</strong> (<em>int</em>) – commission ID</p>
 </dd>

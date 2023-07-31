@@ -62,13 +62,8 @@ der QML View Eventlog zu rendern.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="src.service.EventlogService.EventlogService.newSignal">
-<span class="sig-name descname"><span class="pre">newSignal</span></span><a class="headerlink" href="#src.service.EventlogService.EventlogService.newSignal" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.EventlogService.EventlogService.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;EventlogService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=newSignal(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Slot,</span> <span class="pre">signature=writeEvent(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.EventlogService.EventlogService.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;EventlogService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Slot,</span> <span class="pre">signature=writeEvent(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.EventlogService.EventlogService.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -152,22 +147,27 @@ der QML View Eventlog zu rendern.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.main">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Main function for opcua server</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.quit">
-<span class="sig-name descname"><span class="pre">quit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.quit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.quit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">quit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.quit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.quit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented for QThread. Stops QThread and deletes it.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented for QThread. Wraps asyncio function in sync function.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.start">
-<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PySide6.QtCore.QThread.Priority</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Instance(PySide6.QtCore.QThread.Priority.InheritPriority)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.start" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented for QThread. Starts QThread 
+and creates an opcua server object.</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.staticMetaObject">

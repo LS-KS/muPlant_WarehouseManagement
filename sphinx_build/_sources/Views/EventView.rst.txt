@@ -7,3 +7,15 @@ Das LAyout dafür ist in der Datei 'EventView.qml' definiert:
 
 .. literalinclude:: ../../src/view/EventView.qml
    :language: javascript
+   :linenos:
+
+
+EventDelegate
+-------------
+
+Die einzelnen Events werden in dem QML Type 'EventDelegate.qml' dargestellt.
+Das Layout dafür ist in der Datei 'EventDelegate.qml' definiert:
+
+.. literalinclude:: ../../src/view/EventDelegate.qml
+   :language: javascript
+   :linenos:

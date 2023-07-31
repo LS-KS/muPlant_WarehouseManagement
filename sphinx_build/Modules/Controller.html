@@ -353,7 +353,7 @@ Takes a product ID as argument and emits it as signal productSelected.
 <p>Der CommissionController verbindet die Klassen CommissionModel und das ViewModel commissionViewModel.</p>
 <span class="target" id="module-src.controller.CommissionController"></span><dl class="py class">
 <dt class="sig sig-object py" id="src.controller.CommissionController.CommissionController">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.controller.CommissionController.</span></span><span class="sig-name descname"><span class="pre">CommissionController</span></span><a class="reference internal" href="../_modules/src/controller/CommissionController.html#CommissionController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.CommissionController.CommissionController" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.controller.CommissionController.</span></span><span class="sig-name descname"><span class="pre">CommissionController</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inventoryController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.controller.invController.invController" title="src.controller.invController.invController"><span class="pre">invController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">eventlogService</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Service.html#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/controller/CommissionController.html#CommissionController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.CommissionController.CommissionController" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This class is used to provide a viewModel for all commission data
 commission data source is a database file where all commissions are saved.
@@ -368,6 +368,21 @@ OPCUAService.</p>
 <dt class="sig sig-object py" id="src.controller.CommissionController.CommissionController.loadCommissionData">
 <span class="sig-name descname"><span class="pre">loadCommissionData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/controller/CommissionController.html#CommissionController.loadCommissionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.CommissionController.CommissionController.loadCommissionData" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.CommissionController.CommissionController.sortComissionData">
+<span class="sig-name descname"><span class="pre">sortComissionData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commissionData</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/controller/CommissionController.html#CommissionController.sortComissionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.CommissionController.CommissionController.sortComissionData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.CommissionController.CommissionController.validateCommissionData">
+<span class="sig-name descname"><span class="pre">validateCommissionData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/controller/CommissionController.html#CommissionController.validateCommissionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.CommissionController.CommissionController.validateCommissionData" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function validates the commission data.
+It makes a copy of the inventory and simulates all commissions.
+Through structure a whole new instance has to be created the hard way.</p>
+<p>Writes an event in event log if a commission is invalid.</p>
+<p>Returns: True if all commissions are valid, False if not</p>
+</dd></dl>
 
 </dd></dl>
 

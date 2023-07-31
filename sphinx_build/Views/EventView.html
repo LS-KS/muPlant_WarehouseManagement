@@ -39,85 +39,165 @@
 <p>Events die über den EventlogService.py erstellt wurden, werden über das Signal/Slot Prinzip des Qt-Frameworks
 an das GUI gesendet und als StackLayout in dem QML Type ‘StackLayoutView.qml’ angezeigt.
 Das LAyout dafür ist in der Datei ‘EventView.qml’ definiert:</p>
-<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="w"> </span><span class="mf">2.15</span>
-<span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Controls</span><span class="w"> </span><span class="mf">2.15</span>
-<span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Layouts</span><span class="w"> </span><span class="mf">1.15</span>
-<span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Controls</span><span class="p">.</span><span class="nx">Material</span><span class="w"> </span><span class="mf">2.15</span>
-<span class="cm">/*</span>
-<span class="cm">  EventView.qml</span>
-<span class="cm">  This Qml file implements a basic eventlogger textarea.</span>
-<span class="cm">  It uses the EventLogController.</span>
-<span class="cm">  */</span>
-<span class="nx">Rectangle</span><span class="p">{</span>
-<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">eventWindow</span>
-<span class="w">    </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="mf">640</span>
-<span class="w">    </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="mf">400</span>
-
-<span class="w">    </span><span class="nx">Rectangle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">pane</span>
-<span class="w">        </span><span class="nx">radius</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span>
-<span class="w">        </span><span class="nx">border</span><span class="p">.</span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;#1F82B2&quot;</span>
-<span class="w">        </span><span class="nx">border</span><span class="p">.</span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span>
-<span class="w">        </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">fill</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span>
-<span class="w">        </span><span class="nx">property</span><span class="w"> </span><span class="nx">string</span><span class="w"> </span><span class="nx">dateTimeFormat</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;yyyy-MM-dd hh:mm:ss&quot;</span>
-
-<span class="w">        </span><span class="nx">Text</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">eventLogTitle</span>
-<span class="w">            </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Event Log:&quot;</span><span class="p">)</span>
-<span class="w">            </span><span class="nx">horizontalAlignment</span><span class="o">:</span><span class="w"> </span><span class="nx">Text</span><span class="p">.</span><span class="nx">AlignHCenter</span>
-<span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">left</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">left</span>
-<span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">right</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">right</span>
-<span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">top</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">top</span>
-<span class="w">            </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="mf">30</span>
-<span class="w">            </span><span class="nx">verticalAlignment</span><span class="o">:</span><span class="w"> </span><span class="nx">Text</span><span class="p">.</span><span class="nx">AlignVCenter</span>
-<span class="w">        </span><span class="p">}</span>
-
-<span class="w">        </span><span class="nx">ScrollView</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">eventScrollView</span>
-<span class="w">            </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">width</span>
-<span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">top</span><span class="o">:</span><span class="w"> </span><span class="nx">eventLogTitle</span><span class="p">.</span><span class="nx">bottom</span>
-<span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">bottom</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">bottom</span>
-<span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">left</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">left</span>
-<span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">right</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">right</span>
-<span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">margins</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span>
-
-<span class="w">            </span><span class="nx">TextArea</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">eventLogTextArea</span>
-<span class="w">                </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">width</span>
-<span class="w">                </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">height</span>
-<span class="w">                </span><span class="nx">readOnly</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
-<span class="w">                </span><span class="nx">wrapMode</span><span class="o">:</span><span class="w"> </span><span class="nx">TextEdit</span><span class="p">.</span><span class="nx">WordWrap</span>
-
-<span class="w">            </span><span class="p">}</span>
-<span class="w">            </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
-<span class="w">            </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="nx">Button</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">id</span><span class="o">:</span><span class="nx">clearButton</span>
-<span class="w">        </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="mf">100</span>
-<span class="w">        </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="mf">30</span>
-<span class="w">        </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;clear&quot;</span>
-<span class="w">        </span><span class="nx">anchors</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">top</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">top</span>
-<span class="w">            </span><span class="nx">right</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">right</span>
-<span class="w">            </span><span class="nx">margins</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="nx">onClicked</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">eventLogTextArea</span><span class="p">.</span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<span class="w">        </span><span class="p">}</span>
-
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="nx">Connections</span><span class="p">{</span>
-<span class="w">        </span><span class="nx">target</span><span class="o">:</span><span class="w"> </span><span class="nx">eventLogController</span>
-<span class="w">        </span><span class="kd">function</span><span class="w"> </span><span class="nx">onNewSignal</span><span class="p">(</span><span class="nx">message</span><span class="p">){</span>
-<span class="w">            </span><span class="nx">eventLogTextArea</span><span class="p">.</span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">message</span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;\n&quot;</span><span class="o">+</span><span class="w"> </span><span class="nx">eventLogTextArea</span><span class="p">.</span><span class="nx">text</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="w"> </span><span class="mf">2.15</span>
+<span class="linenos">  2</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Controls</span><span class="w"> </span><span class="mf">2.15</span>
+<span class="linenos">  3</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Layouts</span><span class="w"> </span><span class="mf">1.15</span>
+<span class="linenos">  4</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Controls</span><span class="p">.</span><span class="nx">Material</span><span class="w"> </span><span class="mf">2.15</span>
+<span class="linenos">  5</span><span class="k">import</span><span class="w"> </span><span class="nx">Qt</span><span class="p">.</span><span class="nx">labs</span><span class="p">.</span><span class="nx">qmlmodels</span>
+<span class="linenos">  6</span><span class="cm">/*</span>
+<span class="linenos">  7</span><span class="cm">  EventView.qml</span>
+<span class="linenos">  8</span><span class="cm">  This Qml file implements a basic eventlogger textarea.</span>
+<span class="linenos">  9</span><span class="cm">  It uses the EventLogController.</span>
+<span class="linenos"> 10</span><span class="cm">  */</span>
+<span class="linenos"> 11</span><span class="nx">Rectangle</span><span class="p">{</span>
+<span class="linenos"> 12</span><span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">eventWindow</span>
+<span class="linenos"> 13</span><span class="w">    </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="mf">640</span>
+<span class="linenos"> 14</span><span class="w">    </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="mf">400</span>
+<span class="linenos"> 15</span>
+<span class="linenos"> 16</span><span class="w">    </span><span class="nx">Rectangle</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 17</span><span class="w">        </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">pane</span>
+<span class="linenos"> 18</span><span class="w">        </span><span class="nx">radius</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span>
+<span class="linenos"> 19</span><span class="w">        </span><span class="nx">border</span><span class="p">.</span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;#1F82B2&quot;</span>
+<span class="linenos"> 20</span><span class="w">        </span><span class="nx">border</span><span class="p">.</span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span>
+<span class="linenos"> 21</span><span class="w">        </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">fill</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span>
+<span class="linenos"> 22</span><span class="w">        </span><span class="nx">property</span><span class="w"> </span><span class="nx">string</span><span class="w"> </span><span class="nx">dateTimeFormat</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;yyyy-MM-dd hh:mm:ss&quot;</span>
+<span class="linenos"> 23</span>
+<span class="linenos"> 24</span><span class="w">        </span><span class="nx">Text</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 25</span><span class="w">            </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">eventLogTitle</span>
+<span class="linenos"> 26</span><span class="w">            </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Event Log:&quot;</span><span class="p">)</span>
+<span class="linenos"> 27</span><span class="w">            </span><span class="nx">horizontalAlignment</span><span class="o">:</span><span class="w"> </span><span class="nx">Text</span><span class="p">.</span><span class="nx">AlignHCenter</span>
+<span class="linenos"> 28</span><span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">left</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">left</span>
+<span class="linenos"> 29</span><span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">right</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">right</span>
+<span class="linenos"> 30</span><span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">top</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">top</span>
+<span class="linenos"> 31</span><span class="w">            </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="mf">30</span>
+<span class="linenos"> 32</span><span class="w">            </span><span class="nx">verticalAlignment</span><span class="o">:</span><span class="w"> </span><span class="nx">Text</span><span class="p">.</span><span class="nx">AlignVCenter</span>
+<span class="linenos"> 33</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 34</span>
+<span class="linenos"> 35</span><span class="w">        </span><span class="nx">ScrollView</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 36</span><span class="w">            </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">eventScrollView</span>
+<span class="linenos"> 37</span><span class="w">            </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">width</span>
+<span class="linenos"> 38</span><span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">top</span><span class="o">:</span><span class="w"> </span><span class="nx">eventLogTitle</span><span class="p">.</span><span class="nx">bottom</span>
+<span class="linenos"> 39</span><span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">bottom</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">bottom</span>
+<span class="linenos"> 40</span><span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">left</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">left</span>
+<span class="linenos"> 41</span><span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">right</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">right</span>
+<span class="linenos"> 42</span><span class="w">            </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">margins</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span>
+<span class="linenos"> 43</span>
+<span class="linenos"> 44</span><span class="w">            </span><span class="nx">TableView</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 45</span><span class="w">                </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">eventLogView</span>
+<span class="linenos"> 46</span><span class="w">                </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">width</span>
+<span class="linenos"> 47</span><span class="w">                </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">height</span>
+<span class="linenos"> 48</span><span class="w">                </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="nx">eventModel</span>
+<span class="linenos"> 49</span><span class="w">                </span><span class="nx">clip</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 50</span><span class="w">                </span><span class="nx">columnWidthProvider</span><span class="o">:</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">column</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 51</span><span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">column</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mf">100</span>
+<span class="linenos"> 52</span><span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">column</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mf">150</span>
+<span class="linenos"> 53</span><span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">column</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">2</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">eventLogView</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">250</span>
+<span class="linenos"> 54</span><span class="w">                </span><span class="p">}</span>
+<span class="linenos"> 55</span><span class="w">                </span><span class="nx">rowHeightProvider</span><span class="o">:</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">row</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 56</span><span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">isRowLoaded</span><span class="p">(</span><span class="nx">row</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 57</span><span class="w">                        </span><span class="kd">var</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">loadedRow</span><span class="p">(</span><span class="nx">row</span><span class="p">);</span>
+<span class="linenos"> 58</span><span class="w">                        </span><span class="kd">var</span><span class="w"> </span><span class="nx">contentHeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
+<span class="linenos"> 59</span><span class="w">                        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">children</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 60</span><span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">contentHeight</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">contentHeight</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 61</span><span class="w">                                </span><span class="nx">contentHeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">contentHeight</span><span class="p">;</span>
+<span class="linenos"> 62</span><span class="w">                            </span><span class="p">}</span>
+<span class="linenos"> 63</span><span class="w">                        </span><span class="p">}</span>
+<span class="linenos"> 64</span><span class="w">                        </span><span class="k">return</span><span class="w"> </span><span class="nx">contentHeight</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">10</span><span class="p">;</span>
+<span class="linenos"> 65</span><span class="w">                    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 66</span><span class="w">                        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="mf">1</span><span class="p">;</span>
+<span class="linenos"> 67</span><span class="w">                    </span><span class="p">}</span>
+<span class="linenos"> 68</span><span class="w">                </span><span class="p">}</span>
+<span class="linenos"> 69</span><span class="w">                </span><span class="nx">delegate</span><span class="o">:</span><span class="w"> </span><span class="nx">DelegateChooser</span><span class="p">{</span>
+<span class="linenos"> 70</span><span class="w">                    </span><span class="nx">role</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;column&quot;</span>
+<span class="linenos"> 71</span><span class="w">                    </span><span class="nx">DelegateChoice</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 72</span><span class="w">                        </span><span class="nx">roleValue</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span>
+<span class="linenos"> 73</span><span class="w">                        </span><span class="nx">EventDelegate</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 74</span><span class="w">                            </span><span class="nx">displayText</span><span class="o">:</span><span class="w"> </span><span class="nx">model</span><span class="p">.</span><span class="nx">text</span>
+<span class="linenos"> 75</span><span class="w">                            </span><span class="nx">isTime</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 76</span><span class="w">                        </span><span class="p">}</span>
+<span class="linenos"> 77</span><span class="w">                    </span><span class="p">}</span>
+<span class="linenos"> 78</span>
+<span class="linenos"> 79</span><span class="w">                    </span><span class="nx">DelegateChoice</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 80</span><span class="w">                        </span><span class="nx">roleValue</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span>
+<span class="linenos"> 81</span><span class="w">                        </span><span class="nx">EventDelegate</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 82</span><span class="w">                            </span><span class="nx">displayText</span><span class="o">:</span><span class="w"> </span><span class="nx">model</span><span class="p">.</span><span class="nx">text</span>
+<span class="linenos"> 83</span><span class="w">                            </span><span class="nx">isSource</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 84</span><span class="w">                        </span><span class="p">}</span>
+<span class="linenos"> 85</span><span class="w">                    </span><span class="p">}</span>
+<span class="linenos"> 86</span>
+<span class="linenos"> 87</span><span class="w">                    </span><span class="nx">DelegateChoice</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 88</span><span class="w">                        </span><span class="nx">roleValue</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span>
+<span class="linenos"> 89</span><span class="w">                        </span><span class="nx">EventDelegate</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 90</span><span class="w">                            </span><span class="nx">displayText</span><span class="o">:</span><span class="w"> </span><span class="nx">model</span><span class="p">.</span><span class="nx">text</span>
+<span class="linenos"> 91</span><span class="w">                            </span><span class="nx">isEvent</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 92</span><span class="w">                        </span><span class="p">}</span>
+<span class="linenos"> 93</span><span class="w">                    </span><span class="p">}</span>
+<span class="linenos"> 94</span><span class="w">                </span><span class="p">}</span>
+<span class="linenos"> 95</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos"> 96</span><span class="w">            </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillWidth</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 97</span><span class="w">            </span><span class="nx">Layout</span><span class="p">.</span><span class="nx">fillHeight</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="linenos"> 98</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 99</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">100</span>
+<span class="linenos">101</span><span class="w">    </span><span class="nx">Button</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">102</span><span class="w">        </span><span class="nx">id</span><span class="o">:</span><span class="nx">clearButton</span>
+<span class="linenos">103</span><span class="w">        </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="mf">100</span>
+<span class="linenos">104</span><span class="w">        </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="mf">30</span>
+<span class="linenos">105</span><span class="w">        </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;clear&quot;</span>
+<span class="linenos">106</span><span class="w">        </span><span class="nx">anchors</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">107</span><span class="w">            </span><span class="nx">top</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">top</span>
+<span class="linenos">108</span><span class="w">            </span><span class="nx">right</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span><span class="p">.</span><span class="nx">right</span>
+<span class="linenos">109</span><span class="w">            </span><span class="nx">margins</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span>
+<span class="linenos">110</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">111</span><span class="w">        </span><span class="nx">onClicked</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">112</span><span class="w">            </span><span class="nx">eventLogTextArea</span><span class="p">.</span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="linenos">113</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">114</span>
+<span class="linenos">115</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">116</span><span class="p">}</span>
 </pre></div>
 </div>
+<section id="eventdelegate">
+<h2>EventDelegate<a class="headerlink" href="#eventdelegate" title="Permalink to this heading">¶</a></h2>
+<p>Die einzelnen Events werden in dem QML Type ‘EventDelegate.qml’ dargestellt.
+Das Layout dafür ist in der Datei ‘EventDelegate.qml’ definiert:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// EventDelegate.qml</span>
+<span class="linenos"> 2</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="w"> </span><span class="mf">2.15</span>
+<span class="linenos"> 3</span><span class="k">import</span><span class="w"> </span><span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Controls</span><span class="w"> </span><span class="mf">2.15</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="nx">Rectangle</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="nx">property</span><span class="w"> </span><span class="nx">string</span><span class="w"> </span><span class="nx">displayText</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="nx">property</span><span class="w"> </span><span class="nx">bool</span><span class="w"> </span><span class="nx">isTime</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="nx">property</span><span class="w"> </span><span class="nx">bool</span><span class="w"> </span><span class="nx">isSource</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="nx">property</span><span class="w"> </span><span class="nx">bool</span><span class="w"> </span><span class="nx">isEvent</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="w">    </span><span class="nx">Text</span><span class="p">{</span>
+<span class="linenos">12</span><span class="w">        </span><span class="nx">anchors</span><span class="p">.</span><span class="nx">fill</span><span class="o">:</span><span class="w"> </span><span class="nx">parent</span>
+<span class="linenos">13</span><span class="w">        </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="nx">displayText</span>
+<span class="linenos">14</span><span class="w">        </span><span class="nx">font</span><span class="p">.</span><span class="nx">pixelSize</span><span class="o">:</span><span class="w"> </span><span class="nx">isTime</span><span class="o">?</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">12</span>
+<span class="linenos">15</span><span class="w">        </span><span class="nx">font</span><span class="p">.</span><span class="nx">bold</span><span class="o">:</span><span class="w"> </span><span class="o">!!</span><span class="nx">isSource</span>
+<span class="linenos">16</span><span class="w">        </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">17</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">isSource</span><span class="p">){</span>
+<span class="linenos">18</span><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">displayText</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">&quot;CommissionController&quot;</span><span class="p">){</span>
+<span class="linenos">19</span><span class="w">                    </span><span class="k">return</span><span class="w"> </span><span class="s1">&#39;#DD2C00&#39;</span>
+<span class="linenos">20</span><span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">displayText</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">&quot;AgentService&quot;</span><span class="p">){</span>
+<span class="linenos">21</span><span class="w">                    </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;#FF6D00&quot;</span>
+<span class="linenos">22</span><span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">displayText</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">&quot;OpcuaService&quot;</span><span class="p">){</span>
+<span class="linenos">23</span><span class="w">                    </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;#FFC400&quot;</span>
+<span class="linenos">24</span><span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">25</span><span class="w">                    </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;#000000&quot;</span>
+<span class="linenos">26</span><span class="w">                </span><span class="p">}</span>
+<span class="linenos">27</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">28</span><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;#000000&quot;</span>
+<span class="linenos">29</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">30</span><span class="w">        </span><span class="nx">wrapMode</span><span class="o">:</span><span class="w"> </span><span class="nx">Text</span><span class="p">.</span><span class="nx">WordWrap</span>
+<span class="linenos">31</span><span class="w">        </span><span class="nx">horizontalAlignment</span><span class="o">:</span><span class="w"> </span><span class="nx">Text</span><span class="p">.</span><span class="nx">AlignLeft</span>
+<span class="linenos">32</span><span class="w">        </span><span class="nx">verticalAlignment</span><span class="o">:</span><span class="w"> </span><span class="nx">Text</span><span class="p">.</span><span class="nx">AlignTop</span>
+<span class="linenos">33</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">34</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -146,11 +226,15 @@ Das LAyout dafür ist in der Datei ‘EventView.qml’ definiert:</p>
 <li class="toctree-l2"><a class="reference internal" href="HeaderLine.html">Kopf - Banner der Anwendung</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Help.html">Hilfe - Ansicht</a></li>
 <li class="toctree-l2"><a class="reference internal" href="CupView.html">Becheransicht</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PaletteView.html">Anzeigelement: Palette</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ProductView.html">Produktansicht</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ProcessView.html">Prozessansicht</a></li>
 <li class="toctree-l2"><a class="reference internal" href="StorageView.html">Lageransicht</a></li>
 <li class="toctree-l2"><a class="reference internal" href="InventoryView.html">Ansicht der Inventarzusammenfassung</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Eventlog</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Eventlog</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#eventdelegate">EventDelegate</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="CommissionView.html">Kommissionsansicht</a></li>
 <li class="toctree-l2"><a class="reference internal" href="StackLayoutView.html">StackLayoutView</a></li>
 <li class="toctree-l2"><a class="reference internal" href="GripperDialog.html">Dialog: Greifer</a></li>
