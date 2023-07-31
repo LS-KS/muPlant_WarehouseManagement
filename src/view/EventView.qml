@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls.Material 2.15
+import Qt.labs.qmlmodels
 /*
   EventView.qml
   This Qml file implements a basic eventlogger textarea.
@@ -40,13 +41,57 @@ Rectangle{
             anchors.right: parent.right
             anchors.margins: 10
 
-            TextArea {
-                id: eventLogTextArea
+            TableView {
+                id: eventLogView
                 width: parent.width
                 height: parent.height
-                readOnly: true
-                wrapMode: TextEdit.WordWrap
+                model: eventModel
+                clip: true
+                columnWidthProvider: function (column) {
+                    if (column === 0) return 100
+                    if (column === 1) return 150
+                    if (column === 2) return eventLogView.width - 250
+                }
+                rowHeightProvider: function (row) {
+                    if (isRowLoaded(row)) {
+                        var item = loadedRow(row);
+                        var contentHeight = 0;
+                        for (var i = 0; i < item.children.length; i++) {
+                            if (item.children[i].contentHeight > contentHeight) {
+                                contentHeight = item.children[i].contentHeight;
+                            }
+                        }
+                        return contentHeight + 10;
+                    } else {
+                        return -1;
+                    }
+                }
+                delegate: DelegateChooser{
+                    role: "column"
+                    DelegateChoice {
+                        roleValue: 0
+                        EventDelegate {
+                            displayText: model.text
+                            isTime: true
+                        }
+                    }
 
+                    DelegateChoice {
+                        roleValue: 1
+                        EventDelegate {
+                            displayText: model.text
+                            isSource: true
+                        }
+                    }
+
+                    DelegateChoice {
+                        roleValue: 2
+                        EventDelegate {
+                            displayText: model.text
+                            isEvent: true
+                        }
+                    }
+                }
             }
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -67,12 +112,6 @@ Rectangle{
             eventLogTextArea.text = ""
         }
 
-    }
-    Connections{
-        target: eventLogController
-        function onNewSignal(message){
-            eventLogTextArea.text = message+ "\n"+ eventLogTextArea.text
-        }
     }
 }
 

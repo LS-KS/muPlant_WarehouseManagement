@@ -1,4 +1,6 @@
 from PySide6.QtCore import QObject, Signal
+from typing import List
+from src.model.CommissionModel import Locations
 class Inventory:
     """
     Implements the storage rack in µPlant.
@@ -19,12 +21,13 @@ class Inventory:
         :param controller:
 
         """
-        self.pallets = []
+        self.pallets : List[StorageElement] = []
         self.invController = controller
         for row in range(3):
             self.pallets.append([])
             for col in range(6):
                 self.pallets[row].append(StorageElement(row=row, col=col, inventory=self))
+                self.pallets[row][col].locations = self.calcLocations(row, col)
 
     def getStoragePallet(self, row, col):
         """
@@ -51,6 +54,14 @@ class Inventory:
         if pallet is not None:
             if pallet.location is not self.pallets[row][col]:
                 pallet.setLocation(self.pallets[row][col])
+    
+    def calcLocations(self, row, col):
+        from src.model.CommissionModel import Locations
+        for i, loc in enumerate(Locations):
+            if loc.name[0] == 'L':
+                if (int(loc.name[1])-1)//6 == row and (int(loc.name[1])-1)%6 == col:
+                    return [loc, Locations[(str(loc.name[0:-1])+'B')]]
+        return None
 
 class MobileRobot:
     """
@@ -99,8 +110,8 @@ class Workbench:
         Initialize all paarameters with None value
         """
 
-        self.k1 = None
-        self.k2 = None
+        self.k1 : Pallet = None
+        self.k2 : Pallet = None
 
     def setK1(self, pallet):
         """
@@ -249,9 +260,9 @@ class Product:
         :param name: The name of the product
         :type name: str
         """
-        self.id = id
-        self.name = name
-        self.cups = []
+        self.id : int = id
+        self.name : str = name
+        self.cups : List[Cup] = []
 
     def withCup(self, cup):
         """
@@ -310,9 +321,9 @@ class Cup:
         :type product: Product
         :param location: the location object where the cup is stored (Pallet, MobileRobot, Gripper)
         """
-        self.id = id
-        self.product = product
-        self.location = None
+        self.id : int = id
+        self.product : Product = product
+        self.location : Pallet | MobileRobot | Gripper = None
         if product != None:
             product.withCup(self)
 
@@ -430,8 +441,8 @@ class Pallet:
         :param slotB: slot for a Cup object which represents the slot in the rear of storage bar.
         """
         self.location = None
-        self.slotA = None
-        self.slotB = None
+        self.slotA : Cup = None
+        self.slotB : Cup = None
 
 
     def setSlotA(self, cup):
@@ -526,6 +537,7 @@ class StorageElement:
     :param inventory: parent class of StorageElement
     :type inventory: Inventory
     """
+    from src.model.CommissionModel import Locations
     def __init__(self, row, col, inventory =None):
         """
         initialize the storage element object.
@@ -540,8 +552,9 @@ class StorageElement:
         """
         self.row = row
         self.col = col
-        self.pallet = None
-        self.inventory = inventory
+        self.pallet : Pallet = None
+        self.inventory : Inventory = inventory
+        self.locations : List[Locations]= []
 
     def setPallet(self, pallet):
         """

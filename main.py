@@ -42,11 +42,12 @@ if __name__ == '__main__':
 
     # creates EventlogService object and sets itself as rootContext
     eventlogService = EventlogService()
+    engine.rootContext().setContextProperty("eventModel", eventlogService.eventViewModel)
     inventoryController.eventlogService = eventlogService
     engine.rootContext().setContextProperty("eventLogController", eventlogService)
 
     # creates CommissionController object and sets itself as rootContext
-    commissionController =  CommissionController()
+    commissionController =  CommissionController(inventoryController, eventlogService)
     commissionController.commissionFilterProxyModel.autoAcceptChildRows()
     engine.rootContext().setContextProperty("commissionController", commissionController)
     # engine.rootContext().setContextProperty('commissionModel', commissionController.commissionFilterProxyModel)

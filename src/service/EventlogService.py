@@ -1,14 +1,11 @@
 from PySide6.QtCore import Signal, Slot, QObject
 from datetime import datetime
-
-
-
-
-
+from src.model.EventModel import EventMessage
+from src.viewmodel.EventViewModel import EventViewModel
 class EventlogService (QObject):
     """
 
-    Can be instanciated in any other class.
+    Can be instanced in any other class.
     creates an event string from two entered strings and emitss a signal.
     writeEvent() can be called from python object or form qml engine
 
@@ -19,8 +16,7 @@ class EventlogService (QObject):
         """
         super().__init__()
         self.messages = []
-
-    newSignal = Signal(str)
+        self.eventViewModel = EventViewModel(self.messages)
 
     def createMessage(self,source, message):
         """
@@ -34,8 +30,10 @@ class EventlogService (QObject):
         :return: formatted message
 
         """
-        time = datetime.now()
-        return f"[{time}] [{source}]: {message}"
+        msg = EventMessage(source, message)
+        self.eventViewModel.add(msg)
+        print(f"eventlog: {msg.time}, {msg.source}, {msg.message}")
+        return msg
 
     @Slot(str, str)
     def writeEvent(self, source, message):
@@ -50,4 +48,3 @@ class EventlogService (QObject):
         #print("Eventcontroller: "+message)
         msg = self.createMessage(source, message)
         self.messages.append(msg)
-        self.newSignal.emit(msg)
