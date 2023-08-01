@@ -13,6 +13,8 @@ Rectangle {
         text: displayText
         font.pixelSize: isTime? 10 : 12
         font.bold: !!isSource
+        width: parent.width
+        height: parent.height
         color: {
             if (isSource){
                 if (displayText === "CommissionController"){

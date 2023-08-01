@@ -1,19 +1,19 @@
 - CommissionData:
     cup: true
     id: 3
-    object: 789
+    object: 15
     pallet: false
-    source: K1B
+    source: L10A
     state: PROGRESS
-    target: L6A
+    target: L3A
 - CommissionData:
     cup: false
     id: 2
     object: 456
     pallet: true
-    source: K2A
+    source: L18A
     state: PENDING
-    target: L4B
+    target: K1B
 - CommissionData:
     cup: true
     id: 1

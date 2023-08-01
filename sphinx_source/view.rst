@@ -48,4 +48,3 @@ Das GUI ist in QML geschrieben und wird durch die QML-Engine des Qt-Frameworks g
 
    Views/RfidServerPlugin
 
-   Views/RfidDelegate

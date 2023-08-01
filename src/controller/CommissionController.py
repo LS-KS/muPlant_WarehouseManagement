@@ -127,9 +127,57 @@ class CommissionController:
                 valid = self._verifyStorageElementTarget(commission,cup, pallet, target, valid, inventory)
             elif target.name[0] == 'K': # target is a Workbench-Location
                 valid = self._verifyWorkbenchTarget(commission,cup,pallet, target, valid, workbench)
-            # transform Location
-        return valid
-
+            if valid: # perform commission if valid
+                if pallet:
+                    sEPallet = None
+                    if source.name[0] == 'L':
+                        source_row = int(source.name[1]) // 6-1
+                        source_col = int(source.name[1]) % 6
+                        sEPallet = inventory.pallets[source_row][source_col].pallet
+                    elif source.name[0] == 'K':
+                        sEPallet = workbench.k1 if source.name[1] == '1' else workbench.k2
+                    if target.name[0] == 'L':
+                        target_row = int(target.name[1:-1]) // 6-1
+                        target_col = int(target.name[1:-1]) % 6
+                        inventory.pallets[target_row][target_col].pallet = sEPallet
+                    elif target.name[0] == 'K':
+                        if target.name[1] == '1':
+                            workbench.k1 = sEPallet
+                        else:
+                            workbench.k2 = sEPallet
+                elif cup:
+                    sECup = None
+                    if source.name[0] == 'L':
+                        source_row = int(source.name[1:-1]) // 6-1
+                        source_col = int(source.name[1:-1]) % 6
+                        sECup = inventory.pallets[source_row][source_col].pallet.slotA if source.name[-1] == 'A' else inventory.pallets[source_row][source_col].pallet.slotB
+                    elif source.name[0] == 'K':
+                        if source.name[1] == '1':
+                            if source.name[-1] == 'A':
+                                sECup = workbench.k1.slotA
+                            if source.name[-1] == 'B':
+                                sECup = workbench.k1.slotB
+                        else:
+                            sECup = workbench.k2.slotA if source.name[-1] == 'A' else workbench.k2.slotB
+                    if target.name[0] == 'L':
+                        target_row = int(target.name[1]) // 6-1
+                        target_col = int(target.name[1]) % 6
+                        if target.name[-1] == 'A':
+                            inventory.pallets[target_row][target_col].pallet.slotA = sECup
+                        else:
+                            inventory.pallets[target_row][target_col].pallet.slotB = sECup
+                    elif target.name[0] == 'K':
+                        if target.name[1] == '1':
+                            if target.name[-1] == 'A':
+                                workbench.k1.slotA = sECup
+                            if target.name[-1] == 'B':
+                                workbench.k1.slotB = sECup
+                        else:
+                            if target.name[-1] == 'A':
+                                workbench.k2.slotA = sECup
+                            else:
+                                workbench.k2.slotB = sECup
+            return valid
     def _verifyStorageElementSource(self, commission : CommissionData, cup: bool, inventory: Inventory, object: int, pallet: bool, source : Locations, valid : bool) -> bool:
         """
         Verifies the storage element for a given commission.
@@ -153,7 +201,7 @@ class CommissionController:
         """
 
         source_row = int(source.name[1:-1]) // 6
-        source_col = int(source.name[1:-1]) % 6
+        source_col = int(source.name[1:-1]) % 6 -1
         slot = source.name[-1] # claclulate slot from StrEnum name
         sE = inventory.pallets[source_row][source_col] # get the StorageElement at the dest location
 
@@ -166,7 +214,7 @@ class CommissionController:
                 return valid
             if not slot.id == object:
                 self.eventlogService.writeEvent("CommissionController",
-                                                f"Commission {commission.id} is invalid: cup -id at row, col, slot = [{source_row + 1}, {source_col + 1}, {slot}] does not match with source")
+                                                f"Commission {commission.id} is invalid: cup -id at row, col, slot = [{source_row + 1}, {source_col}, {slot.id}] does not match with source")
                 valid = False
         if pallet:
             # check source location for pallet
@@ -327,8 +375,8 @@ class CommissionController:
         """
         locName = target.name
         number = int(locName[1:-1])
-        row = int(locName[1:-1])//6 -1
-        col = int(locName[1:-1])%6
+        row = int(locName[1:-1])//6
+        col = int(locName[1:-1]) % 6 -1
         sE = inventory.pallets[row][col].pallet
         if pallet and sE is not None:
             self.eventlogService.writeEvent("CommissionController",
@@ -341,7 +389,7 @@ class CommissionController:
             valid = False
             return valid
         slot = sE.slotA if target.name[-1] == 'A' else sE.slotB
-        if cup and slot is not None:
+        if cup and slot.id is not 0:
             self.eventlogService.writeEvent("CommissionController",
                                             f"Commission {commission.id} is invalid: target location {target.name} is not empty.")
             valid = False
