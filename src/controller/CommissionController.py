@@ -12,8 +12,7 @@ from src.service.EventlogService import EventlogService
 
 class CommissionController:
     """
-    This class is used to provide a viewModel for all commission data
-    commission data source is a database file where all commissions are saved.
+    This class is used to provide a viewModel for all commission data source is a database file where all commissions are saved.
     While operating commissions will be passed to CommisioonController by ModbusService or
     OPCUAService.
     """
@@ -72,7 +71,7 @@ class CommissionController:
                     'object': commission.object,
                     'cup': commission.cup,
                     'pallet': commission.pallet,
-                    'state': commission.state.name
+                    'state': commission.state.name,
                 }
             })
         with open(Constants().COMMISSIONDATA, 'w') as file:
@@ -92,7 +91,20 @@ class CommissionController:
         workbench = self._setupWorkbenchCopy()
         valid = True
         for commission in self.commissionViewModel.commissionData:
-            [source, target, cup, pallet, object] = [commission.source, commission.target, commission.cup, commission.pallet, commission.object]
+            source, target, cup, pallet, object = commission.source, commission.target, commission.cup, commission.pallet, commission.object
+            data = {
+                'commission': commission,
+                'cup': cup,
+                'inventory': inventory,
+                'object': object,
+                'pallet': pallet,
+                'source': source,
+                'valid': valid,
+                'target': target,
+                'workbench': workbench
+            }
+
+            # Check for obvious errors
             if cup & pallet:
                 self.eventlogService.writeEvent("CommissionController", f"Commission {commission.id} is invalid: cup and pallet are set")
                 valid = False
@@ -102,83 +114,166 @@ class CommissionController:
             if source == target:
                 self.eventlogService.writeEvent("CommissionController", f"Commission {commission.id} is invalid: source and target are the same")
                 valid = False
-            if source == Locations.ROBOT:
-                # always assume that robot delivers correct object
-                pass
-            elif source == Locations.STORAGE:
-                # TODO: check if object is in storage
-                # TODO: optional: check if future commissions target possible locations
-                pass
-            elif source.name[0] == 'L': # source is a Storage-Location
-                valid = self._verifyStorageElementSource(commission, cup, inventory, object, pallet, source, valid)
-            elif source.name[0] == 'K': # source is a Workbench-Location
-                valid = self._verifyWorkbenchSource(commission, object, source, valid, workbench, )
-            else:
-                self.eventlogService.writeEvent("CommissionController", f"Commission {commission.id} is invalid: source is not valid")
-                valid = False
+            # check source location
+            valid = self._commissioncheck_source_location(**data)
             # check target location
-            if target == Locations.ROBOT:
-                pass
-            elif target == Locations.STORAGE:
-                # TODO: check if object is in storage
-                # TODO: optional: check if future commissions target possible locations
-                pass
-            elif target.name[0] == 'L': # target is a Storage-Location
-                valid = self._verifyStorageElementTarget(commission,cup, pallet, target, valid, inventory)
-            elif target.name[0] == 'K': # target is a Workbench-Location
-                valid = self._verifyWorkbenchTarget(commission,cup,pallet, target, valid, workbench)
-            if valid: # perform commission if valid
-                if pallet:
-                    sEPallet = None
-                    if source.name[0] == 'L':
-                        source_row = int(source.name[1]) // 6-1
-                        source_col = int(source.name[1]) % 6
-                        sEPallet = inventory.pallets[source_row][source_col].pallet
-                    elif source.name[0] == 'K':
-                        sEPallet = workbench.k1 if source.name[1] == '1' else workbench.k2
-                    if target.name[0] == 'L':
-                        target_row = int(target.name[1:-1]) // 6-1
-                        target_col = int(target.name[1:-1]) % 6
-                        inventory.pallets[target_row][target_col].pallet = sEPallet
-                    elif target.name[0] == 'K':
-                        if target.name[1] == '1':
-                            workbench.k1 = sEPallet
-                        else:
-                            workbench.k2 = sEPallet
-                elif cup:
-                    sECup = None
-                    if source.name[0] == 'L':
-                        source_row = int(source.name[1:-1]) // 6-1
-                        source_col = int(source.name[1:-1]) % 6
-                        sECup = inventory.pallets[source_row][source_col].pallet.slotA if source.name[-1] == 'A' else inventory.pallets[source_row][source_col].pallet.slotB
-                    elif source.name[0] == 'K':
-                        if source.name[1] == '1':
-                            if source.name[-1] == 'A':
-                                sECup = workbench.k1.slotA
-                            if source.name[-1] == 'B':
-                                sECup = workbench.k1.slotB
-                        else:
-                            sECup = workbench.k2.slotA if source.name[-1] == 'A' else workbench.k2.slotB
-                    if target.name[0] == 'L':
-                        target_row = int(target.name[1]) // 6-1
-                        target_col = int(target.name[1]) % 6
+            valid = self._commissioncheck_target_location(**data)
+
+            # perform commission if valid
+            self._commissioncheck_peform(**data)
+            if valid is False:
+                break
+        return valid
+
+    def _commissioncheck_peform(self, **kwargs):
+        """
+        This sub-method of validateCommissionData performs the commission if it is valid.
+
+        :param cup: True if Commission is a cup, False if not
+        :param inventory: Inventory copy
+        :param pallet: True if Commission is a pallet, False if not
+        :param source:
+        :param target:
+        :param valid:
+        :param workbench:
+        :return:
+        """
+        valid = kwargs.get('valid')
+        source = kwargs.get('source')
+        target = kwargs.get('target')
+        pallet = kwargs.get('pallet')
+        inventory = kwargs.get('inventory')
+        workbench = kwargs.get('workbench')
+        cup = kwargs.get('cup')
+        commission = kwargs.get('commission')
+        object = kwargs.get('object')
+
+        if valid:
+            if pallet:
+                sEPallet = None
+                if source.name[0] == 'L':
+                    source_row = int(source.name[1]) // 6 - 1
+                    source_col = int(source.name[1]) % 6
+                    sEPallet = inventory.pallets[source_row][source_col].pallet
+                elif source.name[0] == 'K':
+                    sEPallet = workbench.k1 if source.name[1] == '1' else workbench.k2
+                if target.name[0] == 'L':
+                    target_row = int(target.name[1:-1]) // 6 - 1
+                    target_col = int(target.name[1:-1]) % 6
+                    inventory.pallets[target_row][target_col].pallet = sEPallet
+                elif target.name[0] == 'K':
+                    if target.name[1] == '1':
+                        workbench.k1 = sEPallet
+                    else:
+                        workbench.k2 = sEPallet
+            elif cup:
+                sECup = None
+                if source.name[0] == 'L':
+                    source_row = int(source.name[1:-1]) // 6 - 1
+                    source_col = int(source.name[1:-1]) % 6
+                    sECup = inventory.pallets[source_row][source_col].pallet.slotA if source.name[-1] == 'A' else \
+                    inventory.pallets[source_row][source_col].pallet.slotB
+                elif source.name[0] == 'K':
+                    if source.name[1] == '1':
+                        if source.name[-1] == 'A':
+                            sECup = workbench.k1.slotA
+                        if source.name[-1] == 'B':
+                            sECup = workbench.k1.slotB
+                    else:
+                        sECup = workbench.k2.slotA if source.name[-1] == 'A' else workbench.k2.slotB
+                if target.name[0] == 'L':
+                    target_row = int(target.name[1]) // 6 - 1
+                    target_col = int(target.name[1]) % 6
+                    if target.name[-1] == 'A':
+                        inventory.pallets[target_row][target_col].pallet.slotA = sECup
+                    else:
+                        inventory.pallets[target_row][target_col].pallet.slotB = sECup
+                elif target.name[0] == 'K':
+                    if target.name[1] == '1':
                         if target.name[-1] == 'A':
-                            inventory.pallets[target_row][target_col].pallet.slotA = sECup
+                            workbench.k1.slotA = sECup
+                        if target.name[-1] == 'B':
+                            workbench.k1.slotB = sECup
+                    else:
+                        if target.name[-1] == 'A':
+                            workbench.k2.slotA = sECup
                         else:
-                            inventory.pallets[target_row][target_col].pallet.slotB = sECup
-                    elif target.name[0] == 'K':
-                        if target.name[1] == '1':
-                            if target.name[-1] == 'A':
-                                workbench.k1.slotA = sECup
-                            if target.name[-1] == 'B':
-                                workbench.k1.slotB = sECup
-                        else:
-                            if target.name[-1] == 'A':
-                                workbench.k2.slotA = sECup
-                            else:
-                                workbench.k2.slotB = sECup
-            return valid
-    def _verifyStorageElementSource(self, commission : CommissionData, cup: bool, inventory: Inventory, object: int, pallet: bool, source : Locations, valid : bool) -> bool:
+                            workbench.k2.slotB = sECup
+
+    def _commissioncheck_source_location(self, **kwargs):
+        valid = kwargs.get('valid')
+        source = kwargs.get('source')
+        target = kwargs.get('target')
+        pallet = kwargs.get('pallet')
+        inventory = kwargs.get('inventory')
+        workbench = kwargs.get('workbench')
+        cup = kwargs.get('cup')
+        commission = kwargs.get('commission')
+        object = kwargs.get('object')
+
+        data = {
+            'commission': commission,
+            'cup': cup,
+            'inventory': inventory,
+            'object': object,
+            'pallet': pallet,
+            'source': source,
+            'valid': valid,
+            'target': target,
+            'workbench': workbench
+        }
+        if source == Locations.ROBOT:
+            # always assume that robot delivers correct object
+            pass
+        elif source == Locations.STORAGE:
+            # TODO: check if object is in storage
+            # TODO: optional: check if future commissions target possible locations
+            pass
+        elif source.name[0] == 'L':  # source is a Storage-Location
+            valid = self._verifyStorageElementSource(**data)
+        elif source.name[0] == 'K':  # source is a Workbench-Location
+            valid = self._verifyWorkbenchSource(**data)
+        else:
+            self.eventlogService.writeEvent("CommissionController",
+                                            f"Commission {commission.id} is invalid: source is not valid")
+            valid = False
+        return valid
+
+    def _commissioncheck_target_location(self, **kwargs):
+        valid = kwargs.get('valid')
+        source = kwargs.get('source')
+        target = kwargs.get('target')
+        pallet = kwargs.get('pallet')
+        inventory = kwargs.get('inventory')
+        workbench = kwargs.get('workbench')
+        cup = kwargs.get('cup')
+        commission = kwargs.get('commission')
+        object = kwargs.get('object')
+
+        data = {
+            'commission': commission,
+            'cup': cup,
+            'inventory': inventory,
+            'object': object,
+            'pallet': pallet,
+            'source': source,
+            'valid': valid,
+            'target': target,
+            'workbench': workbench
+        }
+        if target == Locations.ROBOT:
+            pass
+        elif target == Locations.STORAGE:
+            # TODO: check if object is in storage
+            # TODO: optional: check if future commissions target possible locations
+            pass
+        elif target.name[0] == 'L':  # target is a Storage-Location
+            valid = self._verifyStorageElementTarget(**data)
+        elif target.name[0] == 'K':  # target is a Workbench-Location
+            valid = self._verifyWorkbenchTarget(**data)
+        return valid
+
+    def _verifyStorageElementSource(self, **kwargs) -> bool:
         """
         Verifies the storage element for a given commission.
         This method checks the specified storage element (cup or pallet) at the source location to validate the commission.
@@ -199,9 +294,15 @@ class CommissionController:
         :type valid: bool
         :return bool: The updated validity status of the commission after the verification process.
         """
+        source = kwargs.get('source')
+        valid = kwargs.get('valid')
+        inventory = kwargs.get('inventory')
+        cup = kwargs.get('cup')
+        commission = kwargs.get('commission')
+        pallet = kwargs.get('pallet')
 
-        source_row = int(source.name[1:-1]) // 6
-        source_col = int(source.name[1:-1]) % 6 -1
+        source_row = (int(source.name[1:-1])-1) // 6
+        source_col = (int(source.name[1:-1])-1) % 6
         slot = source.name[-1] # claclulate slot from StrEnum name
         sE = inventory.pallets[source_row][source_col] # get the StorageElement at the dest location
 
@@ -224,7 +325,7 @@ class CommissionController:
                 return valid
         return valid
 
-    def _verifyWorkbenchSource(self, commission: CommissionData, object: int, loc: Locations, valid: bool, workbench: Workbench):
+    def _verifyWorkbenchSource(self, **kwargs) -> bool:
         """
         Verifies the workbench element for a given commission.
         This method checks the specified storage element (cup or pallet) at the source location to validate the commission.
@@ -233,19 +334,22 @@ class CommissionController:
         :type commission: CommissionData
         :param object: The object being verified (cup or pallet).
         :type object: int
-        :param loc: The source location of the object.
-        :type loc: Locations
+        :param source: The source location of the object.
+        :type source: Locations
         :param valid: The current validity status of the commission.
         :type valid: bool
         :param workbench: The workbench object.
         :type workbench: Workbench
-
-
         :return bool: The updated validity status of the commission after the verification process.
         """
-        if int(loc.name[1]) == 1:
+        source = kwargs.get('source')
+        workbench = kwargs.get('workbench')
+        commission = kwargs.get('commission')
+        valid = kwargs.get('valid')
+
+        if int(source.name[1]) == 1:
             if workbench.k1 is not None:
-                if loc.name[-1] == 'A':
+                if source.name[-1] == 'A':
                     if workbench.k1.slotA is None:
                         if not workbench.k1.slotA.id == object:
                             self.eventlogService.writeEvent("CommissionController",
@@ -253,9 +357,9 @@ class CommissionController:
                             valid = False
                     else:
                         self.eventlogService.writeEvent("CommissionController",
-                                                        f"Commission {commission.id} is invalid: No cup at workbench slot {loc.name}")
+                                                        f"Commission {commission.id} is invalid: No cup at workbench slot {source.name}")
                         valid = False
-                elif loc.name[-1] == 'B':
+                elif source.name[-1] == 'B':
                     if workbench.k1.slotB is None:
                         if not workbench.k1.slotB.id == object:
                             self.eventlogService.writeEvent("CommissionController",
@@ -263,7 +367,7 @@ class CommissionController:
                             valid = False
                     else:
                         self.eventlogService.writeEvent("CommissionController",
-                                                        f"Commission {commission.id} is invalid: No cup at workbench slot {loc.name}")
+                                                        f"Commission {commission.id} is invalid: No cup at workbench slot {source.name}")
                         valid = False
                 else:
                     self.eventlogService.writeEvent("CommissionController",
@@ -271,29 +375,29 @@ class CommissionController:
                     valid = False
             else:
                 self.eventlogService.writeEvent("CommissionController",
-                                                f"Commission {commission.id} is invalid: No pallet at {loc.name}")
+                                                f"Commission {commission.id} is invalid: No pallet at {source.name}")
                 valid = False
-        elif int(loc.name[1]) == 2:
+        elif int(source.name[1]) == 2:
             if workbench.k2 is not None:
-                if loc.name[-1] == 'A':
+                if source.name[-1] == 'A':
                     if workbench.k2.slotA is None:
                         if not workbench.k2.slotA.id == object:
                             self.eventlogService.writeEvent("CommissionController",
-                                                            f"Commission {commission.id} is invalid: cup -id at workbench slot {loc.name} does not match with source")
+                                                            f"Commission {commission.id} is invalid: cup -id at workbench slot {source.name} does not match with source")
                             valid = False
                     else:
                         self.eventlogService.writeEvent("CommissionController",
-                                                        f"Commission {commission.id} is invalid: No cup at workbench slot {loc.name}")
+                                                        f"Commission {commission.id} is invalid: No cup at workbench slot {source.name}")
                         valid = False
-                elif loc.name[-1] == 'B':
+                elif source.name[-1] == 'B':
                     if workbench.k2.slotB is None:
                         if not workbench.k2.slotB.id == object:
                             self.eventlogService.writeEvent("CommissionController",
-                                                            f"Commission {commission.id} is invalid: cup -id at workbench slot {loc.name} does not match with source")
+                                                            f"Commission {commission.id} is invalid: cup -id at workbench slot {source.name} does not match with source")
                             valid = False
                     else:
                         self.eventlogService.writeEvent("CommissionController",
-                                                        f"Commission {commission.id} is invalid: No cup at workbench slot {loc.name}")
+                                                        f"Commission {commission.id} is invalid: No cup at workbench slot {source.name}")
                         valid = False
                 else:
                     self.eventlogService.writeEvent("CommissionController",
@@ -301,15 +405,15 @@ class CommissionController:
                     valid = False
             else:
                 self.eventlogService.writeEvent("CommissionController",
-                                                f"Commission {commission.id} is invalid: No pallet at {loc.name}")
+                                                f"Commission {commission.id} is invalid: No pallet at {source.name}")
                 valid = False
         else:
             self.eventlogService.writeEvent("CommissionController",
-                                            f"Commission {commission.id} is invalid: Workbench slot {loc.name} could not be resolved")
+                                            f"Commission {commission.id} is invalid: Workbench slot {source.name} could not be resolved")
             valid = False
         return valid
 
-    def _verifyWorkbenchTarget(self, commission: CommissionData, cup: bool, pallet: bool, loc: Locations, valid: bool, workbench: Workbench) -> bool:
+    def _verifyWorkbenchTarget(self, **kwargs) -> bool:
         """
         Verifies the workbench element for a given commission target.
         This method checks the specified target:
@@ -331,6 +435,12 @@ class CommissionController:
         :return valid: The updated validity status of the commission after the verification process.
         :rtype: bool
         """
+        workbench = kwargs.get('workbench')
+        loc = kwargs.get('target')
+        pallet = kwargs.get('pallet')
+        commission = kwargs.get('commission')
+        cup = kwargs.get('cup')
+        valid = kwargs.get('valid')
 
         sE = workbench.k1 if int(loc.name[1]) == 1 else workbench.k2
         if pallet and sE is not None:
@@ -343,7 +453,8 @@ class CommissionController:
                                             f"Commission {commission.id} is invalid: target location {loc.name} is empty.")
             valid = False
             return valid
-        slot = sE.slotA if loc.name[-1] == 'A' else sE.slotB
+        if sE is not None:
+            slot = sE.slotA if loc.name[-1] == 'A' else sE.slotB
         if cup and slot is not None:
             self.eventlogService.writeEvent("CommissionController",
                                             f"Commission {commission.id} is invalid: target location {loc.name} is not empty.")
@@ -351,7 +462,7 @@ class CommissionController:
             return valid
         return valid
 
-    def _verifyStorageElementTarget(self, commission: CommissionData, cup: bool, pallet: bool, target: Locations, valid: bool, inventory: Inventory) -> bool:
+    def _verifyStorageElementTarget(self, **kwargs) -> bool:
         """
         Verifies the storage element for a given commission target.
         This method checks the specified target:
@@ -373,6 +484,13 @@ class CommissionController:
         :return valid: The updated validity status of the commission after the verification process.
         :rtype: bool
         """
+        target = kwargs.get('target')
+        inventory = kwargs.get('inventory')
+        pallet = kwargs.get('pallet')
+        commission = kwargs.get('commission')
+        valid = kwargs.get('valid')
+        cup = kwargs.get('cup')
+
         locName = target.name
         number = int(locName[1:-1])
         row = int(locName[1:-1])//6
@@ -396,9 +514,9 @@ class CommissionController:
             return valid
         return valid
 
-    def _setupWorkbenchCopy(self):
+    def _setupWorkbenchCopy(self) -> Workbench:
         """
-        Creates a copy of invController's workbench object.
+        Creates and returns a copy of invController's workbench object.
         """
         workbench = Workbench()
         if self.inventoryController.workbench.k1 is not None:

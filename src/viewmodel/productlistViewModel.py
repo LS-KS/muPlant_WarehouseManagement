@@ -42,6 +42,8 @@ class ProductListViewModel(QtCore.QAbstractListModel):
             return product.name
         elif role == QtCore.Qt.UserRole + 3:
             return product.quantity
+        elif role == QtCore.Qt.UserRole + 4:
+            return product.selected
         return None
 
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
@@ -87,6 +89,7 @@ class ProductListViewModel(QtCore.QAbstractListModel):
             QtCore.Qt.UserRole + 1: b'id',
             QtCore.Qt.UserRole + 2: b'name',
             QtCore.Qt.UserRole + 3: b'quantity',
+            QtCore.Qt.UserRole + 4: b'selected',
         }
         return roles
 
@@ -117,13 +120,13 @@ class ProductListViewModel(QtCore.QAbstractListModel):
 
         if index < 0 or index >= self.rowCount():
             return False
-        if role == QtCore.Qt.UserRole + 3:
+        if role == QtCore.Qt.UserRole + 3: # b_quantity
             self.products[index].quantity += value
             return True
-        if role == QtCore.Qt.UserRole + 1:
+        if role == QtCore.Qt.UserRole + 1: # b_id
             self.products[index].id = value
             return True
-        if role == QtCore.Qt.UserRole + 2:
+        if role == QtCore.Qt.UserRole + 2: # b_name
             self.products[index].name = value
             return True
         self.dataChanged.emit(index, index, [role])
@@ -150,3 +153,4 @@ class ProductData:
         self.id = id
         self.name = name
         self.quantity = quantity
+        self.selected = False

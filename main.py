@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     engine.rootContext().setContextProperty("inventoryController", inventoryController)
     engine.rootContext().setContextProperty('storageModel', inventoryController.storageViewModel)
-    engine.rootContext().setContextProperty('productListModel', inventoryController.productlistViewModel)
+    engine.rootContext().setContextProperty('productListModel', inventoryController.productListViewModel)
     engine.rootContext().setContextProperty('productSummaryModel', inventoryController.productSummaryViewModel)
 
     # creates EventlogService object and sets itself as rootContext

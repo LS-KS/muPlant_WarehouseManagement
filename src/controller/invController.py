@@ -3,25 +3,12 @@ from src.constants.Constants import Constants
 from src.viewmodel.storageViewModel import StorageViewModel, StorageData
 from src.viewmodel.productlistViewModel import ProductListViewModel,ProductData
 from src.viewmodel.productSummaryViewModel import ProductSummaryViewModel
+from src.service.EventlogService import EventlogService
 from PySide6.QtCore import Signal, Slot, QObject
 from PySide6.QtCore import Qt
 
 class invController(QObject):
-    """
-    Controller class which gives access to DataModel module to remain consistent Data.
 
-    :param inventory: holds 2D array of StorageElements which can hold a pallet.
-    :type inventory: DataModel.Inventory
-
-    :param mobileRobot: represents a mobileRobot in docking station.
-    :type mobileRobot: DataModel.MobileRobot
-
-    :param gripper: represents gripper on IRB140, can hold either one cup or pallet
-    :type gripper: DataModel.Gripper
-
-    :param workbench: represents physical workbench with two slots for a pallet.
-    :type workbench: DataModel.Workbench
-    """
 
     # Signal can be captured in qml file with Connections - syntax and handling on signal called 'onRowClicked'
     transmitStorageData = Signal(str, int, int, bool)
@@ -34,9 +21,7 @@ class invController(QObject):
 
     def __init__(self, parent=None):
         """
-
-        create objects of every DataModel entity which is a physical unit.
-
+        Controller class which gives access to DataModel module to remain consistent Data.
         """
         super().__init__(parent)
         self.inventory = Inventory(self)
@@ -44,10 +29,10 @@ class invController(QObject):
         self.gripper = Gripper()
         self.workbench = Workbench()
         self.constants = Constants()
-        self.storageViewModel = None
-        self.productlistViewModel = None
-        self.productSummaryViewModel = None
-        self.eventlogService = None
+        self.storageViewModel : StorageViewModel | None = None
+        self.productListViewModel: ProductListViewModel | None = None
+        self.productSummaryViewModel: ProductSummaryViewModel | None = None
+        self.eventlogService: EventlogService | None = None
         self.productList = []
         self.__loadData()
 
@@ -75,7 +60,7 @@ class invController(QObject):
         :type storage: str
         :param slot:
         :type slot: str
-        :return: uses Qt Signal object to return productslot, cup ID and productListIndex.
+        :return: uses Qt Signal object to return product slot, cup ID and productListIndex.
         """
 
         if storage != "":
@@ -99,14 +84,14 @@ class invController(QObject):
             isPallet = True if self.storageViewModel.data(index, palletRole) == 1 else False
             product = self.storageViewModel.data(index, prodRole)
             print(f"index: {index}, product: {product}")
-            productlistIndex = self.productlistViewModel.indexOf(product)
+            productlistIndex = self.productListViewModel.indexOf(product)
             cup = self.storageViewModel.data(index, cupRole)
             self.transmitStorageData.emit(slot, cup, product, isPallet)
     @Slot(str, str)
     def loadWorkbench(self, storage: str, slot: str):
         """
         @Slot(str, int, int, bool)
-        This method takes data from WorkbenchDialog.qml file when the user wants to mauallY
+        This method takes data from WorkbenchDialog.qml file when the user wants to manually
         override the workbench entry.
         Uses invControllers transmitWorkbenchData signal to return product, slot, cup ID and productList index.
         :return:
@@ -223,62 +208,28 @@ class invController(QObject):
         :type productID: int
         :return: None
         """
-        number = int(storage[1:])
-        row = (number - 1) // 6
-        col = (number - 1) % 6
-        if not 0 <= row <= 2:
-            raise ValueError("Error could not decode storage(row)")
-        if not 0 <= col <= 5:
-            raise ValueError("Error could not decode storage(col)")
-        if palletPresent == "Yes":
-            isPallet = True
-        elif palletPresent == "No":
-            isPallet = False
-        else:
-            raise ValueError("Error could not decode palletPresent")
+        col, isPallet, row = self.__decodeStorage(palletPresent, storage)
+
         pallet = self.inventory.getStoragePallet(row, col)
-
-        if isPallet:
-            if pallet is None:
-                pallet = Pallet()
-                pallet.setSlotA(Cup(0, self.__productFromID(0)))
-                pallet.setSlotB(Cup(0, self.__productFromID(0)))
-                self.inventory.setStoragePallet(row, col, pallet)
-            if slot == "a":
-                oldproductID = pallet.slotA.product.id
-                print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
-                roleCup = Qt.UserRole + 2
-                roleProduct = Qt.UserRole + 3
-                roleName = Qt.UserRole + 4
-                cup_obj = pallet.slotA
-            elif slot == "b":
-                oldproductID = pallet.slotB.product.id
-                print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
-                roleCup = Qt.UserRole + 5
-                roleProduct = Qt.UserRole + 6
-                roleName = Qt.UserRole + 7
-                cup_obj = pallet.slotB
-            else:
-                raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
-            prod_obj = self.__productFromID(productID)
-            cup_obj.setProduct(prod_obj)
-            cup_obj.setID(cupID)
-            index = self.storageViewModel.createIndex(row, col)
-            cup = self.storageViewModel.setData(index, cupID, role=roleCup)
-            product = self.storageViewModel.setData(index, productID, role=roleProduct)
-            name = self.storageViewModel.setData(index, self.findProductName(productID), role=roleName)
-            rolePallet = Qt.UserRole + 1
-            pallet = self.storageViewModel.setData(index, isPallet, role=rolePallet)
-            self.storageViewModel.dataChanged.emit(index, index, [roleCup, roleProduct, roleName, rolePallet ])
-            self.idSwapped.emit(product, productID)
-            self.eventlogService.writeEvent("USER",
-                                            f"\n*** ATTENTION ***\n\n!!! INVENTORY OVERRIDE !!!\n\nLocation: {storage} - {slot}\nCup: {cup} --> {cupID}\nProduct: {product} --> {productID}\n\n*** DANGER ***\n\nThe storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.\n\n*** THIS IS A LIFE-THREATENING SITUATION ***\n\n>>>>> CHANGES ARE PERMANENT <<<<<\n\n_____\n")
-            oldIndex = self.productlistViewModel.indexOf(oldproductID)
-            self.productlistViewModel.setData(oldIndex, -1, role=Qt.UserRole + 3)
-            newIndex = self.productlistViewModel.indexOf(productID)
-            self.productlistViewModel.setData(newIndex, 1, role=Qt.UserRole + 3)
-
+        if isPallet: # if User wants to set a pallet
+            self.__handleStorageChangePallet(col, cupID, isPallet, pallet, productID, row, slot)
         else:
+            self.__handleStorageChange(col, pallet, row)
+        self._dumpStorage()
+
+    def __handleStorageChange(self, col, pallet, row):
+        """
+        This method handles a storage change if no pallet is present.
+        basically it erases the data from the storage and the pallet object, so
+        garbage collection can do its job.
+        :param col: column index of storage view-model
+        :type col: int
+        :param pallet: pallet object at given storage location
+        :type pallet: Pallet
+        :param row: row index of storage view-model
+        :return: None
+        """
+        if pallet is not None:
             pallet.setLocation(None)
             cupA = pallet.slotA
             cupA.product.withoutCup(cupA)
@@ -289,26 +240,110 @@ class invController(QObject):
             pallet.setSlotB(None)
             del cupB
             del pallet
-            index = self.storageViewModel.createIndex(row, col)
-            roleCupA = Qt.UserRole + 2
-            roleProductA = Qt.UserRole + 3
-            roleNameA = Qt.UserRole + 4
-            rolePallet = Qt.UserRole + 1
-            cupA = self.storageViewModel.setData(index, 0, role=roleCupA)
-            productA = self.storageViewModel.setData(index, 0, role=Qt.UserRole + 3)
-            nameA = self.storageViewModel.setData(index, self.findProductName(0), role=Qt.UserRole + 4)
-            pallet = self.storageViewModel.setData(index, isPallet, role=rolePallet)
-            self.storageViewModel.dataChanged.emit(index, index, [roleCupA, roleProductA, roleNameA, rolePallet])
-            roleCupB = Qt.UserRole + 5
-            roleProductB = Qt.UserRole + 6
-            roleNameB = Qt.UserRole + 7
-            cupB = self.storageViewModel.setData(index, 0, role=roleCupB)
-            productB = self.storageViewModel.setData(index, 0, role=Qt.UserRole + 6)
-            nameB = self.storageViewModel.setData(index, self.findProductName(0), role=Qt.UserRole + 7)
-            self.storageViewModel.dataChanged.emit(index, index, [roleCupB, roleProductB, roleNameB, rolePallet])
-        self._dumpStorage()
+        index = self.storageViewModel.createIndex(row, col)
+        roleCupA = Qt.UserRole + 2
+        roleProductA = Qt.UserRole + 3
+        roleNameA = Qt.UserRole + 4
+        rolePallet = Qt.UserRole + 1
+        self.storageViewModel.setData(index, 0, role=roleCupA)
+        self.storageViewModel.setData(index, 0, role=Qt.UserRole + 3)
+        self.storageViewModel.setData(index, self.findProductName(0), role=Qt.UserRole + 4)
+        self.storageViewModel.setData(index, False, role=rolePallet)
+        self.storageViewModel.dataChanged.emit(index, index, [roleCupA, roleProductA, roleNameA, rolePallet])
+        roleCupB = Qt.UserRole + 5
+        roleProductB = Qt.UserRole + 6
+        roleNameB = Qt.UserRole + 7
+        self.storageViewModel.setData(index, 0, role=roleCupB)
+        self.storageViewModel.setData(index, 0, role=Qt.UserRole + 6)
+        self.storageViewModel.setData(index, self.findProductName(0), role=Qt.UserRole + 7)
+        self.storageViewModel.dataChanged.emit(index, index, [roleCupB, roleProductB, roleNameB, rolePallet])
+
+    def __handleStorageChangePallet(self, col, cupID, isPallet, pallet, productID, row, slot):
+        """
+        This method handles a change in storage in case a pallet is set.
+        Performs all necessary checks and creates a new pallet if none exists in given location.
+        calls view-models setData() method to update the view-model.
+        :param col: column index of storage view-model
+        :type col: int
+        :param cupID: ID of corresponding cup object in data-model
+        :type cupID: int
+        :param isPallet: True if User wants to set a pallet
+        :type isPallet: bool
+        :param pallet: Pallet object if one exists in given location else None
+        :type pallet: Pallet
+        :param productID: ID of corresponding product object in data-model
+        :type productID: int
+        :param row: row index of storage view-model
+        :type row: int
+        :param slot: "a" for front slot or "b" for rear slot of pallet object.
+        :type slot: str
+        :return: None
+        """
+        if pallet is None:  # create a new pallet if there is none
+            pallet = Pallet()
+            pallet.setSlotA(Cup(0, self.__productFromID(0)))
+            pallet.setSlotB(Cup(0, self.__productFromID(0)))
+            self.inventory.setStoragePallet(row, col, pallet)
+        if slot == "a":
+            oldproductID = pallet.slotA.product.id
+            print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
+            roleCup = Qt.UserRole + 2
+            roleProduct = Qt.UserRole + 3
+            roleName = Qt.UserRole + 4
+            cup_obj = pallet.slotA
+        elif slot == "b":
+            oldproductID = pallet.slotB.product.id
+            print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
+            roleCup = Qt.UserRole + 5
+            roleProduct = Qt.UserRole + 6
+            roleName = Qt.UserRole + 7
+            cup_obj = pallet.slotB
+        else:
+            raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
+        prod_obj = self.__productFromID(productID) # get existing product object from data-model by id
+        cup_obj.setProduct(prod_obj)  # set product object to cup object --> calls the withoutCup() of old product
+        index = self.storageViewModel.createIndex(row, col)
+        cup = self.storageViewModel.setData(index, cupID, role=roleCup)
+        product = self.storageViewModel.setData(index, productID, role=roleProduct)
+        name = self.storageViewModel.setData(index, self.findProductName(productID), role=roleName)
+        rolePallet = Qt.UserRole + 1
+        pallet = self.storageViewModel.setData(index, isPallet, role=rolePallet)
+        self.storageViewModel.dataChanged.emit(index, index, [roleCup, roleProduct, roleName, rolePallet])
+        self.idSwapped.emit(product, productID)
+        self.eventlogService.writeEvent("USER", "Inventory Override!")
+        oldIndex = self.productListViewModel.indexOf(oldproductID)
+        self.productListViewModel.setData(oldIndex, -1, role=Qt.UserRole + 3)  # reduces quantity of old product by 1
+        newIndex = self.productListViewModel.indexOf(productID)
+        self.productListViewModel.setData(newIndex, 1, role=Qt.UserRole + 3)  # increases quantity of new product by 1
+
+    def __decodeStorage(self, palletPresent, storage):
+        """
+        This method decodes the storage ID to row and col.
+        :raises ValueError: if row, col or palletPresent could not be decoded
+        :param palletPresent: "Yes" or "No" depending if a Pallet is present or not
+        :type palletPresent: str
+        :param storage: String which describes the storage like "L17"
+        :type storage: str
+        :return: row, col, isPallet
+        :rtype: int, int, bool
+        """
+        number = int(storage[1:])
+        row = (number - 1) // 6
+        if not 0 <= row <= 2:
+            raise ValueError("Error could not decode storage(row)")
+        col = (number - 1) % 6
+        if not 0 <= col <= 5:
+            raise ValueError("Error could not decode storage(col)")
+        if palletPresent == "Yes":
+            isPallet = True
+        elif palletPresent == "No":
+            isPallet = False
+        else:
+            raise ValueError("Error could not decode palletPresent")
+        return col, isPallet, row
+
     @Slot(str, str, int, int, bool)
-    def changeWorkbench(self,storage, slot, cupID, productID, isPallet: bool = False):
+    def changeWorkbench(self, storage: str, slot: str, cup_id: int, product_id: int, pallet_present: bool):
         """
         This method changes workbench entry depending on submitted storage.
         gets the pallet object stored in submitted storage and changes the cup object depending on submitted parameters
@@ -316,22 +351,22 @@ class invController(QObject):
         Writes message to eventlogService.
         Calls _dumpStorage() to save changes to file.
         :param storage: can be 'K1' or 'K2'
-        :param slot: can be 'a' or 'b'
+        :param slot: can be 'a' for front or 'b' for rear slot of pallet object
         :type slot: str
-        :param cupID:
-        :type cupID: int
-        :param productID:
-        :type productID: int
-        :param isPallet:
-        :type isPallet: bool
+        :param cup_id: ID of cup object in data-model
+        :type cup_id: int
+        :param product_id: ID of product object in data-model
+        :type product_id: int
+        :param pallet_present: True if User wants to set a pallet
+        :type pallet_present: bool
         :return: None
         """
-        print(f"to set workbench: storage: {storage}, slot: {slot}, cup: {cupID}, product: {productID}, isPallet: {isPallet}")
+        print(f"to set workbench: storage: {storage}, slot: {slot}, cup: {cup_id}, product: {product_id}, isPallet: {pallet_present}")
         if storage == "K1":
             pallet = self.workbench.k1
             if pallet is not None:
-                cup_objA = pallet.slotA if pallet.slotA is not None else Cup(0, self.__productFromID(0))
-                cup_objB = pallet.slotB if pallet.slotB is not None else Cup(0, self.__productFromID(0))
+                cup_obj_a = pallet.slotA if pallet.slotA is not None else Cup(0, self.__productFromID(0))
+                cup_obj_b = pallet.slotB if pallet.slotB is not None else Cup(0, self.__productFromID(0))
                 if slot == "a":
                     pass
                 elif slot == "b":
@@ -340,13 +375,13 @@ class invController(QObject):
                     raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
             else:
                 pallet = Pallet()
-                cup_objA = Cup(0, self.__productFromID(0))
-                cup_objB = Cup(0, self.__productFromID(0))
+                cup_obj_a = Cup(0, self.__productFromID(0))
+                cup_obj_b = Cup(0, self.__productFromID(0))
         elif storage == "K2":
             pallet = self.workbench.k2
             if pallet is not None:
-                cup_objA = pallet.slotA if pallet.slotA is not None else Cup(0, self.__productFromID(0))
-                cup_objB = pallet.slotB if pallet.slotB is not None else Cup(0, self.__productFromID(0))
+                cup_obj_a = pallet.slotA if pallet.slotA is not None else Cup(0, self.__productFromID(0))
+                cup_obj_b = pallet.slotB if pallet.slotB is not None else Cup(0, self.__productFromID(0))
                 if slot == "a":
                     pass
                 elif slot == "b":
@@ -355,47 +390,46 @@ class invController(QObject):
                     raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
             else:
                 pallet = Pallet()
-                cup_objA = Cup(0, self.__productFromID(0))
-                cup_objB = Cup(0, self.__productFromID(0))
+                cup_obj_a = Cup(0, self.__productFromID(0))
+                cup_obj_b = Cup(0, self.__productFromID(0))
         else:
             raise ValueError("Storage Value error. Storage must be 'K1' or 'K2'")
-        if isPallet:
+        if pallet_present:
             if slot == "a":
-                cup_objA.setID(cupID)
-                cup_objA.setProduct(self.__productFromID(productID))
+                cup_obj_a.setID(cup_id)
+                cup_obj_a.setProduct(self.__productFromID(product_id))
             elif slot == "b":
-                cup_objB.setID(cupID)
-                cup_objB.setProduct(self.__productFromID(productID))
+                cup_obj_b.setID(cup_id)
+                cup_obj_b.setProduct(self.__productFromID(product_id))
         else:
-            cup_objA.setID(0)
-            cup_objA.setProduct(self.__productFromID(0))
-            cup_objB.setID(0)
-            cup_objB.setProduct(self.__productFromID(0))
-        pallet.setSlotA(cup_objA)
-        pallet.setSlotB(cup_objB)
+            cup_obj_a.setID(0)
+            cup_obj_a.setProduct(self.__productFromID(0))
+            cup_obj_b.setID(0)
+            cup_obj_b.setProduct(self.__productFromID(0))
+        pallet.setSlotA(cup_obj_a)
+        pallet.setSlotB(cup_obj_b)
         if storage == "K1":
             self.workbench.setK1(pallet)
-            cupAID = self.workbench.k1.slotA.id
-            prodAID = self.workbench.k1.slotA.product.id
-            prodAName = self.workbench.k1.slotA.product.name
-            cupBID = self.workbench.k1.slotB.id
-            prodBID = self.workbench.k1.slotB.product.id
-            prodBName = self.workbench.k1.slotB.product.name
+            cup_a_id = self.workbench.k1.slotA.id
+            prod_a_id = self.workbench.k1.slotA.product.id
+            prod_a_name = self.workbench.k1.slotA.product.name
+            cup_b_id = self.workbench.k1.slotB.id
+            prod_b_id = self.workbench.k1.slotB.product.id
+            prod_b_name = self.workbench.k1.slotB.product.name
         elif storage == "K2":
             self.workbench.setK2(pallet)
-            cupAID = self.workbench.k2.slotA.id
-            prodAID = self.workbench.k2.slotA.product.id
-            prodAName = self.workbench.k2.slotA.product.name
-            cupBID = self.workbench.k2.slotB.id
-            prodBID = self.workbench.k2.slotB.product.id
-            prodBName = self.workbench.k2.slotB.product.name
+            cup_a_id = self.workbench.k2.slotA.id
+            prod_a_id = self.workbench.k2.slotA.product.id
+            prod_a_name = self.workbench.k2.slotA.product.name
+            cup_b_id = self.workbench.k2.slotB.id
+            prod_b_id = self.workbench.k2.slotB.product.id
+            prod_b_name = self.workbench.k2.slotB.product.name
         else:
             raise ValueError("Storage Value error. Storage must be 'K1' or 'K2'")
-        self.transmitWorkbenchPallet.emit(storage, cupAID, prodAID, prodAName,isPallet ,cupBID, prodBID, prodBName)
+        self.transmitWorkbenchPallet.emit(storage, cup_a_id, prod_a_id, prod_a_name, pallet_present, cup_b_id, prod_b_id, prod_b_name)
         self._dumpStorage()
-        print(f"transmitWorkbenchPallet emitted:{storage} {cupAID}, {prodAID},{prodAName}, {isPallet}, {cupBID}, {prodBID}, {prodBName}")
-        self.eventlogService.writeEvent("USER",
-                                        f"\n*** ATTENTION ***\n\n!!! INVENTORY OVERRIDE !!!\n\nLocation: {storage} - {slot}\nCup:--> {cupID}\nProduct:--> {productID}\n\n*** DANGER ***\n\nThe storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.\n\n*** THIS IS A LIFE-THREATENING SITUATION ***\n\n>>>>> CHANGES ARE PERMANENT <<<<<\n\n_____\n")
+        print(f"transmitWorkbenchPallet emitted:{storage} {cup_a_id}, {prod_a_id},{prod_a_name}, {pallet_present}, {cup_b_id}, {prod_b_id}, {prod_b_name}")
+        self.eventlogService.writeEvent("USER", "Workbench override!")
     @Slot(int, int)
     def changeMobileRobot(self, cupID: int, productID: int):
         """
@@ -610,7 +644,7 @@ class invController(QObject):
         :return: product name to corresponding index
         :rtype str
         """
-        for index, product in enumerate(self.productlistViewModel.products):
+        for index, product in enumerate(self.productListViewModel.products):
             if product.id == id:
                 return product.name
         return None
@@ -793,7 +827,7 @@ class invController(QObject):
         '''
         create sortable and filterable viewModel 
         '''
-        self.productSummaryViewModel = ProductSummaryViewModel(self.productlistViewModel)
+        self.productSummaryViewModel = ProductSummaryViewModel(self.productListViewModel)
     def __populateProductlistViewModel(self, storageData):
         """
 
@@ -823,7 +857,7 @@ class invController(QObject):
         productList is used to populate productListViewModel
             
         '''
-        self.productlistViewModel = ProductListViewModel(productDataList)
+        self.productListViewModel = ProductListViewModel(productDataList)
     def __productFromID(self, id)->Product:
         """
 

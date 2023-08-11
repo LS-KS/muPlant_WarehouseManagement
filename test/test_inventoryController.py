@@ -38,7 +38,7 @@ def testViewModelInit():
     """
     iC = invController()
     iC.eventlogService =  EventlogService()
-    assert isinstance(iC.productlistViewModel, ProductListViewModel)
+    assert isinstance(iC.productListViewModel, ProductListViewModel)
     assert isinstance(iC.storageViewModel, StorageViewModel)
     assert isinstance(iC.productSummaryViewModel, ProductSummaryViewModel)
 

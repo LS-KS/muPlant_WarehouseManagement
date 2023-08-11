@@ -106,7 +106,7 @@ class StorageViewModel(QtCore.QAbstractTableModel):
             return inventory[8]
         return None
 
-    def setData(self, index, value, role):
+    def setData(self, index, value, role)->bool:
         """
 
         Writes data to an index and returns the old value if success
@@ -127,31 +127,31 @@ class StorageViewModel(QtCore.QAbstractTableModel):
         if role == Qt.UserRole + 1:  # isPallet
             oldValue = self.storageData[row][col][0]
             self.storageData[row][col][0] = value
-            return oldValue
+            return True
         if role == Qt.UserRole + 2:  # a_CupID
             oldValue = self.storageData[row][col][1]
             self.storageData[row][col][1] = value
-            return oldValue
+            return True
         if role == Qt.UserRole + 5:  # b_CupID
             oldValue = self.storageData[row][col][4]
             self.storageData[row][col][4] = value
-            return oldValue
+            return True
         if role == Qt.UserRole + 3:  # a_productID
             oldValue = self.storageData[row][col][2]
             self.storageData[row][col][2] = value
-            return oldValue
+            return True
         if role == Qt.UserRole + 6:  # b_productID
             oldValue = self.storageData[row][col][5]
             self.storageData[row][col][5] = value
-            return oldValue
+            return True
         if role == Qt.UserRole + 4:  # a_Name
             oldValue = self.storageData[row][col][3]
             self.storageData[row][col][3] = value
-            return oldValue
+            return True
         if role == Qt.UserRole + 7:  # b_Name
             oldValue = self.storageData[row][col][6]
             self.storageData[row][col][6] = value
-            return oldValue
+            return True
         return False
 
 

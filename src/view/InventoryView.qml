@@ -24,7 +24,7 @@ Rectangle{
             id: rect1
             width: ListView.view.width
             height: 50
-            property bool selected: false
+            property bool selected: model.selected
             color: selected ? "#81B8D4": "white"
 
             RowLayout{
