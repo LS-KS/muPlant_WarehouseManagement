@@ -6,6 +6,7 @@ from src.viewmodel.productSummaryViewModel import ProductSummaryViewModel
 from src.service.EventlogService import EventlogService
 from PySide6.QtCore import Signal, Slot, QObject
 from PySide6.QtCore import Qt
+import yaml
 
 class invController(QObject):
 
@@ -765,34 +766,34 @@ class invController(QObject):
         finally:
             file.close()
         return storageData
+
     def __loadProductList(self):
         """
-        Opens file with path from constants.
-        transforms data to object-oriented data
+        Opens YAML file with path from constants.
+        Transforms data to object-oriented data.
         :return: None
-
         """
-        FILE = self.constants.PRODUCTLIST
-        productList = []
-        try:
-            # Open product file and read lines to list.
-            # Avoid u\ufeff prefix in data by set encoding to utf8-8-sig (source: stackoverflow)
-            with open(FILE, 'r', encoding='utf-8-sig') as file:
-                list = file.readlines()
 
-            for line in list:
-                # Split the line by ';' to get the id and name
-                product_data = line.strip().split(';')
-                product_id = int(product_data[0])
-                product_name = str(product_data[1])
-                productList.append(Product(id=product_id, name=product_name))
+        FILE = self.constants.PRODUCTLIST  # Assuming this points to the YAML file path
+        productList = []
+
+        try:
+            with open(FILE, 'r', encoding='utf-8') as file:
+                data = yaml.safe_load(file)
+
+            for product_id, product_name in data.items():
+                productList.append(Product(id=int(product_id), name=str(product_name)))
+
         except FileNotFoundError:
-            print("Error: could't find product list file 'Produkte.db'")
-        except FileExistsError:
-            print("Error: file 'Produkte.db' doesn't exist")
+            print("Error: couldn't find product list YAML file")
+        except Exception as e:
+            print("Error:", str(e))
         finally:
-            file.close()
+            if 'file' in locals() and not file.closed:
+                file.close()
+
         self.productList = productList
+
     def __populateViewModels(self, storageData):
         """
 
