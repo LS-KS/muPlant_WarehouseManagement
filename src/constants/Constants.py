@@ -7,8 +7,8 @@ class Constants:
     def __init__(self):
         # self.PRODUCTLIST = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "Produkte.db"
         self.PRODUCTLIST = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "Products.yaml"
-        self.STORAGEDATA = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "StorageData.db"
-        self.STORAGEDATAWRITE = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "StorageDataWrite.db"
+        self.STORAGEDATA = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "StorageData.yaml"
+        self.STORAGEDATAWRITE = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "StorageData.yaml"
         self.COMMISSDATA = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "Commissdata.db"
         self.CAMAPP_QML = "../cameraApplication/qml/CameraAppMain.qml"
         #self.COMMISSIONDATA = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "CommissionData.db"

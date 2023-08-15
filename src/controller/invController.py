@@ -645,18 +645,18 @@ class invController(QObject):
         :return: product name to corresponding index
         :rtype str
         """
-        for index, product in enumerate(self.productListViewModel.products):
+        for index, product in enumerate(self.productList):
             if product.id == id:
                 return product.name
         return None
     def __loadData(self):
         """
         Load a productList with product ID and name to have appropriate product data.
-        Load Storage Data from another File to populate pallets array and viemodel
+        Load Storage Data from another File to populate pallets array and viewmodel
 
         """
         # load product data from Produkte.db
-        productList = self.__loadProductList()
+        self.productList = self.__loadProductList()
 
         # load Inventory from StorageData.db
         storageData = self.__loadStorageData()
@@ -664,39 +664,44 @@ class invController(QObject):
         self.__populateInventory(storageData)
 
         self.__populateViewModels( storageData)
+    import yaml
+
     def _dumpStorage(self):
         """
-
-        Saves the data from StorageViewModel to file.
+        Saves the data from StorageViewModel to a YAML file.
 
         :return: None
-
         """
-        if self.storageViewModel == None:
-            raise ValueError(" Model not set. cannot dump data to file")
+        if self.storageViewModel is None:
+            raise ValueError("Model not set. Cannot dump data to file")
         else:
-            FILE = None
             try:
-                with open(self.constants.STORAGEDATAWRITE, 'w', encoding='utf-8-sig') as FILE:
-                    FILE.write("# Row,Col:IsPalletPresent:CupID_a,ProductID_a|CupID_b,ProductID_b\n\n")
-                    rows = self.storageViewModel.rowCount()
-                    for row in range(rows):
-                        r = row
-                        for col in range (6):
-                            storage = self.storageViewModel.storageData[row][col]
-                            c = col
-                            p = storage[0]
-                            cA = storage[1]
-                            pA = storage[2]
-                            cB = storage[4]
-                            pB = storage[5]
-                            FILE.write(f"{r},{c}:{int(p)}:{cA},{pA}|{cB},{pB}\n")
-                        FILE.write("\n")
-            except FileNotFoundError("Storagefile not found"):
-                return None
-            finally:
-                if FILE != None:
-                    FILE.close()
+                data_to_dump = []
+                rows = self.storageViewModel.rowCount()
+
+                for row in range(rows):
+                    row_data = []
+                    for col in range(6):
+                        storage = self.storageViewModel.storageData[row][col]
+                        cell_data = {
+                            'row': row,
+                            'col': col,
+                            'isPalletPresent': bool(storage[0]),
+                            'cupID_a': storage[1],
+                            'productID_a': storage[2],
+                            'cupID_b': storage[4],
+                            'productID_b': storage[5]
+                        }
+                        row_data.append(cell_data)
+                    data_to_dump.append(row_data)
+
+                with open(self.constants.STORAGEDATAWRITE, 'w', encoding='utf-8') as file:
+                    yaml.dump(data_to_dump, file, default_flow_style=False)
+
+            except FileNotFoundError:
+                print("Storage file not found")
+            except Exception as e:
+                print("Error:", str(e))
             #self.eventcontroller.writeEvent("USER", f"\n Manual Storage Override saved to local File \n")
     def __populateInventory(self, storageData):
         """
@@ -715,63 +720,47 @@ class invController(QObject):
                 pallet.setSlotA(Cup(element.a_CupID, self.__productFromID(element.a_ProductID)))
                 pallet.setSlotB(Cup(element.b_CupID, self.__productFromID(element.b_ProductID)))
                 self.inventory.setStoragePallet(element.row, element.col, pallet)
+    import yaml
+
     def __loadStorageData(self) -> list[StorageData]:
         """
         :return: storageData
         :rtype storageData: List of StorageData objects.
-
         """
         FILE = self.constants.STORAGEDATA
         storageData = []
         try:
-            # Open StorageData file and read in lines to list
-            # Avoid u\efeff prefix in data by set encodeing to utf8-8-sig (source: stackoverflow)
-            with open(FILE, 'r', encoding='utf-8-sig') as file:
-                list = file.readlines()
-
-            list = [line for line in list if line != '\n']  # remove empty lines
-            list = list[1:]  # remove first line
-
-            for line in list:
-                splitData = line.strip().split(',')  # strip and split to get raw data
-                splitData[1] = splitData[1].strip().split(':')
-                splitData[2] = splitData[2].strip().split('|')
-                # map the split data to Inevntory Data
-                row = int(splitData[0])
-                col = int(splitData[1][0])
-                isPallet = True if splitData[1][1] == '1' else False
-                a_CupID = int(splitData[1][2])
-                a_ProductID = int(splitData[2][0])
-                a_Name = ""
-                b_CupID = int(splitData[2][1])
-                b_ProductID = int(splitData[3])
-                b_Name = ""
-                # find matching product strings from actual product list
-                for product in self.productList:
-                    if product.id == a_ProductID:
-                        a_Name = product.name
-                    if product.id == b_ProductID:
-                        b_Name = product.name
-                    if a_Name != "" and b_Name != "":
-                        break
-                # append data to storageData for QAbstractTableModel
-                storageData.append(
-                    StorageData(row=row, col=col, isPallet=isPallet, a_CupID=a_CupID, a_ProductID=a_ProductID,
-                                b_CupID=b_CupID, b_ProductID=b_ProductID, a_Name=a_Name, b_Name=b_Name))
-                # print(f"Row: {row}\t Col: {col}\t isPallet: {isPallet}\t Cup_A: {a_CupID}\t ProductA: {a_ProductID}, {a_Name}\t Cup_B: {b_CupID}\t ProductB: {b_ProductID}, {b_Name} ")
+            with open(FILE, 'r', encoding='utf-8') as file:
+                data = yaml.safe_load(file)
+            for row_data in data:
+                for cell_data in row_data:
+                    row = cell_data['row']
+                    col = cell_data['col']
+                    isPallet = cell_data['isPalletPresent']
+                    a_CupID = cell_data['cupID_a']
+                    a_ProductID = cell_data['productID_a']
+                    b_CupID = cell_data['cupID_b']
+                    b_ProductID = cell_data['productID_b']
+                    a_Name = self.findProductName(a_ProductID)
+                    b_Name = self.findProductName(b_ProductID)
+                    # Append data to storageData for QAbstractTableModel
+                    storageData.append(
+                        StorageData(row=row, col=col, isPallet=isPallet, a_CupID=a_CupID, a_ProductID=a_ProductID,
+                                    b_CupID=b_CupID, b_ProductID=b_ProductID, a_Name=a_Name, b_Name=b_Name))
         except FileNotFoundError:
-            print("Error: could't find product list file 'StorageData.db'")
-        except FileExistsError:
-            print("Error: file 'StorageData.db' doesn't exist")
+            print("Storage data file not found")
+        except Exception as e:
+            print("Error:", str(e))
         finally:
-            file.close()
+            if 'file' in locals() and not file.closed:
+                file.close()
         return storageData
 
     def __loadProductList(self):
         """
         Opens YAML file with path from constants.
         Transforms data to object-oriented data.
-        :return: None
+        :return: productList
         """
 
         FILE = self.constants.PRODUCTLIST  # Assuming this points to the YAML file path
@@ -792,7 +781,7 @@ class invController(QObject):
             if 'file' in locals() and not file.closed:
                 file.close()
 
-        self.productList = productList
+        return productList
 
     def __populateViewModels(self, storageData):
         """

@@ -1,0 +1,126 @@
+- - col: 0
+    cupID_a: 25
+    cupID_b: 123
+    isPalletPresent: true
+    productID_a: 15
+    productID_b: 12
+    row: 0
+  - col: 1
+    cupID_a: 0
+    cupID_b: 0
+    isPalletPresent: true
+    productID_a: 0
+    productID_b: 0
+    row: 0
+  - col: 2
+    cupID_a: 0
+    cupID_b: 0
+    isPalletPresent: true
+    productID_a: 0
+    productID_b: 0
+    row: 0
+  - col: 3
+    cupID_a: 0
+    cupID_b: 0
+    isPalletPresent: true
+    productID_a: 0
+    productID_b: 0
+    row: 0
+  - col: 4
+    cupID_a: 0
+    cupID_b: 0
+    isPalletPresent: true
+    productID_a: 0
+    productID_b: 0
+    row: 0
+  - col: 5
+    cupID_a: 0
+    cupID_b: 0
+    isPalletPresent: true
+    productID_a: 0
+    productID_b: 0
+    row: 0
+- - col: 0
+    cupID_a: 0
+    cupID_b: 1
+    isPalletPresent: true
+    productID_a: 0
+    productID_b: 1
+    row: 1
+  - col: 1
+    cupID_a: 0
+    cupID_b: 2
+    isPalletPresent: true
+    productID_a: 0
+    productID_b: 1
+    row: 1
+  - col: 2
+    cupID_a: 0
+    cupID_b: 3
+    isPalletPresent: true
+    productID_a: 0
+    productID_b: 1
+    row: 1
+  - col: 3
+    cupID_a: 15
+    cupID_b: 7
+    isPalletPresent: true
+    productID_a: 23
+    productID_b: 9
+    row: 1
+  - col: 4
+    cupID_a: 10
+    cupID_b: 4
+    isPalletPresent: true
+    productID_a: 1
+    productID_b: 1
+    row: 1
+  - col: 5
+    cupID_a: 0
+    cupID_b: 0
+    isPalletPresent: false
+    productID_a: 0
+    productID_b: 0
+    row: 1
+- - col: 0
+    cupID_a: 0
+    cupID_b: 0
+    isPalletPresent: true
+    productID_a: 0
+    productID_b: 0
+    row: 2
+  - col: 1
+    cupID_a: 0
+    cupID_b: 0
+    isPalletPresent: true
+    productID_a: 0
+    productID_b: 0
+    row: 2
+  - col: 2
+    cupID_a: 0
+    cupID_b: 5
+    isPalletPresent: true
+    productID_a: 0
+    productID_b: 1
+    row: 2
+  - col: 3
+    cupID_a: 0
+    cupID_b: 0
+    isPalletPresent: true
+    productID_a: 0
+    productID_b: 0
+    row: 2
+  - col: 4
+    cupID_a: 6
+    cupID_b: 7
+    isPalletPresent: true
+    productID_a: 1
+    productID_b: 1
+    row: 2
+  - col: 5
+    cupID_a: 9
+    cupID_b: 8
+    isPalletPresent: true
+    productID_a: 1
+    productID_b: 1
+    row: 2
