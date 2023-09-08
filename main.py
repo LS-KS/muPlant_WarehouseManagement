@@ -26,6 +26,7 @@ from src.service.EventlogService import EventlogService
 from src.service.OpcuaService import OpcuaService
 from src.constants.Constants import Constants
 from src.service.AgentService import AgentService
+from src.service.stocktaking import VideoPlayer
 
 
 if __name__ == '__main__':
@@ -70,6 +71,11 @@ if __name__ == '__main__':
     # creates opcua service
     opcuaService = OpcuaService(eventlogService, preferenceController)
     engine.rootContext().setContextProperty("opcuaService", opcuaService)
+
+    # creates VideoPlayer object used in stocktaking plugin
+    videoPlayer = VideoPlayer()
+    engine.rootContext().setContextProperty("camApp", videoPlayer)
+    engine.addImageProvider("camApp", videoPlayer)
 
     # define load main.qml file to start application
     qml_file =  str(Path(__file__).resolve().parent / "src" / "view" / "main.qml")

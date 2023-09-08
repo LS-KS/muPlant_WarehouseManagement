@@ -3,7 +3,7 @@ from src.controller.PreferenceController import PreferenceController
 from src.service.EventlogService import EventlogService
 from PySide6.QtCore import QObject, Signal, Slot
 """
-This Service will provide any necessary funcitonalities for the muPlant Agent System in the future.
+This Service will provide any necessary functionalities for the muPlant Agent System in the future.
 
 """
 

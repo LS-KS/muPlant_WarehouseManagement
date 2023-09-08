@@ -84,7 +84,19 @@ Window {
                     }
                 }
             }
-            Action { text: qsTr("&Camera Application") }
+            Action {
+                text: qsTr("&Camera Application")
+                onTriggered: {
+                    console.log("Start Camera-Application...")
+                    var cameraApplicationComponent = Qt.createComponent("StocktakingPlugin.qml");
+                    if (cameraApplicationComponent.status === Component.Ready){
+                        cameraApplicationComponent.createObject();
+                    }
+                    if(cameraApplicationComponent.status == Component.Error){
+                        console.log("Error while loading Camera-Application-Plugin: "+ cameraApplicationComponent.errorString())
+                    }
+                }
+            }
             Action {
                 text: qsTr("&Show Productlist")
                 onTriggered: {
