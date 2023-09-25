@@ -129,7 +129,7 @@ class VideoPlayer(QQuickImageProvider):
         '''
         print("Starting Video feed...")
         if not self.videoThread:
-            self.videoThread = VideoThread(0)
+            self.videoThread = VideoThread(2)
             self.videoThread.frameChanged.connect(self.updateImage)
         self.videoThread.running = True
         self.videoThread.start()

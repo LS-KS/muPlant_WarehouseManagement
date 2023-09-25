@@ -2,7 +2,7 @@
 This file provides all constant URL data.
 """
 from pathlib import Path
-
+import cv2
 class Constants:
     def __init__(self):
         # self.PRODUCTLIST = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "Produkte.db"
@@ -17,6 +17,7 @@ class Constants:
         self.PREFERENCES = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "Preferences.yaml"
         #self.PREFERENCES = "src/data/Preferences.yaml"
         self.RFID_DATA = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "RfidData.yaml"
+        self.ARUCODICT = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
 
 
 
