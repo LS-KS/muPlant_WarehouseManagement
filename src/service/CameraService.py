@@ -20,6 +20,10 @@ class _ImageProvider(QThread):
         self.device = None
         self.nodemap_remote_device = None
 
+    def __del__(self):
+        ids_peak.Library.Close()
+        print("CameraService.ImageProvider: Device Manager terminated")
+
     def _setup(self, cam : int):
         try:
             self.device_manager.Update()
@@ -90,32 +94,19 @@ class _ImageProvider(QThread):
             self.image = np.copy(image.get_numpy_3D())
         except Exception as e:
             print(str(e))
-
-class RobotImageProvider:
-
-
-    def __init__(self):
-        self.camera = 1
-        self.deviceName = "UI158xSE-C"
-
-    def get_image(self):
-        pass
-
-    def get_aruco_data(self):
-        pass
-
-
-
-class StoragecellImageProvider:
-
-
-    def __init__(self):
-        self.camera = 0
-        self.deviceName = "GV-580xSE-C"
-
-
-    def get_image(self):
-        pass
-
-    def get_aruco_data(self):
-        pass
+    def getRobotImage(self):
+        camera = 1
+        deviceName = "UI158xSE-C"
+        self._setup(camera)
+        self._extractImage()
+        image = np.copy(self.image)
+        self.image = None
+        return image
+    def getStoragecellImage(self):
+        camera = 0
+        deviceName = "GV-580xSE-C"
+        self._setup(camera)
+        self._extractImage()
+        image = np.copy(self.image)
+        self.image = None
+        return image

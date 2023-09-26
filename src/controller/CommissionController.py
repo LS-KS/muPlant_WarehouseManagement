@@ -145,8 +145,8 @@ class CommissionController:
         inventory = kwargs.get('inventory')
         workbench = kwargs.get('workbench')
         cup = kwargs.get('cup')
-        commission = kwargs.get('commission')
-        object = kwargs.get('object')
+        # commission = kwargs.get('commission')
+        # object = kwargs.get('object')
 
         if valid:
             if pallet:

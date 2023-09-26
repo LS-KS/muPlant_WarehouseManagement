@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakeSettings">
+    <configurations />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a1bb59e4-14c6-46d3-92d8-82a94a6183ab" name="Changes" comment="update:  sphinx&#10;known issue: productListSummaryModel not updated">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/muPlant_WarehouseManagement.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/CommissionController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/CommissionController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/CameraService.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/CameraService.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="9uq1v4ij" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2RTy1DFzNxx3chmIFr6nQVe61JN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/lennartschink/Documents/GitHub/muPlant_WarehouseManagement/src/view",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/view" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/constants" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/viewmodel" />
+      <recent name="$PROJECT_DIR$/src/view" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.main">
+    <configuration name="image_processing" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="muPlant_WarehouseManagement" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_processing.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="muPlant_WarehouseManagement" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test_inventoryController.testChangeStorage" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="muPlant_WarehouseManagement" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_inventoryController.testChangeStorage&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="muPlant_WarehouseManagement" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/test&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in test_inventoryController.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="muPlant_WarehouseManagement" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/test/test_inventoryController.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in test_inventory.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="muPlant_WarehouseManagement" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/test/test_inventory.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.image_processing" />
+        <item itemvalue="Python tests.Python tests in test" />
+        <item itemvalue="Python tests.Python tests for test_inventoryController.testChangeStorage" />
+        <item itemvalue="Python tests.Python tests in test_inventoryController.py" />
+        <item itemvalue="Python tests.Python tests in test_inventory.py" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a1bb59e4-14c6-46d3-92d8-82a94a6183ab" name="Changes" comment="" />
+      <created>1687288149318</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1687288149318</updated>
+      <workItem from="1687288150645" duration="8304000" />
+      <workItem from="1687298551945" duration="70431000" />
+      <workItem from="1687978720979" duration="311000" />
+      <workItem from="1687979283210" duration="9776000" />
+      <workItem from="1688057584058" duration="94000" />
+      <workItem from="1688057696661" duration="165000" />
+      <workItem from="1688058111437" duration="6950000" />
+      <workItem from="1688135636385" duration="30157000" />
+      <workItem from="1688452901603" duration="15112000" />
+      <workItem from="1688563825435" duration="2220000" />
+      <workItem from="1688572601098" duration="1342000" />
+      <workItem from="1688577898075" duration="3230000" />
+      <workItem from="1688623121314" duration="28016000" />
+      <workItem from="1689056609676" duration="7332000" />
+      <workItem from="1689148023437" duration="6970000" />
+      <workItem from="1689294668686" duration="192000" />
+      <workItem from="1689295765461" duration="8616000" />
+      <workItem from="1690717456223" duration="6553000" />
+      <workItem from="1690737161891" duration="13203000" />
+      <workItem from="1691843215975" duration="137000" />
+      <workItem from="1695305475728" duration="133000" />
+      <workItem from="1695401903275" duration="3923000" />
+      <workItem from="1695659595920" duration="363000" />
+      <workItem from="1695660580906" duration="732000" />
+    </task>
+    <task id="LOCAL-00001" summary="implemented Cup and Product">
+      <created>1687298522583</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1687298522583</updated>
+    </task>
+    <task id="LOCAL-00002" summary="implemented storageElement">
+      <created>1687343418304</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1687343418304</updated>
+    </task>
+    <task id="LOCAL-00003" summary="implemented storageElement refactor and test">
+      <created>1687345968711</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1687345968711</updated>
+    </task>
+    <task id="LOCAL-00004" summary="update storageElement docstrings">
+      <created>1687346576514</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1687346576514</updated>
+    </task>
+    <task id="LOCAL-00005" summary="implemented Workbench methods, test  and docstrings">
+      <created>1687418207544</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1687418207544</updated>
+    </task>
+    <task id="LOCAL-00006" summary="implemented Mobile Robot methods, test  and docstrings">
+      <created>1687419008158</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1687419008158</updated>
+    </task>
+    <task id="LOCAL-00007" summary="implemented Inventory class with methods, test  and docstrings. Started InventoryController">
+      <created>1687424001080</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1687424001080</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Set up Sphinx and viewModel. Implemented functions in invController and refactor">
+      <created>1687504104193</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1687504104193</updated>
+    </task>
+    <task id="LOCAL-00009" summary="update invController and implemented sphinx pdf export">
+      <created>1687546419328</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1687546419328</updated>
+    </task>
+    <task id="LOCAL-00010" summary="updating sphinx index">
+      <created>1687547710576</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1687547710576</updated>
+    </task>
+    <task id="LOCAL-00011" summary="known issue: DataModel not connected to viewmodel changes.">
+      <created>1687893601584</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1687893601584</updated>
+    </task>
+    <task id="LOCAL-00012" summary="included sphinx build">
+      <created>1687894361443</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1687894361443</updated>
+    </task>
+    <task id="LOCAL-00013" summary="invController updates now DataModel if storageViewModel changed. Sphinx updated">
+      <created>1688039382833</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1688039382833</updated>
+    </task>
+    <task id="LOCAL-00014" summary="invController updates now DataModel if storageViewModel changed. Sphinx updated">
+      <created>1688041333220</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1688041333220</updated>
+    </task>
+    <task id="LOCAL-00015" summary="EditDialog.qml -&gt; StorageDialog.qml, sphinx">
+      <created>1688042011131</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1688042011131</updated>
+    </task>
+    <task id="LOCAL-00016" summary="refactor ProcessView, ProductView to get productSelection working.">
+      <created>1688220871704</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1688220871704</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fixed WorkbenchDialog (front- and backend)">
+      <created>1688273160129</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1688273160129</updated>
+    </task>
+    <task id="LOCAL-00018" summary="workbenchdialog now writes event">
+      <created>1688273431654</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1688273431654</updated>
+    </task>
+    <task id="LOCAL-00019" summary="refactor sphinx">
+      <created>1688278847711</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1688278847711</updated>
+    </task>
+    <task id="LOCAL-00020" summary="implemented mobile robot cupview and controller logic">
+      <created>1688295863281</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1688295863281</updated>
+    </task>
+    <task id="LOCAL-00021" summary="bugfix and refactor">
+      <created>1688305589307</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1688305589307</updated>
+    </task>
+    <task id="LOCAL-00022" summary="refactor tests">
+      <created>1688306230734</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1688306230734</updated>
+    </task>
+    <task id="LOCAL-00023" summary="fix: InventoryView and PRoductListModel,  feature: CommissionModel, Controller">
+      <created>1688458057428</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1688458057428</updated>
+    </task>
+    <task id="LOCAL-00024" summary="fix: CommissionView, Productlist, Commissionviewmodel, sphinx">
+      <created>1688469666258</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1688469666258</updated>
+    </task>
+    <task id="LOCAL-00025" summary="feature: Preferences update: sphinx">
+      <created>1688478806397</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1688478806397</updated>
+    </task>
+    <task id="LOCAL-00026" summary="feature: Help Browser update: sphinx">
+      <created>1688493553438</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1688493553438</updated>
+    </task>
+    <task id="LOCAL-00027" summary="feature: PreferenceDialog update: sphinx">
+      <created>1688593771033</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1688593771033</updated>
+    </task>
+    <task id="LOCAL-00028" summary="feature: preferences &#10;known issue: prefBugWarning">
+      <created>1688650805465</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1688650805465</updated>
+    </task>
+    <task id="LOCAL-00029" summary="feature: file -&gt; quit works&#10;fix: AboutDialog&#10;known issue: prefBugWarning">
+      <created>1688661448651</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1688661448651</updated>
+    </task>
+    <task id="LOCAL-00030" summary="update: qml refactor&#10;known issue: prefBugWarning">
+      <created>1688793541928</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1688793541928</updated>
+    </task>
+    <task id="LOCAL-00031" summary="update: GripperDialog.qml&#10;known issue: prefBugWarning, productListSummaryModel not updated">
+      <created>1688842080744</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1688842080744</updated>
+    </task>
+    <task id="LOCAL-00032" summary="update: gripper logic&#10;known issue: prefBugWarning, productListSummaryModel not updated">
+      <created>1688891803619</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1688891803619</updated>
+    </task>
+    <task id="LOCAL-00033" summary="update: changeGripper writes event string&#10;known issue: prefBugWarning, productListSummaryModel not updated">
+      <created>1688892379747</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1688892379747</updated>
+    </task>
+    <task id="LOCAL-00034" summary="update: changeGripper writes event string&#10;fix: EventView.qml Textwrap&#10;known issue: prefBugWarning, productListSummaryModel not updated">
+      <created>1688892596572</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1688892596572</updated>
+    </task>
+    <task id="LOCAL-00035" summary="update: commissionView&#10;known issue: prefBugWarning, productListSummaryModel not updated, commissionview no headers">
+      <option name="closed" value="true" />
+      <created>1689152993562</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1689152993562</updated>
+    </task>
+    <task id="LOCAL-00036" summary="update: setHeaders, headerData in commissionViewModel.py&#10;known issue: productListSummaryModel not updated, commissionview no headers">
+      <option name="closed" value="true" />
+      <created>1689231440729</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1689231440729</updated>
+    </task>
+    <task id="LOCAL-00037" summary="update: refactor CommissionView.qml and peripheral classes. &#10;known issue: productListSummaryModel not updated">
+      <option name="closed" value="true" />
+      <created>1689295850004</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1689295850004</updated>
+    </task>
+    <task id="LOCAL-00038" summary="update: sphinx&#10;known issue: productListSummaryModel not updated, wrong version of pymodbus installed">
+      <option name="closed" value="true" />
+      <created>1689297389708</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1689297389708</updated>
+    </task>
+    <task id="LOCAL-00039" summary="update: Preferences, sphinx&#10;known issue: productListSummaryModel not updated, wrong version of pymodbus installed">
+      <option name="closed" value="true" />
+      <created>1689317005475</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1689317005475</updated>
+    </task>
+    <task id="LOCAL-00040" summary="update: Preferences, sphinx&#10;known issue: productListSummaryModel not updated, wrong version of pymodbus installed">
+      <option name="closed" value="true" />
+      <created>1689317025592</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1689317025592</updated>
+    </task>
+    <task id="LOCAL-00041" summary="update:  basic Lauyout for MCC, sphinx&#10;known issue: productListSummaryModel not updated">
+      <option name="closed" value="true" />
+      <created>1689616759827</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1689616759827</updated>
+    </task>
+    <task id="LOCAL-00042" summary="update:  CommissionController.py (commission verification), EventView.qml and Delegate, updated type hints in DataModel.py, created EventViewModel.py&#10;known issue: productListSummaryModel not updated">
+      <option name="closed" value="true" />
+      <created>1690786129246</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1690786129246</updated>
+    </task>
+    <task id="LOCAL-00043" summary="update:  sphinx&#10;known issue: productListSummaryModel not updated">
+      <option name="closed" value="true" />
+      <created>1690793581805</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1690793581805</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.qml" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="workbenchdialog now writes event" />
+    <MESSAGE value="refactor sphinx" />
+    <MESSAGE value="implemented mobile robot cupview and controller logic" />
+    <MESSAGE value="bugfix and refactor" />
+    <MESSAGE value="refactor tests" />
+    <MESSAGE value="fix: InventoryView and PRoductListModel,  feature: CommissionModel, Controller" />
+    <MESSAGE value="fix: CommissionView, Productlist, Commissionviewmodel, sphinx" />
+    <MESSAGE value="feature: Preferences update: sphinx" />
+    <MESSAGE value="feature: Help Browser update: sphinx" />
+    <MESSAGE value="feature: PreferenceDialog update: sphinx" />
+    <MESSAGE value="feature: preferences &#10;known issue: prefBugWarning" />
+    <MESSAGE value="feature: file -&gt; quit works&#10;fix: AboutDialog&#10;known issue: prefBugWarning" />
+    <MESSAGE value="update: qml refactor&#10;known issue: prefBugWarning" />
+    <MESSAGE value="update: GripperDialog.qml&#10;known issue: prefBugWarning, productListSummaryModel not updated" />
+    <MESSAGE value="update: gripper logic&#10;known issue: prefBugWarning, productListSummaryModel not updated" />
+    <MESSAGE value="update: changeGripper writes event string&#10;known issue: prefBugWarning, productListSummaryModel not updated" />
+    <MESSAGE value="update: changeGripper writes event string&#10;fix: EventView.qml Textwrap&#10;known issue: prefBugWarning, productListSummaryModel not updated" />
+    <MESSAGE value="update: commissionView&#10;known issue: prefBugWarning, productListSummaryModel not updated, commissionview no headers" />
+    <MESSAGE value="update: setHeaders, headerData in commissionViewModel.py&#10;known issue: productListSummaryModel not updated, commissionview no headers" />
+    <MESSAGE value="update: refactor CommissionView.qml and peripheral classes. &#10;known issue: productListSummaryModel not updated" />
+    <MESSAGE value="update: sphinx&#10;known issue: productListSummaryModel not updated, wrong version of pymodbus installed" />
+    <MESSAGE value="update: Preferences, sphinx&#10;known issue: productListSummaryModel not updated, wrong version of pymodbus installed" />
+    <MESSAGE value="update:  basic Lauyout for MCC, sphinx&#10;known issue: productListSummaryModel not updated" />
+    <MESSAGE value="update:  CommissionController.py (commission verification), EventView.qml and Delegate, updated type hints in DataModel.py, created EventViewModel.py&#10;known issue: productListSummaryModel not updated" />
+    <MESSAGE value="update:  sphinx&#10;known issue: productListSummaryModel not updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="update:  sphinx&#10;known issue: productListSummaryModel not updated" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test/test_inventory.py</url>
+          <line>22</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test/test_inventory.py</url>
+          <line>85</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test/test_inventory.py</url>
+          <line>111</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test/test_inventory.py</url>
+          <line>161</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test/test_inventory.py</url>
+          <line>199</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test/test_inventoryController.py</url>
+          <line>48</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test/test_inventoryController.py</url>
+          <line>146</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test/test_inventory.py</url>
+          <line>130</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/controller/invController.py</url>
+          <line>400</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/controller/invController.py</url>
+          <line>380</line>
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/controller/PreferenceController.py</url>
+          <line>119</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/model/DataModel.py</url>
+          <line>179</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/controller/invController.py</url>
+          <line>176</line>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/viewmodel/commissionViewModel.py</url>
+          <line>58</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$image_processing.coverage" NAME="image_processing Coverage Results" MODIFIED="1695405772570" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1695660606702" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
