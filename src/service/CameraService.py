@@ -14,13 +14,13 @@ class _ImageProvider(QThread):
     def __init__(self):
         super().__init__()
         self.image = None
-        ids_peak.Library.Initialize()
-        self.device_manager = ids_peak.DeviceManager.Instance()
-        print(f"CameraService.ImageProvider: Device Manager initialized{str(self.device_manager)}")
+        self.device_manager = None
         self.device = None
         self.nodemap_remote_device = None
 
-    def _setup(self, cam : int):
+    def _getImage(self, cam : int):
+        ids_peak.Library.Initialize()
+        self.device_manager = ids_peak.DeviceManager.Instance()
         try:
             self.device_manager.Update()
             if self.device_manager.Devices().empty():
@@ -49,73 +49,54 @@ class _ImageProvider(QThread):
                               + str(self.nodemap_remote_device.FindNode("HeightMax").Value()))
                     except ids_peak.Exception:
                         print("Max. resolution (w x h): (unknown)")
+                self.data_stream = self.device.DataStreams()
+                if self.data_stream.empty():
+                    print("CameraService.ImageProvider.extractImage: No data stream found")
+                    return
+                try:
+                    if self.data_stream:
+                        # Flush buffer queue and prepare buffers to be revoked
+                        for buffer in self.data_stream.AnnouncedBuffers():
+                            self.data_stream.RevokeBuffer(buffer)
+                        payload_size = self.nodemap_remote_device.FindNode("PayloadSize").Value()
+                        num_buffers_min_required = self.data_stream.NumBuffersAnnouncedMinRequired()
+
+                        # Allocate and announce buffers
+                        for count in range(num_buffers_min_required):
+                            buffer = self.data_stream.AllocAndAnnounceBuffer(payload_size)
+                            self.data_stream.QueueBuffer(buffer)
+                except Exception as e:
+                    print(f"CameraService.ImageProvider.extractImage: Error while announcing buffers: {str(e)}")
+
+                # Start acquisition
+                try:
+                    self.data_stream.StartAcquisition(ids_peak.AcquisitionStartMode_Default, ids_peak.DataStream.INFINITE_NUMBER)
+                    self.nodemap_remote_device.FindNode("TLParamsLocked").SetValue(1)
+                    self.nodemap_remote_device.FindNode("AcquisitionStart").Execute()
+                except Exception as e:
+                    print(f"CameraServicee.ImageProvider.extractImage: Error while starting acquisition: {str(e)}")
+
+                # receive image
+                try:
+                    buffer = self.data_stream.WaitForFinishedBuffer(5000)
+                    image = ids_peak_ipl_extension.BufferToImage(buffer)
+                    image = image.ConvertTo(ids_peak_ipl.PixelFormatName_BGR8, ids_peak_ipl.ConversionMode_HIGHQUALITY)
+                    self.data_stream.QueueBuffer(buffer)
+                    # convert image to numpy array and decouple it from data stream
+                    self.image = np.copy(image.get_numpy_3D())
+                except Exception as e:
+                    print(str(e))
         except:
             print("CameraService.ImageProvide.Setup: Error while updating device manager")
+        finally:
+            ids_peak.Library.Close()
 
-    def _extractImage(self):
-        self.data_stream = self.device.DataStreams()
-        if self.data_stream.empty():
-            print("CameraService.ImageProvider.extractImage: No data stream found")
-            return
-        try:
-            if self.data_stream:
-                # Flush buffer queue and prepare buffers to be revoked
-                for buffer in self.data_stream.AnnouncedBuffers():
-                    self.data_stream.RevokeBuffer(buffer)
-                payload_size = self.nodemap_remote_device.FindNode("PayloadSize").Value()
-                num_buffers_min_required = self.data_stream.NumBuffersAnnouncedMinRequired()
-
-                # Allocate and announce buffers
-                for count in range(num_buffers_min_required):
-                    buffer = self.data_stream.AllocAndAnnounceBuffer(payload_size)
-                    self.data_stream.QueueBuffer(buffer)
-        except Exception as e:
-            print(f"CameraService.ImageProvider.extractImage: Error while announcing buffers: {str(e)}")
-
-        # Start acquisition
-        try:
-            self.data_stream.StartAcquisition(ids_peak.AcquisitionStartMode_Default, ids_peak.DataStream.INFINITE_NUMBER)
-            self.nodemap_remote_device.FindNode("TLParamsLocked").SetValue(1)
-            self.nodemap_remote_device.FindNode("AcquisitionStart").Execute()
-        except Exception as e:
-            print(f"CameraServicee.ImageProvider.extractImage: Error while starting acquisition: {str(e)}")
-
-        # receive image
-        try:
-            buffer = self.data_stream.WaitForFinishedBuffer(5000)
-            image = ids_peak_ipl_extension.BufferToImage(buffer)
-            image = image.ConvertTo(ids_peak_ipl.PixelFormatName_BGR8, ids_peak_ipl.ConversionMode_HIGHQUALITY)
-            self.data_stream.QueueBuffer(buffer)
-            # convert image to numpy array and decouple it from data stream
-            self.image = np.copy(image.get_numpy_3D())
-        except Exception as e:
-            print(str(e))
-
-class RobotImageProvider:
-
-
-    def __init__(self):
-        self.camera = 1
-        self.deviceName = "UI158xSE-C"
-
-    def get_image(self):
-        pass
-
-    def get_aruco_data(self):
-        pass
-
-
-
-class StoragecellImageProvider:
-
-
-    def __init__(self):
-        self.camera = 0
-        self.deviceName = "GV-580xSE-C"
-
-
-    def get_image(self):
-        pass
-
-    def get_aruco_data(self):
-        pass
+    def get_image(self, cam):
+        if cam == 0:
+            pass
+        if cam == 1:
+            pass
+        elif:
+            raise ValueError("CameraService.ImageProvider.getImage: Invalid camera number")
+        self._getImage(cam=cam)
+        return self.image
