@@ -3,6 +3,7 @@ This file provides all constant URL data.
 """
 from pathlib import Path
 import cv2
+import numpy as np
 class Constants:
     def __init__(self):
         # self.PRODUCTLIST = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "Produkte.db"
@@ -18,6 +19,10 @@ class Constants:
         #self.PREFERENCES = "src/data/Preferences.yaml"
         self.RFID_DATA = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "RfidData.yaml"
         self.ARUCODICT = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
+        self.SHELF_ARUCO = 0
+        self.PALLET_ARUCO = 1
+        self.CUP_ARUCO = np.arange(5, 45, 1)
+        self.STORAGE_ELEMENT_ARUCO = np.arange(45, 65, 1)
 
 
 
