@@ -8,8 +8,9 @@ from PySide6.QtCore import QThread, Signal, Slot, QObject
 from ids_peak import ids_peak_ipl_extension
 import numpy as np
 import src.constants.Constants as const
+import cv2
 
-class _ImageProvider(QThread):
+class ImageProvider(QThread):
 
     def __init__(self):
         super().__init__()
@@ -90,13 +91,20 @@ class _ImageProvider(QThread):
             print("CameraService.ImageProvide.Setup: Error while updating device manager")
         finally:
             ids_peak.Library.Close()
-
+    '''
     def get_image(self, cam):
         if cam == 0:
             pass
         if cam == 1:
             pass
-        elif:
+        else:
             raise ValueError("CameraService.ImageProvider.getImage: Invalid camera number")
         self._getImage(cam=cam)
         return self.image
+    '''
+    def get_image(self, cam):
+        if cam == 0:
+            return cv2.imread("../../Jupyter/ChessBoardImages/rawShot24Mp.png")
+        elif cam == 1:
+            return cv2.imread("../../Jupyter/ChessBoardImages/rawShot5Mp.png")
+

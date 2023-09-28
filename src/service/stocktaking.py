@@ -6,28 +6,32 @@ Processed images are provided to qml by using class videoPlayer which inherits f
 
 import cv2
 from PySide6.QtGui import QImage
-from PySide6.QtCore import Signal, Slot, Qt, QThread
+from PySide6.QtCore import Signal, Slot, Qt, QThread, QObject
 from PySide6.QtQuick import QQuickImageProvider
 from PySide6.QtQml import QQmlImageProviderBase
-from src.service.CameraService import CameraService
+from src.service.CameraService import ImageProvider
 from src.constants.Constants import Constants
 from src.service.EventlogService import EventlogService
 from skimage import transform
+import numpy as np
 import math
+import matplotlib.pyplot as plt
 
-class Stocktaker(QObject):
+class Stocktaker(QQuickImageProvider):
 
     def __init__(self):
-        self.cameraService = CameraService()
+        super().__init__(QQmlImageProviderBase.Image, QQmlImageProviderBase.ForceAsynchronousImageLoading)
+        self.cameraService = ImageProvider()
         self.constants = Constants()
         self.eventlogService = EventlogService()
+        self.image = None
 
     def __del__(self):
         print("Stocktaker: Destructor called")
 
     def evaluate_storagecell_cam(self):
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Start obtaining image from camera...")
-        image = self.cameraService.getImage(0)
+        image = self.cameraService.get_image(0)
         if image is None:
             self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "No image obtained from camera! Stocktaking aborted.")
             return
@@ -42,10 +46,11 @@ class Stocktaker(QObject):
             image, tform3 = self._transform_image(image, x_corners, y_corners)
             self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam",
                                             "Image transformation finished. Start storage slicing...")
+            self.image = image
         else:
             self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Not enough shelf markers found!\n"
-                                            "Possible Reason: Markers are not visible die to camera position/angle change.\n"
-                                            "Possiblee Solution: Adjust image slice boundaries in '_get_transformation_corners' method.")
+                                                                                   "Possible Reason: Markers are not visible die to camera position/angle change.\n"
+                                                                                   "Possiblee Solution: Adjust image slice boundaries in '_get_transformation_corners' method.")
             return
 
 
@@ -75,12 +80,12 @@ class Stocktaker(QObject):
         assert shelf_markers is not None
         x_corners = [0, 0, 0, 0]
         y_corners = [0, 0, 0, 0]
-        for shelfcorner in shelf_corners:
+        for shelfcorner in shelf_markers:
             for i in range(4):
-                x = min(shelfcorner[1][0][0][0], shelfcorner[1][0][1][0]) if i in (0, 3) else max(
-                    shelfcorner[1][0][0][0], shelfcorner[1][0][1][0])
-                y = min(shelfcorner[1][0][0][1], shelfcorner[1][0][1][1]) if i in (0, 1) else max(
-                    shelfcorner[1][0][0][1], shelfcorner[1][0][1][1])
+                x = min(shelfcorner['x0'], shelfcorner['x1'], shelfcorner['x2'], shelfcorner['x3']) if i in (0, 3) else max(
+                    shelfcorner['x0'], shelfcorner['x1'], shelfcorner['x2'], shelfcorner['x3'])
+                y = min(shelfcorner['y0'], shelfcorner['y1'], shelfcorner['y2'], shelfcorner['y3']) if i in (0, 1) else max(
+                    shelfcorner['y0'], shelfcorner['y1'], shelfcorner['y2'], shelfcorner['y3'])
                 if i == 0 and x < 1400:
                     if y < 800:
                         x_corners[i] = x
@@ -108,12 +113,13 @@ class Stocktaker(QObject):
         hx = math.sqrt(dx ** 2 + dy ** 2)
         dh = hx/105
         hy = dh*31
-        x_min = 0.5*dx
+        x_min = dx
         x_max = x_min + hx
-        y_min = 1.2*dy
+        y_min = dy
         y_max = y_min + hy
         src = np.array([[x_min, y_min], [x_max, y_min], [x_max, y_max], [x_min, y_max]])
         dst = np.column_stack((x_corners, y_corners))
+
 
         tform3 = transform.ProjectiveTransform()
         tform3.estimate(src, dst)
@@ -125,8 +131,14 @@ class Stocktaker(QObject):
         assert tform3 is not None
         marker_list = [[marker["x0"], marker["y0"]], [marker["x1"], marker["y1"]], [marker["x2"], marker["y2"]], [marker["x3"], marker["y3"]]]
         marker_corrected = transform.matrix_transform(marker_list, tform3.params)
-        
+
         return marker
 
     def _slice_storage(self, image):
         pass
+
+if __name__ == '__main__':
+    stocktaker = Stocktaker()
+    stocktaker.evaluate_storagecell_cam()
+    plt.imshow(stocktaker.image)
+    plt.show()
