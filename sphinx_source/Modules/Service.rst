@@ -31,3 +31,24 @@ Hostet einen OPC UA Server und Client für die Kommunikation mit der muPlant
     :members:
     :undoc-members:
     :show-inheritance:
+
+CameraService
+-------------
+Der CameraService nutzt die IDS Peaks und IDS Peaks IPL Api.
+Auf Anfrage des Stocktaking Moduls liefert der Bilder der beiden Kameras.
+
+.. automodule:: src.service.CameraService
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Stocktaking
+___________
+
+Dieser Service bildet die Inventurprozesse ab. Vom CameraService gelieferte Bilder werden hier
+verarbeitet und ermittelt wie viele Becher in der Lagerzelle wo vorhanden sind.
+
+.. automodule:: src.service.stocktaking
+    :members:
+    :undoc-members:
+    :show-inheritance:

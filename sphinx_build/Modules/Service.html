@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Service &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -193,6 +193,16 @@ and creates an opcua server object.</p>
 </dd></dl>
 
 </section>
+<section id="cameraservice">
+<h2>CameraService<a class="headerlink" href="#cameraservice" title="Permalink to this heading">¶</a></h2>
+<p>Der CameraService nutzt die IDS Peaks und IDS Peaks IPL Api.
+Auf Anfrage des Stocktaking Moduls liefert der Bilder der beiden Kameras.</p>
+<section id="stocktaking">
+<h3>Stocktaking<a class="headerlink" href="#stocktaking" title="Permalink to this heading">¶</a></h3>
+<p>Dieser Service bildet die Inventurprozesse ab. Vom CameraService gelieferte Bilder werden hier
+verarbeitet und ermittelt wie viele Becher in der Lagerzelle wo vorhanden sind.</p>
+</section>
+</section>
 </section>
 
 
@@ -223,6 +233,7 @@ and creates an opcua server object.</p>
 <li class="toctree-l3"><a class="reference internal" href="#eventlogservice">EventlogService</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#agentservice">AgentService</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#opcuaservice">OpcuaService</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cameraservice">CameraService</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ViewModel.html">ViewModel</a></li>

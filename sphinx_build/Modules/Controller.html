@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Controller &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -109,21 +109,21 @@ changes to file.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.controller.invController.invController.changeWorkbench">
-<span class="sig-name descname"><span class="pre">changeWorkbench</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cupID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">productID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isPallet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/controller/invController.html#invController.changeWorkbench"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.changeWorkbench" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">changeWorkbench</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cup_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pallet_present</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/controller/invController.html#invController.changeWorkbench"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.changeWorkbench" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method changes workbench entry depending on submitted storage.
 gets the pallet object stored in submitted storage and changes the cup object depending on submitted parameters
 slot, cupID, productID and isPallet. If isPallet is False, cup object is set to None and sets product of cup object to None.
 Writes message to eventlogService.
 Calls _dumpStorage() to save changes to file.
 :param storage: can be ‘K1’ or ‘K2’
-:param slot: can be ‘a’ or ‘b’
+:param slot: can be ‘a’ for front or ‘b’ for rear slot of pallet object
 :type slot: str
-:param cupID:
-:type cupID: int
-:param productID:
-:type productID: int
-:param isPallet:
-:type isPallet: bool
+:param cup_id: ID of cup object in data-model
+:type cup_id: int
+:param product_id: ID of product object in data-model
+:type product_id: int
+:param pallet_present: True if User wants to set a pallet
+:type pallet_present: bool
 :return: None</p>
 </dd></dl>
 
@@ -179,7 +179,7 @@ Uses invControllers transmitData signal to return product, slot, cup ID and prod
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>uses Qt Signal object to return productslot, cup ID and productListIndex.</p>
+<dd class="field-even"><p>uses Qt Signal object to return product slot, cup ID and productListIndex.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -188,7 +188,7 @@ Uses invControllers transmitData signal to return product, slot, cup ID and prod
 <dt class="sig sig-object py" id="src.controller.invController.invController.loadWorkbench">
 <span class="sig-name descname"><span class="pre">loadWorkbench</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/controller/invController.html#invController.loadWorkbench"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.invController.invController.loadWorkbench" title="Permalink to this definition">¶</a></dt>
 <dd><p>&#64;Slot(str, int, int, bool)
-This method takes data from WorkbenchDialog.qml file when the user wants to mauallY
+This method takes data from WorkbenchDialog.qml file when the user wants to manually
 override the workbench entry.
 Uses invControllers transmitWorkbenchData signal to return product, slot, cup ID and productList index.
 :return:</p>
@@ -345,6 +345,11 @@ Takes a product ID as argument and emits it as signal productSelected.
 <span class="sig-name descname"><span class="pre">transmitWorkbenchPallet</span></span><a class="headerlink" href="#src.controller.invController.invController.transmitWorkbenchPallet" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.invController.invController.yaml">
+<span class="sig-name descname"><span class="pre">yaml</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;module</span> <span class="pre">'yaml'</span> <span class="pre">from</span> <span class="pre">'/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/yaml/__init__.py'&gt;</span></em><a class="headerlink" href="#src.controller.invController.invController.yaml" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -355,8 +360,7 @@ Takes a product ID as argument and emits it as signal productSelected.
 <dt class="sig sig-object py" id="src.controller.CommissionController.CommissionController">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.controller.CommissionController.</span></span><span class="sig-name descname"><span class="pre">CommissionController</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inventoryController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.controller.invController.invController" title="src.controller.invController.invController"><span class="pre">invController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">eventlogService</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Service.html#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/controller/CommissionController.html#CommissionController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.CommissionController.CommissionController" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This class is used to provide a viewModel for all commission data
-commission data source is a database file where all commissions are saved.
+<p>This class is used to provide a viewModel for all commission data source is a database file where all commissions are saved.
 While operating commissions will be passed to CommisioonController by ModbusService or
 OPCUAService.</p>
 <dl class="py method">

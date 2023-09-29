@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>README &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -43,6 +43,30 @@
 </pre></div>
 </div>
 <p>to install all necessary python packages.</p>
+</section>
+<section id="preparations-for-ids-camera-usage">
+<h2>Preparations for IDS Camera usage<a class="headerlink" href="#preparations-for-ids-camera-usage" title="Permalink to this heading">¶</a></h2>
+<p>Following Cameras are used:</p>
+<ul class="simple">
+<li><p>IDS UI-5180SE-C-HQ which is a 5MP camera with USB2 interface meant to be mounted on the gripper</p></li>
+<li><p>IDS GV-5800SE-C-HQ which is a 22MP GigE camera meant to be mounted in a upper corner of the storage cell</p></li>
+</ul>
+<section id="software-installation">
+<h3>Software Installation<a class="headerlink" href="#software-installation" title="Permalink to this heading">¶</a></h3>
+<p>First install IDS Software Suite &gt;4.95</p>
+<p>Then install IDS Peak &gt;2.5. Important note:
+While selecting installation options enable uEye Transport Layer to allow uEye cameras to be processed by IDS Peak</p>
+</section>
+<section id="enable-python-sdk-packages">
+<h3>Enable Python SDK packages<a class="headerlink" href="#enable-python-sdk-packages" title="Permalink to this heading">¶</a></h3>
+<p>When installed under Windows, api Packages is located in e.g.:
+C:Program FilesIDSids_peakgeneric_sdkapibindingpythonwheelx86_64
+open this path in powerShell or cmd and enter the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">ids</span><span class="o">-</span><span class="n">peak</span><span class="o">-</span><span class="mf">1.6.1.0</span><span class="o">-</span><span class="n">cp311</span><span class="o">-</span><span class="n">cp311</span><span class="o">-</span><span class="n">win_amd64</span><span class="o">.</span><span class="n">whl</span>
+</pre></div>
+</div>
+<p>(or corresponding python version)</p>
+</section>
 </section>
 <section id="updating-code-documentation">
 <h2>Updating code documentation<a class="headerlink" href="#updating-code-documentation" title="Permalink to this heading">¶</a></h2>
@@ -89,6 +113,11 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">README</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#preparations-for-ids-camera-usage">Preparations for IDS Camera usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#software-installation">Software Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enable-python-sdk-packages">Enable Python SDK packages</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#updating-code-documentation">Updating code documentation</a></li>
 </ul>
 </li>
