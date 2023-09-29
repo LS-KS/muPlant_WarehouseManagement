@@ -8,6 +8,7 @@ Processed images are provided to qml by using class videoPlayer which inherits f
 #sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 
 import cv2
+import skimage.util
 from PySide6.QtGui import QImage
 from PySide6.QtCore import Signal, Slot, Qt, QThread, QObject
 from PySide6.QtQuick import QQuickImageProvider
@@ -20,6 +21,10 @@ from skimage import transform
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+
+
+
+
 
 class Stocktaker(QQuickImageProvider):
 
@@ -34,6 +39,12 @@ class Stocktaker(QQuickImageProvider):
         print("Stocktaker: Destructor called")
 
     def evaluate_storagecell_cam(self):
+        """
+        Public Method. Obtains image from CameraServic.Imageprovider, performs 4-point rectification and arUco detection.
+        Slices the image into subimages related to Storage location.
+        Afterwards signals with processed image is emitted to QML Engine.
+        Before every step a message is emitted to EventlogService in main screen
+        """
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Start obtaining image from camera...")
         self.image = self.cameraService.get_image(0)
         plt.imshow(self.image)
@@ -43,10 +54,9 @@ class Stocktaker(QQuickImageProvider):
             return
         else:
             self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Image obtained. Start arUco recognition...")
+        self.image = self._automatic_brightness_and_contrast(clip_hist_percent = 1)
         markers = self._detect_markers()
-        # (corners, ids, rejected) = cv2.aruco.detectMarkers(self.image, self.constants.ARUCODICT, )
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "arUco recognition finished. Start image transformation...")
-        # markers = self._refactor_corners(corners, ids)
         shelf_corners = self._get_shelf_markers(markers)
         x_corners, y_corners, ret = self._get_transformation_corners(shelf_corners)
         if ret:
@@ -56,6 +66,8 @@ class Stocktaker(QQuickImageProvider):
             self.image = image
         else:
             self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Not enough shelf markers found!\n"
+                                                                                   f"x_corners: {x_corners}\n"
+                                                                                   f"y_corners: {y_corners}\n"
                                                                                    "Possible Reason: Markers are not visible die to camera position/angle change.\n"
                                                                                    "Possiblee Solution: Adjust image slice boundaries in '_get_transformation_corners' method.")
             return
@@ -70,9 +82,7 @@ class Stocktaker(QQuickImageProvider):
         plt.show()
         print(markers)
 
-
-
-    def _refactor_corners(self, corners, ids,):
+    def _refactor_corners(self, corners, ids):
         """
         Private method to refactor aruco marker corners.
         creates a list with id and 4 corners of the markers.
@@ -81,17 +91,13 @@ class Stocktaker(QQuickImageProvider):
         :type corners: list
         :param ids: result of cv2.aruco.detectMarker's id list
         :return: formatted, combined list of marker ids and corners.
-        :rtype: list
+        :rtype: list of dictionaries
         """
         assert corners is not None
         assert ids is not None
-        markers = []
-        for i, id in enumerate(ids):
-            marker_corners = []
-            for j, entry in enumerate(corners[i]):
-                marker_corners.append([corners[i][j][0], corners[i][j][1]])
-            markers.append([id, marker_corners])
-        print(markers)
+        markers = [[],[]]
+        markers[0].append(ids)
+        markers[1].append(corners)
         return markers
 
     def _get_shelf_markers(self, markers):
@@ -104,9 +110,12 @@ class Stocktaker(QQuickImageProvider):
         """
         assert markers is not None
         shelf_corners = []
-        for marker in markers:
-            if marker[0] == self.constants.SHELF_ARUCO:
-                shelf_corners.append(marker)
+        ids = markers[0]
+        corners = markers[1]
+
+        for i, marker in enumerate(ids):
+            if ids[i] == self.constants.SHELF_ARUCO:
+                shelf_corners.append(corners[i])
         return shelf_corners
 
     def _get_pallet_markers(self, markers):
@@ -119,9 +128,12 @@ class Stocktaker(QQuickImageProvider):
         """
         assert markers is not None
         pallet_markers = []
-        for marker in markers:
-            if marker[0] == self.constants.PALLET_ARUCO:
-                pallet_markers.append(marker)
+        ids = markers[0]
+        corners = markers[1]
+
+        for i, marker in enumerate(ids):
+            if ids[i] == self.constants.SHELF_ARUCO:
+                pallet_markers.append(corners[i])
         return pallet_markers
 
     def _get_cup_markers(self, markers):
@@ -134,9 +146,12 @@ class Stocktaker(QQuickImageProvider):
         """
         assert markers is not None
         cup_markers = []
-        for marker in markers:
-            if int(marker[0]) in self.constants.CUP_ARUCO:
-                cup_markers.append(marker)
+        ids = markers[0]
+        corners = markers[1]
+
+        for i, marker in enumerate(ids):
+            if ids[i] == self.constants.SHELF_ARUCO:
+                cup_markers.append(corners[i])
         return cup_markers
 
     def _get_storage_element_markers(self, markers):
@@ -149,9 +164,13 @@ class Stocktaker(QQuickImageProvider):
         """
         assert markers is not None
         storageelement_markers = []
-        for marker in markers:
-            if int(marker[0]) in self.constants.STORAGE_ELEMENT_ARUCO:
-                storageelement_markers.append(marker)
+        ids = markers[0]
+        corners = markers[1]
+
+        for i, marker in enumerate(ids):
+            if ids[i] == self.constants.SHELF_ARUCO:
+                storageelement_markers.append(corners[i])
+
         return storageelement_markers
     def _get_transformation_corners(self, shelf_markers):
         """
@@ -164,12 +183,14 @@ class Stocktaker(QQuickImageProvider):
         assert shelf_markers is not None
         x_corners = [0, 0, 0, 0]
         y_corners = [0, 0, 0, 0]
-        for shelfcorner in shelf_markers:
-            for i in range(4):
-                x = min(shelfcorner[1][0][0][0], shelfcorner[1][0][1][0]) if i in (0, 3) else max(
-                    shelfcorner[1][0][0][0], shelfcorner[1][0][1][0])
-                y = min(shelfcorner[1][0][0][1], shelfcorner[1][0][1][1]) if i in (0, 1) else max(
-                    shelfcorner[1][0][0][1], shelfcorner[1][0][1][1])
+        for i in range(4):
+            for shelfcorner in shelf_markers:
+                shelfcorner = np.asarray(shelfcorner)
+                shelfcorner = shelfcorner[0]
+                x_vals = [x[0] for x in shelfcorner]
+                y_vals = [y[1] for y in shelfcorner]
+                x = min(x_vals) if i in (0, 3) else max(x_vals)
+                y = min(y_vals) if i in (0, 1) else max(y_vals)
                 if i == 0 and x < 1400:
                     if y < 800:
                         x_corners[i] = x
@@ -219,16 +240,21 @@ class Stocktaker(QQuickImageProvider):
         tform3 = transform.ProjectiveTransform()
         tform3.estimate(dst= dst, src= src)
         image = transform.warp(self.image, tform3, output_shape=(self.image.shape[0], self.image.shape[1]))
+        image =  skimage.util.img_as_ubyte(image)
+        cv2.imwrite("transformed.png", image)
+        plt.imshow(image)
+        plt.title("transformed image")
+        plt.show()
         return image, tform3
 
     def _detect_markers(self):
         """
         uses cv2's detectMarkers()  to recognize arUco marker.
-        :param: None
         :return: list of markers
         :rtype: list
         """
         assert self.image is not None
+        self.image = cv2.cvtColor(self.image, cv2.COLOR_RGB2GRAY) if self.image.ndim == 3 else self.image
         (corners, ids, rejected) = cv2.aruco.detectMarkers(self.image, self.constants.ARUCODICT, )
         markers = self._refactor_corners(corners, ids)
         return markers
@@ -243,8 +269,8 @@ class Stocktaker(QQuickImageProvider):
         """
         assert markers is not None
         assert color is not None
-        corners = [x[1] for x in markers]
-        ids = [x[0] for x in markers]
+        corners = markers[1]
+        ids = markers[0]
         self.image = cv2.aruco.drawDetectedMarkers(image = self.image, corners= corners, ids= ids, borderColor= color)
 
     def _slice_storage(self):
@@ -254,6 +280,61 @@ class Stocktaker(QQuickImageProvider):
         :rtype: list
         """
         pass
+
+    def _automatic_brightness_and_contrast(self, clip_hist_percent):
+        """
+        Autoadjusting color and brightness for better marker detection.
+        Source: Stackoverflow
+        https://stackoverflow.com/questions/56905592/automatic-contrast-and-brightness-adjustment-of-a-color-photo-of-a-sheet-of-pape
+        """
+
+        gray = self.image
+
+        # Calculate grayscale histogram
+        hist = cv2.calcHist(gray, [0], None, [256], [0,256])
+        hist_size = len(hist)
+
+        # Calculate cumulativ distribution from the histogram
+        accumulator = []
+        accumulator.append(float(hist[0]))
+        for index in range(1, hist_size):
+            accumulator.append(accumulator[index-1]+float(hist[index]))
+
+        # Locate points to clip
+        maximum = accumulator[-1]
+        clip_hist_percent *= (maximum/100)
+        clip_hist_percent /=2
+
+        # Locate left cut
+        minimum_gray = 0
+
+        while accumulator[minimum_gray] < clip_hist_percent:
+            minimum_gray +=1
+
+        # Locate right cut
+        maximum_gray = hist_size-1
+        while accumulator[maximum_gray] >= (maximum - clip_hist_percent):
+            maximum_gray -= 1
+
+        # Calculate alpha and beta values
+        alpha = 255/(maximum_gray - minimum_gray)
+        beta = -minimum_gray * alpha
+
+        # Calculate new histogram with desired range and show histogram
+        new_hist = cv2.calcHist([gray], [0], None, [256], [minimum_gray, maximum_gray])
+        plt.plot(hist)
+        plt.plot(new_hist)
+        plt.xlim([0, 256])
+        plt.show()
+
+        print(alpha, beta)
+        img = cv2.convertScaleAbs(self.image, alpha= alpha, beta=beta)
+        cv2.imwrite("processed_before_detection.png", img)
+        plt.imshow(img)
+        plt.show()
+        return img
+
+
 
 if __name__ == '__main__':
     stocktaker = Stocktaker()

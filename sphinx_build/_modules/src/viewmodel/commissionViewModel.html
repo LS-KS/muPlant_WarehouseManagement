@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>src.viewmodel.commissionViewModel &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=039e1c02" />
+    <script src="../../../_static/documentation_options.js?v=7f413068"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
    
@@ -36,7 +33,9 @@
 <span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QSortFilterProxyModel</span><span class="p">,</span> <span class="n">Slot</span><span class="p">,</span> <span class="n">Qt</span><span class="p">,</span> <span class="n">QModelIndex</span>
 <span class="kn">from</span> <span class="nn">PySide6</span> <span class="kn">import</span> <span class="n">QtCore</span>
 
-<div class="viewcode-block" id="CommissionViewModel"><a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel">[docs]</a><span class="k">class</span> <span class="nc">CommissionViewModel</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QAbstractTableModel</span><span class="p">):</span>
+<div class="viewcode-block" id="CommissionViewModel">
+<a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel">[docs]</a>
+<span class="k">class</span> <span class="nc">CommissionViewModel</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QAbstractTableModel</span><span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ViewModel für Kommissionsdaten. Stellt die Kommissionsdaten in einer Tabelle für </span>
@@ -55,11 +54,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">commissionData</span> <span class="o">=</span> <span class="n">commissionData</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_headers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="s2">&quot;Source&quot;</span><span class="p">,</span> <span class="s2">&quot;Target&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">,</span> <span class="s2">&quot;Cup&quot;</span><span class="p">,</span> <span class="s2">&quot;Pallet&quot;</span><span class="p">,</span> <span class="s2">&quot;State&quot;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="CommissionViewModel.headerData"><a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.headerData">[docs]</a>    <span class="k">def</span> <span class="nf">headerData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">section</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">orientation</span><span class="p">:</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">Orientation</span><span class="p">,</span> <span class="n">role</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">DisplayRole</span><span class="p">):</span>
+<div class="viewcode-block" id="CommissionViewModel.headerData">
+<a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.headerData">[docs]</a>
+    <span class="k">def</span> <span class="nf">headerData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">section</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">orientation</span><span class="p">:</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">Orientation</span><span class="p">,</span> <span class="n">role</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">DisplayRole</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">role</span> <span class="o">==</span> <span class="n">Qt</span><span class="o">.</span><span class="n">DisplayRole</span> <span class="ow">and</span> <span class="n">orientation</span> <span class="o">==</span> <span class="n">Qt</span><span class="o">.</span><span class="n">Horizontal</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_headers</span><span class="p">[</span><span class="n">section</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="CommissionViewModel.setHeaderData"><a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.setHeaderData">[docs]</a>    <span class="k">def</span> <span class="nf">setHeaderData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">section</span><span class="p">,</span> <span class="n">orientation</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="n">Qt</span><span class="o">.</span><span class="n">EditRole</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CommissionViewModel.setHeaderData">
+<a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.setHeaderData">[docs]</a>
+    <span class="k">def</span> <span class="nf">setHeaderData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">section</span><span class="p">,</span> <span class="n">orientation</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="n">Qt</span><span class="o">.</span><span class="n">EditRole</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">orientation</span> <span class="o">==</span> <span class="n">Qt</span><span class="o">.</span><span class="n">Horizontal</span> <span class="ow">and</span> <span class="n">role</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">DisplayRole</span><span class="p">,</span> <span class="n">Qt</span><span class="o">.</span><span class="n">EditRole</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_headers</span><span class="p">[</span><span class="n">section</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
@@ -68,13 +72,22 @@
                 <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setHeaderData</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="n">orientation</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">role</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CommissionViewModel.rowCount"><a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.rowCount">[docs]</a>    <span class="k">def</span> <span class="nf">rowCount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">QModelIndex</span><span class="p">()):</span>
+
+<div class="viewcode-block" id="CommissionViewModel.rowCount">
+<a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.rowCount">[docs]</a>
+    <span class="k">def</span> <span class="nf">rowCount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">QModelIndex</span><span class="p">()):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commissionData</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CommissionViewModel.columnCount"><a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.columnCount">[docs]</a>    <span class="k">def</span> <span class="nf">columnCount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="CommissionViewModel.columnCount">
+<a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.columnCount">[docs]</a>
+    <span class="k">def</span> <span class="nf">columnCount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">7</span></div>
 
-<div class="viewcode-block" id="CommissionViewModel.data"><a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.data">[docs]</a>    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">role</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CommissionViewModel.data">
+<a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.data">[docs]</a>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">role</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns an appropriate value for the requested data.</span>
 <span class="sd">        If the view requests an invalid index, an invalid variant is returned.</span>
@@ -103,7 +116,10 @@
 
 
 
-<div class="viewcode-block" id="CommissionViewModel.roleNames"><a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.roleNames">[docs]</a>    <span class="k">def</span> <span class="nf">roleNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CommissionViewModel.roleNames">
+<a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.roleNames">[docs]</a>
+    <span class="k">def</span> <span class="nf">roleNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Must be implemendted.</span>
 <span class="sd">        Creates a dictionary with rolenames and roles.</span>
@@ -115,7 +131,10 @@
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">roles</span></div>
 
-<div class="viewcode-block" id="CommissionViewModel.indexOf"><a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.indexOf">[docs]</a>    <span class="k">def</span> <span class="nf">indexOf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commissionID</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CommissionViewModel.indexOf">
+<a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.indexOf">[docs]</a>
+    <span class="k">def</span> <span class="nf">indexOf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commissionID</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns index of given commission ID</span>
 
@@ -127,11 +146,15 @@
 
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">commission</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commissionData</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">commissionID</span> <span class="o">==</span> <span class="n">commission</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">index</span></div></div>
+                <span class="k">return</span> <span class="n">index</span></div>
+</div>
 
 
 
-<div class="viewcode-block" id="CommissionFilterProxyModel"><a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionFilterProxyModel">[docs]</a><span class="k">class</span> <span class="nc">CommissionFilterProxyModel</span><span class="p">(</span><span class="n">QSortFilterProxyModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CommissionFilterProxyModel">
+<a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionFilterProxyModel">[docs]</a>
+<span class="k">class</span> <span class="nc">CommissionFilterProxyModel</span><span class="p">(</span><span class="n">QSortFilterProxyModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ProxyModel für Kommissionsdaten. Stellt die Kommissionsdaten in einer Tabelle für </span>
 <span class="sd">    die QML Engine bereit.</span>
@@ -141,14 +164,22 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filterString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-<div class="viewcode-block" id="CommissionFilterProxyModel.filterAcceptsRow"><a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionFilterProxyModel.filterAcceptsRow">[docs]</a>    <span class="k">def</span> <span class="nf">filterAcceptsRow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sourceRow</span><span class="p">,</span> <span class="n">sourceParent</span><span class="p">):</span>
+<div class="viewcode-block" id="CommissionFilterProxyModel.filterAcceptsRow">
+<a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionFilterProxyModel.filterAcceptsRow">[docs]</a>
+    <span class="k">def</span> <span class="nf">filterAcceptsRow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sourceRow</span><span class="p">,</span> <span class="n">sourceParent</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="CommissionFilterProxyModel.setFilterString"><a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionFilterProxyModel.setFilterString">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CommissionFilterProxyModel.setFilterString">
+<a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionFilterProxyModel.setFilterString">[docs]</a>
+    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">setFilterString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterString</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filterString</span> <span class="o">=</span> <span class="n">filterString</span></div>
 
-<div class="viewcode-block" id="CommissionFilterProxyModel.lessThan"><a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionFilterProxyModel.lessThan">[docs]</a>    <span class="k">def</span> <span class="nf">lessThan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left_index</span><span class="p">,</span> <span class="n">right_index</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CommissionFilterProxyModel.lessThan">
+<a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionFilterProxyModel.lessThan">[docs]</a>
+    <span class="k">def</span> <span class="nf">lessThan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left_index</span><span class="p">,</span> <span class="n">right_index</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">left_index</span><span class="o">.</span><span class="n">column</span><span class="p">()</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
                 <span class="n">left_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sourceModel</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">left_index</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span><span class="mi">1</span><span class="p">)</span>
                 <span class="n">right_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sourceModel</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">right_index</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span><span class="mi">1</span><span class="p">)</span>
@@ -160,12 +191,17 @@
                 
             <span class="c1"># For other columns, use the default sorting behavior</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">lessThan</span><span class="p">(</span><span class="n">left_index</span><span class="p">,</span> <span class="n">right_index</span><span class="p">)</span></div>
+
     
-<div class="viewcode-block" id="CommissionFilterProxyModel.mapToSource"><a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionFilterProxyModel.mapToSource">[docs]</a>    <span class="k">def</span> <span class="nf">mapToSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proxyIndex</span><span class="p">:</span> <span class="n">QModelIndex</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QModelIndex</span><span class="p">:</span>
+<div class="viewcode-block" id="CommissionFilterProxyModel.mapToSource">
+<a class="viewcode-back" href="../../../Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionFilterProxyModel.mapToSource">[docs]</a>
+    <span class="k">def</span> <span class="nf">mapToSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proxyIndex</span><span class="p">:</span> <span class="n">QModelIndex</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QModelIndex</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Maps the sorted inices back to the source model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">mapToSource</span><span class="p">(</span><span class="n">proxyIndex</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">mapToSource</span><span class="p">(</span><span class="n">proxyIndex</span><span class="p">)</span></div>
+</div>
+
         
 
     
@@ -238,7 +274,7 @@
       &copy;2023, Lennart Schink.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
