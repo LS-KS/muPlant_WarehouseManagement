@@ -8,12 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1bb59e4-14c6-46d3-92d8-82a94a6183ab" name="Changes" comment="fixed marker detection and drawing. &#10;image slicing implemented.">
+      <change afterPath="$PROJECT_DIR$/src/service/hometest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/processed_before_detection.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/processed_before_detection.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/stocktaking.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/stocktaking.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/transformed.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/transformed.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/withdetected_markers.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/withdetected_markers.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +77,7 @@
       <recent name="$PROJECT_DIR$/src/view" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.stocktaking">
+  <component name="RunManager">
     <configuration name="CameraService" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="muPlant_WarehouseManagement" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -253,6 +250,7 @@
       <workItem from="1696422956921" duration="749000" />
       <workItem from="1696423756933" duration="83000" />
       <workItem from="1696487130832" duration="14925000" />
+      <workItem from="1696515779158" duration="2641000" />
     </task>
     <task id="LOCAL-00001" summary="implemented Cup and Product">
       <created>1687298522583</created>
@@ -620,22 +618,12 @@
     <MESSAGE value="fixed marker detection and drawing. &#10;image slicing implemented." />
     <option name="LAST_COMMIT_MESSAGE" value="fixed marker detection and drawing. &#10;image slicing implemented." />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/service/stocktaking.py</url>
-          <line>345</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CameraService_py$stocktaking.coverage" NAME="stocktaking Coverage Results" MODIFIED="1695974754420" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
     <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$stocktaking.coverage" NAME="stocktaking Coverage Results" MODIFIED="1696505616941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
-    <SUITE FILE_PATH="coverage/CameraService_py$CameraService.coverage" NAME="CameraService Coverage Results" MODIFIED="1695873479729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
     <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1695978878163" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CameraService_py$CameraService.coverage" NAME="CameraService Coverage Results" MODIFIED="1695873479729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
+    <SUITE FILE_PATH="coverage/CameraService_py$stocktaking.coverage" NAME="stocktaking Coverage Results" MODIFIED="1695974754420" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$hometest.coverage" NAME="hometest Coverage Results" MODIFIED="1696517610731" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
     <SUITE FILE_PATH="coverage/CameraService_py$main.coverage" NAME="main Coverage Results" MODIFIED="1695872898142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
