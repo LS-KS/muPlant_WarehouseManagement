@@ -1,0 +1,6 @@
+pop_size = 50
+    mut_prob = 0.03
+    mut_rate = 0.3
+    max_iter = 400
+    tournament_size = 5
+    tournament_winner_count = int(pop_size / 2)
