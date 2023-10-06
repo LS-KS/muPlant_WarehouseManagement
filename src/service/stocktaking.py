@@ -21,6 +21,7 @@ from skimage import transform
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+from yaml import  load, Loader
 
 
 
@@ -88,21 +89,21 @@ class Stocktaker(QQuickImageProvider):
         self._slice_storage(self.raw_image)
         print("Detection in sections:")
         for i, section in enumerate(self.sections):
-            #self.sections[i] = self._automatic_brightness_and_contrast(image=section, clip_hist_percent=1)
+            self.sections[i] = self._automatic_brightness_and_contrast(image=section, clip_hist_percent=1)
             markers, self.sections[i]  = self._detect_markers(section, i)
             pallets, pallet_ids = self._get_pallet_markers(markers)
             self.sections[i]= self._draw_markers(pallets, pallet_ids, (255, 0, 0), section, i)
             cv2.imwrite(f"section_{i+1}.png", section)
         print("Detection in pallets:")
         for i, pallet in enumerate(self.pallets):
-            #self.pallets[i] = self._automatic_brightness_and_contrast(image= pallet, clip_hist_percent=1)
+            self.pallets[i] = self._automatic_brightness_and_contrast(image= pallet, clip_hist_percent=1)
             markers, self.pallets[i] = self._detect_markers(pallet, i)
             pallets, ids = self._get_pallet_markers(markers)
             self.pallets[i] = self._draw_markers(pallets, ids, (255,0,0), pallet, i)
             cv2.imwrite(f"pallet_{i + 1}.png", pallet)
         print("Detection in cups:")
         for i, cup in enumerate(self.cups):
-            #self.cups[i] = self._automatic_brightness_and_contrast(image= cup, clip_hist_percent=1)
+            self.cups[i] = self._automatic_brightness_and_contrast(image= cup, clip_hist_percent=1)
             markers, self.cups[i] = self._detect_markers(cup, i, cups=True)
             cups, ids = self._get_cup_markers(markers)
             self.cups[i] = self._draw_markers(cups, ids, (255,255,255), cup, i)
@@ -390,8 +391,8 @@ class Stocktaker(QQuickImageProvider):
                 x_min = int(x*x_dim/6)
                 x_max = int((x+1)*x_dim/6) if ((x+1)*x_dim/6) <= x_dim else int(x_dim)
                 section = image[y_min: y_max, x_min : x_max]
-                threshold = 190
-                section = cv2.threshold(section, threshold, 255, cv2.THRESH_BINARY)[1]
+                # threshold = 190
+                # section = cv2.threshold(section, threshold, 255, cv2.THRESH_BINARY)[1]
                 cup_area = section [int(section.shape[0]*0.2) : int(section.shape[0]*0.5), 0:int(section.shape[1])]
                 pallet_area =section [int(section.shape[0]*0.6) : int(section.shape[0]*0.9), 0:int(section.shape[1])]
                 sections.append(section)
@@ -456,6 +457,38 @@ class Stocktaker(QQuickImageProvider):
             return img
         else:
             return gray
+
+    def _loadDetectorConf(self, imgtype: str, area: int, type: str) -> cv2.aruco.DetectorParameters:
+        """
+        Loads the parameter configuration for marker detection from a yaml file which might has been fitted by genetic algorithm.
+        Returns standard parameters in case yaml file could not be found.
+        :param imgtype: 'gray' for gray-image-configuration, 'binary' for binary-image-configuration
+        :type imgtype: str
+        :param area: 0= global, 1= upper left, 2= upper right, 3 = lower right, 4 = lower left
+        :type area: int
+        :param type: 'cup' for cup detection parameters, 'pallet' for pallet detection
+        :type type: str
+        :returns parameters: instance of cv2.aruco.DetectorParameters
+        """
+        parameters = cv2.aruco.DetectorParameters()
+        # calculate field from arguments
+        fieldname = "ARUCO_DETECTOR_"
+        fieldname += "GRAY_" if imgtype == 'gray' else "BINARY_"
+        fieldname += "PALLETS" if type == 'pallet' else 'CUP'
+        fieldname += str(area)
+        filename = getattr(self.constants, fieldname)
+        try:
+            with open(filename, "r") as file:
+                read = load(file, Loader=Loader)
+                for key, value in enumerate(read):
+                    try:
+                        setattr(parameters, key, value)
+                    except Exception as ex:
+                        self.eventlogService.writeEvent("Stocktaker._loadDetectorConf", f"Could not set detector attribute {key}, Exceptio: {ex}")
+        except FileNotFoundError as e:
+            self.eventlogService.writeEvent("Stocktaker._loadDetectorConf", f"Exception while opening configuration file: {e}")
+        return parameters
+
 
 
 

@@ -205,7 +205,9 @@ Auf Anfrage des Stocktaking Moduls liefert der Bilder der beiden Kameras.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.CameraService.ImageProvider.get_image">
 <span class="sig-name descname"><span class="pre">get_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/CameraService.html#ImageProvider.get_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.CameraService.ImageProvider.get_image" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Public wrapper to call _get_image method.
+returns the obtained image</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.CameraService.ImageProvider.staticMetaObject">
@@ -228,7 +230,11 @@ Processed images are provided to qml by using class videoPlayer which inherits f
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.evaluate_storagecell_cam">
 <span class="sig-name descname"><span class="pre">evaluate_storagecell_cam</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.evaluate_storagecell_cam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.evaluate_storagecell_cam" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Public Method. Obtains image from CameraServic.Imageprovider, performs 4-point rectification and arUco detection.
+Slices the image into sub images related to Storage location.
+Afterwards signals with processed image is emitted to QML Engine.
+Before every step a message is emitted to EventlogService in main screen</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.staticMetaObject">
@@ -237,6 +243,57 @@ Processed images are provided to qml by using class videoPlayer which inherits f
 
 </dd></dl>
 
+</section>
+<section id="detector-calibration-service">
+<h3>Detector Calibration Service<a class="headerlink" href="#detector-calibration-service" title="Link to this heading">¶</a></h3>
+<p>Die Datei ‘ga_detectionparameters’ kann verwendet werden um die 31 Parameter für die Markererkennung zu optimieren.
+Bei der Optimierung wird wie folgt unterschieden:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribut</p></th>
+<th class="head"><p>Wertebereich</p></th>
+<th class="head"><p>Erläuterung</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Typ</p></td>
+<td><p>‘gray’, ‘binary’</p></td>
+<td><p>Legt fest ob Parameter für binärwertige oder graustufige Bilder verwendet werden sollen</p></td>
+</tr>
+<tr class="row-odd"><td><p>Objektart</p></td>
+<td><p>‘pallet’, ‘cup’</p></td>
+<td><p>Legt fest ob Parameter verwendet werden sollen, die auf Paletten oder Becher optimiert sind</p></td>
+</tr>
+<tr class="row-even"><td><p>Bereich</p></td>
+<td><p>0 bis 4</p></td>
+<td><p>0 = Parameter sind auf das ganze Regal optimiert
+1 = Bereich oben links (L1-L3, L7-L9)
+2 = Bereich oben rechts (L4-L6, L10-L12)
+3 = Bereich unten rechts (L10-L12, L16-L18)
+4 = Bereich unten links (L7-L9, L13-L15)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Die verschiedenen Bereiche unterscheiden sich in Kontrast und Helligkeit.
+Anwendung:</p>
+<p>1.)</p>
+<aside class="topic">
+<p class="topic-title">Bilder erzeugen</p>
+<p>Die Bilderkennung im CameraService muss einmalig gelaufen sein, sodass sich im Ordner ‘service’ Einzelbilder befinden.</p>
+</aside>
+<p>2.)</p>
+<aside class="topic">
+<p class="topic-title">Bereiche anpassen</p>
+<p>In der ‘__main__’ Methode der o.g. Python Datei befinden sich zwei for-Schleifen, die die entsprechenden Bilder laden.
+In dem Datentupel der Forschleife kann der Bereich des Lagers angepasst werden. z.B. (0,1,2,6,7,8) für den Bereich oben links.</p>
+</aside>
+<p>3.)</p>
+<aside class="topic">
+<p class="topic-title">Deteinamen und -pfade anpassen</p>
+<p>In den unteren beiden code-blocks sind die Dateipfade und -Namen der Ausgabe als string als Argument der Funtion
+‘dump_parameters’ angegeben. Diese müssen entsprechend der Pfadliste in dem Modul src/constants/Constant.py angepasst werden.
+ACHTUNG: Bereits existierende Dateien werden ggf. überschrieben. Im Zweifel müssen diese gesondert gesichert werden.</p>
+</aside>
 </section>
 </section>
 </section>

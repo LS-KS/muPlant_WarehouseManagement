@@ -23,6 +23,30 @@ class Constants:
         self.PALLET_ARUCO = 1
         self.CUP_ARUCO = np.arange(5, 45, 1)
         self.STORAGE_ELEMENT_ARUCO = np.arange(45, 65, 1)
+        self.ARUCO_DETECTOR_BINARY_CUPS_0 = Path(__file__).resolve().parent / "data" / "ConfDetectionBinaryCups0.yaml"
+        self.ARUCO_DETECTOR_BINARY_CUPS_1 = Path(__file__).resolve().parent / "data" / "ConfDetectionBinaryCups1.yaml"
+        self.ARUCO_DETECTOR_BINARY_CUPS_2 = Path(__file__).resolve().parent / "data" / "ConfDetectionBinaryCups2.yaml"
+        self.ARUCO_DETECTOR_BINARY_CUPS_3 = Path(__file__).resolve().parent / "data" / "ConfDetectionBinaryCups3.yaml"
+        self.ARUCO_DETECTOR_BINARY_CUPS_4 = Path(__file__).resolve().parent / "data" / "ConfDetectionBinaryCups4.yaml"
+        self.ARUCO_DETECTOR_BINARY_CUPS_5 = Path(__file__).resolve().parent / "data" / "ConfDetectionBinaryCups5.yaml"
+        self.ARUCO_DETECTOR_BINARY_PALLETS_0 = Path(__file__).resolve().parent / "data" / "ConfDetectionBinaryPallets0.yaml"
+        self.ARUCO_DETECTOR_BINARY_PALLETS_1 = Path(__file__).resolve().parent / "data" / "ConfDetectionBinaryPallets1.yaml"
+        self.ARUCO_DETECTOR_BINARY_PALLETS_2 = Path(__file__).resolve().parent / "data" / "ConfDetectionBinaryPallets2.yaml"
+        self.ARUCO_DETECTOR_BINARY_PALLETS_3 = Path(__file__).resolve().parent / "data" / "ConfDetectionBinaryPallets3.yaml"
+        self.ARUCO_DETECTOR_BINARY_PALLETS_4 = Path(__file__).resolve().parent / "data" / "ConfDetectionBinaryPallets4.yaml"
+        self.ARUCO_DETECTOR_BINARY_PALLETS_5 = Path(__file__).resolve().parent / "data" / "ConfDetectionBinaryPallets5.yaml"
+        self.ARUCO_DETECTOR_GRAY_CUPS_0 = Path(__file__).resolve().parent / "data" / "ConfDetectionGrayCups0.yaml"
+        self.ARUCO_DETECTOR_GRAY_CUPS_1 = Path(__file__).resolve().parent / "data" / "ConfDetectionGrayCups1.yaml"
+        self.ARUCO_DETECTOR_GRAY_CUPS_2 = Path(__file__).resolve().parent / "data" / "ConfDetectionGrayCups2.yaml"
+        self.ARUCO_DETECTOR_GRAY_CUPS_3 = Path(__file__).resolve().parent / "data" / "ConfDetectionGrayCups3.yaml"
+        self.ARUCO_DETECTOR_GRAY_CUPS_4 = Path(__file__).resolve().parent / "data" / "ConfDetectionGrayCups4.yaml"
+        self.ARUCO_DETECTOR_GRAY_CUPS_5 = Path(__file__).resolve().parent / "data" / "ConfDetectionGrayCups5.yaml"
+        self.ARUCO_DETECTOR_GRAY_PALLETS_0 = Path(__file__).resolve().parent / "data" / "ConfDetectionGrayPallets0.yaml"
+        self.ARUCO_DETECTOR_GRAY_PALLETS_1 = Path(__file__).resolve().parent / "data" / "ConfDetectionGrayPallets1.yaml"
+        self.ARUCO_DETECTOR_GRAY_PALLETS_2 = Path(__file__).resolve().parent / "data" / "ConfDetectionGrayPallets2.yaml"
+        self.ARUCO_DETECTOR_GRAY_PALLETS_3 = Path(__file__).resolve().parent / "data" / "ConfDetectionGrayPallets3.yaml"
+        self.ARUCO_DETECTOR_GRAY_PALLETS_4 = Path(__file__).resolve().parent / "data" / "ConfDetectionGrayPallets4.yaml"
+        self.ARUCO_DETECTOR_GRAY_PALLETS_5 = Path(__file__).resolve().parent / "data" / "ConfDetectionGrayPallets5.yaml"
 
 
 

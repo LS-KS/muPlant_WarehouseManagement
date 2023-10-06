@@ -7,9 +7,12 @@
     <title>src.service.CameraService &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=039e1c02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <script src="../../../_static/documentation_options.js?v=7f413068"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
    
@@ -33,9 +36,8 @@
 <span class="sd">This service delivers and process images from camera to QML GUI</span>
 
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="kn">import</span> <span class="nn">ids_peak_ipl.ids_peak_ipl</span>
+<span class="kn">from</span> <span class="nn">ids_peak_ipl.ids_peak_ipl</span> <span class="kn">import</span> <span class="n">PixelFormatName_BGR8</span><span class="p">,</span> <span class="n">ConversionMode_Fast</span><span class="p">,</span> <span class="n">ConversionMode_HighQuality</span>
 <span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QThread</span><span class="p">,</span> <span class="n">Signal</span><span class="p">,</span> <span class="n">Slot</span><span class="p">,</span> <span class="n">QObject</span>
-<span class="kn">from</span> <span class="nn">ids_peak</span> <span class="kn">import</span> <span class="n">ids_peak_ipl_extension</span>
 <span class="kn">from</span> <span class="nn">ids_peak</span> <span class="kn">import</span> <span class="n">ids_peak</span><span class="p">,</span> <span class="n">ids_peak_ipl_extension</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">src.constants.Constants</span> <span class="k">as</span> <span class="nn">const</span>
@@ -55,47 +57,71 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">nodemap_datastream</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">_get_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cam</span> <span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Private Method. uses IDS peak API to obtain image from chosen camera</span>
+<span class="sd">        image is copied to image property.</span>
+
+<span class="sd">        :param cam: Set to 0  to obtain image from GiGE camera. 1 to get image from gripper cam.</span>
+<span class="sd">        :type cam: int</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># initialize IDS API library</span>
         <span class="n">ids_peak</span><span class="o">.</span><span class="n">Library</span><span class="o">.</span><span class="n">Initialize</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">device_manager</span> <span class="o">=</span> <span class="n">ids_peak</span><span class="o">.</span><span class="n">DeviceManager</span><span class="o">.</span><span class="n">Instance</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CameraService.ImageProvider._get_image(), devicemanager at </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device_manager</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
         <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># try to update device manager</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">device_manager</span><span class="o">.</span><span class="n">Update</span><span class="p">()</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device_manager</span><span class="o">.</span><span class="n">Devices</span><span class="p">()</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CameraService.ImageProvider.Setup: No device found. Exiting Camera Setup.&quot;</span><span class="p">)</span>
                 <span class="k">return</span>
             <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># print all availlable devices in cli</span>
                 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">device</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device_manager</span><span class="o">.</span><span class="n">Devices</span><span class="p">()):</span>
                     <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="n">device</span><span class="o">.</span><span class="n">ModelName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; (&quot;</span>
                           <span class="o">+</span> <span class="n">device</span><span class="o">.</span><span class="n">ParentInterface</span><span class="p">()</span><span class="o">.</span><span class="n">DisplayName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;; &quot;</span>
                           <span class="o">+</span> <span class="n">device</span><span class="o">.</span><span class="n">ParentInterface</span><span class="p">()</span><span class="o">.</span><span class="n">ParentSystem</span><span class="p">()</span><span class="o">.</span><span class="n">DisplayName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;v.&quot;</span>
                           <span class="o">+</span> <span class="n">device</span><span class="o">.</span><span class="n">ParentInterface</span><span class="p">()</span><span class="o">.</span><span class="n">ParentSystem</span><span class="p">()</span><span class="o">.</span><span class="n">Version</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+
+                <span class="c1"># open device</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">device_manager</span><span class="o">.</span><span class="n">Devices</span><span class="p">()[</span><span class="n">cam</span><span class="p">]</span><span class="o">.</span><span class="n">OpenDevice</span><span class="p">(</span><span class="n">ids_peak</span><span class="o">.</span><span class="n">DeviceAccessType_Control</span><span class="p">)</span>
+
+                <span class="c1"># get remote device node map</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">nodemap_remote_device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">RemoteDevice</span><span class="p">()</span><span class="o">.</span><span class="n">NodeMaps</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="c1"># print model name and user id</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CameraService.ImageProvider.Setup:</span><span class="se">\n</span><span class="s2">Model Name: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodemap_remote_device</span><span class="o">.</span><span class="n">FindNode</span><span class="p">(</span><span class="s2">&quot;DeviceModelName&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span><span class="p">())</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;User ID: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodemap_remote_device</span><span class="o">.</span><span class="n">FindNode</span><span class="p">(</span><span class="s2">&quot;DeviceUserID&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span><span class="p">())</span>
                 <span class="k">except</span> <span class="n">ids_peak</span><span class="o">.</span><span class="n">Exception</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;User ID: (unknown)&quot;</span><span class="p">)</span>
+
+                <span class="c1"># print sensor information</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sensor Name: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodemap_remote_device</span><span class="o">.</span><span class="n">FindNode</span><span class="p">(</span><span class="s2">&quot;SensorName&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span><span class="p">())</span>
                 <span class="k">except</span> <span class="n">ids_peak</span><span class="o">.</span><span class="n">Exception</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sensor Name: &quot;</span> <span class="o">+</span> <span class="s2">&quot;(unknown)&quot;</span><span class="p">)</span>
-                    <span class="k">try</span><span class="p">:</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max. resolution (w x h): &quot;</span>
-                              <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodemap_remote_device</span><span class="o">.</span><span class="n">FindNode</span><span class="p">(</span><span class="s2">&quot;WidthMax&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot; x &quot;</span>
-                              <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodemap_remote_device</span><span class="o">.</span><span class="n">FindNode</span><span class="p">(</span><span class="s2">&quot;HeightMax&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span><span class="p">()))</span>
-                    <span class="k">except</span> <span class="n">ids_peak</span><span class="o">.</span><span class="n">Exception</span><span class="p">:</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max. resolution (w x h): (unknown)&quot;</span><span class="p">)</span>
+                <span class="c1"># print resolution information</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max. resolution (w x h): &quot;</span>
+                          <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodemap_remote_device</span><span class="o">.</span><span class="n">FindNode</span><span class="p">(</span><span class="s2">&quot;WidthMax&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot; x &quot;</span>
+                          <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodemap_remote_device</span><span class="o">.</span><span class="n">FindNode</span><span class="p">(</span><span class="s2">&quot;HeightMax&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span><span class="p">()))</span>
+                <span class="k">except</span> <span class="n">ids_peak</span><span class="o">.</span><span class="n">Exception</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max. resolution (w x h): (unknown)&quot;</span><span class="p">)</span>
+                <span class="c1"># set up datastream and open datastream</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">data_streams</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">DataStreams</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">DataStreams</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">OpenDataStream</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">nodemap_datastream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="o">.</span><span class="n">NodeMaps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_streams</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CameraService.ImageProvider.extractImage: No data stream found&quot;</span><span class="p">)</span>
                     <span class="k">return</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">DataStreams</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">OpenDataStream</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nodemap_datastream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="o">.</span><span class="n">NodeMaps</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
                 <span class="k">try</span><span class="p">:</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="p">:</span>
                         <span class="c1"># Flush buffer queue and prepare buffers to be revoked</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="o">.</span><span class="n">Flush</span><span class="p">(</span><span class="n">ids_peak</span><span class="o">.</span><span class="n">DataStreamFlushMode_DiscardAll</span><span class="p">)</span>
+
                         <span class="c1"># Clear all buffers</span>
                         <span class="k">try</span><span class="p">:</span>
                             <span class="k">for</span> <span class="n">buffer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="o">.</span><span class="n">AnnouncedBuffers</span><span class="p">():</span>
@@ -103,8 +129,9 @@
                         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CameraService.ImageProvider.extractImage: Error while revoking buffers: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                         <span class="n">payload_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodemap_remote_device</span><span class="o">.</span><span class="n">FindNode</span><span class="p">(</span><span class="s2">&quot;PayloadSize&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span><span class="p">()</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CaneraService.ImageProvider.extractImage: </span><span class="si">{</span><span class="n">payload_size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                         <span class="n">num_buffers_min_required</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="o">.</span><span class="n">NumBuffersAnnouncedMinRequired</span><span class="p">()</span>
-
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;number of minimum buffers required: </span><span class="si">{</span><span class="n">num_buffers_min_required</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                         <span class="c1"># Allocate and announce buffers</span>
                         <span class="k">try</span><span class="p">:</span>
                             <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_buffers_min_required</span><span class="p">):</span>
@@ -127,11 +154,11 @@
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">buffer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="o">.</span><span class="n">WaitForFinishedBuffer</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
                     <span class="n">image</span> <span class="o">=</span> <span class="n">ids_peak_ipl_extension</span><span class="o">.</span><span class="n">BufferToImage</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
-                    <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">ConvertTo</span><span class="p">(</span><span class="n">ids_peak_ipl</span><span class="o">.</span><span class="n">PixelFormatName_BGR8</span><span class="p">,</span> <span class="n">ids_peak_ipl</span><span class="o">.</span><span class="n">ConversionMode_HIGHQUALITY</span><span class="p">)</span>
+                    <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">ConvertTo</span><span class="p">(</span><span class="n">PixelFormatName_BGR8</span><span class="p">,</span> <span class="n">ConversionMode_HighQuality</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="o">.</span><span class="n">QueueBuffer</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
                     <span class="c1"># convert image to numpy array and decouple it from data stream</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">get_numpy_3D</span><span class="p">())</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
         <span class="k">except</span><span class="p">:</span>
@@ -143,6 +170,10 @@
 <div class="viewcode-block" id="ImageProvider.get_image">
 <a class="viewcode-back" href="../../../Modules/Service.html#src.service.CameraService.ImageProvider.get_image">[docs]</a>
     <span class="k">def</span> <span class="nf">get_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cam</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Public wrapper to call _get_image method.</span>
+<span class="sd">        returns the obtained image</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">cam</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_get_image</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">cam</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -150,6 +181,8 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;CameraService.ImageProvider.getImage: Invalid camera number&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span></div>
+
+
 
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    def get_image(self, cam):</span>
