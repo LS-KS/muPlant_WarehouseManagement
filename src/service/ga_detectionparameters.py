@@ -75,9 +75,9 @@ def mutate_parameter(individual: Individual, mut_prob, mut_rate) -> Individual:
         value = getattr(individual.parameters, field)
         if np.random.rand() < mut_prob:
             if type(value) == int:
-                value = int(value + np.random.rand() * mut_rate)
+                value = int(value + np.random.normal(0,1) * mut_rate)
             elif type(value) == float:
-                value = value + np.random.rand() * mut_rate
+                value = value + np.random.normal(0,1) * mut_rate
             elif type(value) == bool:
                 value = not value
             setattr(individual.parameters, field, value)
@@ -247,10 +247,10 @@ if __name__ == '__main__':
         img = cv2.imread(filename)
         pallets.append(img)
 
-    pop_size = 250
+    pop_size = 1000
     mut_prob = 0.10
     mut_rate = 0.2
-    max_iter = 200
+    max_iter = 160
     tournament_size = 20
     tournament_winner_count = 5
 
@@ -259,13 +259,13 @@ if __name__ == '__main__':
     plot_results_cups(results_cups, pop_size, mut_prob, mut_rate, max_iter, tournament_size, tournament_winner_count)
     fittest_generation = sorted(results_cups, key=lambda x: x[3], reverse=True)[0]
     fittest_individual = fittest_generation[4]
-    dump_parameters(fittest_individual.parameters, 'ga_runs/run3/fittest_parameters_cups.yaml')
+    dump_parameters(fittest_individual.parameters, 'ga_runs/run5/fittest_parameters_cups.yaml')
 
     # run ga for pallets
     results_pallets = run_ga_pallets(pop_size, mut_prob, mut_rate, max_iter, tournament_size, tournament_winner_count)
     plot_results_pallets(results_pallets, pop_size, mut_prob, mut_rate, max_iter, tournament_size, tournament_winner_count)
     fittest_generation = sorted(results_pallets, key=lambda x: x[3], reverse=True)[0]
     fittest_individual = fittest_generation[4]
-    dump_parameters(fittest_individual.parameters, 'ga_runs/run3/fittest_parameters_pallets.yaml')
+    dump_parameters(fittest_individual.parameters, 'ga_runs/run5/fittest_parameters_pallets.yaml')
 
 

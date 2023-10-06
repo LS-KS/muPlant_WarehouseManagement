@@ -1,6 +1,6 @@
-pop_size = 1000
+pop_size = 250
     mut_prob = 0.10
-    mut_rate = 0.1
+    mut_rate = 0.2
     max_iter = 200
     tournament_size = 20
     tournament_winner_count = 5

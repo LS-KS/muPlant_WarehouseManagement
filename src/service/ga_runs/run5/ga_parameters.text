@@ -1,0 +1,9 @@
+pop_size = 1000
+    mut_prob = 0.10
+    mut_rate = 0.2
+    max_iter = 160
+    tournament_size = 20
+    tournament_winner_count = 5
+
+Running GA (cups): 100%|██████████| 160/160 [19:08<00:00,  7.18s/it]
+Running GA (pallets): 100%|██████████| 160/160 [3:53:11<00:00, 87.45s/it]
