@@ -53,10 +53,10 @@ verarbeitet und ermittelt wie viele Becher in der Lagerzelle wo vorhanden sind.
     :undoc-members:
     :show-inheritance:
 
-Detector Calibration Service
+DetectorOptimizationService
 ____________________________
 
-Die Datei 'ga_detectionparameters' kann verwendet werden um die 31 Parameter für die Markererkennung zu optimieren.
+Kann verwendet werden um die 31 Parameter für die Markererkennung zu optimieren.
 Bei der Optimierung wird wie folgt unterschieden:
 
 .. list-table::
