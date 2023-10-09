@@ -26,6 +26,7 @@ from matplotlib import pyplot as plt
 import random
 from yaml import dump
 from tqdm import tqdm
+from time import time
 from src.constants.Constants import Constants
 
 class Individual:
@@ -76,17 +77,19 @@ class DetectionOptimizationService:
         "minMarkerLengthRatioOriginalImg",
     ]
     def __init__(self):
-        self.pop_size = 200
-        self.mut_prob = 0.1
-        self.mut_rate = 0.4
-        self.max_iter = 50
-        self.tournament_size = 25
+        self.errors: int = 0
+        self.errors_generation = []
+        self.pop_size = 1000
+        self.mut_prob = 0.01
+        self.mut_rate = 0.1
+        self.max_iter = 10
+        self.tournament_size = 2
         self.tournament_winner_count = 20
         self.constants = Constants()
         self.cups = []
-        self.cups_id = self.constants.CUP_ARUCO
+        self.cup_id = self.constants.CUP_ARUCO
         self.pallets = []
-        self.pallets_id = self.constants.PALLET_ARUCO
+        self.pallet_id = self.constants.PALLET_ARUCO
         self.cell = []
         self.cell_id = self.constants.SHELF_ARUCO
         self.arucodict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
@@ -102,7 +105,7 @@ class DetectionOptimizationService:
         """
         self.run_ga('cup')
         self.plot_results('cup')
-        fittest_generation = sorted(self.result, key=lambda x: x[3], reverse=True)[0]
+        fittest_generation = sorted(self.results, key=lambda x: x[3], reverse=True)[0]
         fittest_individual = fittest_generation[4]
         self.dump_parameters(fittest_individual.parameters, '../data/Cups.yaml')
     def optimize_pallets(self):
@@ -111,7 +114,7 @@ class DetectionOptimizationService:
         """
         self.run_ga('pallet')
         self.plot_results('pallets')
-        fittest_generation = sorted(self.result, key=lambda x: x[3], reverse=True)[0]
+        fittest_generation = sorted(self.results, key=lambda x: x[3], reverse=True)[0]
         fittest_individual = fittest_generation[4]
         self.dump_parameters(fittest_individual.parameters, '../data/Pallets.yaml')
     def optimize_shelves(self):
@@ -127,39 +130,48 @@ class DetectionOptimizationService:
         """
         This function will load the images for the optimization from src/service directory.
         """
-        self.cell = automatic_brightness_and_contrast(cv2.imread("raw_shot.png"), 1)
+        self.cell = automatic_brightness_and_contrast(cv2.imread("processed_before_detection.png"), 1)
         for i in range(18):
             self.cups.append(cv2.imread('cup' + str(i + 1) + '.png'))
             self.pallets.append(cv2.imread('pallet_' + str(i + 1) + '.png'))
-    def evaluate_fitness(self,parameters: cv2.aruco.DetectorParameters, type: str)  -> int:
+    def evaluate_fitness(self,parameters: cv2.aruco.DetectorParameters, t: str)  -> int:
         """
         Calculates fittness of an Individual object's parameters attribute by detecting selected marker types.
         fitness is increased by 1 for each correctly detected marker.
         fitness is decreased by 1 if an error occurs.
         :param parameters: parameters attribute of Individual object
         :type parameters: cv2.aruco.DetectorParameters
-        :param type: type of marker to be detected could be either 'cups', 'pallets' or 'cell'
-        :type type: str
+        :param t: type of marker to be detected could be either 'cups', 'pallets' or 'cell'
+        :type t: str
         :returns points: fitness value
         :rtype: int
         """
+        start = time()
         points = 0
-        if type == 'cup':
+        if t == 'cup':
             images = self.cups
-        elif type == 'pallet':
+        elif t == 'pallet':
             images = self.pallets
-        elif type == 'cell':
+        elif t == 'cell':
             images = [self.cell]
         for i, img in enumerate(images):
             try:
                 corners, ids, rejected = cv2.aruco.detectMarkers(img, self.arucodict, parameters=parameters)
                 if ids is not None:
                     for j, id in enumerate(ids):
-                        target = getattr(self, f"{type}_id")
-                        if id in target:
-                            points += 1
+                        target = getattr(self, f"{t}_id")
+                        got = id[0]
+                        if type(target) == int:
+                            if got == target:
+                                points += 2
+                        elif got in target:
+                            points += 2
             except Exception as e:
                 points -= 1
+                self.errors += 1
+                #print(f"Error occured, fitness reduced. total errors in {type}: {self.errors}\n{e}")
+        end = time()
+        points += int(end - start)
         return points
     def create_population(self) -> list[Individual]:
         """
@@ -170,19 +182,19 @@ class DetectionOptimizationService:
         :return population:
         :rtype: list[Individual]
         """
+        start = time()
         population = []
         for i in range(self.pop_size):
             parameters = cv2.aruco.DetectorParameters()
-
             # Parameter for thresholding
             #ThreshWinSizeMin / ThreshWinSizeMax represent the interval in pixels where the thresholding sizes are selected for the adaptive thresholding
-            parameters.adaptiveThreshWinSizeMin = int(random.randrange(3, 5000, 1))
+            parameters.adaptiveThreshWinSizeMin = int(random.randrange(3, 50, 1))
             # WinSizeMax must be greater than WinSizeMin
             while  parameters.adaptiveThreshWinSizeMax <= parameters.adaptiveThreshWinSizeMin + 3:
-                parameters.adaptiveThreshWinSizeMax = int(random.randrange(3, 5000, 1))
+                parameters.adaptiveThreshWinSizeMax = int(random.randrange(3, 100, 1))
             # Since WinSizeStep is the iteration step size it must fit at least once into the difference between WinSizeMin and WinSizeMax
             while parameters.adaptiveThreshWinSizeMax - parameters.adaptiveThreshWinSizeMin <= parameters.adaptiveThreshWinSizeStep:
-                parameters.adaptiveThreshWinSizeStep = int(random.randrange(3, 5000, 1))
+                parameters.adaptiveThreshWinSizeStep = int(random.randrange(3, 100, 1))
             # ThreshConstant isis used in threshold() function. Default is 7 and recommended. So creation will vary around default value.
             parameters.adaptiveThreshConstant *= np.random.rand() + 0.5
 
@@ -195,7 +207,7 @@ class DetectionOptimizationService:
                 parameters.maxMarkerPerimeterRate = np.random.rand()
             # polygonalApproxAccuracyRate determines the maximum allowed error for the polygonal approximation to the marker contour.
             # the more distorted the image is, the higher this rate should be and vice versa
-            parameters.polygonalApproxAccuracyRate *= np.random.rand()
+            parameters.polygonalApproxAccuracyRate = np.random.rand()
 
             # determinse the minimum distance between two corners in a marker. value is relative to marker size.
             parameters.minCornerDistanceRate = np.random.rand()
@@ -212,7 +224,7 @@ class DetectionOptimizationService:
             # this value should be only allowed to vary around 1 in a small interval.
             # since required datatype is int, the value shouldnt be varied in any way ?!?
             parameters.markerBorderBits = 1
-            parameters.minOtsuStdDev *= np.random.rand()
+            parameters.minOtsuStdDev = np.random.rand()
 
 
             parameters.perspectiveRemovePixelPerCell = random.randrange(4, 1000, 1)
@@ -240,11 +252,13 @@ class DetectionOptimizationService:
             # parameters.useAruco3Detection = random.choice([True, False])
             # parameters.minSideLengthCanonicalImg *= int(np.ceil((np.random.normal(0, 1) + 1)))
             # parameters.minMarkerLengthRatioOriginalImg *= (np.random.normal(0, 1) + 1)
-
+            
             # create Indivisual instance with parameters and append to population
             individual = Individual()
             individual.parameters = parameters
             population.append(individual)
+        end = time()
+        print(f'Population of {str(len(population))} created in {end - start} seconds')
         return population
     def mutate_parameter(self, individual: Individual) -> Individual:
         """
@@ -258,11 +272,11 @@ class DetectionOptimizationService:
             value = getattr(individual.parameters, field)
             if np.random.rand() < self.mut_prob:
                 if type(value) == int:
-                    value = int(value + np.random.normal(0,1) * self.mut_rate)
+                    value = int(value * (1 + random.randrange(-1,1)* self.mut_rate))
                 elif type(value) == float:
-                    value = value + np.random.normal(0,1) * self.mut_rate
+                    value *= (1 + random.randrange(-1,1)* self.mut_rate)
                 elif type(value) == bool:
-                    value = not value
+                    value = random.choice([True, False])
                 setattr(individual.parameters, field, value)
         return individual
     def recombine_parameters(self, parent1: Individual, parent2: Individual) -> Individual:
@@ -296,7 +310,11 @@ class DetectionOptimizationService:
         :type tournament_size: int
         :returns: instance of Individual (fittest in tournament)
         """
-        competitors = random.sample(population, k=tournament_size)
+        competitors = [x for x in population if x.fitness > 0]
+        if len(competitors) < tournament_size:
+            competitors = random.sample(population, k=tournament_size)
+        else:
+            competitors = random.sample(competitors, k=tournament_size)
         fittest = sorted(competitors, key=lambda x: x.fitness, reverse=True)[0]
         return fittest
     def dump_parameters(self, parameters: cv2.aruco.DetectorParameters, filename: str):
@@ -327,10 +345,13 @@ class DetectionOptimizationService:
         plt.show()
     def run_ga(self, type:str):
         self.results = []
+        self.errors_generation = []
         # create initial population and evaluate fitness
         pop = self.create_population()
+        self.errors = 0
         for i in tqdm(range(self.max_iter), desc=f'Running GA ({type})', leave=False):
             # evaluate fitness
+            self.errors_generation.append([i, []])
             for j in tqdm(range(len(pop)), desc = f'Generation {i} ({type})', leave=False):
                 individual = pop[j]
                 individual.fitness = self.evaluate_fitness(individual.parameters, type)
@@ -338,6 +359,10 @@ class DetectionOptimizationService:
             self.results.append([i, pop, np.mean([individual.fitness for individual in pop]),
                             np.max([individual.fitness for individual in pop]),
                             sorted(pop, key=lambda x: x.fitness, reverse=True)[0]])
+            self.errors_generation.append([i, self.errors])
+            self.errors = 0
+            print(f'Generation {i} ({type})\nFitness evaluation:\nMean: {self.results[i][2]}\nMax: {self.results[i][3]}')
+            print(f'Erroring individuals: {self.errors_generation[i][1]}')
             # select fittest for recombination
             new_pop = []
             for j in range(self.tournament_winner_count):
@@ -354,8 +379,8 @@ class DetectionOptimizationService:
                         new_pop[l] = self.mutate_parameter(new_pop[l])
                 else:
                     new_pop[l] = self.mutate_parameter(new_pop[l])
-
             pop = new_pop
+            self.dump_parameters(self.results[i][4].parameters, f'ga_{type}_resultGen{i+1}.yaml')
 def automatic_brightness_and_contrast(image,  clip_hist_percent):
    """
    Autoadjusting color and brightness for better marker detection.
@@ -406,7 +431,7 @@ def automatic_brightness_and_contrast(image,  clip_hist_percent):
 if __name__ == '__main__':
     do = DetectionOptimizationService()
     do.optimize_shelves()
-    do.optimize_cups()
-    do.optimize_pallets()
+    # do.optimize_cups()
+    # do.optimize_pallets()
 
 

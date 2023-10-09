@@ -29,6 +29,8 @@ from yaml import  load, Loader
 
 class Stocktaker(QQuickImageProvider):
 
+
+
     def __init__(self):
         super().__init__(QQmlImageProviderBase.Image, QQmlImageProviderBase.ForceAsynchronousImageLoading)
         self.cameraService = ImageProvider()
@@ -39,11 +41,17 @@ class Stocktaker(QQuickImageProvider):
         self.sections = None
         self.cups = None
         self.pallets = None
+        self.gripper_image = None
+        self.gripper_id = 0
         self.detected_cups = []
+        self.submitPalletImage = Signal(QImage)
+        self.submitCupImage = Signal(QImage)
+        self.submitResultMatrix = Signal(list)
 
     def __del__(self):
         print("Stocktaker: Destructor called")
 
+    @Slot()
     def evaluate_storagecell_cam(self):
         """
         Public Method. Obtains image from CameraServic.Imageprovider, performs 4-point rectification and arUco detection.
@@ -51,6 +59,7 @@ class Stocktaker(QQuickImageProvider):
         Afterwards signals with processed image is emitted to QML Engine.
         Before every step a message is emitted to EventlogService in main screen
         """
+        # TODO: Selective detection parameters
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Start obtaining image from camera...")
         self.image = self.cameraService.get_image(0)
         self.raw_image = np.copy(self.image)
@@ -62,17 +71,17 @@ class Stocktaker(QQuickImageProvider):
         else:
             self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Image obtained. Start arUco recognition...")
         self.image = self._automatic_brightness_and_contrast(clip_hist_percent = 1, image=self.image)
-        markers, self.image = self._detect_markers()
+        parameters = self._loadDetectorConf(imgtype='gray', area=0, type= 'cell')
+        markers, self.image = self._detect_markers(parameters= parameters)
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "arUco recognition finished. Start image transformation...")
         shelf_corners, shelf_ids = self._get_shelf_markers(markers)
         x_corners, y_corners, y_min, y_max, ret = self._get_transformation_corners(shelf_corners)
         if ret:
             image, tform3 = self._transform_image( self.image, x_corners, y_corners, y_min, y_max)
-            self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam",
-                                            "Image transformation finished. Start detecting arUco markers...")
             self.image = image
             image, tform3 = self._transform_image(self.raw_image, x_corners, y_corners, y_min, y_max)
             self.raw_image = image
+            self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam","Image transformation finished. Start detecting slicing...")
         else:
             self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Not enough shelf markers found!\n"
                                                                                    f"x_corners: {x_corners}\n"
@@ -80,13 +89,8 @@ class Stocktaker(QQuickImageProvider):
                                                                                    "Possible Reason: Markers are not visible die to camera position/angle change.\n"
                                                                                    "Possiblee Solution: Adjust image slice boundaries in '_get_transformation_corners' method.")
             return
-        markers, self.image = self._detect_markers()
-        shelf, shelf_ids = self._get_shelf_markers(markers)
-        self._draw_markers(shelf, shelf_ids, color = (255, 0, 0))
-        plt.imshow(self.image)
-        cv2.imwrite("withdetected_markers.png", self.image)
-        plt.show()
         self._slice_storage(self.raw_image)
+        self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Slicing finished. Start marker detection in sections...")
         print("Detection in sections:")
         for i, section in enumerate(self.sections):
             self.sections[i] = self._automatic_brightness_and_contrast(image=section, clip_hist_percent=1)
@@ -94,6 +98,7 @@ class Stocktaker(QQuickImageProvider):
             pallets, pallet_ids = self._get_pallet_markers(markers)
             self.sections[i]= self._draw_markers(pallets, pallet_ids, (255, 0, 0), section, i)
             cv2.imwrite(f"section_{i+1}.png", section)
+        self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Section finished. Start marker detection in pallets...")
         print("Detection in pallets:")
         for i, pallet in enumerate(self.pallets):
             self.pallets[i] = self._automatic_brightness_and_contrast(image= pallet, clip_hist_percent=1)
@@ -101,6 +106,7 @@ class Stocktaker(QQuickImageProvider):
             pallets, ids = self._get_pallet_markers(markers)
             self.pallets[i] = self._draw_markers(pallets, ids, (255,0,0), pallet, i)
             cv2.imwrite(f"pallet_{i + 1}.png", pallet)
+        self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Pallets finished. Start marker detection in cups...")
         print("Detection in cups:")
         for i, cup in enumerate(self.cups):
             self.cups[i] = self._automatic_brightness_and_contrast(image= cup, clip_hist_percent=1)
@@ -109,6 +115,41 @@ class Stocktaker(QQuickImageProvider):
             self.cups[i] = self._draw_markers(cups, ids, (255,255,255), cup, i)
             cv2.imwrite(f"cup{i + 1}.png", cup)
         print(self.detected_cups)
+        self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Cups finished. Start calculating result matrix...")
+        self.calculate_result_matrix()
+        self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Result matrix calculated. Process finished.")
+    def calculate_result_matrix(self):
+        """
+        Public Method. Calculates the result matrix based on detected markers.
+        Emits self.submitResultMatrix signal with result matrix.
+        """
+        # TODO: Get pallet data
+
+        # TODO: Get cup data
+        # TODO: Calclulate 6x6x2 result matrix
+        # TODO: reformat result matrix to make it qml accessible
+        # TODO: emit signal
+    @Slot(int)
+    def emit_pallet_cup_images(self, storage_cell):
+        pass
+        # TODO get images from storage_cell number
+        # TODO emit images
+
+    @Slot()
+    def emit_cell_image(self):
+        pass
+        # TODO get image from cell
+        # TODO emit image
+    def evaluate_gripper(self):
+        """
+        Public Method. Obtains image from CameraService.Imageprovider.
+        Since marker should take a significant area of the image, no rectification is performed.
+        Performs arUco detection after brightness and color adjustment.
+        processed image is kept in gripper_image property.
+        """
+        # TODO: Implement
+        pass
+
 
     def _refactor_corners(self, corners, ids):
         """
@@ -309,13 +350,13 @@ class Stocktaker(QQuickImageProvider):
         plt.show(cmap= 'gray')
         return image, tform3
 
-    def _detect_markers(self, section = None, section_id= 0, cups = False):
+    def _detect_markers(self, parameters: None | cv2.aruco.DetectorParameters = None, section = None, section_id= 0, cups = False):
         """
         uses cv2's detectMarkers()  to recognize arUco marker.
         :return: list of markers
         :rtype: list
         """
-        parameters : cv2.aruco.DetectorParameters = cv2.aruco.DetectorParameters()
+        parameters : cv2.aruco.DetectorParameters = cv2.aruco.DetectorParameters() if parameters is None else parameters
 
         assert self.image is not None
         if type(section) is type(None):

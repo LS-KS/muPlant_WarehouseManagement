@@ -5,13 +5,13 @@
 Bachelor Thesis 2023
 Author: L.Schink
 Date Project Start: 20.06.2023
-Language : Python 3.11
+Language: Python 3.11
 
 This Software implements warehouse logic from heterogene modular autonomic production site.
 The warehouse works autonomous while receiving orders from modbus TCP/IP.
 also OPC UA is implemented.
 
-Uses  PySide6 with PyQt6.5.1 for GUI implementation
+Uses PySide6 with PyQt6.5.1 for GUI implementation
 '''
 import sys
 from pathlib import Path
