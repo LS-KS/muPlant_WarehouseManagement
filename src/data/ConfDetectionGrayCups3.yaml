@@ -23,7 +23,7 @@ minCornerDistanceRate: 0.023756587925129385
 minDistanceToBorder: 0
 minMarkerDistanceRate: 0.012299296401497562
 minMarkerLengthRatioOriginalImg: 0.0
-minMarkerPerimeterRate: -0.23835354304750037
+minMarkerPerimeterRate: 0.23835354304750037
 minOtsuStdDev: 8.39029014259241
 minSideLengthCanonicalImg: 32
 perspectiveRemoveIgnoredMarginPerCell: 0.2557156243024339

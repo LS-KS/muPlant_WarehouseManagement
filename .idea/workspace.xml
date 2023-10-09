@@ -8,13 +8,76 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1bb59e4-14c6-46d3-92d8-82a94a6183ab" name="Changes" comment="fixed marker detection and drawing. &#10;image slicing implemented.">
+      <change afterPath="$PROJECT_DIR$/Jupyter/farbcode_test.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Jupyter/farbcode_test.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/ConfDetectionGrayCell.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/standardsettings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/muPlant_WarehouseManagement.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/muPlant_WarehouseManagement.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/DetectionOptimizationService.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/DetectionOptimizationService.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/ga_cell_result.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/ga_cell_result.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/Constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/Constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/ConfDetectionGrayCups2.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/ConfDetectionGrayCups2.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/ConfDetectionGrayCups3.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/ConfDetectionGrayCups3.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/ConfDetectionGrayCups4.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/ConfDetectionGrayCups4.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/ConfDetectionGrayPallets1.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/ConfDetectionGrayPallets1.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/ConfDetectionGrayPallets2.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/ConfDetectionGrayPallets2.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup10.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup11.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup11.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup12.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup12.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup13.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup13.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup14.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup14.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup15.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup15.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup16.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup17.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup17.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup18.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup18.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup3.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup4.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup5.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup6.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup7.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup8.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup8.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/cup9.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/cup9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/ga_cell_resultGen1.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/ConfDetectionBinaryCell.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_10.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_11.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_11.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_12.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_12.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_13.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_13.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_14.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_14.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_15.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_15.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_16.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_17.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_17.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_18.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_18.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_3.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_4.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_5.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_6.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_7.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_8.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_8.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/pallet_9.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/pallet_9.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/processed_before_detection.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/processed_before_detection.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_10.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_11.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_11.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_12.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_12.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_13.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_13.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_14.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_14.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_15.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_15.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_16.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_17.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_17.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_18.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_18.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_3.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_4.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_5.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_6.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_7.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_8.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_8.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/section_9.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/section_9.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/stocktaking.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/stocktaking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/transformed.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/transformed.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,11 +91,26 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="Jupyter Notebook" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "LS-KS"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="b8bc4859-68a3-4135-aff6-65f13f3b3b7e" />
+        <option name="url" value="https://github.com/LS-KS/muPlant_WarehouseManagement.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="9uq1v4ij" />
@@ -51,30 +129,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Lagerzelle/muPlant_WarehouseManagement/src/data&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Lagerzelle/muPlant_WarehouseManagement/Jupyter",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Lagerzelle\muPlant_WarehouseManagement\Jupyter" />
       <recent name="C:\Lagerzelle\muPlant_WarehouseManagement\src\data" />
       <recent name="$PROJECT_DIR$/src/view" />
       <recent name="$PROJECT_DIR$/src" />
@@ -86,7 +165,7 @@
       <recent name="$PROJECT_DIR$/src/view" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.DetectionOptimizationService">
+  <component name="RunManager" selected="Python.stocktaking">
     <configuration name="CameraService" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="muPlant_WarehouseManagement" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -175,6 +254,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="standardsettings" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="muPlant_WarehouseManagement" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/data" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/data/standardsettings.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="stocktaking" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="muPlant_WarehouseManagement" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -197,28 +298,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="muPlant_WarehouseManagement" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/test&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.DetectionOptimizationService" />
         <item itemvalue="Python.stocktaking" />
+        <item itemvalue="Python.standardsettings" />
+        <item itemvalue="Python.DetectionOptimizationService" />
         <item itemvalue="Python.CameraService" />
         <item itemvalue="Python.image_processing" />
-        <item itemvalue="Python tests.Python tests in test" />
       </list>
     </recent_temporary>
   </component>
@@ -269,6 +355,7 @@
       <workItem from="1696515779158" duration="2641000" />
       <workItem from="1696573560500" duration="14261000" />
       <workItem from="1696690257898" duration="23170000" />
+      <workItem from="1696835848978" duration="16957000" />
     </task>
     <task id="LOCAL-00001" summary="implemented Cup and Product">
       <created>1687298522583</created>
@@ -644,17 +731,23 @@
           <line>167</line>
           <option name="timeStamp" value="45" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
+          <url>notebook://C:/Lagerzelle/muPlant_WarehouseManagement/Jupyter/farbcode_test.ipynb</url>
+          <line>20</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/CameraService_py$stocktaking.coverage" NAME="stocktaking Coverage Results" MODIFIED="1695974754420" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
     <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$hometest.coverage" NAME="hometest Coverage Results" MODIFIED="1696517610731" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$standardsettings.coverage" NAME="standardsettings Coverage Results" MODIFIED="1696841434229" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/data" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$stocktaking.coverage" NAME="stocktaking Coverage Results" MODIFIED="1696851830692" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
     <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ga_detectionparameters.coverage" NAME="DetectionOptimizationService Coverage Results" MODIFIED="1696613207099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$stocktaking.coverage" NAME="stocktaking Coverage Results" MODIFIED="1696505616941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1695978878163" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CameraService_py$CameraService.coverage" NAME="CameraService Coverage Results" MODIFIED="1695873479729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
     <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$DetectionOptimizationService.coverage" NAME="DetectionOptimizationService Coverage Results" MODIFIED="1696829138820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1695978878163" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CameraService_py$main.coverage" NAME="main Coverage Results" MODIFIED="1695872898142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

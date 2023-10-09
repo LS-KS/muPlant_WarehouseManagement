@@ -36,12 +36,12 @@ class Stocktaker(QQuickImageProvider):
         self.cameraService = ImageProvider()
         self.constants = Constants()
         self.eventlogService = EventlogService()
-        self.raw_image = None
-        self.image = None
-        self.sections = None
-        self.cups = None
-        self.pallets = None
-        self.gripper_image = None
+        self.raw_image = []
+        self.image = []
+        self.sections = []
+        self.cups = []
+        self.pallets = []
+        self.gripper_image = []
         self.gripper_id = 0
         self.detected_cups = []
         self.submitPalletImage = Signal(QImage)
@@ -60,6 +60,7 @@ class Stocktaker(QQuickImageProvider):
         Before every step a message is emitted to EventlogService in main screen
         """
         # TODO: Selective detection parameters
+        self.detected_cups = []
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Start obtaining image from camera...")
         self.image = self.cameraService.get_image(0)
         self.raw_image = np.copy(self.image)
@@ -70,8 +71,13 @@ class Stocktaker(QQuickImageProvider):
             return
         else:
             self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Image obtained. Start arUco recognition...")
-        self.image = self._automatic_brightness_and_contrast(clip_hist_percent = 1, image=self.image)
-        parameters = self._loadDetectorConf(imgtype='gray', area=0, type= 'cell')
+        self.image = self._automatic_brightness_and_contrast(
+            clip_hist_percent = 1,
+            image=self.image)
+        parameters = self._loadDetectorConf(
+            imgtype='binary',
+            area=0,
+            type= 'cell')
         markers, self.image = self._detect_markers(parameters= parameters)
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "arUco recognition finished. Start image transformation...")
         shelf_corners, shelf_ids = self._get_shelf_markers(markers)
@@ -91,26 +97,37 @@ class Stocktaker(QQuickImageProvider):
             return
         self._slice_storage(self.raw_image)
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Slicing finished. Start marker detection in sections...")
-        print("Detection in sections:")
-        for i, section in enumerate(self.sections):
-            self.sections[i] = self._automatic_brightness_and_contrast(image=section, clip_hist_percent=1)
-            markers, self.sections[i]  = self._detect_markers(section, i)
-            pallets, pallet_ids = self._get_pallet_markers(markers)
-            self.sections[i]= self._draw_markers(pallets, pallet_ids, (255, 0, 0), section, i)
-            cv2.imwrite(f"section_{i+1}.png", section)
-        self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Section finished. Start marker detection in pallets...")
         print("Detection in pallets:")
         for i, pallet in enumerate(self.pallets):
-            self.pallets[i] = self._automatic_brightness_and_contrast(image= pallet, clip_hist_percent=1)
-            markers, self.pallets[i] = self._detect_markers(pallet, i)
+            parameters = self.select_marker_parameters(
+                i= i,
+                imtype= 'gray',
+                target= 'pallet')
+            self.pallets[i] = self._automatic_brightness_and_contrast(
+                image= pallet,
+                clip_hist_percent=0.5)
+            markers, self.pallets[i] = self._detect_markers(
+                section=pallet,
+                section_id=i,
+                parameters= parameters)
             pallets, ids = self._get_pallet_markers(markers)
             self.pallets[i] = self._draw_markers(pallets, ids, (255,0,0), pallet, i)
             cv2.imwrite(f"pallet_{i + 1}.png", pallet)
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Pallets finished. Start marker detection in cups...")
         print("Detection in cups:")
         for i, cup in enumerate(self.cups):
-            self.cups[i] = self._automatic_brightness_and_contrast(image= cup, clip_hist_percent=1)
-            markers, self.cups[i] = self._detect_markers(cup, i, cups=True)
+            parameters= self.select_marker_parameters(
+                i= i,
+                imtype= 'gray',
+                target= 'cup')
+            self.cups[i] = self._automatic_brightness_and_contrast(
+                image= cup,
+                clip_hist_percent=1)
+            markers, self.cups[i] = self._detect_markers(
+                section=cup,
+                section_id=i,
+                cups=True,
+                parameters=parameters)
             cups, ids = self._get_cup_markers(markers)
             self.cups[i] = self._draw_markers(cups, ids, (255,255,255), cup, i)
             cv2.imwrite(f"cup{i + 1}.png", cup)
@@ -118,6 +135,23 @@ class Stocktaker(QQuickImageProvider):
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Cups finished. Start calculating result matrix...")
         self.calculate_result_matrix()
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Result matrix calculated. Process finished.")
+
+    def select_marker_parameters(self, i:int, imtype: str, target:str):
+        """
+        Selects detector settings, from locating integer and string
+        """
+        if i in (0, 1, 2, 6, 7, 8):
+            parameters = self._loadDetectorConf(imgtype=imtype, area=1, type=target)
+        elif i in (3, 4, 5, 9, 10, 11):
+            parameters = self._loadDetectorConf(imgtype=imtype, area=2, type=target)
+        elif i in (12, 13, 14):
+            parameters = self._loadDetectorConf(imgtype=imtype, area=3, type=target)
+        elif i in (15, 16, 17):
+            parameters = self._loadDetectorConf(imgtype=imtype, area=4, type=target)
+        else:
+            parameters = cv2.aruco.DetectorParameters()
+        return parameters
+
     def calculate_result_matrix(self):
         """
         Public Method. Calculates the result matrix based on detected markers.
@@ -270,8 +304,6 @@ class Stocktaker(QQuickImageProvider):
         y_min = self.image.shape[0]
         y_max = 0
         shelf_markers = np.asarray(shelf_markers)
-        # shelf_markers = shelf_markers[0]
-        # print(shelf_markers)
         for i in range(4):
             for shelfcorner in shelf_markers:
                 shelfcorner = np.asarray(shelfcorner)
@@ -303,10 +335,6 @@ class Stocktaker(QQuickImageProvider):
         print("x_corners: ",x_corners)
         print("y_corners: ", y_corners)
         if min(x_corners) >0 and min(y_corners) > 0:
-            # self.image = cv2.rectangle(self.image, (int(min(x_corners)), int(min(y_corners))),
-            #               (int(max(x_corners)), int(max(y_corners))), (255, 0, 0), thickness=15)
-            # plt.imshow(self.image, cmap= 'gray')
-            # plt.show()
             return x_corners, y_corners, y_min, y_max, True
         else:
             return x_corners, y_corners, y_min, y_max, False
@@ -343,7 +371,6 @@ class Stocktaker(QQuickImageProvider):
         x_min = int(x_min)
         x_max = int(x_max)
         image = image[y_glob_min + 550: y_glob_max + 520, x_min + 300 : x_max - 180]
-
         cv2.imwrite("transformed.png", image)
         plt.imshow(image, cmap= 'gray')
         plt.title("transformed image")
@@ -360,26 +387,14 @@ class Stocktaker(QQuickImageProvider):
 
         assert self.image is not None
         if type(section) is type(None):
-            parameters.polygonalApproxAccuracyRate = 0.02 # default: 0.03
-            parameters.adaptiveThreshWinSizeMin = 3  # min: 3, default: 3
-            parameters.adaptiveThreshWinSizeStep = 7  # default: 10
-            parameters.adaptiveThreshConstant = 7  # default: 7
-            parameters.adaptiveThreshWinSizeMax = 23
             self.image = cv2.cvtColor(self.image, cv2.COLOR_RGB2GRAY) if self.image.ndim == 3 else self.image
             (corners, ids, rejected) = cv2.aruco.detectMarkers(self.image, self.constants.ARUCODICT, parameters= parameters )
             markers = self._refactor_corners(corners, ids)
-            shelfs = []
             print(f"detection: {markers[0]}, {len(markers[1])}")
             return markers, self.image
         else:
-
-            parameters.polygonalApproxAccuracyRate = 0.03 # default: 0.03 some markers in the top and middle row are not detected, (0.5, 0.003): absolute no markers detected
-            parameters.adaptiveThreshWinSizeMin = 3 # min: 3, default: 3
-            parameters.adaptiveThreshWinSizeStep = 3 # default: 10
-            parameters.adaptiveThreshConstant = 7 # default: 7
-            parameters.adaptiveThreshWinSizeMax = 23
             section = cv2.cvtColor(section, cv2.COLOR_RGB2GRAY) if section.ndim == 3 else section
-            (corners, ids, rejected) = cv2.aruco.detectMarkers(section, self.constants.ARUCODICT, parameters=parameters )
+            (corners, ids, rejected) = cv2.aruco.detectMarkers(section, self.constants.ARUCODICT, parameters= parameters )
             markers = self._refactor_corners(corners, ids)
             marker_content = markers[0][0]
             if marker_content is not None:
@@ -515,13 +530,14 @@ class Stocktaker(QQuickImageProvider):
         # calculate field from arguments
         fieldname = "ARUCO_DETECTOR_"
         fieldname += "GRAY_" if imgtype == 'gray' else "BINARY_"
-        fieldname += "PALLETS" if type == 'pallet' else 'CUP'
+        fieldname += "PALLETS_" if type == 'pallet' else 'CUPS_'
         fieldname += str(area)
         filename = getattr(self.constants, fieldname)
         try:
             with open(filename, "r") as file:
                 read = load(file, Loader=Loader)
-                for key, value in enumerate(read):
+                for key in read.keys():
+                    value = read[key]
                     try:
                         setattr(parameters, key, value)
                     except Exception as ex:
@@ -535,6 +551,36 @@ class Stocktaker(QQuickImageProvider):
 
 if __name__ == '__main__':
     stocktaker = Stocktaker()
-    stocktaker.evaluate_storagecell_cam()
-    plt.imshow(stocktaker.image, cmap= 'gray')
-    plt.show()
+    cups = []
+    for i in range(5):
+        stocktaker.evaluate_storagecell_cam()
+        if i == 0:
+            cups = stocktaker.detected_cups
+        else:
+            if len(stocktaker.detected_cups) >=1:
+                cups = [stocktaker.detected_cups[j] if stocktaker.detected_cups[j] is not None else cups[j] for j in
+                        range(len(cups))]
+            else:
+                i-=1
+    cupnames = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L13", "L14", "L15", "L16",
+            "L17", "L18"]
+
+    # Define the number of rows and columns
+    num_rows = 3
+    num_columns = 6
+
+    # Initialize a variable to store the formatted string
+    formatted_matrix = ""
+
+    # Loop through rows and columns to build the matrix
+    for i in range(num_rows):
+        row_elements = []
+        for j in range(num_columns):
+            index = i * num_columns + j
+            if index < len(cupnames):
+                row_elements.append(f"L{index + 1} = {cups[index]}")
+        formatted_row = " | ".join(row_elements)  # Join row elements with " | " separator
+        formatted_matrix += f"|{formatted_row}|\n"
+
+    # Print the formatted matrix
+    print(formatted_matrix)

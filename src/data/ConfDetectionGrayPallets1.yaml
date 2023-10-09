@@ -19,7 +19,7 @@ errorCorrectionRate: 1.7176954807418503
 markerBorderBits: 1
 maxErroneousBitsInBorderRate: 0.5053631140521079
 maxMarkerPerimeterRate: 5.843826137165456
-minCornerDistanceRate: -0.2609052206343116
+minCornerDistanceRate: 0.2609052206343116
 minDistanceToBorder: 3
 minMarkerDistanceRate: 0.08739938770478901
 minMarkerLengthRatioOriginalImg: 0.2424134910106659
