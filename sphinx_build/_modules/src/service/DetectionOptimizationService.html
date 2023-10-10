@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>src.service.DetectionOptimizationService &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=039e1c02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <script src="../../../_static/documentation_options.js?v=7f413068"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for src.service.DetectionOptimizationService</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Genetic algorithm to calculate optimal detection parameters for aruco marker detection.</span>
+<span class="sd">Problem was, that default settings did not detect all aruco markers reliably.</span>
+<span class="sd">The parameters consists of 32 attributes and minor changes in just one attribute may lead to</span>
+<span class="sd">complete failure in detection.</span>
+<span class="sd">Idea developed from just a for-loop to test all possible combinations of parameters.</span>
+<span class="sd">Problem was that documentation of opencv.aruco doesnot provide any information about the</span>
+<span class="sd">limits of the parameters. So it was not possible to iterate over all possible combinations.</span>
+<span class="sd">Therefore a genetic algorithm was implemented to find the best parameters by exploring the</span>
+<span class="sd">parameter space randomly.</span>
+
+<span class="sd">Some parameters are boolean, some are integers and some are floats.</span>
+<span class="sd">The ga is not binary coded. float parameters are mutated by a normal distributed random number</span>
+<span class="sd">while boolean parameters are just flipped be either be choosed randomly (initialization) or flipped (mutation).</span>
+<span class="sd">Integer parameters are calculated by the same way but just rounded.</span>
+
+<span class="sd">The random multiplier in mutation is a normal distributed random number with mean 1 and a deviation of 1.</span>
+<span class="sd">This number is multiplied by the mutation rate to get more diversity.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">yaml</span> <span class="kn">import</span> <span class="n">dump</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
+
+<div class="viewcode-block" id="Individual">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.Individual">[docs]</a>
+<span class="k">class</span> <span class="nc">Individual</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    class to keep individual and fitness property together.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="DetectionOptimizationService">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService">[docs]</a>
+<span class="k">class</span> <span class="nc">DetectionOptimizationService</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Service to optimize detection parameters for aruco markers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># List of attributes to be considered for recombination</span>
+    <span class="n">attribute_names</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;adaptiveThreshWinSizeMin&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;adaptiveThreshWinSizeMax&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;adaptiveThreshWinSizeStep&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;adaptiveThreshConstant&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;minMarkerPerimeterRate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;maxMarkerPerimeterRate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;polygonalApproxAccuracyRate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;minCornerDistanceRate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;minDistanceToBorder&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;minMarkerDistanceRate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cornerRefinementMethod&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cornerRefinementWinSize&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cornerRefinementMaxIterations&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cornerRefinementMinAccuracy&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;markerBorderBits&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;perspectiveRemovePixelPerCell&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;perspectiveRemoveIgnoredMarginPerCell&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;maxErroneousBitsInBorderRate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;minOtsuStdDev&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;errorCorrectionRate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;aprilTagQuadDecimate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;aprilTagQuadSigma&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;aprilTagMinClusterPixels&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;aprilTagMaxNmaxima&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;aprilTagCriticalRad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;aprilTagMaxLineFitMse&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;aprilTagMinWhiteBlackDiff&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;aprilTagDeglitch&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;detectInvertedMarker&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;useAruco3Detection&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;minSideLengthCanonicalImg&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;minMarkerLengthRatioOriginalImg&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">errors_generation</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pop_size</span> <span class="o">=</span> <span class="mi">1000</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mut_prob</span> <span class="o">=</span> <span class="mf">0.01</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mut_rate</span> <span class="o">=</span> <span class="mf">0.1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_iter</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tournament_size</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tournament_winner_count</span> <span class="o">=</span> <span class="mi">20</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">Constants</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cups</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cup_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">CUP_ARUCO</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pallets</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pallet_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">PALLET_ARUCO</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cell</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cell_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">SHELF_ARUCO</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arucodict</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">aruco</span><span class="o">.</span><span class="n">getPredefinedDictionary</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">aruco</span><span class="o">.</span><span class="n">DICT_6X6_250</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">UPPER_LEFT</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">UPPER_RIGHT</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LOWER_RIGHT</span> <span class="o">=</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LOWER_LEFT</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_images</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="kc">None</span>
+<div class="viewcode-block" id="DetectionOptimizationService.optimize_cups">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_cups">[docs]</a>
+    <span class="k">def</span> <span class="nf">optimize_cups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function will optimize the detection parameters for cup markers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_ga</span><span class="p">(</span><span class="s1">&#39;cup&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_results</span><span class="p">(</span><span class="s1">&#39;cup&#39;</span><span class="p">)</span>
+        <span class="n">fittest_generation</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">fittest_individual</span> <span class="o">=</span> <span class="n">fittest_generation</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dump_parameters</span><span class="p">(</span><span class="n">fittest_individual</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="s1">&#39;../data/Cups.yaml&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DetectionOptimizationService.optimize_pallets">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_pallets">[docs]</a>
+    <span class="k">def</span> <span class="nf">optimize_pallets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function will optimize the detection parameters for pallet markers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_ga</span><span class="p">(</span><span class="s1">&#39;pallet&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_results</span><span class="p">(</span><span class="s1">&#39;pallets&#39;</span><span class="p">)</span>
+        <span class="n">fittest_generation</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">fittest_individual</span> <span class="o">=</span> <span class="n">fittest_generation</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dump_parameters</span><span class="p">(</span><span class="n">fittest_individual</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="s1">&#39;../data/Pallets.yaml&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DetectionOptimizationService.optimize_shelves">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_shelves">[docs]</a>
+    <span class="k">def</span> <span class="nf">optimize_shelves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function will optimize the detection parameters for shelf markers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_ga</span><span class="p">(</span><span class="s1">&#39;cell&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_results</span><span class="p">(</span><span class="s1">&#39;cell&#39;</span><span class="p">)</span>
+        <span class="n">fittest_generation</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">fittest_individual</span> <span class="o">=</span> <span class="n">fittest_generation</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dump_parameters</span><span class="p">(</span><span class="n">fittest_individual</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="s1">&#39;../data/Cell.yaml&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DetectionOptimizationService.load_images">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.load_images">[docs]</a>
+    <span class="k">def</span> <span class="nf">load_images</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function will load the images for the optimization from src/service directory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cell</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">automatic_brightness_and_contrast</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;processed_before_detection.png&quot;</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">18</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;cup&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pallets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;pallet_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="DetectionOptimizationService.evaluate_fitness">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.evaluate_fitness">[docs]</a>
+    <span class="k">def</span> <span class="nf">evaluate_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">parameters</span><span class="p">:</span> <span class="n">cv2</span><span class="o">.</span><span class="n">aruco</span><span class="o">.</span><span class="n">DetectorParameters</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span>  <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates fittness of an Individual object&#39;s parameters attribute by detecting selected marker types.</span>
+<span class="sd">        fitness is increased by 1 for each correctly detected marker.</span>
+<span class="sd">        fitness is decreased by 1 if an error occurs.</span>
+<span class="sd">        :param parameters: parameters attribute of Individual object</span>
+<span class="sd">        :type parameters: cv2.aruco.DetectorParameters</span>
+<span class="sd">        :param t: type of marker to be detected could be either &#39;cups&#39;, &#39;pallets&#39; or &#39;cell&#39;</span>
+<span class="sd">        :type t: str</span>
+<span class="sd">        :returns points: fitness value</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="s1">&#39;cup&#39;</span><span class="p">:</span>
+            <span class="n">images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cups</span>
+        <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="s1">&#39;pallet&#39;</span><span class="p">:</span>
+            <span class="n">images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pallets</span>
+        <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="s1">&#39;cell&#39;</span><span class="p">:</span>
+            <span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cell</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">img</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">images</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">corners</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">rejected</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">aruco</span><span class="o">.</span><span class="n">detectMarkers</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arucodict</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ids</span><span class="p">):</span>
+                        <span class="n">target</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">_id&quot;</span><span class="p">)</span>
+                        <span class="n">got</span> <span class="o">=</span> <span class="nb">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">got</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                                <span class="n">points</span> <span class="o">+=</span> <span class="mi">2</span>
+                        <span class="k">elif</span> <span class="n">got</span> <span class="ow">in</span> <span class="n">target</span><span class="p">:</span>
+                            <span class="n">points</span> <span class="o">+=</span> <span class="mi">2</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">points</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">errors</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="c1">#print(f&quot;Error occured, fitness reduced. total errors in {type}: {self.errors}\n{e}&quot;)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">points</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">points</span></div>
+
+<div class="viewcode-block" id="DetectionOptimizationService.create_population">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.create_population">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_population</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Individual</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function creates a list with random initialized Individual objects.</span>
+<span class="sd">        The kind of random initialization depends on attribute datatype.</span>
+<span class="sd">        Knowledge from opencv.aruco documentation was used to determine the range of values for each attribute.</span>
+<span class="sd">        https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html</span>
+<span class="sd">        :return population:</span>
+<span class="sd">        :rtype: list[Individual]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">population</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_size</span><span class="p">):</span>
+            <span class="n">parameters</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">aruco</span><span class="o">.</span><span class="n">DetectorParameters</span><span class="p">()</span>
+            <span class="c1"># Parameter for thresholding</span>
+            <span class="c1">#ThreshWinSizeMin / ThreshWinSizeMax represent the interval in pixels where the thresholding sizes are selected for the adaptive thresholding</span>
+            <span class="n">parameters</span><span class="o">.</span><span class="n">adaptiveThreshWinSizeMin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="c1"># WinSizeMax must be greater than WinSizeMin</span>
+            <span class="k">while</span>  <span class="n">parameters</span><span class="o">.</span><span class="n">adaptiveThreshWinSizeMax</span> <span class="o">&lt;=</span> <span class="n">parameters</span><span class="o">.</span><span class="n">adaptiveThreshWinSizeMin</span> <span class="o">+</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">parameters</span><span class="o">.</span><span class="n">adaptiveThreshWinSizeMax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="c1"># Since WinSizeStep is the iteration step size it must fit at least once into the difference between WinSizeMin and WinSizeMax</span>
+            <span class="k">while</span> <span class="n">parameters</span><span class="o">.</span><span class="n">adaptiveThreshWinSizeMax</span> <span class="o">-</span> <span class="n">parameters</span><span class="o">.</span><span class="n">adaptiveThreshWinSizeMin</span> <span class="o">&lt;=</span> <span class="n">parameters</span><span class="o">.</span><span class="n">adaptiveThreshWinSizeStep</span><span class="p">:</span>
+                <span class="n">parameters</span><span class="o">.</span><span class="n">adaptiveThreshWinSizeStep</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="c1"># ThreshConstant isis used in threshold() function. Default is 7 and recommended. So creation will vary around default value.</span>
+            <span class="n">parameters</span><span class="o">.</span><span class="n">adaptiveThreshConstant</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.5</span>
+
+            <span class="c1"># Parameter for contour recognition</span>
+            <span class="c1"># minMarkerPerimeterRate / maxMarkerPerimeterRate determine the minimum and maximum size</span>
+            <span class="c1"># of a marker in relation to the image size (not actual pixel size)</span>
+            <span class="c1"># hence there are boundaries for the values.</span>
+            <span class="k">while</span> <span class="n">parameters</span><span class="o">.</span><span class="n">minMarkerPerimeterRate</span><span class="o">&gt;=</span> <span class="n">parameters</span><span class="o">.</span><span class="n">maxMarkerPerimeterRate</span><span class="p">:</span>
+                <span class="n">parameters</span><span class="o">.</span><span class="n">minMarkerPerimeterRate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+                <span class="n">parameters</span><span class="o">.</span><span class="n">maxMarkerPerimeterRate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+            <span class="c1"># polygonalApproxAccuracyRate determines the maximum allowed error for the polygonal approximation to the marker contour.</span>
+            <span class="c1"># the more distorted the image is, the higher this rate should be and vice versa</span>
+            <span class="n">parameters</span><span class="o">.</span><span class="n">polygonalApproxAccuracyRate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+
+            <span class="c1"># determinse the minimum distance between two corners in a marker. value is relative to marker size.</span>
+            <span class="n">parameters</span><span class="o">.</span><span class="n">minCornerDistanceRate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+
+            <span class="c1"># minMerkerDistanceRate determines the minimum distance between two corners of different markers in the image.</span>
+            <span class="c1"># value is relative to min marker perimeter value.</span>
+            <span class="n">parameters</span><span class="o">.</span><span class="n">minMarkerDistanceRate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+            <span class="c1"># minimum distance from image border to marker in pixels</span>
+            <span class="n">parameters</span><span class="o">.</span><span class="n">minDistanceToBorder</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+            <span class="c1"># Bits extraction parameters</span>
+            <span class="c1"># markerBorderBits determines the marker borderwidth it is relative to the size of each bit.</span>
+            <span class="c1"># Since markers are created in a way where the border has the same size as the bits,</span>
+            <span class="c1"># this value should be only allowed to vary around 1 in a small interval.</span>
+            <span class="c1"># since required datatype is int, the value shouldnt be varied in any way ?!?</span>
+            <span class="n">parameters</span><span class="o">.</span><span class="n">markerBorderBits</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">parameters</span><span class="o">.</span><span class="n">minOtsuStdDev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+
+
+            <span class="n">parameters</span><span class="o">.</span><span class="n">perspectiveRemovePixelPerCell</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">parameters</span><span class="o">.</span><span class="n">perspectiveRemoveIgnoredMarginPerCell</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+
+            <span class="c1"># Marker identification parameters</span>
+            <span class="n">parameters</span><span class="o">.</span><span class="n">maxErroneousBitsInBorderRate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+            <span class="c1"># too high rate can lead to false positive pixels.</span>
+            <span class="n">parameters</span><span class="o">.</span><span class="n">errorCorrectionRate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.35</span>
+
+            <span class="c1"># Corner Refinement Parameters are not used in this usecase this position of the markers is not that important</span>
+            <span class="c1"># parameters.cornerRefinementMethod *= int(np.ceil((np.random.normal(0, 1) + 1)))</span>
+            <span class="c1"># parameters.cornerRefinementWinSize *= int(np.ceil((np.random.normal(0, 1) + 1)))</span>
+            <span class="c1"># parameters.cornerRefinementMaxIterations *= int(np.ceil((np.random.normal(0, 1) + 1)))</span>
+            <span class="c1"># parameters.cornerRefinementMinAccuracy *= (np.random.normal(0, 1) + 1)</span>
+            <span class="c1"># parameters.aprilTagQuadDecimate *= (np.random.normal(0, 1) + 1)</span>
+            <span class="c1"># parameters.aprilTagQuadSigma *= (np.random.normal(0, 1) + 1)</span>
+            <span class="c1"># parameters.aprilTagMinClusterPixels *= int(np.ceil((np.random.normal(0, 1) + 1)))</span>
+            <span class="c1"># parameters.aprilTagMaxNmaxima *= int(np.ceil((np.random.normal(0, 1) + 1)))</span>
+            <span class="c1"># parameters.aprilTagCriticalRad *= (np.random.normal(0, 1) + 1)</span>
+            <span class="c1"># parameters.aprilTagMaxLineFitMse *= (np.random.normal(0, 1) + 1)</span>
+            <span class="c1"># parameters.aprilTagMinWhiteBlackDiff *= int(np.ceil((np.random.normal(0, 1) + 1)))</span>
+            <span class="c1"># parameters.aprilTagDeglitch *= int(np.ceil((np.random.normal(0, 1) + 1)))</span>
+            <span class="c1"># parameters.detectInvertedMarker = random.choice([True, False])</span>
+            <span class="c1"># parameters.useAruco3Detection = random.choice([True, False])</span>
+            <span class="c1"># parameters.minSideLengthCanonicalImg *= int(np.ceil((np.random.normal(0, 1) + 1)))</span>
+            <span class="c1"># parameters.minMarkerLengthRatioOriginalImg *= (np.random.normal(0, 1) + 1)</span>
+            
+            <span class="c1"># create Indivisual instance with parameters and append to population</span>
+            <span class="n">individual</span> <span class="o">=</span> <span class="n">Individual</span><span class="p">()</span>
+            <span class="n">individual</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span>
+            <span class="n">population</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">individual</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Population of </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">))</span><span class="si">}</span><span class="s1"> created in </span><span class="si">{</span><span class="n">end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">}</span><span class="s1"> seconds&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">population</span></div>
+
+<div class="viewcode-block" id="DetectionOptimizationService.mutate_parameter">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.mutate_parameter">[docs]</a>
+    <span class="k">def</span> <span class="nf">mutate_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">individual</span><span class="p">:</span> <span class="n">Individual</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Individual</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to mutate attributes of one Individual object.</span>
+<span class="sd">        :param individual: Individual object</span>
+<span class="sd">        :type individual: Individual</span>
+<span class="sd">        :returns individual: mutated Individual object</span>
+<span class="sd">        :rtype: Individual</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attribute_names</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">individual</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mut_prob</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mut_rate</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="nb">float</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">*=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mut_rate</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="nb">bool</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">individual</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">individual</span></div>
+
+<div class="viewcode-block" id="DetectionOptimizationService.recombine_parameters">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.recombine_parameters">[docs]</a>
+    <span class="k">def</span> <span class="nf">recombine_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent1</span><span class="p">:</span> <span class="n">Individual</span><span class="p">,</span> <span class="n">parent2</span><span class="p">:</span> <span class="n">Individual</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Individual</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Takes two Individual objects as parents and randomly recombines attribute values into a child object.</span>
+<span class="sd">        :param parent1: Individual object as parent</span>
+<span class="sd">        :type parent1: Individual</span>
+<span class="sd">        :param parent2: another Individual object as parent</span>
+<span class="sd">        :type parent2: Individual</span>
+<span class="sd">        :returns child: child object with attribute values randomly selected from parents</span>
+<span class="sd">        :rtype: Individual</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">child</span> <span class="o">=</span> <span class="n">Individual</span><span class="p">()</span>
+        <span class="n">child</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">aruco</span><span class="o">.</span><span class="n">DetectorParameters</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attribute_names</span><span class="p">:</span>
+            <span class="n">value1</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">parent1</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+            <span class="n">value2</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">parent2</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">value1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">value2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">child</span></div>
+
+<div class="viewcode-block" id="DetectionOptimizationService.tournament_selection">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.tournament_selection">[docs]</a>
+    <span class="k">def</span> <span class="nf">tournament_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">population</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Individual</span><span class="p">],</span> <span class="n">tournament_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Individual</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        function to select fittest individual from tournament in population.</span>
+<span class="sd">        tournament_size individuals are selected and the fittest individual is returned.</span>
+
+<span class="sd">        :param population: population</span>
+<span class="sd">        :type population: list[Individual]</span>
+<span class="sd">        :param tournament_size: determines the group size out of which the fittest indivisual is selected</span>
+<span class="sd">        :type tournament_size: int</span>
+<span class="sd">        :returns: instance of Individual (fittest in tournament)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">competitors</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">population</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">fitness</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">competitors</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tournament_size</span><span class="p">:</span>
+            <span class="n">competitors</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">tournament_size</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">competitors</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">competitors</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">tournament_size</span><span class="p">)</span>
+        <span class="n">fittest</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">competitors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">fitness</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">fittest</span></div>
+
+<div class="viewcode-block" id="DetectionOptimizationService.dump_parameters">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.dump_parameters">[docs]</a>
+    <span class="k">def</span> <span class="nf">dump_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">cv2</span><span class="o">.</span><span class="n">aruco</span><span class="o">.</span><span class="n">DetectorParameters</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attribute_names</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DetectionOptimizationService.plot_results">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.plot_results">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        creates a simple plot to plot results of genetic algorithm against together with parameters.</span>
+<span class="sd">        :param type: for text generation: &#39;cup&#39;, &#39;pallet&#39; or &#39;shelf&#39;</span>
+<span class="sd">        :type type: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># plot results</span>
+        <span class="n">runs</span> <span class="o">=</span> <span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">]</span>
+        <span class="n">max_fitness</span> <span class="o">=</span> <span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">]</span>
+        <span class="n">mean_fitness</span> <span class="o">=</span> <span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">max_fitness</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">mean_fitness</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fitness over generations for </span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1"> markers&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Generation&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fitness (number of detected </span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1"> markers)&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span>
+                 <span class="sa">f</span><span class="s1">&#39;population size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_size</span><span class="si">}</span><span class="se">\n</span><span class="s1">mutation probability: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mut_prob</span><span class="si">}</span><span class="se">\n</span><span class="s1">mutation rate: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mut_rate</span><span class="si">}</span><span class="se">\n</span><span class="s1">max gen: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">max_iter</span><span class="si">}</span><span class="se">\n</span><span class="s1">tournament size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tournament_size</span><span class="si">}</span><span class="se">\n</span><span class="s1">tournament winner: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tournament_winner_count</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;ga_</span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1">_result.png&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DetectionOptimizationService.run_ga">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.run_ga">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_ga</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">errors_generation</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># create initial population and evaluate fitness</span>
+        <span class="n">pop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_population</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">errors</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_iter</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Running GA (</span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="c1"># evaluate fitness</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">errors_generation</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="p">[]])</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">)),</span> <span class="n">desc</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Generation </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                <span class="n">individual</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">individual</span><span class="o">.</span><span class="n">fitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_fitness</span><span class="p">(</span><span class="n">individual</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span>
+            <span class="c1"># save results</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">individual</span><span class="o">.</span><span class="n">fitness</span> <span class="k">for</span> <span class="n">individual</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">]),</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">individual</span><span class="o">.</span><span class="n">fitness</span> <span class="k">for</span> <span class="n">individual</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">]),</span>
+                            <span class="nb">sorted</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">fitness</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">errors_generation</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">errors</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Generation </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1">)</span><span class="se">\n</span><span class="s1">Fitness evaluation:</span><span class="se">\n</span><span class="s1">Mean: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s1">Max: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Erroring individuals: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">errors_generation</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="c1"># select fittest for recombination</span>
+            <span class="n">new_pop</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tournament_winner_count</span><span class="p">):</span>
+                <span class="n">new_pop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tournament_selection</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tournament_size</span><span class="p">))</span>
+            <span class="c1"># recombine missing individuals</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_size</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">tournament_winner_count</span><span class="p">):</span>
+                <span class="n">parent1</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">new_pop</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tournament_winner_count</span><span class="p">])</span>
+                <span class="n">parent2</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">new_pop</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tournament_winner_count</span><span class="p">])</span>
+                <span class="n">new_pop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recombine_parameters</span><span class="p">(</span><span class="n">parent1</span><span class="p">,</span> <span class="n">parent2</span><span class="p">))</span>
+            <span class="c1"># mutate population bad elites from previous generation and recombined individuals</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_size</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tournament_winner_count</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">new_pop</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">.</span><span class="n">fitness</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">new_pop</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutate_parameter</span><span class="p">(</span><span class="n">new_pop</span><span class="p">[</span><span class="n">l</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">new_pop</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutate_parameter</span><span class="p">(</span><span class="n">new_pop</span><span class="p">[</span><span class="n">l</span><span class="p">])</span>
+            <span class="n">pop</span> <span class="o">=</span> <span class="n">new_pop</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dump_parameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;ga_</span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1">_resultGen</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">.yaml&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DetectionOptimizationService.automatic_brightness_and_contrast">
+<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.automatic_brightness_and_contrast">[docs]</a>
+    <span class="k">def</span> <span class="nf">automatic_brightness_and_contrast</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>  <span class="n">clip_hist_percent</span><span class="p">):</span>
+<span class="w">       </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">       Autoadjusting color and brightness for better marker detection.</span>
+<span class="sd">       Source: Stackoverflow</span>
+<span class="sd">       https://stackoverflow.com/questions/56905592/automatic-contrast-and-brightness-adjustment-of-a-color-photo-of-a-sheet-of-pape</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+       <span class="n">gray</span> <span class="o">=</span> <span class="n">image</span>
+       <span class="c1"># Calculate grayscale histogram</span>
+       <span class="n">hist</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">calcHist</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="mi">256</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">256</span><span class="p">])</span>
+       <span class="n">hist_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
+       <span class="c1"># Calculate cumulativ distribution from the histogram</span>
+       <span class="n">accumulator</span> <span class="o">=</span> <span class="p">[]</span>
+       <span class="n">accumulator</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+       <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">hist_size</span><span class="p">):</span>
+           <span class="n">accumulator</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accumulator</span><span class="p">[</span><span class="n">index</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="nb">float</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="n">index</span><span class="p">]))</span>
+       <span class="c1"># Locate points to clip</span>
+       <span class="n">maximum</span> <span class="o">=</span> <span class="n">accumulator</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+       <span class="n">clip_hist_percent</span> <span class="o">*=</span> <span class="p">(</span><span class="n">maximum</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+       <span class="n">clip_hist_percent</span> <span class="o">/=</span><span class="mi">2</span>
+       <span class="c1"># Locate left cut</span>
+       <span class="n">minimum_gray</span> <span class="o">=</span> <span class="mi">0</span>
+       <span class="k">while</span> <span class="n">accumulator</span><span class="p">[</span><span class="n">minimum_gray</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">clip_hist_percent</span><span class="p">:</span>
+           <span class="n">minimum_gray</span> <span class="o">+=</span><span class="mi">1</span>
+       <span class="c1"># Locate right cut</span>
+       <span class="n">maximum_gray</span> <span class="o">=</span> <span class="n">hist_size</span><span class="o">-</span><span class="mi">1</span>
+       <span class="k">while</span> <span class="n">accumulator</span><span class="p">[</span><span class="n">maximum_gray</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">maximum</span> <span class="o">-</span> <span class="n">clip_hist_percent</span><span class="p">):</span>
+           <span class="n">maximum_gray</span> <span class="o">-=</span> <span class="mi">1</span>
+       <span class="c1"># Calculate alpha and beta values</span>
+       <span class="k">if</span> <span class="n">maximum_gray</span> <span class="o">-</span><span class="n">minimum_gray</span> <span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+           <span class="n">alpha</span> <span class="o">=</span> <span class="mi">255</span><span class="o">/</span><span class="p">(</span><span class="n">maximum_gray</span> <span class="o">-</span> <span class="n">minimum_gray</span><span class="p">)</span>
+           <span class="n">beta</span> <span class="o">=</span> <span class="o">-</span><span class="n">minimum_gray</span> <span class="o">*</span> <span class="n">alpha</span>
+           <span class="c1"># Calculate new histogram with desired range and show histogram</span>
+           <span class="c1"># new_hist = cv2.calcHist([gray], [0], None, [256], [minimum_gray, maximum_gray])</span>
+           <span class="c1"># plt.plot(hist)</span>
+           <span class="c1"># plt.plot(new_hist)</span>
+           <span class="c1"># plt.xlim([0, 256])</span>
+           <span class="c1"># plt.show()</span>
+           <span class="c1"># print(alpha, beta)</span>
+           <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">convertScaleAbs</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span>
+           <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s2">&quot;processed_before_detection.png&quot;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+           <span class="c1">#plt.imshow(img, cmap= &#39;gray&#39;)</span>
+           <span class="c1">#plt.show()</span>
+           <span class="k">return</span> <span class="n">img</span>
+       <span class="k">else</span><span class="p">:</span>
+           <span class="k">return</span> <span class="n">gray</span></div>
+</div>
+
+
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">µPlant Warehouse Management</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../view.html">View</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dialogs.html">Dialogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datafiles.html">Data Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plugins.html">PlugIn’s</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Lennart Schink.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

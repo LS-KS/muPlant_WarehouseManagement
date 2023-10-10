@@ -43,7 +43,7 @@ Auf Anfrage des Stocktaking Moduls liefert der Bilder der beiden Kameras.
     :show-inheritance:
 
 Stocktaking
-___________
+-----------
 
 Dieser Service bildet die Inventurprozesse ab. Vom CameraService gelieferte Bilder werden hier
 verarbeitet und ermittelt wie viele Becher in der Lagerzelle wo vorhanden sind.
@@ -54,8 +54,7 @@ verarbeitet und ermittelt wie viele Becher in der Lagerzelle wo vorhanden sind.
     :show-inheritance:
 
 DetectorOptimizationService
-____________________________
-
+---------------------------
 Kann verwendet werden um die 31 Parameter für die Markererkennung zu optimieren.
 Bei der Optimierung wird wie folgt unterschieden:
 
@@ -104,7 +103,7 @@ Anwendung:
     ACHTUNG: Bereits existierende Dateien werden ggf. überschrieben. Im Zweifel müssen diese gesondert gesichert werden.
 
 
-.. automodule:: src.service.ga_detectionparameters.py
+.. automodule:: src.service.DetectionOptimizationService
     :members:
     :undoc-members:
     :show-inheritance:

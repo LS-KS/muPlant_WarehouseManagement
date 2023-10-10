@@ -35,3 +35,13 @@ Es gibt kein ViewModel, jedoch werden die Daten über Signal und Slot an Prefere
     :members:
     :undoc-members:
     :show-inheritance:
+
+ABB Controller
+____________________
+
+Der ABB Controller nutzt die ABB-Robot Web Services RESTful API um Werte auf der Steuerung des IRB 140 zu schreiben oder abzufragen.
+
+.. automodule:: src.controller.ABBController
+    :members:
+    :undoc-members:
+    :show-inheritance:

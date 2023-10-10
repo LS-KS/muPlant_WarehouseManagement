@@ -216,8 +216,9 @@ returns the obtained image</p>
 
 </dd></dl>
 
+</section>
 <section id="stocktaking">
-<h3>Stocktaking<a class="headerlink" href="#stocktaking" title="Link to this heading">¶</a></h3>
+<h2>Stocktaking<a class="headerlink" href="#stocktaking" title="Link to this heading">¶</a></h2>
 <p>Dieser Service bildet die Inventurprozesse ab. Vom CameraService gelieferte Bilder werden hier
 verarbeitet und ermittelt wie viele Becher in der Lagerzelle wo vorhanden sind.</p>
 <p id="module-src.service.stocktaking">This Python File implements the logic to recognize arUco markers.
@@ -225,8 +226,34 @@ class VideoThread inherits from QThread class. So image capture and image proces
 Processed images are provided to qml by using class videoPlayer which inherits from QQuickImageProvider.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.stocktaking.</span></span><span class="sig-name descname"><span class="pre">Stocktaker</span></span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.stocktaking.</span></span><span class="sig-name descname"><span class="pre">Stocktaker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventLogService</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QQuickImageProvider</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.calculate_result_matrix">
+<span class="sig-name descname"><span class="pre">calculate_result_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.calculate_result_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.calculate_result_matrix" title="Link to this definition">¶</a></dt>
+<dd><p>Public Method. Calculates the result matrix based on detected markers.
+Emits self.submitResultMatrix signal with result matrix.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.emit_cell_image">
+<span class="sig-name descname"><span class="pre">emit_cell_image</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.emit_cell_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.emit_cell_image" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.emit_pallet_cup_images">
+<span class="sig-name descname"><span class="pre">emit_pallet_cup_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage_cell</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.emit_pallet_cup_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.emit_pallet_cup_images" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.evaluate_gripper">
+<span class="sig-name descname"><span class="pre">evaluate_gripper</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.evaluate_gripper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.evaluate_gripper" title="Link to this definition">¶</a></dt>
+<dd><p>Public Method. Obtains image from CameraService.Imageprovider.
+Since marker should take a significant area of the image, no rectification is performed.
+Performs arUco detection after brightness and color adjustment.
+processed image is kept in gripper_image property.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.evaluate_storagecell_cam">
 <span class="sig-name descname"><span class="pre">evaluate_storagecell_cam</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.evaluate_storagecell_cam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.evaluate_storagecell_cam" title="Link to this definition">¶</a></dt>
@@ -236,17 +263,23 @@ Afterwards signals with processed image is emitted to QML Engine.
 Before every step a message is emitted to EventlogService in main screen</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.select_marker_parameters">
+<span class="sig-name descname"><span class="pre">select_marker_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.select_marker_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.select_marker_parameters" title="Link to this definition">¶</a></dt>
+<dd><p>Selects detector settings, from locating integer and string</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;Stocktaker&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QQuickImageProvider&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.stocktaking.Stocktaker.staticMetaObject" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;Stocktaker&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QQuickImageProvider&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Slot,</span> <span class="pre">signature=evaluate_storagecell_cam()</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Slot,</span> <span class="pre">signature=emit_pallet_cup_images(int),</span> <span class="pre">parameters=int</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Slot,</span> <span class="pre">signature=emit_cell_image()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.stocktaking.Stocktaker.staticMetaObject" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="detector-calibration-service">
-<h3>Detector Calibration Service<a class="headerlink" href="#detector-calibration-service" title="Link to this heading">¶</a></h3>
-<p>Die Datei ‘ga_detectionparameters’ kann verwendet werden um die 31 Parameter für die Markererkennung zu optimieren.
+<section id="detectoroptimizationservice">
+<h2>DetectorOptimizationService<a class="headerlink" href="#detectoroptimizationservice" title="Link to this heading">¶</a></h2>
+<p>Kann verwendet werden um die 31 Parameter für die Markererkennung zu optimieren.
 Bei der Optimierung wird wie folgt unterschieden:</p>
 <table class="docutils align-default">
 <thead>
@@ -294,7 +327,155 @@ In dem Datentupel der Forschleife kann der Bereich des Lagers angepasst werden. 
 ‘dump_parameters’ angegeben. Diese müssen entsprechend der Pfadliste in dem Modul src/constants/Constant.py angepasst werden.
 ACHTUNG: Bereits existierende Dateien werden ggf. überschrieben. Im Zweifel müssen diese gesondert gesichert werden.</p>
 </aside>
-</section>
+<p id="module-src.service.DetectionOptimizationService">Genetic algorithm to calculate optimal detection parameters for aruco marker detection.
+Problem was, that default settings did not detect all aruco markers reliably.
+The parameters consists of 32 attributes and minor changes in just one attribute may lead to
+complete failure in detection.
+Idea developed from just a for-loop to test all possible combinations of parameters.
+Problem was that documentation of opencv.aruco doesnot provide any information about the
+limits of the parameters. So it was not possible to iterate over all possible combinations.
+Therefore a genetic algorithm was implemented to find the best parameters by exploring the
+parameter space randomly.</p>
+<p>Some parameters are boolean, some are integers and some are floats.
+The ga is not binary coded. float parameters are mutated by a normal distributed random number
+while boolean parameters are just flipped be either be choosed randomly (initialization) or flipped (mutation).
+Integer parameters are calculated by the same way but just rounded.</p>
+<p>The random multiplier in mutation is a normal distributed random number with mean 1 and a deviation of 1.
+This number is multiplied by the mutation rate to get more diversity.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.DetectionOptimizationService.</span></span><span class="sig-name descname"><span class="pre">DetectionOptimizationService</span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Service to optimize detection parameters for aruco markers.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.attribute_names">
+<span class="sig-name descname"><span class="pre">attribute_names</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['adaptiveThreshWinSizeMin',</span> <span class="pre">'adaptiveThreshWinSizeMax',</span> <span class="pre">'adaptiveThreshWinSizeStep',</span> <span class="pre">'adaptiveThreshConstant',</span> <span class="pre">'minMarkerPerimeterRate',</span> <span class="pre">'maxMarkerPerimeterRate',</span> <span class="pre">'polygonalApproxAccuracyRate',</span> <span class="pre">'minCornerDistanceRate',</span> <span class="pre">'minDistanceToBorder',</span> <span class="pre">'minMarkerDistanceRate',</span> <span class="pre">'cornerRefinementMethod',</span> <span class="pre">'cornerRefinementWinSize',</span> <span class="pre">'cornerRefinementMaxIterations',</span> <span class="pre">'cornerRefinementMinAccuracy',</span> <span class="pre">'markerBorderBits',</span> <span class="pre">'perspectiveRemovePixelPerCell',</span> <span class="pre">'perspectiveRemoveIgnoredMarginPerCell',</span> <span class="pre">'maxErroneousBitsInBorderRate',</span> <span class="pre">'minOtsuStdDev',</span> <span class="pre">'errorCorrectionRate',</span> <span class="pre">'aprilTagQuadDecimate',</span> <span class="pre">'aprilTagQuadSigma',</span> <span class="pre">'aprilTagMinClusterPixels',</span> <span class="pre">'aprilTagMaxNmaxima',</span> <span class="pre">'aprilTagCriticalRad',</span> <span class="pre">'aprilTagMaxLineFitMse',</span> <span class="pre">'aprilTagMinWhiteBlackDiff',</span> <span class="pre">'aprilTagDeglitch',</span> <span class="pre">'detectInvertedMarker',</span> <span class="pre">'useAruco3Detection',</span> <span class="pre">'minSideLengthCanonicalImg',</span> <span class="pre">'minMarkerLengthRatioOriginalImg']</span></em><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.attribute_names" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.automatic_brightness_and_contrast">
+<span class="sig-name descname"><span class="pre">automatic_brightness_and_contrast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clip_hist_percent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.automatic_brightness_and_contrast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.automatic_brightness_and_contrast" title="Link to this definition">¶</a></dt>
+<dd><p>Autoadjusting color and brightness for better marker detection.
+Source: Stackoverflow
+<a class="reference external" href="https://stackoverflow.com/questions/56905592/automatic-contrast-and-brightness-adjustment-of-a-color-photo-of-a-sheet-of-pape">https://stackoverflow.com/questions/56905592/automatic-contrast-and-brightness-adjustment-of-a-color-photo-of-a-sheet-of-pape</a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.create_population">
+<span class="sig-name descname"><span class="pre">create_population</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.create_population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.create_population" title="Link to this definition">¶</a></dt>
+<dd><p>This function creates a list with random initialized Individual objects.
+The kind of random initialization depends on attribute datatype.
+Knowledge from opencv.aruco documentation was used to determine the range of values for each attribute.
+<a class="reference external" href="https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html">https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html</a>
+:return population:
+:rtype: list[Individual]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.dump_parameters">
+<span class="sig-name descname"><span class="pre">dump_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DetectorParameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.dump_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.dump_parameters" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.evaluate_fitness">
+<span class="sig-name descname"><span class="pre">evaluate_fitness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DetectorParameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.evaluate_fitness"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.evaluate_fitness" title="Link to this definition">¶</a></dt>
+<dd><p>Calculates fittness of an Individual object’s parameters attribute by detecting selected marker types.
+fitness is increased by 1 for each correctly detected marker.
+fitness is decreased by 1 if an error occurs.
+:param parameters: parameters attribute of Individual object
+:type parameters: cv2.aruco.DetectorParameters
+:param t: type of marker to be detected could be either ‘cups’, ‘pallets’ or ‘cell’
+:type t: str
+:returns points: fitness value
+:rtype: int</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.load_images">
+<span class="sig-name descname"><span class="pre">load_images</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.load_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.load_images" title="Link to this definition">¶</a></dt>
+<dd><p>This function will load the images for the optimization from src/service directory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.mutate_parameter">
+<span class="sig-name descname"><span class="pre">mutate_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">individual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.mutate_parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.mutate_parameter" title="Link to this definition">¶</a></dt>
+<dd><p>Function to mutate attributes of one Individual object.
+:param individual: Individual object
+:type individual: Individual
+:returns individual: mutated Individual object
+:rtype: Individual</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_cups">
+<span class="sig-name descname"><span class="pre">optimize_cups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.optimize_cups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_cups" title="Link to this definition">¶</a></dt>
+<dd><p>This function will optimize the detection parameters for cup markers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_pallets">
+<span class="sig-name descname"><span class="pre">optimize_pallets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.optimize_pallets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_pallets" title="Link to this definition">¶</a></dt>
+<dd><p>This function will optimize the detection parameters for pallet markers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_shelves">
+<span class="sig-name descname"><span class="pre">optimize_shelves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.optimize_shelves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_shelves" title="Link to this definition">¶</a></dt>
+<dd><p>This function will optimize the detection parameters for shelf markers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.plot_results">
+<span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.plot_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.plot_results" title="Link to this definition">¶</a></dt>
+<dd><p>creates a simple plot to plot results of genetic algorithm against together with parameters.
+:param type: for text generation: ‘cup’, ‘pallet’ or ‘shelf’
+:type type: str</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.recombine_parameters">
+<span class="sig-name descname"><span class="pre">recombine_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.recombine_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.recombine_parameters" title="Link to this definition">¶</a></dt>
+<dd><p>Takes two Individual objects as parents and randomly recombines attribute values into a child object.
+:param parent1: Individual object as parent
+:type parent1: Individual
+:param parent2: another Individual object as parent
+:type parent2: Individual
+:returns child: child object with attribute values randomly selected from parents
+:rtype: Individual</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.run_ga">
+<span class="sig-name descname"><span class="pre">run_ga</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.run_ga"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.run_ga" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.tournament_selection">
+<span class="sig-name descname"><span class="pre">tournament_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tournament_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.tournament_selection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.tournament_selection" title="Link to this definition">¶</a></dt>
+<dd><p>function to select fittest individual from tournament in population.
+tournament_size individuals are selected and the fittest individual is returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>population</strong> (<em>list</em><em>[</em><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><em>Individual</em></a><em>]</em>) – population</p></li>
+<li><p><strong>tournament_size</strong> (<em>int</em>) – determines the group size out of which the fittest indivisual is selected</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>instance of Individual (fittest in tournament)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.service.DetectionOptimizationService.Individual">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.DetectionOptimizationService.</span></span><span class="sig-name descname"><span class="pre">Individual</span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#Individual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.Individual" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>class to keep individual and fitness property together.</p>
+</dd></dl>
+
 </section>
 </section>
 
@@ -327,6 +508,8 @@ ACHTUNG: Bereits existierende Dateien werden ggf. überschrieben. Im Zweifel mü
 <li class="toctree-l3"><a class="reference internal" href="#agentservice">AgentService</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#opcuaservice">OpcuaService</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cameraservice">CameraService</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stocktaking">Stocktaking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#detectoroptimizationservice">DetectorOptimizationService</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ViewModel.html">ViewModel</a></li>

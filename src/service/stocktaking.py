@@ -31,11 +31,11 @@ class Stocktaker(QQuickImageProvider):
 
 
 
-    def __init__(self):
+    def __init__(self, eventLogService: None | EventlogService):
         super().__init__(QQmlImageProviderBase.Image, QQmlImageProviderBase.ForceAsynchronousImageLoading)
         self.cameraService = ImageProvider()
         self.constants = Constants()
-        self.eventlogService = EventlogService()
+        self.eventlogService = eventLogService
         self.raw_image = []
         self.image = []
         self.sections = []

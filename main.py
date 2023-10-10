@@ -27,6 +27,7 @@ from src.service.OpcuaService import OpcuaService
 from src.constants.Constants import Constants
 from src.service.AgentService import AgentService
 from src.service.stocktaking import Stocktaker
+from src.controller.ABBController import ABBController
 
 
 if __name__ == '__main__':
@@ -68,12 +69,16 @@ if __name__ == '__main__':
     engine.rootContext().setContextProperty("rfidModel", rfidController.rfidViewModel)
     #engine.rootContext().setContextProperty("rfidModel", rfidController.rfidProxyViewModel)
 
+    # Create ABB Controller for IRB 140
+    abbController = ABBController(preferenceController, eventlogService)
+    engine.rootContext().setContextProperty("abbController", abbController)
+
     # creates opcua service
     opcuaService = OpcuaService(eventlogService, preferenceController)
     engine.rootContext().setContextProperty("opcuaService", opcuaService)
 
     # creates Stocktaker object used in stocktaking plugin
-    stocktaker = Stocktaker()
+    stocktaker = Stocktaker(eventlogService)
     engine.rootContext().setContextProperty("stocktaker", stocktaker)
     engine.addImageProvider("stocktaker", stocktaker)
 

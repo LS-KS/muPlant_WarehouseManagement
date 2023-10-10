@@ -1,5 +1,5 @@
-abbip: 127.0.0.1
-abbport: 9
+abbip: 141.51.45.105
+abbport: 80
 autostartMcc: false
 autostartRfidServer: false
 clientNamespace: http://examples.freeopcua.github.io

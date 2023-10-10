@@ -489,6 +489,52 @@ Es gibt kein ViewModel, jedoch werden die Daten über Signal und Slot an Prefere
 </dd></dl>
 
 </section>
+<section id="abb-controller">
+<h2>ABB Controller<a class="headerlink" href="#abb-controller" title="Link to this heading">¶</a></h2>
+<p>Der ABB Controller nutzt die ABB-Robot Web Services RESTful API um Werte auf der Steuerung des IRB 140 zu schreiben oder abzufragen.</p>
+<dl class="py class" id="module-src.controller.ABBController">
+<dt class="sig sig-object py" id="src.controller.ABBController.ABBController">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.controller.ABBController.</span></span><span class="sig-name descname"><span class="pre">ABBController</span></span><a class="reference internal" href="../_modules/src/controller/ABBController.html#ABBController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.ABBController.ABBController" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.ABBController.ABBController.get_variable">
+<span class="sig-name descname"><span class="pre">get_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/src/controller/ABBController.html#ABBController.get_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.ABBController.ABBController.get_variable" title="Link to this definition">¶</a></dt>
+<dd><p>Public Method. Loads actual Settings from PreferenceController (ABB IP and Port).
+After this it writes a GET Request to ABB-Robot Web Service’s RESTful API with submitted variable name.
+Result of GET-Request is submitted to eventlogservice.
+In Case Request was successful, value is returned, else False.
+:param variable_name: Name of variable write to
+:type variable_name: str
+:rtype: Any, False if Request failed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.ABBController.ABBController.set_variable">
+<span class="sig-name descname"><span class="pre">set_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/controller/ABBController.html#ABBController.set_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.ABBController.ABBController.set_variable" title="Link to this definition">¶</a></dt>
+<dd><p>Public Method. Loads actual Settings from PreferenceController (ABB IP and Port).
+After this it writes a PUT Request to ABB-Robot Web Service’s RESTful API with submitted variable name and value.
+Result of PUT-Request is submitted to eventlogservice.
+In Case Request was successful, True is returned, else False.
+:param variable_name: Name of variable write to
+:type variable_name: str
+:param value: value that shall be written
+:type value: Any
+:rtype: bool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.ABBController.ABBController.startSession">
+<span class="sig-name descname"><span class="pre">startSession</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/controller/ABBController.html#ABBController.startSession"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.ABBController.ABBController.startSession" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.ABBController.ABBController.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;ABBController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.ABBController.ABBController.staticMetaObject" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -518,6 +564,7 @@ Es gibt kein ViewModel, jedoch werden die Daten über Signal und Slot an Prefere
 <li class="toctree-l3"><a class="reference internal" href="#inventory-controller">Inventory Controller</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#commissioncontroller">CommissionController</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#preferencecontroller">PreferenceController</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#abb-controller">ABB Controller</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Service.html">Service</a></li>
