@@ -7,14 +7,93 @@ from asyncua.common.methods import uamethod
 from src.controller.PreferenceController import PreferenceController
 from src.service.EventlogService import EventlogService
 
-
+class agentVars:
+    def __init__(self):
+        self.agentAgentLockID = None
+        self.agentAgentLockRequest = None
+        self.agentDone = None
+        self.agentFunctionID = None
+        self.agentFunctionID = None
+        self.agentFunctionReady = None
+        self.agentKeepAlive = None
+        self.agentResponseID = None
+        self.agentResponseReady = None
+        self.agentStatus = None
+        self.agentUnused = None
+        self.agentWorking = None
+        self.agentFuncParameter_1 = None
+        self.agentFuncParameter_2 = None
+        self.agentFuncParameter_3 = None
+        self.agentFuncParameter_4 = None
+        self.agentFuncParameter_5 = None
+        self.agentFuncParameter_6 = None
+        self.agentFuncParameter_7 = None
+        self.agentFuncParameter_8 = None
+        self.agentFuncParameter_9 = None
+        self.agentFuncParameter_10 = None
+        self.agentFuncParameter_11 = None
+        self.agentFuncParameter_12 = None
+        self.agentFuncParameter_13 = None
+        self.agentFuncParameter_14 = None
+        self.agentFuncParameter_15 = None
+        self.agentFuncParameter_16 = None
+        self.agentFuncParameter_17 = None
+        self.agentFuncParameter_18 = None
+        self.agentFuncParameter_19 = None
+        self.agentFuncParameter_20 = None
+        self.agentFuncParameter_21 = None
+        self.agentFuncParameter_22 = None
+        self.agentFuncParameter_23 = None
+        self.agentFuncParameter_24 = None
+        self.agentFuncParameter_25 = None
+        self.agentFuncParameter_26 = None
+        self.agentFuncParameter_27 = None
+        self.agentFuncParameter_28 = None
+        self.agentFuncParameter_29 = None
+        self.agentFuncParameter_30 = None
+        self.agentFuncParameter_31 = None
+        self.agentFuncParameter_32 = None
+        self.agentRespParameter_1 = None
+        self.agentRespParameter_2 = None
+        self.agentRespParameter_3 = None
+        self.agentRespParameter_4 = None
+        self.agentRespParameter_5 = None
+        self.agentRespParameter_6 = None
+        self.agentRespParameter_7 = None
+        self.agentRespParameter_8 = None
+        self.agentRespParameter_9 = None
+        self.agentRespParameter_10 = None
+        self.agentRespParameter_11 = None
+        self.agentRespParameter_12 = None
+        self.agentRespParameter_13 = None
+        self.agentRespParameter_14 = None
+        self.agentRespParameter_15 = None
+        self.agentRespParameter_16 = None
+        self.agentRespParameter_17 = None
+        self.agentRespParameter_18 = None
+        self.agentRespParameter_19 = None
+        self.agentRespParameter_20 = None
+        self.agentRespParameter_21 = None
+        self.agentRespParameter_22 = None
+        self.agentRespParameter_23 = None
+        self.agentRespParameter_24 = None
+        self.agentRespParameter_25 = None
+        self.agentRespParameter_26 = None
+        self.agentRespParameter_27 = None
+        self.agentRespParameter_28 = None
+        self.agentRespParameter_29 = None
+        self.agentRespParameter_30 = None
+        self.agentRespParameter_31 = None
+        self.agentRespParameter_32 = None
 
 class OpcuaServerHandle(QThread):
 
     def __init__(self, preferenceController: PreferenceController, parent = None, ) -> None:
-        QThread.__init__(self,parent)
+        QThread.__init__(self, parent)
         self.preferenceController = preferenceController
         self.opcuaServer = None
+        self.agent_vars = agentVars()
+
     
     def run(self):
         """
@@ -47,6 +126,7 @@ class OpcuaServerHandle(QThread):
         print("OpcuaServerHandle started")
         super().start()
         self.server = Server()
+        self.server.set_security_policy([ua.SecurityPolicyType.NoSecurity])
         print("OpcuaServerHandle running...")
 
     async def main(self) -> None:
@@ -79,6 +159,11 @@ class OpcuaServerHandle(QThread):
             [ua.VariantType.Int64],
         )
         _logger.info("Starting server!")
+        _logger.info("Creating Agent variables")
+        for field in vars(self.agent_vars).items():
+            field = await self.server.nodes.objects.add_object(idx, str(field.__str__()))
+
+
         async with self.server:
             while True:
                 await asyncio.sleep(1)
@@ -148,5 +233,5 @@ class OpcuaService(QObject):
     @Slot()
     def startOpcuaService(self, ):
         self.opcuaServerHandle.start()
-        self.opcuaClientHandle.start()
+        # self.opcuaClientHandle.start()
         self.eventlogService.writeEvent("OpcuaService", "OpcuaService started")

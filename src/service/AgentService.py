@@ -13,9 +13,9 @@ class AgentService(QObject):
         super().__init__()
         self.eventlogService: EventlogService = eventlogService
         self.preferenceController : PreferenceController = preferenceController
-        self.agentClient : AgentClient = None
-        self.agentClientOPC : AgentClientOPC = None
-        self.agentServer : AgentServer = None
+        # self.agentClient : AgentClient = None
+        # self.agentClientOPC : AgentClientOPC = None
+        self.agentServer: AgentServer = None
 
     @Slot()
     def setupAgentService(self):

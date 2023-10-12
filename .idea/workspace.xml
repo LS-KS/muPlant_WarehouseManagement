@@ -8,32 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1bb59e4-14c6-46d3-92d8-82a94a6183ab" name="Changes" comment="fixed marker detection and drawing. &#10;image slicing implemented.">
-      <change afterPath="$PROJECT_DIR$/src/controller/ABBController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/Controller.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/Controller.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/MainFile.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/MainFile.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/Service.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/Service.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/constants.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/constants.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/environment.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/Modules/Controller.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Modules/Controller.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/Modules/MainFile.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Modules/MainFile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/Modules/Service.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Modules/Service.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/Modules/constants.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Modules/constants.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/_modules/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_modules/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/_modules/src/service/stocktaking.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_modules/src/service/stocktaking.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/_sources/Modules/Controller.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_sources/Modules/Controller.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/_sources/Modules/Service.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_sources/Modules/Service.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/genindex.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/objects.inv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/py-modindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/py-modindex.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_build/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/searchindex.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sphinx_source/Modules/Controller.rst" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_source/Modules/Controller.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sphinx_source/Modules/Service.rst" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_source/Modules/Service.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/agentlib/agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/agentlib/agent.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/data/Preferences.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/Preferences.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/DetectionOptimizationService.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/DetectionOptimizationService.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/stocktaking.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/stocktaking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/AgentService.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/AgentService.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/OpcuaService.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/OpcuaService.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,28 +65,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Lagerzelle/muPlant_WarehouseManagement/Jupyter",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Lagerzelle/muPlant_WarehouseManagement/Jupyter&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Lagerzelle\muPlant_WarehouseManagement\Jupyter" />
@@ -121,7 +101,7 @@
       <recent name="$PROJECT_DIR$/src/view" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.ABBController">
+  <component name="RunManager" selected="Python.main">
     <configuration name="ABBController" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="muPlant_WarehouseManagement" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -314,6 +294,7 @@
       <workItem from="1696835848978" duration="16988000" />
       <workItem from="1696918582804" duration="2607000" />
       <workItem from="1696921627373" duration="8712000" />
+      <workItem from="1697097298570" duration="5508000" />
     </task>
     <task id="LOCAL-00001" summary="implemented Cup and Product">
       <created>1687298522583</created>
@@ -704,6 +685,11 @@
           <line>51</line>
           <option name="timeStamp" value="60" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/service/OpcuaService.py</url>
+          <line>234</line>
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
           <url>notebook://C:/Lagerzelle/muPlant_WarehouseManagement/Jupyter/farbcode_test.ipynb</url>
           <line>20</line>
@@ -719,9 +705,9 @@
     <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$stocktaking.coverage" NAME="stocktaking Coverage Results" MODIFIED="1696851830692" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
     <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ga_detectionparameters.coverage" NAME="DetectionOptimizationService Coverage Results" MODIFIED="1696613207099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
     <SUITE FILE_PATH="coverage/CameraService_py$CameraService.coverage" NAME="CameraService Coverage Results" MODIFIED="1695873479729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ABBController.coverage" NAME="ABBController Coverage Results" MODIFIED="1696931164970" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/controller" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ABBController.coverage" NAME="ABBController Coverage Results" MODIFIED="1697097529762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/controller" />
     <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$DetectionOptimizationService.coverage" NAME="DetectionOptimizationService Coverage Results" MODIFIED="1696829138820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1696928785864" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1697103290488" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CameraService_py$main.coverage" NAME="main Coverage Results" MODIFIED="1695872898142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
