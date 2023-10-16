@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 
-<html lang="en" data-content_root="../">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Service &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4f649999" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=039e1c02" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <script src="../_static/documentation_options.js?v=7f413068"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="ViewModel" href="ViewModel.html" />
@@ -35,18 +35,18 @@
           <div class="body" role="main">
             
   <section id="service">
-<h1>Service<a class="headerlink" href="#service" title="Link to this heading">¶</a></h1>
+<h1>Service<a class="headerlink" href="#service" title="Permalink to this heading">¶</a></h1>
 <section id="eventlogservice">
-<h2>EventlogService<a class="headerlink" href="#eventlogservice" title="Link to this heading">¶</a></h2>
+<h2>EventlogService<a class="headerlink" href="#eventlogservice" title="Permalink to this heading">¶</a></h2>
 <p>Der EventlogService ermögicht es der gesamten Anwendung Strings entgegenzunehmen und als Events in
 der QML View Eventlog zu rendern.</p>
-<dl class="py class" id="module-src.service.EventlogService">
+<span class="target" id="module-src.service.EventlogService"></span><dl class="py class">
 <dt class="sig sig-object py" id="src.service.EventlogService.EventlogService">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.EventlogService.</span></span><span class="sig-name descname"><span class="pre">EventlogService</span></span><a class="reference internal" href="../_modules/src/service/EventlogService.html#EventlogService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.EventlogService.EventlogService" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.EventlogService.</span></span><span class="sig-name descname"><span class="pre">EventlogService</span></span><a class="reference internal" href="../_modules/src/service/EventlogService.html#EventlogService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.EventlogService.EventlogService" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.EventlogService.EventlogService.createMessage">
-<span class="sig-name descname"><span class="pre">createMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/EventlogService.html#EventlogService.createMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.EventlogService.EventlogService.createMessage" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">createMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/EventlogService.html#EventlogService.createMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.EventlogService.EventlogService.createMessage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a string from provided source-string and source-message.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -63,12 +63,12 @@ der QML View Eventlog zu rendern.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.EventlogService.EventlogService.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;EventlogService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Slot,</span> <span class="pre">signature=writeEvent(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.EventlogService.EventlogService.staticMetaObject" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;EventlogService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Slot,</span> <span class="pre">signature=writeEvent(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.EventlogService.EventlogService.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.EventlogService.EventlogService.writeEvent">
-<span class="sig-name descname"><span class="pre">writeEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/EventlogService.html#EventlogService.writeEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.EventlogService.EventlogService.writeEvent" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">writeEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/EventlogService.html#EventlogService.writeEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.EventlogService.EventlogService.writeEvent" title="Permalink to this definition">¶</a></dt>
 <dd><p>obtains two strings, creates an event message from it and emits the formatted string as signal.
 :param source: can be any string
 :type source: str
@@ -81,204 +81,143 @@ der QML View Eventlog zu rendern.</p>
 
 </section>
 <section id="agentservice">
-<h2>AgentService<a class="headerlink" href="#agentservice" title="Link to this heading">¶</a></h2>
+<h2>AgentService<a class="headerlink" href="#agentservice" title="Permalink to this heading">¶</a></h2>
 <p>Bildet die Implementierung des AgentService von Lers Kistner ab.</p>
-<dl class="py class" id="module-src.service.AgentService">
+<span class="target" id="module-src.service.AgentService"></span><dl class="py class">
 <dt class="sig sig-object py" id="src.service.AgentService.AgentService">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.AgentService.</span></span><span class="sig-name descname"><span class="pre">AgentService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventlogService</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/AgentService.html#AgentService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.AgentService.AgentService" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.AgentService.</span></span><span class="sig-name descname"><span class="pre">AgentService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventlogService</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/AgentService.html#AgentService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.AgentService.AgentService" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.AgentService.AgentService.setupAgentService">
-<span class="sig-name descname"><span class="pre">setupAgentService</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/AgentService.html#AgentService.setupAgentService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.AgentService.AgentService.setupAgentService" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setupAgentService</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/AgentService.html#AgentService.setupAgentService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.AgentService.AgentService.setupAgentService" title="Permalink to this definition">¶</a></dt>
 <dd><p>sets up AgentService</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.AgentService.AgentService.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;AgentService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setupAgentService()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.AgentService.AgentService.staticMetaObject" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;AgentService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Slot,</span> <span class="pre">signature=setupAgentService()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.AgentService.AgentService.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="opcuaservice">
-<h2>OpcuaService<a class="headerlink" href="#opcuaservice" title="Link to this heading">¶</a></h2>
+<h2>OpcuaService<a class="headerlink" href="#opcuaservice" title="Permalink to this heading">¶</a></h2>
 <p>Hostet einen OPC UA Server und Client für die Kommunikation mit der muPlant</p>
-<dl class="py class" id="module-src.service.OpcuaService">
-<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaClientHandle">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">OpcuaClientHandle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QObject</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaClientHandle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaClientHandle" title="Link to this definition">¶</a></dt>
+<span class="target" id="module-src.service.OpcuaService"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">OpcuaServerHandle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">inventory_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.invController.invController" title="src.controller.invController.invController"><span class="pre">invController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">commission_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.CommissionController.CommissionController" title="src.controller.CommissionController.CommissionController"><span class="pre">CommissionController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">eventlog_service</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentservice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.AgentService.AgentService" title="src.service.AgentService.AgentService"><span class="pre">AgentService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QThread</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaClientHandle.main">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaClientHandle.main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaClientHandle.main" title="Link to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.agentVarsChanged">
+<span class="sig-name descname"><span class="pre">agentVarsChanged</span></span><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.agentVarsChanged" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaClientHandle.quit">
-<span class="sig-name descname"><span class="pre">quit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaClientHandle.quit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaClientHandle.quit" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.clear_agent">
+<span class="sig-name descname"><span class="pre">clear_agent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.clear_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.clear_agent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets all agent variables to default values.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.commissionVarsChanged">
+<span class="sig-name descname"><span class="pre">commissionVarsChanged</span></span><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.commissionVarsChanged" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaClientHandle.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaClientHandle.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaClientHandle.run" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaClientHandle.start">
-<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PySide6.QtCore.QThread.Priority</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Instance(PySide6.QtCore.QThread.Priority.InheritPriority)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaClientHandle.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaClientHandle.start" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.func">
+<span class="sig-name descname"><span class="pre">func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.func" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaClientHandle.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;OpcuaClientHandle&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.OpcuaService.OpcuaClientHandle.staticMetaObject" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">OpcuaServerHandle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QThread</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.func">
-<span class="sig-name descname"><span class="pre">func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.func" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.inventoryVarsChanged">
+<span class="sig-name descname"><span class="pre">inventoryVarsChanged</span></span><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.inventoryVarsChanged" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.main">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.main" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main function for opcua server</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.quit">
-<span class="sig-name descname"><span class="pre">quit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.quit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.quit" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">quit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.quit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.quit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Must be implemented for QThread. Stops QThread and deletes it.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.run" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Must be implemented for QThread. Wraps asyncio function in sync function.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.setup_server">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setup_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.setup_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.setup_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>setup server object and namespace.
+returns namespace index.
+rtype: int</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.start">
-<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.start" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Must be implemented for QThread. Starts QThread 
 and creates an opcua server object.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;OpcuaServerHandle&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.staticMetaObject" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;OpcuaServerHandle&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Signal,</span> <span class="pre">signature=agentVarsChanged(QVariantMap),</span> <span class="pre">parameters=QVariantMap</span>&#160;&#160; <span class="pre">#14</span> <span class="pre">type=Signal,</span> <span class="pre">signature=inventoryVarsChanged(QVariantMap),</span> <span class="pre">parameters=QVariantMap</span>&#160;&#160; <span class="pre">#15</span> <span class="pre">type=Signal,</span> <span class="pre">signature=commissionVarsChanged(QVariantMap),</span> <span class="pre">parameters=QVariantMap</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaService">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">OpcuaService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventlogService</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QObject</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaService" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">OpcuaService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventlogService</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">inventory_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.invController.invController" title="src.controller.invController.invController"><span class="pre">invController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">commission_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.CommissionController.CommissionController" title="src.controller.CommissionController.CommissionController"><span class="pre">CommissionController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentservice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.AgentService.AgentService" title="src.service.AgentService.AgentService"><span class="pre">AgentService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QObject</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaService" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaService.startOpcuaService">
-<span class="sig-name descname"><span class="pre">startOpcuaService</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaService.startOpcuaService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaService.startOpcuaService" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">startOpcuaService</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaService.startOpcuaService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaService.startOpcuaService" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaService.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;OpcuaService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Slot,</span> <span class="pre">signature=startOpcuaService()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.OpcuaService.OpcuaService.staticMetaObject" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;OpcuaService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Slot,</span> <span class="pre">signature=startOpcuaService()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.OpcuaService.OpcuaService.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.service.OpcuaService.agent_vars">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">agent_vars</span></span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#agent_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.agent_vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Wrapper class for agentlib variables.
+Used in OpcuaServerHandle to create variables in the opcua server.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.service.OpcuaService.inventory_vars">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">inventory_vars</span></span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#inventory_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.inventory_vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>wrapper class for inventory variables.</p>
 </dd></dl>
 
 </section>
 <section id="cameraservice">
-<h2>CameraService<a class="headerlink" href="#cameraservice" title="Link to this heading">¶</a></h2>
+<h2>CameraService<a class="headerlink" href="#cameraservice" title="Permalink to this heading">¶</a></h2>
 <p>Der CameraService nutzt die IDS Peaks und IDS Peaks IPL Api.
 Auf Anfrage des Stocktaking Moduls liefert der Bilder der beiden Kameras.</p>
-<p id="module-src.service.CameraService">This service delivers and process images from camera to QML GUI</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="src.service.CameraService.ImageProvider">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.CameraService.</span></span><span class="sig-name descname"><span class="pre">ImageProvider</span></span><a class="reference internal" href="../_modules/src/service/CameraService.html#ImageProvider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.CameraService.ImageProvider" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QThread</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.CameraService.ImageProvider.get_image">
-<span class="sig-name descname"><span class="pre">get_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cam</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/CameraService.html#ImageProvider.get_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.CameraService.ImageProvider.get_image" title="Link to this definition">¶</a></dt>
-<dd><p>Public wrapper to call _get_image method.
-returns the obtained image</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="src.service.CameraService.ImageProvider.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;ImageProvider&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.CameraService.ImageProvider.staticMetaObject" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </section>
 <section id="stocktaking">
-<h2>Stocktaking<a class="headerlink" href="#stocktaking" title="Link to this heading">¶</a></h2>
+<h2>Stocktaking<a class="headerlink" href="#stocktaking" title="Permalink to this heading">¶</a></h2>
 <p>Dieser Service bildet die Inventurprozesse ab. Vom CameraService gelieferte Bilder werden hier
 verarbeitet und ermittelt wie viele Becher in der Lagerzelle wo vorhanden sind.</p>
-<p id="module-src.service.stocktaking">This Python File implements the logic to recognize arUco markers.
-class VideoThread inherits from QThread class. So image capture and image processing code is in seperated thread.
-Processed images are provided to qml by using class videoPlayer which inherits from QQuickImageProvider.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.stocktaking.</span></span><span class="sig-name descname"><span class="pre">Stocktaker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventLogService</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QQuickImageProvider</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.calculate_result_matrix">
-<span class="sig-name descname"><span class="pre">calculate_result_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.calculate_result_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.calculate_result_matrix" title="Link to this definition">¶</a></dt>
-<dd><p>Public Method. Calculates the result matrix based on detected markers.
-Emits self.submitResultMatrix signal with result matrix.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.emit_cell_image">
-<span class="sig-name descname"><span class="pre">emit_cell_image</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.emit_cell_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.emit_cell_image" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.emit_pallet_cup_images">
-<span class="sig-name descname"><span class="pre">emit_pallet_cup_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage_cell</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.emit_pallet_cup_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.emit_pallet_cup_images" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.evaluate_gripper">
-<span class="sig-name descname"><span class="pre">evaluate_gripper</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.evaluate_gripper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.evaluate_gripper" title="Link to this definition">¶</a></dt>
-<dd><p>Public Method. Obtains image from CameraService.Imageprovider.
-Since marker should take a significant area of the image, no rectification is performed.
-Performs arUco detection after brightness and color adjustment.
-processed image is kept in gripper_image property.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.evaluate_storagecell_cam">
-<span class="sig-name descname"><span class="pre">evaluate_storagecell_cam</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.evaluate_storagecell_cam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.evaluate_storagecell_cam" title="Link to this definition">¶</a></dt>
-<dd><p>Public Method. Obtains image from CameraServic.Imageprovider, performs 4-point rectification and arUco detection.
-Slices the image into sub images related to Storage location.
-Afterwards signals with processed image is emitted to QML Engine.
-Before every step a message is emitted to EventlogService in main screen</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.select_marker_parameters">
-<span class="sig-name descname"><span class="pre">select_marker_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.select_marker_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.select_marker_parameters" title="Link to this definition">¶</a></dt>
-<dd><p>Selects detector settings, from locating integer and string</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;Stocktaker&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QQuickImageProvider&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Slot,</span> <span class="pre">signature=evaluate_storagecell_cam()</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Slot,</span> <span class="pre">signature=emit_pallet_cup_images(int),</span> <span class="pre">parameters=int</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Slot,</span> <span class="pre">signature=emit_cell_image()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.stocktaking.Stocktaker.staticMetaObject" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </section>
 <section id="detectoroptimizationservice">
-<h2>DetectorOptimizationService<a class="headerlink" href="#detectoroptimizationservice" title="Link to this heading">¶</a></h2>
+<h2>DetectorOptimizationService<a class="headerlink" href="#detectoroptimizationservice" title="Permalink to this heading">¶</a></h2>
 <p>Kann verwendet werden um die 31 Parameter für die Markererkennung zu optimieren.
 Bei der Optimierung wird wie folgt unterschieden:</p>
 <table class="docutils align-default">
@@ -327,7 +266,7 @@ In dem Datentupel der Forschleife kann der Bereich des Lagers angepasst werden. 
 ‘dump_parameters’ angegeben. Diese müssen entsprechend der Pfadliste in dem Modul src/constants/Constant.py angepasst werden.
 ACHTUNG: Bereits existierende Dateien werden ggf. überschrieben. Im Zweifel müssen diese gesondert gesichert werden.</p>
 </aside>
-<p id="module-src.service.DetectionOptimizationService">Genetic algorithm to calculate optimal detection parameters for aruco marker detection.
+<span class="target" id="module-src.service.DetectionOptimizationService"></span><p>Genetic algorithm to calculate optimal detection parameters for aruco marker detection.
 Problem was, that default settings did not detect all aruco markers reliably.
 The parameters consists of 32 attributes and minor changes in just one attribute may lead to
 complete failure in detection.
@@ -344,17 +283,17 @@ Integer parameters are calculated by the same way but just rounded.</p>
 This number is multiplied by the mutation rate to get more diversity.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.DetectionOptimizationService.</span></span><span class="sig-name descname"><span class="pre">DetectionOptimizationService</span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.DetectionOptimizationService.</span></span><span class="sig-name descname"><span class="pre">DetectionOptimizationService</span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Service to optimize detection parameters for aruco markers.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.attribute_names">
-<span class="sig-name descname"><span class="pre">attribute_names</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['adaptiveThreshWinSizeMin',</span> <span class="pre">'adaptiveThreshWinSizeMax',</span> <span class="pre">'adaptiveThreshWinSizeStep',</span> <span class="pre">'adaptiveThreshConstant',</span> <span class="pre">'minMarkerPerimeterRate',</span> <span class="pre">'maxMarkerPerimeterRate',</span> <span class="pre">'polygonalApproxAccuracyRate',</span> <span class="pre">'minCornerDistanceRate',</span> <span class="pre">'minDistanceToBorder',</span> <span class="pre">'minMarkerDistanceRate',</span> <span class="pre">'cornerRefinementMethod',</span> <span class="pre">'cornerRefinementWinSize',</span> <span class="pre">'cornerRefinementMaxIterations',</span> <span class="pre">'cornerRefinementMinAccuracy',</span> <span class="pre">'markerBorderBits',</span> <span class="pre">'perspectiveRemovePixelPerCell',</span> <span class="pre">'perspectiveRemoveIgnoredMarginPerCell',</span> <span class="pre">'maxErroneousBitsInBorderRate',</span> <span class="pre">'minOtsuStdDev',</span> <span class="pre">'errorCorrectionRate',</span> <span class="pre">'aprilTagQuadDecimate',</span> <span class="pre">'aprilTagQuadSigma',</span> <span class="pre">'aprilTagMinClusterPixels',</span> <span class="pre">'aprilTagMaxNmaxima',</span> <span class="pre">'aprilTagCriticalRad',</span> <span class="pre">'aprilTagMaxLineFitMse',</span> <span class="pre">'aprilTagMinWhiteBlackDiff',</span> <span class="pre">'aprilTagDeglitch',</span> <span class="pre">'detectInvertedMarker',</span> <span class="pre">'useAruco3Detection',</span> <span class="pre">'minSideLengthCanonicalImg',</span> <span class="pre">'minMarkerLengthRatioOriginalImg']</span></em><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.attribute_names" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">attribute_names</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['adaptiveThreshWinSizeMin',</span> <span class="pre">'adaptiveThreshWinSizeMax',</span> <span class="pre">'adaptiveThreshWinSizeStep',</span> <span class="pre">'adaptiveThreshConstant',</span> <span class="pre">'minMarkerPerimeterRate',</span> <span class="pre">'maxMarkerPerimeterRate',</span> <span class="pre">'polygonalApproxAccuracyRate',</span> <span class="pre">'minCornerDistanceRate',</span> <span class="pre">'minDistanceToBorder',</span> <span class="pre">'minMarkerDistanceRate',</span> <span class="pre">'cornerRefinementMethod',</span> <span class="pre">'cornerRefinementWinSize',</span> <span class="pre">'cornerRefinementMaxIterations',</span> <span class="pre">'cornerRefinementMinAccuracy',</span> <span class="pre">'markerBorderBits',</span> <span class="pre">'perspectiveRemovePixelPerCell',</span> <span class="pre">'perspectiveRemoveIgnoredMarginPerCell',</span> <span class="pre">'maxErroneousBitsInBorderRate',</span> <span class="pre">'minOtsuStdDev',</span> <span class="pre">'errorCorrectionRate',</span> <span class="pre">'aprilTagQuadDecimate',</span> <span class="pre">'aprilTagQuadSigma',</span> <span class="pre">'aprilTagMinClusterPixels',</span> <span class="pre">'aprilTagMaxNmaxima',</span> <span class="pre">'aprilTagCriticalRad',</span> <span class="pre">'aprilTagMaxLineFitMse',</span> <span class="pre">'aprilTagMinWhiteBlackDiff',</span> <span class="pre">'aprilTagDeglitch',</span> <span class="pre">'detectInvertedMarker',</span> <span class="pre">'useAruco3Detection',</span> <span class="pre">'minSideLengthCanonicalImg',</span> <span class="pre">'minMarkerLengthRatioOriginalImg']</span></em><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.attribute_names" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.automatic_brightness_and_contrast">
-<span class="sig-name descname"><span class="pre">automatic_brightness_and_contrast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clip_hist_percent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.automatic_brightness_and_contrast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.automatic_brightness_and_contrast" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">automatic_brightness_and_contrast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clip_hist_percent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.automatic_brightness_and_contrast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.automatic_brightness_and_contrast" title="Permalink to this definition">¶</a></dt>
 <dd><p>Autoadjusting color and brightness for better marker detection.
 Source: Stackoverflow
 <a class="reference external" href="https://stackoverflow.com/questions/56905592/automatic-contrast-and-brightness-adjustment-of-a-color-photo-of-a-sheet-of-pape">https://stackoverflow.com/questions/56905592/automatic-contrast-and-brightness-adjustment-of-a-color-photo-of-a-sheet-of-pape</a></p>
@@ -362,7 +301,7 @@ Source: Stackoverflow
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.create_population">
-<span class="sig-name descname"><span class="pre">create_population</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.create_population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.create_population" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">create_population</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">src.service.DetectionOptimizationService.Individual</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.create_population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.create_population" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function creates a list with random initialized Individual objects.
 The kind of random initialization depends on attribute datatype.
 Knowledge from opencv.aruco documentation was used to determine the range of values for each attribute.
@@ -373,12 +312,12 @@ Knowledge from opencv.aruco documentation was used to determine the range of val
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.dump_parameters">
-<span class="sig-name descname"><span class="pre">dump_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DetectorParameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.dump_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.dump_parameters" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dump_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DetectorParameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.dump_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.dump_parameters" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.evaluate_fitness">
-<span class="sig-name descname"><span class="pre">evaluate_fitness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DetectorParameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.evaluate_fitness"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.evaluate_fitness" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">evaluate_fitness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DetectorParameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.evaluate_fitness"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.evaluate_fitness" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates fittness of an Individual object’s parameters attribute by detecting selected marker types.
 fitness is increased by 1 for each correctly detected marker.
 fitness is decreased by 1 if an error occurs.
@@ -392,13 +331,13 @@ fitness is decreased by 1 if an error occurs.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.load_images">
-<span class="sig-name descname"><span class="pre">load_images</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.load_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.load_images" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_images</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.load_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.load_images" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function will load the images for the optimization from src/service directory.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.mutate_parameter">
-<span class="sig-name descname"><span class="pre">mutate_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">individual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.mutate_parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.mutate_parameter" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">mutate_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">individual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.mutate_parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.mutate_parameter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to mutate attributes of one Individual object.
 :param individual: Individual object
 :type individual: Individual
@@ -408,25 +347,25 @@ fitness is decreased by 1 if an error occurs.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_cups">
-<span class="sig-name descname"><span class="pre">optimize_cups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.optimize_cups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_cups" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">optimize_cups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.optimize_cups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_cups" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function will optimize the detection parameters for cup markers.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_pallets">
-<span class="sig-name descname"><span class="pre">optimize_pallets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.optimize_pallets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_pallets" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">optimize_pallets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.optimize_pallets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_pallets" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function will optimize the detection parameters for pallet markers.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_shelves">
-<span class="sig-name descname"><span class="pre">optimize_shelves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.optimize_shelves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_shelves" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">optimize_shelves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.optimize_shelves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_shelves" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function will optimize the detection parameters for shelf markers.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.plot_results">
-<span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.plot_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.plot_results" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.plot_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.plot_results" title="Permalink to this definition">¶</a></dt>
 <dd><p>creates a simple plot to plot results of genetic algorithm against together with parameters.
 :param type: for text generation: ‘cup’, ‘pallet’ or ‘shelf’
 :type type: str</p>
@@ -434,7 +373,7 @@ fitness is decreased by 1 if an error occurs.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.recombine_parameters">
-<span class="sig-name descname"><span class="pre">recombine_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.recombine_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.recombine_parameters" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">recombine_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.recombine_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.recombine_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes two Individual objects as parents and randomly recombines attribute values into a child object.
 :param parent1: Individual object as parent
 :type parent1: Individual
@@ -446,12 +385,12 @@ fitness is decreased by 1 if an error occurs.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.run_ga">
-<span class="sig-name descname"><span class="pre">run_ga</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.run_ga"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.run_ga" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">run_ga</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.run_ga"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.run_ga" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.DetectionOptimizationService.tournament_selection">
-<span class="sig-name descname"><span class="pre">tournament_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tournament_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.tournament_selection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.tournament_selection" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tournament_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">src.service.DetectionOptimizationService.Individual</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tournament_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#src.service.DetectionOptimizationService.Individual" title="src.service.DetectionOptimizationService.Individual"><span class="pre">Individual</span></a></span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#DetectionOptimizationService.tournament_selection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.DetectionOptimizationService.tournament_selection" title="Permalink to this definition">¶</a></dt>
 <dd><p>function to select fittest individual from tournament in population.
 tournament_size individuals are selected and the fittest individual is returned.</p>
 <dl class="field-list simple">
@@ -471,7 +410,7 @@ tournament_size individuals are selected and the fittest individual is returned.
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.service.DetectionOptimizationService.Individual">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.DetectionOptimizationService.</span></span><span class="sig-name descname"><span class="pre">Individual</span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#Individual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.Individual" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.DetectionOptimizationService.</span></span><span class="sig-name descname"><span class="pre">Individual</span></span><a class="reference internal" href="../_modules/src/service/DetectionOptimizationService.html#Individual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.DetectionOptimizationService.Individual" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>class to keep individual and fitness property together.</p>
 </dd></dl>
@@ -559,7 +498,7 @@ tournament_size individuals are selected and the fittest individual is returned.
       &copy;2023, Lennart Schink.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |

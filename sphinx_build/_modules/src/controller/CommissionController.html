@@ -87,7 +87,6 @@
                 <span class="p">))</span>
                 <span class="c1">#print(commissionData[-1].source.value)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sortComissionData</span><span class="p">(</span><span class="n">commissionData</span><span class="p">)</span>
-
         <span class="k">return</span>  <span class="n">commissionData</span></div>
 
 <div class="viewcode-block" id="CommissionController.sortComissionData"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.CommissionController.CommissionController.sortComissionData">[docs]</a>    <span class="k">def</span> <span class="nf">sortComissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commissionData</span><span class="p">):</span>
@@ -110,7 +109,12 @@
             <span class="p">})</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">Constants</span><span class="p">()</span><span class="o">.</span><span class="n">COMMISSIONDATA</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="n">safe_dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div>
-
+<div class="viewcode-block" id="CommissionController.get_commissionData"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.CommissionController.CommissionController.get_commissionData">[docs]</a>    <span class="k">def</span> <span class="nf">get_commissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">CommissionData</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        returns commission data stored in CommissionViewModel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commissionViewModel</span><span class="o">.</span><span class="n">commissionData</span>
+        <span class="k">return</span> <span class="n">data</span></div>
 <div class="viewcode-block" id="CommissionController.validateCommissionData"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.CommissionController.CommissionController.validateCommissionData">[docs]</a>    <span class="k">def</span> <span class="nf">validateCommissionData</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function validates the commission data.</span>

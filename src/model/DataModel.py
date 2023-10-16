@@ -62,7 +62,6 @@ class Inventory:
                 if (int(loc.name[1])-1)//6 == row and (int(loc.name[1])-1)%6 == col:
                     return [loc, Locations[(str(loc.name[0:-1])+'B')]]
         return None
-
 class MobileRobot:
     """
     Implements Mobile Robot class from µPlant.
@@ -94,7 +93,6 @@ class MobileRobot:
         if cup is not None:
             if cup.location is not self:
                 cup.setLocation(self)
-
 class Workbench:
     """
     Implements Workbench class from µPlant.
@@ -170,7 +168,6 @@ class Workbench:
                 pallet.setLocation(self)
             if self.k1 == self.k2:
                 self.k1 = None
-
 class Gripper(QObject):
     """
     Implements Gripper data class from µPlant industrial robotic arm.

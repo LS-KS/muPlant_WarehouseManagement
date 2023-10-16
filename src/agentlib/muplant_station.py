@@ -60,7 +60,6 @@ class RosStation(agent.AgentClient):
         """
         ret = self.call(FUNCTION_ID_ROBOT_UPDATE_CUP_STATE, [transport_id, robot, cup_product])
         return ret
-
 class AueStation(agent.AgentClientOPC):
     """ Abfuell und Entleer station for sending commands to AuE1 or 2"""
     name = "AuE"
@@ -82,7 +81,6 @@ class AueStation(agent.AgentClientOPC):
         """ take big cup and empty it """
         ret = self.call(FUNCTION_ID_AUE_EMPTYING, [security_level])
         return ret
-
 class LzStation(agent.AgentClient):
     """ Lagerzelle station """
     name = "LZ"

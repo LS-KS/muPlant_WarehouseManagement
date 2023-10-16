@@ -53,7 +53,6 @@ class CommissionController:
                 ))
                 #print(commissionData[-1].source.value)
             self.sortComissionData(commissionData)
-
         return  commissionData
 
     def sortComissionData(self, commissionData):
@@ -76,7 +75,12 @@ class CommissionController:
             })
         with open(Constants().COMMISSIONDATA, 'w') as file:
             safe_dump(data, file)
-
+    def get_commissionData(self)-> list[CommissionData]:
+        """
+        returns commission data stored in CommissionViewModel.
+        """
+        data = self.commissionViewModel.commissionData
+        return data
     def validateCommissionData(self) -> bool:
         """
         This function validates the commission data.

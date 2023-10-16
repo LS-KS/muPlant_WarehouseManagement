@@ -32,7 +32,7 @@
           <div class="body" role="main">
             
   <h1>Source code for src.service.AgentService</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">src.agentlib.agent</span> <span class="kn">import</span> <span class="n">AgentClient</span><span class="p">,</span> <span class="n">AgentClientOPC</span><span class="p">,</span> <span class="n">AgentServer</span>
+<span></span><span class="kn">from</span> <span class="nn">src.agentlib.agent</span> <span class="kn">import</span> <span class="n">AgentServer</span>
 <span class="kn">from</span> <span class="nn">src.controller.PreferenceController</span> <span class="kn">import</span> <span class="n">PreferenceController</span>
 <span class="kn">from</span> <span class="nn">src.service.EventlogService</span> <span class="kn">import</span> <span class="n">EventlogService</span>
 <span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QObject</span><span class="p">,</span> <span class="n">Signal</span><span class="p">,</span> <span class="n">Slot</span>
@@ -47,24 +47,18 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="p">:</span> <span class="n">EventlogService</span> <span class="o">=</span> <span class="n">eventlogService</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">preferenceController</span> <span class="p">:</span> <span class="n">PreferenceController</span> <span class="o">=</span> <span class="n">preferenceController</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">agentClient</span> <span class="p">:</span> <span class="n">AgentClient</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">agentClientOPC</span> <span class="p">:</span> <span class="n">AgentClientOPC</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">agentServer</span> <span class="p">:</span> <span class="n">AgentServer</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agentServer</span><span class="p">:</span> <span class="n">AgentServer</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="AgentService.setupAgentService"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.AgentService.AgentService.setupAgentService">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">setupAgentService</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        sets up AgentService</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">agentClient</span> <span class="o">=</span> <span class="n">AgentClient</span><span class="p">(</span>
-            <span class="n">agent_id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">agentServer</span> <span class="o">=</span> <span class="n">AgentServer</span><span class="p">(</span>
             <span class="n">ip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferenceController</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">modBus</span><span class="o">.</span><span class="n">ip</span><span class="p">,</span>
             <span class="n">port</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferenceController</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">modBus</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
-            <span class="n">slave_id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="c1"># TODO: find out what slave_id is</span>
-            <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="c1"># TODO: find out what offset is</span>
-            <span class="n">offset_coil</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="c1"># TODO: find out what offset_coil is</span>
         <span class="p">)</span>
-        <span class="c1"># TODO: implement OPC Agent Client</span>
+        <span class="c1"># TODO: implement OPC Agent Server</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;AgentService&quot;</span><span class="p">,</span> <span class="s2">&quot;AgentService setup complete&quot;</span><span class="p">)</span></div></div>
 
 </pre></div>

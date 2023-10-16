@@ -16,8 +16,7 @@ Uses PySide6 with PyQt6.5.1 for GUI implementation
 import sys
 from pathlib import Path
 from PySide6.QtGui import QGuiApplication
-from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterType
-from PySide6.QtCore import Qt
+from PySide6.QtQml import QQmlApplicationEngine
 from src.controller.invController import invController
 from src.controller.CommissionController import CommissionController
 from src.controller.PreferenceController import PreferenceController
@@ -26,7 +25,7 @@ from src.service.EventlogService import EventlogService
 from src.service.OpcuaService import OpcuaService
 from src.constants.Constants import Constants
 from src.service.AgentService import AgentService
-from src.service.stocktaking import Stocktaker
+# from src.service.stocktaking import Stocktaker
 from src.controller.ABBController import ABBController
 
 
@@ -74,13 +73,18 @@ if __name__ == '__main__':
     engine.rootContext().setContextProperty("abbController", abbController)
 
     # creates opcua service
-    opcuaService = OpcuaService(eventlogService, preferenceController)
+    opcuaService = OpcuaService(
+        eventlogService= eventlogService,
+        preferenceController= preferenceController,
+        inventory_controller= inventoryController,
+        commission_controller= commissionController,
+        agentservice= agentservice)
     engine.rootContext().setContextProperty("opcuaService", opcuaService)
 
     # creates Stocktaker object used in stocktaking plugin
-    stocktaker = Stocktaker(eventlogService)
-    engine.rootContext().setContextProperty("stocktaker", stocktaker)
-    engine.addImageProvider("stocktaker", stocktaker)
+    # stocktaker = Stocktaker(eventlogService)
+    # engine.rootContext().setContextProperty("stocktaker", stocktaker)
+    # engine.addImageProvider("stocktaker", stocktaker)
 
     # define load main.qml file to start application
     qml_file =  str(Path(__file__).resolve().parent / "src" / "view" / "main.qml")

@@ -20,6 +20,7 @@ from __future__ import (
 from time import time, sleep
 import threading
 
+import PySide6
 # 3rd party librarys
 import pymodbus
 from pymodbus.client.sync import ModbusTcpClient as ModbusClient
@@ -27,7 +28,6 @@ from pymodbus.server.sync import ModbusTcpServer
 from pymodbus.device import ModbusDeviceIdentification
 from pymodbus.datastore import ModbusSequentialDataBlock
 from pymodbus.datastore import ModbusSlaveContext, ModbusServerContext
-from src.service.OpcuaService import OpcuaServerHandle
 import asyncua as ua
 from asyncua import Client
 
@@ -783,7 +783,6 @@ class AgentClientOPC():
         self.mb_write(OPC_Done, 1)
         return True
 
-
 class AgentServerWorkerBase(BaseAgent, threading.Thread):
     """ the minimum a agent sever should implement. Inherit this class
     implement function_handler and you are good to go with you own
@@ -920,38 +919,6 @@ class AgentServerWorkerBase(BaseAgent, threading.Thread):
         """cleanly shutdown the worker thread"""
         self.running = False
 
-class AgentServerOPC():
-    """
-    this is a plain Modbus/TCP server, you do not need to change any
-    code here, the functionality is done through `AgentServerWorkerBase`
-    class
-
-
-    
-    * IP - IP of the Modbus/TCP server, could be 0.0.0.0 for all interfaces
-    * PORT - PORT of the Modbus/TCP server, default is 502
-    """
-    def __init__(self, opcUaServer: OpcuaServerHandle, ip=IP, port=PORT):
-        self.ip = ip
-        self.port = port
-
-        # needed for AgentServer
-        store = ModbusSlaveContext(
-            di = ModbusSequentialDataBlock(0, [0]*2**16),
-            co = ModbusSequentialDataBlock(0, [0]*2**16),
-            hr = ModbusSequentialDataBlock(0, [0]*2**16),
-            ir = ModbusSequentialDataBlock(0, [0]*2**16))
-        self.context = ModbusServerContext(slaves=store, single=True)
-
-        self.identity = ModbusDeviceIdentification()
-        self.identity.VendorName  = 'pymodbus'
-        self.identity.ProductCode = 'PM'
-        self.identity.VendorUrl   = 'http://github.com/bashwork/pymodbus/'
-        self.identity.ProductName = 'pymodbus Server'
-        self.identity.ModelName   = 'pymodbus Server'
-        self.identity.MajorMinorRevision = '1.0'
-
-        self.running = True
 
 class AgentServer(threading.Thread):
     """

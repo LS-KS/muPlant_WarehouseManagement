@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 
-<html lang="en" data-content_root="../../../">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>src.service.DetectionOptimizationService &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=4f649999" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=039e1c02" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <script src="../../../_static/documentation_options.js?v=7f413068"></script>
-    <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
    
@@ -63,9 +63,7 @@
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
 <span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
 
-<div class="viewcode-block" id="Individual">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.Individual">[docs]</a>
-<span class="k">class</span> <span class="nc">Individual</span><span class="p">:</span>
+<div class="viewcode-block" id="Individual"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.Individual">[docs]</a><span class="k">class</span> <span class="nc">Individual</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    class to keep individual and fitness property together.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -73,10 +71,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-
-<div class="viewcode-block" id="DetectionOptimizationService">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService">[docs]</a>
-<span class="k">class</span> <span class="nc">DetectionOptimizationService</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectionOptimizationService"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService">[docs]</a><span class="k">class</span> <span class="nc">DetectionOptimizationService</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Service to optimize detection parameters for aruco markers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -138,9 +133,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">LOWER_LEFT</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">load_images</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="kc">None</span>
-<div class="viewcode-block" id="DetectionOptimizationService.optimize_cups">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_cups">[docs]</a>
-    <span class="k">def</span> <span class="nf">optimize_cups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectionOptimizationService.optimize_cups"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_cups">[docs]</a>    <span class="k">def</span> <span class="nf">optimize_cups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function will optimize the detection parameters for cup markers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -149,10 +142,7 @@
         <span class="n">fittest_generation</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">fittest_individual</span> <span class="o">=</span> <span class="n">fittest_generation</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dump_parameters</span><span class="p">(</span><span class="n">fittest_individual</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="s1">&#39;../data/Cups.yaml&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="DetectionOptimizationService.optimize_pallets">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_pallets">[docs]</a>
-    <span class="k">def</span> <span class="nf">optimize_pallets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectionOptimizationService.optimize_pallets"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_pallets">[docs]</a>    <span class="k">def</span> <span class="nf">optimize_pallets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function will optimize the detection parameters for pallet markers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -161,10 +151,7 @@
         <span class="n">fittest_generation</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">fittest_individual</span> <span class="o">=</span> <span class="n">fittest_generation</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dump_parameters</span><span class="p">(</span><span class="n">fittest_individual</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="s1">&#39;../data/Pallets.yaml&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="DetectionOptimizationService.optimize_shelves">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_shelves">[docs]</a>
-    <span class="k">def</span> <span class="nf">optimize_shelves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectionOptimizationService.optimize_shelves"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.optimize_shelves">[docs]</a>    <span class="k">def</span> <span class="nf">optimize_shelves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function will optimize the detection parameters for shelf markers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -173,10 +160,7 @@
         <span class="n">fittest_generation</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">fittest_individual</span> <span class="o">=</span> <span class="n">fittest_generation</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dump_parameters</span><span class="p">(</span><span class="n">fittest_individual</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="s1">&#39;../data/Cell.yaml&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="DetectionOptimizationService.load_images">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.load_images">[docs]</a>
-    <span class="k">def</span> <span class="nf">load_images</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectionOptimizationService.load_images"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.load_images">[docs]</a>    <span class="k">def</span> <span class="nf">load_images</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function will load the images for the optimization from src/service directory.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -184,10 +168,7 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">18</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;cup&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pallets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;pallet_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span><span class="p">))</span></div>
-
-<div class="viewcode-block" id="DetectionOptimizationService.evaluate_fitness">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.evaluate_fitness">[docs]</a>
-    <span class="k">def</span> <span class="nf">evaluate_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">parameters</span><span class="p">:</span> <span class="n">cv2</span><span class="o">.</span><span class="n">aruco</span><span class="o">.</span><span class="n">DetectorParameters</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span>  <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectionOptimizationService.evaluate_fitness"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.evaluate_fitness">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">parameters</span><span class="p">:</span> <span class="n">cv2</span><span class="o">.</span><span class="n">aruco</span><span class="o">.</span><span class="n">DetectorParameters</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span>  <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates fittness of an Individual object&#39;s parameters attribute by detecting selected marker types.</span>
 <span class="sd">        fitness is increased by 1 for each correctly detected marker.</span>
@@ -226,10 +207,7 @@
         <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
         <span class="n">points</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">points</span></div>
-
-<div class="viewcode-block" id="DetectionOptimizationService.create_population">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.create_population">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_population</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Individual</span><span class="p">]:</span>
+<div class="viewcode-block" id="DetectionOptimizationService.create_population"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.create_population">[docs]</a>    <span class="k">def</span> <span class="nf">create_population</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Individual</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function creates a list with random initialized Individual objects.</span>
 <span class="sd">        The kind of random initialization depends on attribute datatype.</span>
@@ -316,10 +294,7 @@
         <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Population of </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">))</span><span class="si">}</span><span class="s1"> created in </span><span class="si">{</span><span class="n">end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">}</span><span class="s1"> seconds&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">population</span></div>
-
-<div class="viewcode-block" id="DetectionOptimizationService.mutate_parameter">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.mutate_parameter">[docs]</a>
-    <span class="k">def</span> <span class="nf">mutate_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">individual</span><span class="p">:</span> <span class="n">Individual</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Individual</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectionOptimizationService.mutate_parameter"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.mutate_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">mutate_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">individual</span><span class="p">:</span> <span class="n">Individual</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Individual</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Function to mutate attributes of one Individual object.</span>
 <span class="sd">        :param individual: Individual object</span>
@@ -338,10 +313,7 @@
                     <span class="n">value</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="n">individual</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">individual</span></div>
-
-<div class="viewcode-block" id="DetectionOptimizationService.recombine_parameters">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.recombine_parameters">[docs]</a>
-    <span class="k">def</span> <span class="nf">recombine_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent1</span><span class="p">:</span> <span class="n">Individual</span><span class="p">,</span> <span class="n">parent2</span><span class="p">:</span> <span class="n">Individual</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Individual</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectionOptimizationService.recombine_parameters"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.recombine_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">recombine_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent1</span><span class="p">:</span> <span class="n">Individual</span><span class="p">,</span> <span class="n">parent2</span><span class="p">:</span> <span class="n">Individual</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Individual</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Takes two Individual objects as parents and randomly recombines attribute values into a child object.</span>
 <span class="sd">        :param parent1: Individual object as parent</span>
@@ -361,10 +333,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">value2</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">child</span></div>
-
-<div class="viewcode-block" id="DetectionOptimizationService.tournament_selection">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.tournament_selection">[docs]</a>
-    <span class="k">def</span> <span class="nf">tournament_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">population</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Individual</span><span class="p">],</span> <span class="n">tournament_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Individual</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectionOptimizationService.tournament_selection"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.tournament_selection">[docs]</a>    <span class="k">def</span> <span class="nf">tournament_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">population</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Individual</span><span class="p">],</span> <span class="n">tournament_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Individual</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        function to select fittest individual from tournament in population.</span>
 <span class="sd">        tournament_size individuals are selected and the fittest individual is returned.</span>
@@ -382,19 +351,13 @@
             <span class="n">competitors</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">competitors</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">tournament_size</span><span class="p">)</span>
         <span class="n">fittest</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">competitors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">fitness</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">fittest</span></div>
-
-<div class="viewcode-block" id="DetectionOptimizationService.dump_parameters">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.dump_parameters">[docs]</a>
-    <span class="k">def</span> <span class="nf">dump_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">cv2</span><span class="o">.</span><span class="n">aruco</span><span class="o">.</span><span class="n">DetectorParameters</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectionOptimizationService.dump_parameters"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.dump_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">dump_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">cv2</span><span class="o">.</span><span class="n">aruco</span><span class="o">.</span><span class="n">DetectorParameters</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attribute_names</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="DetectionOptimizationService.plot_results">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.plot_results">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectionOptimizationService.plot_results"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.plot_results">[docs]</a>    <span class="k">def</span> <span class="nf">plot_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        creates a simple plot to plot results of genetic algorithm against together with parameters.</span>
 <span class="sd">        :param type: for text generation: &#39;cup&#39;, &#39;pallet&#39; or &#39;shelf&#39;</span>
@@ -414,10 +377,7 @@
                  <span class="sa">f</span><span class="s1">&#39;population size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_size</span><span class="si">}</span><span class="se">\n</span><span class="s1">mutation probability: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mut_prob</span><span class="si">}</span><span class="se">\n</span><span class="s1">mutation rate: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mut_rate</span><span class="si">}</span><span class="se">\n</span><span class="s1">max gen: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">max_iter</span><span class="si">}</span><span class="se">\n</span><span class="s1">tournament size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tournament_size</span><span class="si">}</span><span class="se">\n</span><span class="s1">tournament winner: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tournament_winner_count</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;ga_</span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1">_result.png&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
-
-<div class="viewcode-block" id="DetectionOptimizationService.run_ga">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.run_ga">[docs]</a>
-    <span class="k">def</span> <span class="nf">run_ga</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectionOptimizationService.run_ga"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.run_ga">[docs]</a>    <span class="k">def</span> <span class="nf">run_ga</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">errors_generation</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># create initial population and evaluate fitness</span>
@@ -455,10 +415,7 @@
                     <span class="n">new_pop</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutate_parameter</span><span class="p">(</span><span class="n">new_pop</span><span class="p">[</span><span class="n">l</span><span class="p">])</span>
             <span class="n">pop</span> <span class="o">=</span> <span class="n">new_pop</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dump_parameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;ga_</span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1">_resultGen</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">.yaml&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="DetectionOptimizationService.automatic_brightness_and_contrast">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.automatic_brightness_and_contrast">[docs]</a>
-    <span class="k">def</span> <span class="nf">automatic_brightness_and_contrast</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>  <span class="n">clip_hist_percent</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectionOptimizationService.automatic_brightness_and_contrast"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.automatic_brightness_and_contrast">[docs]</a>    <span class="k">def</span> <span class="nf">automatic_brightness_and_contrast</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>  <span class="n">clip_hist_percent</span><span class="p">):</span>
 <span class="w">       </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">       Autoadjusting color and brightness for better marker detection.</span>
 <span class="sd">       Source: Stackoverflow</span>
@@ -502,9 +459,7 @@
            <span class="c1">#plt.show()</span>
            <span class="k">return</span> <span class="n">img</span>
        <span class="k">else</span><span class="p">:</span>
-           <span class="k">return</span> <span class="n">gray</span></div>
-</div>
-
+           <span class="k">return</span> <span class="n">gray</span></div></div>
 
 
 </pre></div>
@@ -570,7 +525,7 @@
       &copy;2023, Lennart Schink.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
