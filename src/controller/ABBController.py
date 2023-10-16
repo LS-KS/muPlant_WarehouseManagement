@@ -54,8 +54,9 @@ class ABBController( QObject ):
                 # print('Program pointer reset to main')
             # else:
                 # print('Could not reset program pointer to main')
-            payload = {'regain': 'continue', 'execmode': 'continue', 'cycle': 'once', 'condition': 'none',
-                       'stopatbp': 'disabled', 'alltaskbytsp': 'false'}
+            payload = {'LogonUser -name': 'Default User', '-pwd': 'robotics', 'locale Remote App': 'Warehouse Manager.exe', 'loc': 'MRT-PC230', 'alias': 'muPlant'  }
+            #payload = {'regain': 'continue', 'execmode': 'continue', 'cycle': 'once', 'condition': 'none',
+            #           'stopatbp': 'disabled', 'alltaskbytsp': 'false'}
             response = self.session.post(self.base_url + "/rw/rapid/execution?action=start", data=payload)
             if response.status_code == 200:
                 self.eventlog_service.writeEvent(

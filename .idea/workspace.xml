@@ -10,12 +10,118 @@
     <list default="true" id="a1bb59e4-14c6-46d3-92d8-82a94a6183ab" name="Changes" comment="fixed marker detection and drawing. &#10;image slicing implemented.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/agentlib/agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/agentlib/agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/agentlib/muplant_station.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/agentlib/muplant_station.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/CommissionController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/CommissionController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/DataModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/DataModel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/DataFiles/CommissData.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/DataFiles/CommissData.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/DataFiles/PreferenceData.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/DataFiles/PreferenceData.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/DataFiles/ProductData.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/DataFiles/ProductData.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/DataFiles/StorageData.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/DataFiles/StorageData.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Dialogs/GripperDialog.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Dialogs/GripperDialog.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Dialogs/PreferenceDialog.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Dialogs/PreferenceDialog.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Dialogs/StorageDialog.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Dialogs/StorageDialog.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Dialogs/TurtleDialog.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Dialogs/TurtleDialog.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Dialogs/WorbenchDialog.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Dialogs/WorbenchDialog.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/ManualCommissionControl.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/ManualCommissionControl.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/Controller.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/Controller.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/DataModel.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/DataModel.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/MainFile.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/MainFile.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/Service.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/Service.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/ViewModel.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/ViewModel.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/constants.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Modules/constants.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/RFIDServer.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/RFIDServer.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/CommissionView.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/CommissionView.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/CupView.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/CupView.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/EventView.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/EventView.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/GripperDialog.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/GripperDialog.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/HeaderLine.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/HeaderLine.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/Help.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/Help.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/InventoryView.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/InventoryView.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/MCCPlugin.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/MCCPlugin.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/MainView.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/MainView.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/PaletteView.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/PaletteView.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/PreferenceDialog.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/PreferenceDialog.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/ProcessView.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/ProcessView.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/ProductList.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/ProductList.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/ProductView.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/ProductView.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/RfidServerPlugin.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/RfidServerPlugin.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/StackLayoutView.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/StackLayoutView.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/StorageDialog.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/StorageDialog.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/StorageView.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/StorageView.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/TurtleDialog.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/TurtleDialog.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/WorkbenchDialog.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/Views/WorkbenchDialog.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/datafiles.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/datafiles.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/dialogs.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/dialogs.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/environment.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/index.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/index.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/modules.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/modules.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/plugins.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/plugins.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/readme.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/readme.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/.doctrees/view.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/.doctrees/view.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/DataFiles/CommissData.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/DataFiles/CommissData.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/DataFiles/PreferenceData.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/DataFiles/PreferenceData.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/DataFiles/ProductData.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/DataFiles/ProductData.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/DataFiles/StorageData.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/DataFiles/StorageData.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Dialogs/GripperDialog.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Dialogs/GripperDialog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Dialogs/PreferenceDialog.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Dialogs/PreferenceDialog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Dialogs/StorageDialog.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Dialogs/StorageDialog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Dialogs/TurtleDialog.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Dialogs/TurtleDialog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Dialogs/WorbenchDialog.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Dialogs/WorbenchDialog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/ManualCommissionControl.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/ManualCommissionControl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Modules/Controller.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Modules/Controller.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Modules/DataModel.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Modules/DataModel.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Modules/MainFile.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Modules/MainFile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Modules/Service.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Modules/Service.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Modules/ViewModel.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Modules/ViewModel.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Modules/constants.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Modules/constants.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/RFIDServer.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/RFIDServer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/CommissionView.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/CommissionView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/CupView.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/CupView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/EventView.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/EventView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/GripperDialog.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/GripperDialog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/HeaderLine.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/HeaderLine.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/Help.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/Help.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/InventoryView.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/InventoryView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/MCCPlugin.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/MCCPlugin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/MainView.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/MainView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/PaletteView.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/PaletteView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/PreferenceDialog.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/PreferenceDialog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/ProcessView.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/ProcessView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/ProductList.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/ProductList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/ProductView.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/ProductView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/RfidServerPlugin.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/RfidServerPlugin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/StackLayoutView.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/StackLayoutView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/StorageDialog.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/StorageDialog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/StorageView.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/StorageView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/TurtleDialog.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/TurtleDialog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/Views/WorkbenchDialog.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/Views/WorkbenchDialog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/_modules/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_modules/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/_modules/src/controller/CommissionController.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_modules/src/controller/CommissionController.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/_modules/src/model/DataModel.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_modules/src/model/DataModel.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/_modules/src/service/AgentService.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_modules/src/service/AgentService.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/_modules/src/service/OpcuaService.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_modules/src/service/OpcuaService.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/_sources/Views/HeaderLine.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_sources/Views/HeaderLine.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/_static/basic.css" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_static/basic.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/_static/documentation_options.js" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_static/documentation_options.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/_static/pygments.css" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_static/pygments.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/_static/searchtools.js" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_static/searchtools.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/_static/sphinx_highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/_static/sphinx_highlight.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/datafiles.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/datafiles.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/dialogs.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/dialogs.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/genindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/modules.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/modules.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/objects.inv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/plugins.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/plugins.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/py-modindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/py-modindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/readme.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/readme.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/searchindex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_build/view.html" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_build/view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_source/Modules/Service.rst" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_source/Modules/Service.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sphinx_source/Views/HeaderLine.rst" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx_source/Views/HeaderLine.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/ABBController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ABBController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/AgentService.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/AgentService.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/OpcuaService.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/OpcuaService.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/MCCPlugin.qml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/MCCPlugin.qml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/main.qml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/main.qml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,14 +142,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
-        <option name="accountId" value="06955888-ca5a-4014-83c5-528f4c43deb7" />
+        <option name="accountId" value="b8bc4859-68a3-4135-aff6-65f13f3b3b7e" />
         <option name="url" value="https://github.com/LS-KS/muPlant_WarehouseManagement.git" />
       </UrlAndAccount>
     </option>
@@ -296,6 +402,8 @@
       <workItem from="1696921627373" duration="8712000" />
       <workItem from="1697097298570" duration="5508000" />
       <workItem from="1697107765152" duration="30573000" />
+      <workItem from="1697446449398" duration="2060000" />
+      <workItem from="1697457606038" duration="943000" />
     </task>
     <task id="LOCAL-00001" summary="implemented Cup and Product">
       <created>1687298522583</created>
@@ -673,12 +781,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/controller/ABBController.py</url>
-          <line>105</line>
+          <line>106</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/controller/ABBController.py</url>
-          <line>235</line>
+          <line>236</line>
           <option name="timeStamp" value="59" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -688,7 +796,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/service/OpcuaService.py</url>
-          <line>408</line>
+          <line>414</line>
           <option name="timeStamp" value="96" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
@@ -700,15 +808,15 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ga_detectionparameters.coverage" NAME="DetectionOptimizationService Coverage Results" MODIFIED="1696613207099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ABBController.coverage" NAME="ABBController Coverage Results" MODIFIED="1697097529762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/controller" />
     <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$standardsettings.coverage" NAME="standardsettings Coverage Results" MODIFIED="1696841434229" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/data" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$DetectionOptimizationService.coverage" NAME="DetectionOptimizationService Coverage Results" MODIFIED="1696829138820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$stocktaking.coverage" NAME="stocktaking Coverage Results" MODIFIED="1696851830692" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1697400797844" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/CameraService_py$CameraService.coverage" NAME="CameraService Coverage Results" MODIFIED="1695873479729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
     <SUITE FILE_PATH="coverage/CameraService_py$stocktaking.coverage" NAME="stocktaking Coverage Results" MODIFIED="1695974754420" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
     <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$hometest.coverage" NAME="hometest Coverage Results" MODIFIED="1696517610731" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$stocktaking.coverage" NAME="stocktaking Coverage Results" MODIFIED="1696851830692" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ga_detectionparameters.coverage" NAME="DetectionOptimizationService Coverage Results" MODIFIED="1696613207099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
+    <SUITE FILE_PATH="coverage/CameraService_py$CameraService.coverage" NAME="CameraService Coverage Results" MODIFIED="1695873479729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ABBController.coverage" NAME="ABBController Coverage Results" MODIFIED="1697448837463" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/controller" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$DetectionOptimizationService.coverage" NAME="DetectionOptimizationService Coverage Results" MODIFIED="1696829138820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1697457927328" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CameraService_py$main.coverage" NAME="main Coverage Results" MODIFIED="1695872898142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

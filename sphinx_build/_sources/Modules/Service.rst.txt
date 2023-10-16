@@ -27,6 +27,10 @@ OpcuaService
 
 Hostet einen OPC UA Server und Client für die Kommunikation mit der muPlant
 
+.. hint:: 
+    WICHTIG: Das klicken auf "Stop" im GUI des Hauptfensters bewirkt kein ordnungsgemäßes Schließen des OPC-Servers!
+    Auch wenn danach der Server neu gestartet wird, ist das Verhalten undefiniert!
+
 .. automodule:: src.service.OpcuaService
     :members:
     :undoc-members:

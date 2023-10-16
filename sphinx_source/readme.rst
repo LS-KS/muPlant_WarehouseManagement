@@ -1,5 +1,16 @@
 README
 ------
+
+WICHTIGER HINWEIS
+_________________
+
+Wenn der Automatikbetrieb mit Klick auf "Start" gestartet wird, wird auch der OPC UA Server gestartet. 
+Leider wird mit server.stop() der Server nicht ordnungsgemäß geschlossen und der Port wird nicht wieder freigegeben. 
+Wenn abermals "Start" geklickt wird, wird versucht ein neuer Server aufzusetzen, was zu Fehlermeldungen führt. 
+Da die Exceptions abgefangen werden, führt dies zu unbestimmten verhalten. Manchmal funktioniert alles, manchmal nicht. 
+Die einzige Abhilfe ist, dass ganze Programm zu schließen und neu zu starten.
+
+
 Getting Started
 _______________
 

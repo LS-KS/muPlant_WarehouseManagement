@@ -13,9 +13,9 @@ Window {
     Material.accent: Material.Dark
     property bool init: false
     id: mainWindow
-    width: Screen.width*2/3
+    width: Screen.width
     minimumWidth : 480
-    height: Screen.height*2/3
+    height: Screen.height
     minimumHeight: 200
     visible: true
     title: qsTr("Warehouse Management")
@@ -157,7 +157,27 @@ Window {
         onClicked: {
             agentService.setupAgentService();
             opcuaService.startOpcuaService();
+            visible = false;
+            stopButton.visible = true;
         } 
+    }
+    Button{
+        id: stopButton
+        text: qsTr("Stop")
+        width: parent.width/12
+        height: parent.height/10
+        visible: false
+        anchors {
+            left: processView.left
+            top: headerLine.bottom
+            margins: 10
+        }
+        onClicked: {
+            agentService.stopAgentService();
+            opcuaService.stopOpcuaService();
+            visible= false;
+            startButton.visible= true;
+        }
     }
     StackLayoutView{
         id: stackLayoutView

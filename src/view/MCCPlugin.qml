@@ -9,10 +9,10 @@ import QtQuick.Layouts 1.3
 
 Window {
     id: mccWindow
-    width: Screen.width/3
-    height: 2*Screen.width/3
     visible: true
     property bool connected: false
+    width: 450
+    height: 800
     ScrollView{
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
         ScrollBar.vertical.policy: ScrollBar.AlwaysOn
@@ -32,25 +32,32 @@ Window {
                 Layout.fillWidth: true
             }
             RowLayout{
+                width: 405
+                Layout.fillHeight: false
                 Label{
                     id: mccModbusLabel
-                    text: "Modbus Connection"
+                    text: "OPC UA Connection"
                     font.pixelSize: 15
                     Layout.preferredHeight: mccModbusStatusRect.height
                     Layout.preferredWidth: 200
                 }
                 Rectangle{
                     id: mccModbusStatusRect
-                    color: mccModbusStatusText.connected? "green": "#C6055A"
+                    color: connected? "green": "#C6055A"
                     Layout.preferredHeight : 50
                     Layout.preferredWidth: mccModbusStatusText.width + 20
                     Text{
                         id: mccModbusStatusText
                         text: connected? "Connected" : "Disconnected"
+                        anchors.verticalCenter: parent.verticalCenter
                         font.pixelSize: 15
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
                     }
                 }
                 Layout.fillWidth: true
+                
             }
             Rectangle{
                 id: mccSeperator
@@ -300,5 +307,16 @@ Window {
                 Layout.fillWidth: true
             }
         }
+    }
+    Connections{
+        target: opcuaService
+        function onOnline(isrunning){
+            console.log("received opc ua status signal" + isrunning);
+            connected = isrunning;
+            console.log("connected is set to"+ connected)
+        }
+    }
+    Component.onCompleted:{
+        opcuaService.check_online_status();
     }
 }

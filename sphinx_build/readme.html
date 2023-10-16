@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>README &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <script src="_static/documentation_options.js?v=7f413068"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Module" href="modules.html" />
@@ -35,9 +35,17 @@
           <div class="body" role="main">
             
   <section id="readme">
-<h1>README<a class="headerlink" href="#readme" title="Permalink to this heading">¶</a></h1>
+<h1>README<a class="headerlink" href="#readme" title="Link to this heading">¶</a></h1>
+<section id="wichtiger-hinweis">
+<h2>WICHTIGER HINWEIS<a class="headerlink" href="#wichtiger-hinweis" title="Link to this heading">¶</a></h2>
+<p>Wenn der Automatikbetrieb mit Klick auf “Start” gestartet wird, wird auch der OPC UA Server gestartet.
+Leider wird mit server.stop() der Server nicht ordnungsgemäß geschlossen und der Port wird nicht wieder freigegeben.
+Wenn abermals “Start” geklickt wird, wird versucht ein neuer Server aufzusetzen, was zu Fehlermeldungen führt.
+Da die Exceptions abgefangen werden, führt dies zu unbestimmten verhalten. Manchmal funktioniert alles, manchmal nicht.
+Die einzige Abhilfe ist, dass ganze Programm zu schließen und neu zu starten.</p>
+</section>
 <section id="getting-started">
-<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">¶</a></h2>
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">¶</a></h2>
 <p>Use</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 </pre></div>
@@ -45,20 +53,20 @@
 <p>to install all necessary python packages.</p>
 </section>
 <section id="preparations-for-ids-camera-usage">
-<h2>Preparations for IDS Camera usage<a class="headerlink" href="#preparations-for-ids-camera-usage" title="Permalink to this heading">¶</a></h2>
+<h2>Preparations for IDS Camera usage<a class="headerlink" href="#preparations-for-ids-camera-usage" title="Link to this heading">¶</a></h2>
 <p>Following Cameras are used:</p>
 <ul class="simple">
 <li><p>IDS UI-5180SE-C-HQ which is a 5MP camera with USB2 interface meant to be mounted on the gripper</p></li>
 <li><p>IDS GV-5800SE-C-HQ which is a 22MP GigE camera meant to be mounted in a upper corner of the storage cell</p></li>
 </ul>
 <section id="software-installation">
-<h3>Software Installation<a class="headerlink" href="#software-installation" title="Permalink to this heading">¶</a></h3>
+<h3>Software Installation<a class="headerlink" href="#software-installation" title="Link to this heading">¶</a></h3>
 <p>First install IDS Software Suite &gt;4.95</p>
 <p>Then install IDS Peak &gt;2.5. Important note:
 While selecting installation options enable uEye Transport Layer to allow uEye cameras to be processed by IDS Peak</p>
 </section>
 <section id="enable-python-sdk-packages">
-<h3>Enable Python SDK packages<a class="headerlink" href="#enable-python-sdk-packages" title="Permalink to this heading">¶</a></h3>
+<h3>Enable Python SDK packages<a class="headerlink" href="#enable-python-sdk-packages" title="Link to this heading">¶</a></h3>
 <p>When installed under Windows, api Packages is located in e.g.:
 C:Program FilesIDSids_peakgeneric_sdkapibindingpythonwheelx86_64
 open this path in powerShell or cmd and enter the following command:</p>
@@ -69,7 +77,7 @@ open this path in powerShell or cmd and enter the following command:</p>
 </section>
 </section>
 <section id="updating-code-documentation">
-<h2>Updating code documentation<a class="headerlink" href="#updating-code-documentation" title="Permalink to this heading">¶</a></h2>
+<h2>Updating code documentation<a class="headerlink" href="#updating-code-documentation" title="Link to this heading">¶</a></h2>
 <p>to update HTML export use:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sphinx-build<span class="w"> </span>-b<span class="w"> </span>html<span class="w"> </span>sphinx_source<span class="w"> </span>sphinx_build
 </pre></div>
@@ -112,6 +120,7 @@ open this path in powerShell or cmd and enter the following command:</p>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">README</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#wichtiger-hinweis">WICHTIGER HINWEIS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#preparations-for-ids-camera-usage">Preparations for IDS Camera usage</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#software-installation">Software Installation</a></li>
@@ -163,7 +172,7 @@ open this path in powerShell or cmd and enter the following command:</p>
       &copy;2023, Lennart Schink.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |

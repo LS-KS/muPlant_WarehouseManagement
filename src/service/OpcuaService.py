@@ -137,26 +137,30 @@ class OpcuaServerHandle(QThread):
     agentVarsChanged = Signal(dict)
     inventoryVarsChanged = Signal(dict)
     commissionVarsChanged = Signal(dict)
+    
     def __init__(self, preferenceController: PreferenceController, inventory_controller: invController,
                  commission_controller: CommissionController, eventlog_service : EventlogService,
-                 agentservice: AgentService, parent = None, ) -> None:
+                 agentservice: AgentService, opc_service, parent = None, ) -> None:
         QThread.__init__(self, parent)
         self.preferenceController = preferenceController
         self.inventory_controller = inventory_controller
         self.commission_controller = commission_controller
         self.eventlog_service = eventlog_service
-        self.opcuaServer = None
+        self.opcuaServer: None | Server = None
         self.agent_vars = agent_vars()
         self.agent_nodes: list[int] = []
         self.inventory_vars = inventory_vars()
         self.inventory_nodes: list[int] = []
         self.commission_vars: list[CommissionData] = []
         self.commission_nodes: list[int] = []
+        self.opc_service: OpcuaService = opc_service
+
     def __del__(self):
         """
         Deconstructor for OpcuaServerHandle. Stops opcua server.
         """
-        self.server.stop()
+        if self.opcuaServer is not None:
+            self.opcuaServer.stop()
         print("OpcuaServerHandle deleted")
     def _update_inventory_values(self):
         """
@@ -188,7 +192,7 @@ class OpcuaServerHandle(QThread):
             for slot, node in zip(vars(self.inventory_vars).items(), self.inventory_nodes):
                 id = node[1]
                 prod = node[2]
-                node = self.server.get_node(node[0])
+                node = self.opcuaServer.get_node(node[0])
                 if slot[1] is None:
                     id_val = 0
                     prod_val = 0
@@ -215,7 +219,7 @@ class OpcuaServerHandle(QThread):
             'agentDone': True,
             'agentFunctionID': True,
             'agentFunctionReady': True,
-            'agentKeepAlive': False, # ???
+            'agentKeepAlive': True,
             'agentResponseID': False,
             'agentResponseReady': False,
             'agentStatus': False,
@@ -289,7 +293,7 @@ class OpcuaServerHandle(QThread):
         self.eventlog_service.writeEvent("OpcuaService", "Load and create agent variables")
         try:
             for field, value in vars(self.agent_vars).items():
-                node = await self.server.nodes.objects.add_object(idx, str(field.__str__()))
+                node = await self.opcuaServer.nodes.objects.add_object(idx, str(field.__str__()))
                 var = await node.add_variable(nodeid= idx, bname= (field.__str__()), val= int(0),)
                 if writable[str(field)]:
                     await var.set_writable()
@@ -307,7 +311,7 @@ class OpcuaServerHandle(QThread):
         :type idx: int
         """
         self._update_inventory_values()
-        node = await self.server.nodes.objects.add_object(idx, 'Storage')
+        node = await self.opcuaServer.nodes.objects.add_object(idx, 'Storage')
         for field, value in vars(self.inventory_vars).items():
             subnode = await node.add_object(idx, str(field.__str__()))
             id = await subnode.add_variable(idx, str(field) + "_id", 0 if value is None else value.id)
@@ -326,7 +330,7 @@ class OpcuaServerHandle(QThread):
         :param idx: namespace index
         :type idx: int
         """
-        node = await self.server.nodes.objects.add_object(idx, "Commissions")
+        node = await self.opcuaServer.nodes.objects.add_object(idx, "Commissions")
         for commission in self.commission_vars:
             subnode = await node.add_object(idx, f"Commission {str(commission.id)}")
             source = await subnode.add_variable(idx, "source", commission.source.value)
@@ -346,7 +350,7 @@ class OpcuaServerHandle(QThread):
             for i, (key, value) in enumerate(vars(self.agent_vars).items()):
                 node = self.agent_nodes[i][0]
                 var = self.agent_nodes[i][1]
-                node = self.server.get_node(node)
+                node = self.opcuaServer.get_node(node)
                 if i == 4:
                     self.agent_vars.agentKeepAlive = 10
                     await var.write_value(self.agent_vars.agentKeepAlive)
@@ -364,13 +368,13 @@ class OpcuaServerHandle(QThread):
         Must be implemented for QThread. Wraps asyncio function in sync function.
         """
         asyncio.run(self.main())
-    def quit(self):
+    async def quit(self):
         """
         Must be implemented for QThread. Stops QThread and deletes it.
         """
         print("OpcuaServerHandle stopping...")
-        super().quit()
-        super().wait()
+        await self.opcuaServer.stop()
+        self.opcuaServer = None
         self.deleteLater()
         print("OpcuaServerHandle stopped and deleted")
     @uamethod
@@ -386,55 +390,62 @@ class OpcuaServerHandle(QThread):
         """
         print("OpcuaServerHandle started")
         super().start()
-        self.server = Server()
-        self.server.set_security_policy([ua.SecurityPolicyType.NoSecurity])
+        self.opcuaServer = Server()
+        self.opcuaServer.set_security_policy([ua.SecurityPolicyType.NoSecurity])
+        self.opc_service.isRunning = True
+        self.opc_service.check_online_status()
         print("OpcuaServerHandle running...")
     async def main(self) -> None:
         """
         Main function for opcua server
         """
-        self.eventlog_service.writeEvent("OpcuaService", "OpcuaServerHandle started")
-        idx = await self.setup_server()
-        self.eventlog_service.writeEvent("OpcuaService", "Server started")
-        myobj = await self.server.nodes.objects.add_object(idx, "MyObject")
-        myvar = await myobj.add_variable(idx, "MyVariable", 6.7)
-        await myvar.set_writable()
-        await self.server.nodes.objects.add_method(
-            ua.NodeId("ServerMethod", idx),
-            ua.QualifiedName("ServerMethod", idx),
-            self.func,
-            [ua.VariantType.Int64],
-            [ua.VariantType.Int64],
-        )
-        await self._create_agent_nodes(idx)
-        self.eventlog_service.writeEvent("OpcuaService", "Load and create inventory variables")
-        await self._create_inventory_nodes(idx)
-        self.eventlog_service.writeEvent("OpcuaService", "Load and create commission variables")
-        self.commission_vars= self._load_commission_values_from_model()
-        await self._create_commission_nodes(idx)
-        #loop
-        async with self.server:
-            while True:
-                await asyncio.sleep(1)
-                # Perform inventory update
-                self._update_inventory_values()
-                await self._update_inventory_vars()
-                # Perform agent update
-                await self._update_agent_vars()
-                # example var
-                new_val = await myvar.get_value() + 0.1
-                await myvar.write_value(new_val)
+        try:
+            self.eventlog_service.writeEvent("OpcuaService", "OpcuaServerHandle started")
+            idx = await self.setup_server()
+            self.eventlog_service.writeEvent("OpcuaService", "Server started")
+            myobj = await self.opcuaServer.nodes.objects.add_object(idx, "MyObject")
+            myvar = await myobj.add_variable(idx, "MyVariable", 6.7)
+            await myvar.set_writable()
+            await self.opcuaServer.nodes.objects.add_method(
+                ua.NodeId("ServerMethod", idx),
+                ua.QualifiedName("ServerMethod", idx),
+                self.func,
+                [ua.VariantType.Int64],
+                [ua.VariantType.Int64],
+            )
+            await self._create_agent_nodes(idx)
+            self.eventlog_service.writeEvent("OpcuaService", "Load and create inventory variables")
+            await self._create_inventory_nodes(idx)
+            self.eventlog_service.writeEvent("OpcuaService", "Load and create commission variables")
+            self.commission_vars= self._load_commission_values_from_model()
+            await self._create_commission_nodes(idx)
+            #loop
+            async with self.opcuaServer:
+                while True:
+                    await asyncio.sleep(1)
+                    # Perform inventory update
+                    self._update_inventory_values()
+                    await self._update_inventory_vars()
+                    # Perform agent update
+                    await self._update_agent_vars()
+                    # example var
+                    new_val = await myvar.get_value() + 0.1
+                    await myvar.write_value(new_val)
+        except Exception as e:
+            self.eventlog_service.writeEvent("OpcuaService", f"Error in Mainloop: {e}")
+            self.opc_service.isRunning = False
+            
     async def setup_server(self):
         """
         setup server object and namespace.
         returns namespace index.
         rtype: int
         """
-        await self.server.init()
+        await self.opcuaServer.init()
         endpoint = self.preferenceController.preferences.opcua.endpoint
-        self.server.set_endpoint(endpoint)
+        self.opcuaServer.set_endpoint(endpoint)
         uri = self.preferenceController.preferences.opcua.namespace
-        idx = await self.server.register_namespace(uri)
+        idx = await self.opcuaServer.register_namespace(uri)
         return idx
     def clear_agent(self):
         """
@@ -442,12 +453,12 @@ class OpcuaServerHandle(QThread):
         """
         self.agent_vars = agent_vars()
         self.agent_vars.agentKeepAlive = 10
-
 class OpcuaService(QObject):
     """
     Class for handling opcua server.
     will hold a QThreads for opcua server which wraps async functions.
     """
+    online = Signal(bool)
     def __init__(self, eventlogService : EventlogService, preferenceController : PreferenceController,
                  inventory_controller: invController, commission_controller: CommissionController,
                  agentservice: AgentService, parent: QObject | None = None) -> None:
@@ -455,20 +466,28 @@ class OpcuaService(QObject):
         self.eventlogService = eventlogService
         self.preferenceController = preferenceController
         self.inventory_controller = inventory_controller
-        self.commision_controller = commission_controller
+        self.commission_controller = commission_controller
         self.agentservice = agentservice
+        self.opcuaServerHandle = None
+        self.isRunning: bool = False
+
+    @Slot()
+    def startOpcuaService(self):
         self.opcuaServerHandle = OpcuaServerHandle(
             preferenceController= self.preferenceController,
             inventory_controller= self.inventory_controller,
-            commission_controller= commission_controller,
+            commission_controller= self.commission_controller,
             eventlog_service= self.eventlogService,
-            agentservice= self.agentservice
+            agentservice= self.agentservice,
+            opc_service= self
         )
-    def __del__(self):
-        self.opcuaServerHandle.quit()
-        self.opcuaServerHandle.deleteLater()
-        print("OpcuaService deleted")
-    @Slot()
-    def startOpcuaService(self):
         self.opcuaServerHandle.start()
         self.eventlogService.writeEvent("OpcuaService", "OpcuaService started")
+    @Slot()
+    def stopOpcuaService(self):
+        self.opcuaServerHandle.quit()
+
+    @Slot()
+    def check_online_status(self):
+        print("check_online emitted")
+        self.online.emit(self.isRunning)

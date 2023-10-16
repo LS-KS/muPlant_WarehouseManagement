@@ -26,4 +26,13 @@ class AgentService(QObject):
         )
         # TODO: implement OPC Agent Server
         self.eventlogService.writeEvent("AgentService", "AgentService setup complete")
+    
+    @Slot()
+    def stopAgentService(self):
+        """
+        Stops running Agentserver
+        """
+        self.agentServer.running = False
+        self.agentServer = None
+
 
