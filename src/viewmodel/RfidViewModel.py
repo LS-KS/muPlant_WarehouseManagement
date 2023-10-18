@@ -12,7 +12,7 @@ class RfidViewModel(QtCore.QAbstractListModel):
 
     def __init__(self, parent: QObject | None = None) -> None:
         super().__init__(parent)
-        self.rfidData :RfidModel = []
+        self.rfidData : list[RfidModel] = []
         self.controller  = None
 
     def rowCount(self, parent=QModelIndex()):

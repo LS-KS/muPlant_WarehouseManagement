@@ -51,6 +51,22 @@ open this path in powerShell or cmd and enter the following command:
 
 (or corresponding python version)
 
+Using Feig RFID Reader
+______________________
+
+Reader types are FEID ID ISC.MRU102-PoE-LED
+There is a dedicated software SDK which can be downloaded from FEIG website when an account is created.
+
+--> Update Software usage:
+
+.. code-block:: bash
+
+    pip install obidrfid
+    import obidrfid
+
+leads to an error message because binary file is missing.
+It searches specifically for a linux binary file ... which is odd on windows.
+Since the creator of this package doesn't provide any information, the dedicated SDK seemed to be the only option.
 Updating code documentation
 ___________________________
 
