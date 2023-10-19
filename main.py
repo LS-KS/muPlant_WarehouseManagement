@@ -25,6 +25,7 @@ from src.service.EventlogService import EventlogService
 from src.service.OpcuaService import OpcuaService
 from src.constants.Constants import Constants
 from src.service.AgentService import AgentService
+from src.service.rfid_service import rfid_service
 from src.service.stocktaking import Stocktaker
 from src.controller.ABBController import ABBController
 
@@ -67,6 +68,11 @@ if __name__ == '__main__':
     engine.rootContext().setContextProperty("rfidController", rfidController)
     engine.rootContext().setContextProperty("rfidModel", rfidController.rfidViewModel)
     #engine.rootContext().setContextProperty("rfidModel", rfidController.rfidProxyViewModel)
+
+    # creates rfid_service object and sets itself as rootContext
+    rfid_service = rfid_service(eventlogService, rfidController)
+    rfidController.rfid_service = rfid_service
+    engine.rootContext().setContextProperty("rfid_service", rfid_service)
 
     # Create ABB Controller for IRB 140
     abbController = ABBController(preferenceController, eventlogService)

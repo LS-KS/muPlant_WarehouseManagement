@@ -82,8 +82,9 @@ class RfidController(QObject):
         :returns: None
         
         """
-        print("not implemented yet")
-
+        for node in self.rfidViewModel.rfidData:
+            if node.selected == True:
+                self.rfid_service.start_node(node)
     @Slot()
     def stopSelected(self):
         """
@@ -91,7 +92,9 @@ class RfidController(QObject):
         :returns: None
         
         """
-        print("not implemented yet")
+        for node in self.rfidViewModel.rfidData:
+            if node.selected == True:
+                self.rfid_service.stop_node(node)
 
     @Slot()
     def removeSelected(self):

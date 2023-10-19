@@ -24,5 +24,7 @@ class RfidModel(QStandardItem):
     productID: int = 0
     cupSize: int = 0
     selected: bool = False
+    reader = None
+    data = None
 
         
