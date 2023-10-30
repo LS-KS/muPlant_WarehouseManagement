@@ -1,18 +1,23 @@
-# CMakeLists.txt
+cmake_minimum_required(VERSION 3.26)
 
-cmake_minimum_required(VERSION 3.12)
+project(FEIGRfidInterface)
+set(CMAKE_CXX_STANDARD 23)
 
-project(feig_rfid_module)
+# Add your source files here
+add_executable(BasicTcpConnect BasicTcpConnect.cpp)
 
-# Find Pybind11 package
-find_package(pybind11 REQUIRED)
+# Specify the directories where CMake should look for libraries
+target_include_directories(BasicTcpConnect PRIVATE /Users/lennartschink/Documents/GitHub/muPlant_WarehouseManagement/FEIG_RFIDReaderInterface/FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0/x64.vc142/include/fedm)
 
-# Include the directory of the FEIG_RFIDReaderInterface project
-add_subdirectory(C:/Users/pink_/Documents/GitHub/muPlant_WarehouseManagement/FEIG_RFIDReaderInterface)
+# Link the necessary libraries from the FEIG SDK
+target_link_libraries(BasicTcpConnect /Users/lennartschink/Documents/GitHub/muPlant_WarehouseManagement/FEIG_RFIDReaderInterface/FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0/x64.vc142/lib/FEIDiLib)
+target_link_libraries(BasicTcpConnect /Users/lennartschink/Documents/GitHub/muPlant_WarehouseManagement/FEIG_RFIDReaderInterface/FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0/x64.vc142/lib/FEIDiLib32)
 
-# Define your library
-add_library(feig_rfid_module MODULE dllmain.cpp wrapper.cpp)
+# If you have other libraries or dependencies, add them here
+# target_link_libraries(BasicTcpConnect some_other_library)
 
-# Link your library with the required libraries
-target_link_libraries(feig_rfid_module PRIVATE FEIG_RFIDReaderInterface_LIBRARY_NAME)
-target_link_libraries(feig_rfid_module PRIVATE pybind11::module)  # Link with Pybind11
+# Optionally, set the output directory for the built executable
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
+
+
+

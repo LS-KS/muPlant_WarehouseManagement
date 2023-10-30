@@ -1,0 +1,3 @@
+/Users/lennartschink/Documents/GitHub/muPlant_WarehouseManagement/FEIG_RFIDReaderInterface/cmake-build-debug/CMakeFiles/BasicTcpConnect.dir
+/Users/lennartschink/Documents/GitHub/muPlant_WarehouseManagement/FEIG_RFIDReaderInterface/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/lennartschink/Documents/GitHub/muPlant_WarehouseManagement/FEIG_RFIDReaderInterface/cmake-build-debug/CMakeFiles/rebuild_cache.dir

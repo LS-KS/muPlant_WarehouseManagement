@@ -8,11 +8,65 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1bb59e4-14c6-46d3-92d8-82a94a6183ab" name="Changes" comment="fixed marker detection and drawing. &#10;image slicing implemented.">
+      <change afterPath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/BasicTcpConnect.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/BasicTcpConnect.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/muPlant_WarehouseManagement.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/muPlant_WarehouseManagement.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/FEIG_RFIDReaderInterface.sln" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/FEIG_RFIDReaderInterface.vcxproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/FEIG_RFIDReaderInterface.vcxproj.filters" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/FEIG_RFIDReaderInterface.vcxproj.user" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/dllmain.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/framework.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/pch.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/pch.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/wrapper.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFI.d19ebb21.tlog/CL.command.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFI.d19ebb21.tlog/CL.read.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFI.d19ebb21.tlog/CL.write.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFI.d19ebb21.tlog/Cl.items.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFI.d19ebb21.tlog/FEIG_RFIDReaderInterface.lastbuildstate" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFI.d19ebb21.tlog/link.command.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFI.d19ebb21.tlog/link.read.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFI.d19ebb21.tlog/link.write.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFIDReaderInterface.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFIDReaderInterface.dll.recipe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFIDReaderInterface.ilk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFIDReaderInterface.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFIDReaderInterface.pch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFIDReaderInterface.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/FEIG_RFIDReaderInterface.vcxproj.FileListAbsolute.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/dllmain.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/pch.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/vc143.idb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/vc143.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Debug/vcpkg.applocal.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFI.d19ebb21.tlog/CL.command.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFI.d19ebb21.tlog/CL.read.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFI.d19ebb21.tlog/CL.write.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFI.d19ebb21.tlog/Cl.items.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFI.d19ebb21.tlog/FEIG_RFIDReaderInterface.lastbuildstate" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFI.d19ebb21.tlog/link.command.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFI.d19ebb21.tlog/link.read.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFI.d19ebb21.tlog/link.write.1.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFI.d19ebb21.tlog/link.write.2u.tlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFI.d19ebb21.tlog/unsuccessfulbuild" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFIDReaderInterface.Build.CppClean.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFIDReaderInterface.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFIDReaderInterface.dll.recipe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFIDReaderInterface.iobj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFIDReaderInterface.ipdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFIDReaderInterface.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFIDReaderInterface.pch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFIDReaderInterface.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/FEIG_RFIDReaderInterface.vcxproj.FileListAbsolute.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/dllmain.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/pch.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/vc143.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/x64/Release/vcpkg.applocal.log" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/RfidController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/RfidController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/RfidModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/RfidModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/rfid_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/rfid_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/stocktaking.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/stocktaking.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,29 +152,7 @@
       <recent name="$PROJECT_DIR$/src/view" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
-    <configuration name="CameraService" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="muPlant_WarehouseManagement" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/service" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/service/CameraService.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.test">
     <configuration name="DetectionOptimizationService" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="muPlant_WarehouseManagement" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -231,13 +263,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="muPlant_WarehouseManagement" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test" />
         <item itemvalue="Python.rfid_service" />
         <item itemvalue="Python.stocktaking" />
         <item itemvalue="Python.standardsettings" />
         <item itemvalue="Python.DetectionOptimizationService" />
-        <item itemvalue="Python.CameraService" />
       </list>
     </recent_temporary>
   </component>
@@ -297,6 +351,9 @@
       <workItem from="1697457606038" duration="943000" />
       <workItem from="1697609646529" duration="582000" />
       <workItem from="1697610382924" duration="9159000" />
+      <workItem from="1697801524145" duration="371000" />
+      <workItem from="1697898914017" duration="10000" />
+      <workItem from="1698258057782" duration="2249000" />
     </task>
     <task id="LOCAL-00001" summary="implemented Cup and Product">
       <created>1687298522583</created>
@@ -692,25 +749,25 @@
           <line>414</line>
           <option name="timeStamp" value="96" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Lagerzelle/muPlant_WarehouseManagement/Jupyter/farbcode_test.ipynb</url>
-          <line>20</line>
-          <option name="timeStamp" value="55" />
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test.py</url>
+          <line>12</line>
+          <option name="timeStamp" value="97" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ga_detectionparameters.coverage" NAME="DetectionOptimizationService Coverage Results" MODIFIED="1696613207099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ABBController.coverage" NAME="ABBController Coverage Results" MODIFIED="1697097529762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/controller" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$standardsettings.coverage" NAME="standardsettings Coverage Results" MODIFIED="1696841434229" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/data" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$DetectionOptimizationService.coverage" NAME="DetectionOptimizationService Coverage Results" MODIFIED="1696829138820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$stocktaking.coverage" NAME="stocktaking Coverage Results" MODIFIED="1696851830692" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$test.coverage" NAME="test Coverage Results" MODIFIED="1698259159048" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1697400797844" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CameraService_py$CameraService.coverage" NAME="CameraService Coverage Results" MODIFIED="1695873479729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
     <SUITE FILE_PATH="coverage/CameraService_py$stocktaking.coverage" NAME="stocktaking Coverage Results" MODIFIED="1695974754420" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
     <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$hometest.coverage" NAME="hometest Coverage Results" MODIFIED="1696517610731" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ga_detectionparameters.coverage" NAME="DetectionOptimizationService Coverage Results" MODIFIED="1696613207099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$standardsettings.coverage" NAME="standardsettings Coverage Results" MODIFIED="1696841434229" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/data" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$stocktaking.coverage" NAME="stocktaking Coverage Results" MODIFIED="1696851830692" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$rfid_service.coverage" NAME="rfid_service Coverage Results" MODIFIED="1697614121148" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1697629564741" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/CameraService_py$CameraService.coverage" NAME="CameraService Coverage Results" MODIFIED="1695873479729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$DetectionOptimizationService.coverage" NAME="DetectionOptimizationService Coverage Results" MODIFIED="1696829138820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/service" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ABBController.coverage" NAME="ABBController Coverage Results" MODIFIED="1697448837463" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/controller" />
     <SUITE FILE_PATH="coverage/CameraService_py$main.coverage" NAME="main Coverage Results" MODIFIED="1695872898142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

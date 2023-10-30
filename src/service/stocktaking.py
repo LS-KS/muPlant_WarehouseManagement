@@ -341,7 +341,7 @@ class Stocktaker(QQuickImageProvider):
 
     def _transform_image(self,im_source, x_corners, y_corners, y_glob_min, y_glob_max):
         """
-        Private method. uses sci-image lib to rectify image using submitted corners.
+        Private method. uses skimage lib to rectify image using submitted corners.
         :param x_corners: list of x- coordinates of rectangle
         :type x_corners: list
         :param y_corners: list of y- coordinates of rectangle

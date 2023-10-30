@@ -1,0 +1,60 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.26"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "FEIGRfidInterface",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "BasicTcpConnect::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-BasicTcpConnect-Debug-25952ca3a56fb25943c5.json",
+					"name" : "BasicTcpConnect",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/lennartschink/Documents/GitHub/muPlant_WarehouseManagement/FEIG_RFIDReaderInterface/cmake-build-debug",
+		"source" : "/Users/lennartschink/Documents/GitHub/muPlant_WarehouseManagement/FEIG_RFIDReaderInterface"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 5
+	}
+}
