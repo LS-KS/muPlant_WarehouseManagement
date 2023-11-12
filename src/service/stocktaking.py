@@ -181,9 +181,19 @@ class Stocktaker(QQuickImageProvider):
         Performs arUco detection after brightness and color adjustment.
         processed image is kept in gripper_image property.
         """
-        # TODO: Implement
-        pass
-
+        self.detected_cups = []
+        self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "Start obtaining image from camera...")
+        try:
+            self.gripper_image = self.cameraService.get_image(2)
+        except Exception as e:
+            self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", f"Error while obtaining image from camera: {str(e)}")
+            return
+        if self.gripper_image is None:
+            self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "No image obtained from camera! Stocktaking aborted.")
+            return
+        else:
+            self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "Image obtained. Start arUco recognition...")
+            markers, image = self._detect_markers(section=self.gripper_image, cups=True)
 
     def _refactor_corners(self, corners, ids):
         """
@@ -223,7 +233,6 @@ class Stocktaker(QQuickImageProvider):
                 shelf_corners.append(corners[i])
                 shelf_ids.append(id)
         return shelf_corners, shelf_ids
-
     def _get_pallet_markers(self, markers):
         """
         Private method to extract all pallet markers from marker list.
@@ -245,7 +254,6 @@ class Stocktaker(QQuickImageProvider):
                     pallet_markers.append(corners[i])
                     pallet_ids.append(id)
         return pallet_markers, pallet_ids
-
     def _get_cup_markers(self, markers):
         """
         Private method to extract all cup markers from marker list.
@@ -268,7 +276,6 @@ class Stocktaker(QQuickImageProvider):
                     cup_markers.append(corners[i])
                     cup_ids.append(id)
         return cup_markers, cup_ids
-
     def _get_storage_element_markers(self, markers):
         """
         Private method to extract all markers related to a storage from marker list.
@@ -338,7 +345,6 @@ class Stocktaker(QQuickImageProvider):
             return x_corners, y_corners, y_min, y_max, True
         else:
             return x_corners, y_corners, y_min, y_max, False
-
     def _transform_image(self,im_source, x_corners, y_corners, y_glob_min, y_glob_max):
         """
         Private method. uses skimage lib to rectify image using submitted corners.
@@ -376,7 +382,6 @@ class Stocktaker(QQuickImageProvider):
         plt.title("transformed image")
         plt.show(cmap= 'gray')
         return image, tform3
-
     def _detect_markers(self, parameters: None | cv2.aruco.DetectorParameters = None, section = None, section_id= 0, cups = False):
         """
         uses cv2's detectMarkers()  to recognize arUco marker.
@@ -403,8 +408,6 @@ class Stocktaker(QQuickImageProvider):
                 self.detected_cups.append(marker_content)
             print(f"detection id {section_id+1}: {marker_content}, {len(markers[1])}")
             return markers, section
-
-
     def _draw_markers(self, corners, ids, color, section = None, section_id=0):
         """
         draw given markers in given color.
@@ -426,7 +429,6 @@ class Stocktaker(QQuickImageProvider):
                 else:
                     section = cv2.rectangle(img= section, pt1= (int(marker[0][0]), int(marker[0][1])), pt2= (int(marker[2][0]), int(marker[2][1])), color= color, thickness= 30)
                     return section
-
     def _slice_storage(self, image):
         """
         Private Method. Slices the image in storage elements.
@@ -513,7 +515,6 @@ class Stocktaker(QQuickImageProvider):
             return img
         else:
             return gray
-
     def _loadDetectorConf(self, imgtype: str, area: int, type: str) -> cv2.aruco.DetectorParameters:
         """
         Loads the parameter configuration for marker detection from a yaml file which might has been fitted by genetic algorithm.
@@ -545,9 +546,6 @@ class Stocktaker(QQuickImageProvider):
         except FileNotFoundError as e:
             self.eventlogService.writeEvent("Stocktaker._loadDetectorConf", f"Exception while opening configuration file: {e}")
         return parameters
-
-
-
 
 if __name__ == '__main__':
     stocktaker = Stocktaker()

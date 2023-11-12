@@ -5,6 +5,7 @@ This service delivers and process images from camera to QML GUI
 from ids_peak_ipl.ids_peak_ipl import PixelFormatName_BGR8, ConversionMode_Fast, ConversionMode_HighQuality
 from PySide6.QtCore import QThread, Signal, Slot, QObject
 from ids_peak import ids_peak, ids_peak_ipl_extension
+import requests
 import numpy as np
 import src.constants.Constants as const
 import cv2
@@ -19,6 +20,7 @@ class ImageProvider(QThread):
         self.device = None
         self.nodemap_remote_device = None
         self.nodemap_datastream = None
+        self.esp_url = "http://192.168.190/capture"
 
     def _get_image(self, cam : int):
         """
@@ -130,7 +132,23 @@ class ImageProvider(QThread):
         finally:
             ids_peak.Library.Close()
 
-
+    def _get_image_esp(self):
+        """
+        Private Method. Uses request module to connect to ESP32 CAM Webserver's image URL. 
+        Need to be adjusted to the ESP32 CAM's IP address and setup.
+        If successful: copies the image to self.image. 
+        """
+        try: 
+            response = requests.get(self.esp_url)
+            if response.status_code == 200:
+                nparr = np.frombuffer(response.content, np.uint8)
+                self.image = cv2.imdecode(nparr, cv2.IMREAD_GRAYSCALE)
+            else:
+                print(f"CameraService.ImageProvider._get_image_esp: Error while getting image from ESP32 CAM. Status code: {response.status_code}")
+        except Exception as e:
+            print(f"CameraService.ImageProvider._get_image_esp: Error while getting image from ESP32 CAM: {str(e)}")
+            return
+        
     def get_image(self, cam):
         """
         Public wrapper to call _get_image method.
@@ -140,6 +158,8 @@ class ImageProvider(QThread):
             self._get_image(0)
         elif cam == 1:
             self._get_image(1)
+        elif cam == 2:
+            self._get_image_esp()
         else:
             raise ValueError("CameraService.ImageProvider.getImage: Invalid camera number")
         return self.image

@@ -34,11 +34,9 @@ using namespace FEDM::Utility;
 using namespace TagHandler;
 using namespace std;
 
-
-
 class BasicTcpConnect {
-/* This class is a workerclass to establish a TCP-Connection to an RFID Reader of FEIG GmbH.
- * It has a constructor which only needs ip, port and a waittime between rereads of the reader device.
+/* This class is a worker-class to establish a TCP-Connection to an RFID Reader of FEIG GmbH.
+ * It has a constructor which only needs ip, port and a wartime between rereads of the reader device.
  * For its purpose it uses the Windows Gen3 SDK provided by FEIG GmbH.
  * This class is used to expose itself and its run() method to C ABI to later bind it with ctypes.
  */
@@ -46,8 +44,8 @@ private:
     string& ip;
     uint16_t port;
     unique_ptr<ReaderModule> reader;
-    int readTime;
-    vector<string> tagReadIn;
+    int waitTime;
+    vector<string> tagReadIn; // standard type with own memory management, must not be deleted.
 
     void read() {
         int state;
@@ -56,9 +54,9 @@ private:
         state = this->reader->brm().initializeReaderBuffer();
         cout << "[0x33] Initialize Buffer " << reader->lastErrorStatusText() << endl;
 
-        // Read Operation over set readtime
-        cout << "Wait for " << readTime << "ms..." << endl;
-        this_thread::sleep_for(chrono::milliseconds(readTime));
+        // Read Operation over set waitTime
+        cout << "Wait for " << waitTime << "ms..." << endl;
+        this_thread::sleep_for(chrono::milliseconds(waitTime));
 
         // [0x31] Read Data Buffer Info, to get number of tags in buffer
         BufferInfo bufferInfo;
@@ -272,8 +270,11 @@ private:
     }
 public:
     // Constructor to set IP address and port and read time.
-    BasicTcpConnect(string& ipAddr, uint16_t ipPort, int readtime) : ip(ipAddr), port(ipPort), readTime(readtime){}
-
+    BasicTcpConnect(string& ipAddr, uint16_t ipPort, int waitTime) : ip(ipAddr), port(ipPort), waitTime(waitTime){}
+    // Destructor
+    ~BasicTcpConnect() {
+        cout << "FEIG RFID Basic TCP Connect: Destructor called" << endl;
+    }
     // run method
     vector<string> run() {
         //create reader module with Request Mode UniDirectional = Advanced Protocol
@@ -301,6 +302,8 @@ public:
         catch (const std::exception& e)
         {
             // Rethrow the exception with additional information
+            reader->disconnect();
+            cout << "Reader disconnected because of an error occurred." << endl;
             throw std::runtime_error(e.what());
         }
         // Output Reader Type
