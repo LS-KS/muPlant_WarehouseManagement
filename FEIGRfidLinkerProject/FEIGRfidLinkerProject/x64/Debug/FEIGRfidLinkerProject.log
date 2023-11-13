@@ -1,0 +1,5 @@
+﻿  BasicTcpConnection.cpp
+C:\Lagerzelle\muPlant_WarehouseManagement\FEIGRfidLinkerProject\FEIGRfidLinkerProject\BasicTcpConnection.h(18,8): error C2143: Syntaxfehler: Es fehlt ";" vor "<"
+C:\Lagerzelle\muPlant_WarehouseManagement\FEIGRfidLinkerProject\FEIGRfidLinkerProject\BasicTcpConnection.h(18,8): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+C:\Lagerzelle\muPlant_WarehouseManagement\FEIGRfidLinkerProject\FEIGRfidLinkerProject\BasicTcpConnection.h(18,23): error C2238: Unerwartete(s) Token vor ";"
+C:\Lagerzelle\muPlant_WarehouseManagement\FEIGRfidLinkerProject\FEIGRfidLinkerProject\BasicTcpConnection.cpp(10,10): fatal error C1083: Datei (Include) kann nicht geöffnet werden: "ReaderModule.h": No such file or directory

@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BasicTcpConnection.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\BleManager.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\ComManager.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\Fedm.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmAppLogParam.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmBase.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmBasic.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmBrmItem.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmBrmLayout.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmBufferInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmCardInfo14443.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmCfgId.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmCfgParInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmConnector.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmConst.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmCustomXml.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmDateTime.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmDiagEventItem.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmErrCode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmHide.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmInputEventItem.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmInvParam.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmKeys.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmNetAddr.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmNoiseLevel.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmOutSett.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmOutSett04.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmPeerInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmRdrDiag.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmRdrId.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmRdrIdLayout.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmRdrInfo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmRdrStatus.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmRdrType.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmRssiItem.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmSmartCardItem.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmTagEventItem.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmTagEventLayout.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmTagEventSignals.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\FedmTagItem.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\GroupAsync.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\GroupBrm.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\GroupClock.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\GroupConfig.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\GroupDiag.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\GroupHm.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\GroupIO.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\GroupKeyMng.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\GroupLog.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\GroupRf.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\GroupSmartCard.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\GroupTagEvent.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\IListenComDet.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\IListenConnect.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\IListenRdr.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\ReaderConfigPara.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\ReaderModule.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\TraceLogManager.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\UdpManager.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0\x64.vc142\include\fedm\UsbManager.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BasicTcpConnection.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
