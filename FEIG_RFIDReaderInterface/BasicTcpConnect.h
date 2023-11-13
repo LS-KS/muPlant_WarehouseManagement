@@ -13,6 +13,7 @@ using namespace std;
 
 // Forward declaration of ReaderModule
 class ReaderModule;
+class BrmItem;
 
 class BasicTcpConnect {
 public:
