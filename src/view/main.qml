@@ -83,6 +83,7 @@ Window {
                         console.log("Error while loading RFID-Server-Plugin: "+ rfidServerComponent.errorString())
                     }
                 }
+
             }
             Action {
                 text: qsTr("&Camera Application")

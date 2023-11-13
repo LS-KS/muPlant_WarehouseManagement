@@ -1,7 +1,7 @@
 from PySide6.QtCore import QObject, Signal
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 from dataclasses import dataclass
-
+import datetime
 
 
 @dataclass
@@ -26,5 +26,13 @@ class RfidModel(QStandardItem):
     selected: bool = False
     reader = None
     data = None
+    iid:str = None
+    dsfid:str = None
+    transponder_type:str = None
+    timestamp: datetime.date = None
+    last_valid_iid:str = None
+    last_valid_dsfid:str = None
+    last_valid_transponder_type:str = None
+    last_valid_timestamp: datetime.date = None
 
         

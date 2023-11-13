@@ -1,6 +1,7 @@
 {
     "files": [
         "Makefile",
+        "OBID_RFID/obidrfid.py",
         "main.py",
         "make.bat",
         "sphinx_source/ManualCommissionControl.rst",

@@ -10,7 +10,7 @@ extern "C" {
         char* ip;
         int port;
         int waitTime;
-        if (!PyArg_ParseTuple(args, "sii", &ip, &port, &waitTime)){
+        if (!PyArg_ParseTuple(args, "sii", &ip, &port, &waitTime)){ // sii = string, int, int
             return NULL;
         }
         string ipString(ip);

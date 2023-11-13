@@ -2,9 +2,9 @@ import QtQuick 2.9
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Material
 import QtQuick.Layouts 1.3
-import QtQuick.Window 2.2
 
-Window {
+
+ApplicationWindow {
     id: window
     visible: true
     width: 640
@@ -45,7 +45,7 @@ Window {
             id: listView
             anchors.fill: parent
             model: rfidModel
-            cacheBuffer: 0
+            cacheBuffer: 5
             delegate: RfidDelegate{
                 width: contentRect.width
                 idVal: model.idVal
@@ -112,5 +112,8 @@ Window {
             }
         }
     }
-
+    // check Signal onClosed to destroy object
+    onClosing: {
+        console.log("RFID Server crashed.")
+    }
 }

@@ -1,70 +1,132 @@
 - cupSize: 1
-  endPointModbus: '1'
+  dsfid: null
+  endPointModbus: ''
   endPointStatus: 1
-  endPointipAddr: 192.168.0.205
-  endPointipPort: '5678'
+  endPointipAddr: ''
+  endPointipPort: ''
   idVal: 1
-  ipAddr: 192.168.0.100
-  ipPort: '1234'
-  name: Johnnys RFID worlds
+  iid: null
+  ipAddr: 141.51.45.180
+  ipPort: '10001'
+  last_valid_dsfid: null
+  last_valid_iid: null
+  last_valid_timestamp: null
+  last_valid_transponder_type: null
+  name: Fertigungszelle Recyclingstation
   productID: 6789
   rfidStatus: 0
   selected: false
   tagId: 12345
+  timestamp: null
+  transponder_type: null
   workingState: 1
 - cupSize: 2
-  endPointModbus: '0'
+  dsfid: null
+  endPointModbus: ''
   endPointStatus: 0
-  endPointipAddr: 192.168.0.201
-  endPointipPort: '5679'
+  endPointipAddr: ''
+  endPointipPort: ''
   idVal: 2
-  ipAddr: 192.168.0.101
-  ipPort: '1235'
-  name: Jane's world
+  iid: null
+  ipAddr: 141.51.45.184
+  ipPort: '10001'
+  last_valid_dsfid: null
+  last_valid_iid: null
+  last_valid_timestamp: null
+  last_valid_transponder_type: null
+  name: Fertigungszelle Veredelung
   productID: 9876
   rfidStatus: 1
   selected: false
   tagId: 54321
+  timestamp: null
+  transponder_type: null
   workingState: 1
 - cupSize: 0
-  endPointModbus: 432.678.567.094
+  dsfid: null
+  endPointModbus: ''
   endPointStatus: 0
-  endPointipAddr: 470.432.423.097
-  endPointipPort: '4345'
+  endPointipAddr: ''
+  endPointipPort: ''
   idVal: 3
-  ipAddr: 478.890.342.098
-  ipPort: '654'
-  name: Timmys world
+  iid: null
+  ipAddr: 141.51.45.181
+  ipPort: '10001'
+  last_valid_dsfid: null
+  last_valid_iid: null
+  last_valid_timestamp: null
+  last_valid_transponder_type: null
+  name: Lagerzelle
   productID: 0
   rfidStatus: 0
   selected: false
   tagId: 0
+  timestamp: null
+  transponder_type: null
   workingState: 0
 - cupSize: 0
-  endPointModbus: 123.543.765.234
+  dsfid: null
+  endPointModbus: ''
   endPointStatus: 0
-  endPointipAddr: 341.543.543.785
-  endPointipPort: '43432'
+  endPointipAddr: ''
+  endPointipPort: ''
   idVal: 4
-  ipAddr: 234.456.876.979
-  ipPort: '435'
-  name: Tom's world
+  iid: null
+  ipAddr: 141.51.45.179
+  ipPort: '10001'
+  last_valid_dsfid: null
+  last_valid_iid: null
+  last_valid_timestamp: null
+  last_valid_transponder_type: null
+  name: "Abf\xFCll- und Entleerstation 1"
   productID: 0
   rfidStatus: 0
   selected: false
   tagId: 0
+  timestamp: null
+  transponder_type: null
   workingState: 0
 - cupSize: 0
-  endPointModbus: 543.443.121.867
+  dsfid: null
+  endPointModbus: ''
   endPointStatus: 0
-  endPointipAddr: 879.155.255.70
-  endPointipPort: '0567'
+  endPointipAddr: ''
+  endPointipPort: ''
   idVal: 5
-  ipAddr: 127.0.0.0
-  ipPort: '56'
-  name: addedANewOne
+  iid: null
+  ipAddr: 141.51.45.183
+  ipPort: '10001'
+  last_valid_dsfid: null
+  last_valid_iid: null
+  last_valid_timestamp: null
+  last_valid_transponder_type: null
+  name: "Abf\xFCll- und Entleerstation 2"
   productID: 0
   rfidStatus: 0
   selected: false
   tagId: 0
+  timestamp: null
+  transponder_type: null
+  workingState: 0
+- cupSize: 0
+  dsfid: null
+  endPointModbus: 0
+  endPointStatus: 0
+  endPointipAddr: ''
+  endPointipPort: 0
+  idVal: 7
+  iid: null
+  ipAddr: ''
+  ipPort: 0
+  last_valid_dsfid: null
+  last_valid_iid: null
+  last_valid_timestamp: null
+  last_valid_transponder_type: null
+  name: ''
+  productID: 0
+  rfidStatus: 0
+  selected: false
+  tagId: 0
+  timestamp: null
+  transponder_type: null
   workingState: 0
