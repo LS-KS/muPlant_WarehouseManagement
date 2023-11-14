@@ -9,58 +9,56 @@ import datetime
 class rfid_readerworker(QObject):
     data = Signal(str, str, str, str) # transponder type, iid, dfsid, timestamp
     
-    def __init__(self, node, service, parent = None) -> None:
+    def __init__(self, ip:str, name:str, service:EventlogService, parent = None) -> None:
         super().__init__(parent)
-        self.node = node
+        self.ip = ip
+        self.name = name
         self.service = service
         self.running = False
+        self.reader = None
     
     def run(self):
         print("run-method started")
-        if self.node.reader is None:
-            try:
-                print("read ip address")
-                ip = self.node.ipAddr
-                print("check ip validity")
-                if ip is None or not obidrfid.validate_ip(ip):
-                    raise ValueError(f"{ip} ist eine ungültige IP-Adresse. Die folgende RFID-Node konnte nicht gestartet werden: {self.node.name}")
-                print(f"connect to rfid node with {ip}")
-                self.node.reader = obidrfid.rfid_connect(str(ip))
-                self.service.eventlogservice.writeEvent("RFIDReaderTask", f"RFID-Node {self.node.name} mit IP {self.node.ipAddr} und Port {self.node.ipPort} connected {obidrfid.rfid_reader_info(self.node.reader)}")
-                print("start reader loop")
-                self.running = True
-                while(self.running):
-                    data = obidrfid.rfid_read(self.node.reader)
-                    if(len(data)):
-                        self.node.transponder_type = data[0].get('tr_type')
-                        self.node.iid = data[0].get('iid')
-                        self.node.dsfid = data[0].get('dsfid')
-                        self.node.timestamp = datetime.datetime.now().timestamp()
-                        self.node.last_valid_transponder_type = self.node.transponder_type
-                        self.node.last_valid_iid = self.node.iid
-                        self.node.last_valid_dsfid = self.node.dsfid
-                        self.node.last_valid_timestamp = datetime.datetime.now().timestamp()
-                        self.service.eventlogservice.writeEvent("RFIDReaderTask", f"RFID-Node {self.node.name} mit IP {self.node.ipAddr} und Port {self.node.ipPort}: Daten gelesen: iid: {self.node.iid}, dsfid: {self.node.dsfid}, transpondertype: { self.node.transponder_type}")
-                    else:
-                        self.node.transponder_type = "No Transponder"
-                        self.node.iid = "0"
-                        self.node.dsfid = "0"
-                        self.node.timestamp = datetime.datetime.now().timestamp()
-                        self.service.eventlogservice.writeEvent("RFIDReaderTask", f"RFID-Node {self.node.name} mit IP {self.node.ipAddr} und Port {self.node.ipPort}: No Transponder")
-            except Exception as e:
-                self.service.eventlogservice.writeEvent("RFIDReaderTask", f"RFID-Node {self.node.name} mit IP {self.node.ipAddr} und Port {self.node.ipPort} konnte nicht gelesen werden. {e}")
-            finally:
-                self.stop()
-        else:
-            print("reader is not None")
+        try:
+            print("read ip address")
+            print("check ip validity")
+            if self.ip is None or not obidrfid.validate_ip(self.ip):
+                raise ValueError(f"{self.ip} ist eine ungültige IP-Adresse. Die folgende RFID-Node konnte nicht gestartet werden: {self.name}")
+            print(f"connect to rfid node with {self.ip}")
+            self.reader = obidrfid.rfid_connect(str(self.ip))
+            if self.reader is None:
+                raise ConnectionError(f"Verbindung zu RFID-Node {self.name} mit IP {self.ip} konnte nicht hergestellt werden.")
+            self.service.writeEvent("RFIDReaderTask", f"RFID-Node {self.name} mit IP {self.ip} connected {obidrfid.rfid_reader_info(self.reader)}")
+            print("start reader loop")
+            self.running = True
+            while(self.running):
+                data = obidrfid.rfid_read(self.reader)
+                if(len(data)):
+                    transponder_type = data[0].get('tr_type')
+                    iid = data[0].get('iid')
+                    dsfid = data[0].get('dsfid')
+                    timestamp = datetime.datetime.now().timestamp()
+                    self.service.writeEvent("RFIDReaderTask", f"RFID-Node {self.name} mit IP {self.ip}: Daten gelesen: iid: {iid}, dsfid: {dsfid}, transpondertype: {transponder_type}")
+                    self.data.emit(str(transponder_type), str(iid), str(dsfid), str(timestamp))
+                else:
+                    transponder_type = "No Transponder"
+                    iid = "0"
+                    dsfid = "0"
+                    timestamp = datetime.datetime.now().timestamp()
+                    self.service.writeEvent("RFIDReaderTask", f"RFID-Node {self.name} mit IP {self.ip}: No Transponder")
+        except Exception as e:
+            self.service.writeEvent("RFIDReaderTask", f"RFID-Node {self.name} mit IP {self.ip} konnte nicht gelesen werden. {e}")
+        finally:
+            self.stop()
+
     def stop(self):
         self.running = False
 
 class rfid_readertask(QThread):
 
-    def __init__(self, node:RfidModel, service, parent = None ):
+    def __init__(self, ip:str, name:str, service:EventlogService, parent = None ):
         super().__init__(parent)
-        self.worker = rfid_readerworker(node, service)
+        self.worker = rfid_readerworker(ip, name, service)
         self.worker.data.connect(self.handle_data_read)
 
     def start(self):
@@ -95,10 +93,10 @@ class rfid_service(QObject):
         if not self._validate_ip_port(node.ipAddr, node.ipPort):
             self.eventlogservice.writeEvent("RFIDService.start_node", f"RFID-Node {node.name} mit IP {node.ipAddr} und Port {node.ipPort} konnte nicht gestartet werden. IP oder Port ungültig")
             return
-        task = rfid_readertask(node, self)
+        task = rfid_readertask(node.ipAddr, node.name, self.eventlogservice, self)
         self.nodes.append([node, task])
         task.start()
-        self.eventlogservice.writeEvent("RFIDService.start_node", f"RFID-Node {node.name} mit IP {node.ipAddr} und Port {node.ipPort} gestartet.")
+        self.eventlogservice.writeEvent("RFIDService.start_node", f"starte RFID-Node {node.name} mit IP {node.ipAddr} und Port {node.ipPort}...")
 
     def stop_node(self, node) -> bool:
         """

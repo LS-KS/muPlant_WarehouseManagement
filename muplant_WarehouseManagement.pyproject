@@ -137,6 +137,7 @@
         "src/service/pallet_9.png",
         "src/service/processed_before_detection.png",
         "src/service/raw_shot.png",
+        "src/service/rfid_service.py",
         "src/service/section_1.png",
         "src/service/section_10.png",
         "src/service/section_11.png",

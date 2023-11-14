@@ -8,13 +8,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1bb59e4-14c6-46d3-92d8-82a94a6183ab" name="Changes" comment="fixed marker detection and drawing. &#10;image slicing implemented.">
-      <change afterPath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/FEIG.ID.SDK.Gen3.Windows.Cpp-v6.6.0/BasicTcpConnectWrapper.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/muPlant_WarehouseManagement.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/muPlant_WarehouseManagement.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/BasicTcpConnect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/BasicTcpConnect.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/BasicTcpConnect.h" beforeDir="false" afterPath="$PROJECT_DIR$/FEIG_RFIDReaderInterface/BasicTcpConnect.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Jupyter/detectionTest.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Jupyter/detectionTest.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/CameraService.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/CameraService.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/stocktaking.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/stocktaking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/muplant_WarehouseManagement.pyproject" beforeDir="false" afterPath="$PROJECT_DIR$/muplant_WarehouseManagement.pyproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/muplant_WarehouseManagement.pyproject.user" beforeDir="false" afterPath="$PROJECT_DIR$/muplant_WarehouseManagement.pyproject.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/rfid_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/rfid_service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +98,7 @@
       <recent name="$PROJECT_DIR$/src/view" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.main">
     <configuration name="DetectionOptimizationService" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="muPlant_WarehouseManagement" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -305,6 +303,7 @@
       <workItem from="1698660808374" duration="1000" />
       <workItem from="1699808691241" duration="865000" />
       <workItem from="1699811838007" duration="2254000" />
+      <workItem from="1699945857882" duration="484000" />
     </task>
     <task id="LOCAL-00001" summary="implemented Cup and Product">
       <created>1687298522583</created>
@@ -705,7 +704,15 @@
           <line>12</line>
           <option name="timeStamp" value="97" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/service/rfid_service.py</url>
+          <line>27</line>
+          <option name="timeStamp" value="98" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1699946306207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
