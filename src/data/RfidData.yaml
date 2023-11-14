@@ -1,11 +1,11 @@
 - cupSize: 1
-  dsfid: null
+  dsfid: 987654
   endPointModbus: ''
   endPointStatus: 1
   endPointipAddr: ''
   endPointipPort: ''
   idVal: 1
-  iid: null
+  iid: 1234567
   ipAddr: 141.51.45.180
   ipPort: '10001'
   last_valid_dsfid: null
@@ -17,7 +17,7 @@
   rfidStatus: 0
   selected: false
   tagId: 12345
-  timestamp: null
+  timestamp: 1990-01-01 15:37:00
   transponder_type: null
   workingState: 1
 - cupSize: 2

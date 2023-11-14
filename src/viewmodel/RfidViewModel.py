@@ -54,7 +54,10 @@ class RfidViewModel(QtCore.QAbstractListModel):
             field = self.roleNames().get(role)
             # print("field: "+ str(field), "role: " + str(role))
             if field:
+                print(str(field), getattr(node, field.decode()))
                 return getattr(node, field.decode())
+            else:
+                return "Unknown role"
 
         
     def setData(self, index: QModelIndex, value: Any, role: int) -> bool:

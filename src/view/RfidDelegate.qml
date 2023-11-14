@@ -6,7 +6,7 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
     id: root
-    width: 400
+    width: 800
     height: infoLabel.height + entries.height +20
     color: "white"
     property string tagTextA: "0"
@@ -14,10 +14,12 @@ Rectangle {
     property string tagTextC: "0"
     property string readerIpAdress: ""
     property string readerPort: ""
-    property string endpointIpAdress: ""
-    property string endpointPort:""
-    property string endpointModbusAddress: ""
+    property string transponderType: ""
+    property string iid:""
+    property string dsfid: ""
     property string nameText: ""
+    property string timestamp: ""
+
     onNameTextChanged: {
         name.text = nameText
     }
@@ -198,89 +200,69 @@ Rectangle {
 
         }
         Text{
-            text: "Tag Endpoint"
+            text: "Tag"
             font.bold: true
             height: 50
         }
         Row {
             Label{
-                text: "  Ip Adress: "
+                id: transponderlabel
+                text: "  Transponder: "
                 width: 120
                 height:  30
             }
             TextField{
-                id: endpointIpAdressField
-                text: "0.0.0.0"
-                width: parent.width - 120
+                id: transponderField
+                text: root.transponderType
+                width: (parent.width/2 -120)
                 height:  30
-                validator: RegularExpressionValidator {
-                    regularExpression: /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
-                    // /^means string must start at the beginning
-                    // {1,3} means 1 to 3 digits
-                    // \. means a dot, [0-9] means a digit
-                    // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
-                    // followed by 1 to 3 digits
-                }
-                enabled: !locked
-                onEditingFinished: {
-                    saveButton.enabled = true
-                }
-                Component.onCompleted: {
-                    endpointIpAdressField.text = endpointIpAdress
-                }
+                readOnly: true
+            }
+            Label{
+                id: timestamplabel
+                text: "  Zeitstempel: "
+                width: 120
+                height:  30
+            }
+            TextField{
+                id: timestampField
+                text: root.timestamp
+                width: (parent.width/2 -120)
+                height:  30
+                readOnly: true
             }
             Layout.fillWidth: true
             clip: true
         }
         Row {
             Label{
-                text: "  Port: "
+                text: "  IID: "
                 width: 120
                 height:  30
             }
             TextField{
-                id: endpointPortField
-                text: "0"
+                id: iidField
+                text: root.iid
                 width: parent.width - 120
                 height:  30
-                enabled: !locked
-                onEditingFinished: {
-                    saveButton.enabled = true
-                }
-                Component.onCompleted: {
-                    endpointPortField.text = endpointPort
-                }
+                readOnly: true
             }
             Layout.fillWidth: true
             clip: true
         }
         Row{
             Label{
-                text: "  Modbus Address: "
+                text: "  DSF - ID: "
                 width: 120
                 height:  30
 
             }
             TextField{
-                id: endpointModbusAddressField
-                text: "0.0.0.0"
+                id: dsfidField
+                text: root.dsfid
                 width: parent.width - 120
                 height:  30
-                validator: RegularExpressionValidator {
-                    regularExpression: /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
-                    // /^means string must start at the beginning
-                    // {1,3} means 1 to 3 digits
-                    // \. means a dot, [0-9] means a digit
-                    // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
-                    // followed by 1 to 3 digits
-                }
-                enabled: !locked
-                onEditingFinished: {
-                    saveButton.enabled = true
-                }
-                Component.onCompleted: {
-                    endpointModbusAddressField.text = endpointModbusAddress
-                }
+                readOnly: true
             }
             Layout.fillWidth: true
             clip: true
@@ -296,10 +278,7 @@ Rectangle {
                     idVal,
                     nameTextField.text, 
                     readerIpAdressField.text, 
-                    readerPortField.text, 
-                    endpointIpAdressField.text, 
-                    endpointPortField.text, 
-                    endpointModbusAddressField.text
+                    readerPortField.text,
                 )
                 saveButton.enabled = false
             }

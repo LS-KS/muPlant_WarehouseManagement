@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>src.service.rfid_service &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for src.service.rfid_service</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">OBID_RFID</span> <span class="kn">import</span> <span class="n">obidrfid</span>
+<span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QObject</span><span class="p">,</span> <span class="n">Signal</span><span class="p">,</span> <span class="n">Slot</span><span class="p">,</span> <span class="n">QThread</span><span class="p">,</span> <span class="n">QMutex</span>
+<span class="kn">from</span> <span class="nn">src.controller.RfidController</span> <span class="kn">import</span> <span class="n">RfidController</span>
+<span class="kn">from</span> <span class="nn">src.service.EventlogService</span> <span class="kn">import</span> <span class="n">EventlogService</span>
+<span class="kn">from</span> <span class="nn">src.model.RfidModel</span> <span class="kn">import</span> <span class="n">RfidModel</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<div class="viewcode-block" id="rfid_readerworker"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.rfid_service.rfid_readerworker">[docs]</a><span class="k">class</span> <span class="nc">rfid_readerworker</span><span class="p">(</span><span class="n">QObject</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="c1"># transponder type, iid, dfsid, timestamp</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">service</span><span class="p">:</span><span class="n">EventlogService</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="n">ip</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">service</span> <span class="o">=</span> <span class="n">service</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">QMutex</span><span class="p">()</span> <span class="c1"># Thread lock</span>
+    
+<div class="viewcode-block" id="rfid_readerworker.run"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.rfid_service.rfid_readerworker.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ths function uses the obidrfid library to connect to a RFID Node and read its data.</span>
+<span class="sd">        It also uses PySides QMutex class to lock the thread while the while loop is running.</span>
+<span class="sd">        Data is emitted via the data signal.</span>
+
+<span class="sd">        Thread safety needs to be tested, bt change from 14.11.2023 should improve this further. When crashes occur,</span>
+<span class="sd">        check if rfid_readertask needs also be muted. There is no good documentation about threadsafety in Qt.</span>
+
+<span class="sd">        One thing to be sure: don&#39;t use the threading module from python, use Qt-native threading classes instead!</span>
+
+
+<span class="sd">        This method first uses obidrfid&#39;s validation method to check if the submitted ip is valid. This uses ping command.</span>
+
+<span class="sd">        If ping is successful, the method tries to connect to the RFID Node with the given ip and calls the rfid_read</span>
+<span class="sd">        function. obidrfid is a fork of the original obidrfid library, which is mainly adapted to use .dll file</span>
+<span class="sd">        instead of .so file of the FEIG .NET SDK.</span>
+
+<span class="sd">        Any exception is caught and logged to the eventlogservice. Note that only the pointer to the eventlogservice</span>
+<span class="sd">        instance is submitted and writeEvent is a Slot. So theoretically, this should be thread safe.</span>
+
+<span class="sd">        :raises ValueError: if ip is invalid</span>
+<span class="sd">        :raises ConnectionError: if connection to RFID Node failed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;run-method started&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="o">.</span><span class="n">lock</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;read ip address&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;check ip validity&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">obidrfid</span><span class="o">.</span><span class="n">validate_ip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2"> ist eine ungültige IP-Adresse. Die folgende RFID-Node konnte nicht gestartet werden: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;connect to rfid node with </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="n">obidrfid</span><span class="o">.</span><span class="n">rfid_connect</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Verbindung zu RFID-Node </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> mit IP </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2"> konnte nicht hergestellt werden.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;RFIDReaderTask&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;RFID-Node </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> mit IP </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2"> connected </span><span class="si">{</span><span class="n">obidrfid</span><span class="o">.</span><span class="n">rfid_reader_info</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;start reader loop&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">while</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">obidrfid</span><span class="o">.</span><span class="n">rfid_read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">)</span>
+                <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+                    <span class="n">transponder_type</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tr_type&#39;</span><span class="p">)</span>
+                    <span class="n">iid</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;iid&#39;</span><span class="p">)</span>
+                    <span class="n">dsfid</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dsfid&#39;</span><span class="p">)</span>
+                    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;RFIDReaderTask&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;RFID-Node </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> mit IP </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">: Daten gelesen: iid: </span><span class="si">{</span><span class="n">iid</span><span class="si">}</span><span class="s2">, dsfid: </span><span class="si">{</span><span class="n">dsfid</span><span class="si">}</span><span class="s2">, transpondertype: </span><span class="si">{</span><span class="n">transponder_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">transponder_type</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">iid</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">dsfid</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">timestamp</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">transponder_type</span> <span class="o">=</span> <span class="s2">&quot;No Transponder&quot;</span>
+                    <span class="n">iid</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+                    <span class="n">dsfid</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+                    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;RFIDReaderTask&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;RFID-Node </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> mit IP </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">: No Transponder&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;RFIDReaderTask&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;RFID-Node </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> mit IP </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2"> konnte nicht gelesen werden. </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="o">.</span><span class="n">unlock</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="rfid_readerworker.stop"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.rfid_service.rfid_readerworker.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stops the while loop in the run method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="o">.</span><span class="n">lock</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="o">.</span><span class="n">unlock</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="rfid_readertask"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.rfid_service.rfid_readertask">[docs]</a><span class="k">class</span> <span class="nc">rfid_readertask</span><span class="p">(</span><span class="n">QThread</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="c1"># ip, transponder type, iid, dfsid, timestamp</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">service</span><span class="p">:</span><span class="n">EventlogService</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worker</span> <span class="o">=</span> <span class="n">rfid_readerworker</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">service</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handle_data_read</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ip</span>
+
+<div class="viewcode-block" id="rfid_readertask.start"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.rfid_service.rfid_readertask.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+        
+<div class="viewcode-block" id="rfid_readertask.run"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.rfid_service.rfid_readertask.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="rfid_readertask.stop"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.rfid_service.rfid_readertask.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="o">.</span><span class="n">deleteLater</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="rfid_readertask.handle_data_read"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.rfid_service.rfid_readertask.handle_data_read">[docs]</a>    <span class="k">def</span> <span class="nf">handle_data_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transponder_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">iid</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">dsfid</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="p">,</span> <span class="n">transponder_type</span><span class="p">,</span> <span class="n">iid</span><span class="p">,</span> <span class="n">dsfid</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="rfid_service"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.rfid_service.rfid_service">[docs]</a><span class="k">class</span> <span class="nc">rfid_service</span><span class="p">(</span><span class="n">QObject</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eventlogservice</span><span class="p">:</span> <span class="n">EventlogService</span><span class="p">,</span> <span class="n">rfidcontroller</span><span class="p">:</span> <span class="n">RfidController</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eventlogservice</span> <span class="o">=</span> <span class="n">eventlogservice</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rfidcontroller</span> <span class="o">=</span> <span class="n">rfidcontroller</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="rfid_service.start_node"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.rfid_service.rfid_service.start_node">[docs]</a>    <span class="k">def</span> <span class="nf">start_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Starts given RFID Node, which is a slice of rfidcontrollers rfidviewmodel.</span>
+<span class="sd">        Connects rfid_readertask.data to own handle_data_read method which sets submitted data to given node.</span>
+<span class="sd">        Not that these methods and classes used need to be thread safe!</span>
+
+<span class="sd">        :param node: RFID Node to start</span>
+<span class="sd">        :type node: RfidModel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_ip_port</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">ipPort</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eventlogservice</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;RFIDService.start_node&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;RFID-Node </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> mit IP </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">ipAddr</span><span class="si">}</span><span class="s2"> und Port </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">ipPort</span><span class="si">}</span><span class="s2"> konnte nicht gestartet werden. IP oder Port ungültig&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">rfid_readertask</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eventlogservice</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">node</span><span class="p">,</span> <span class="n">task</span><span class="p">])</span>
+        <span class="n">task</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handle_data_read</span><span class="p">)</span>
+        <span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eventlogservice</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;RFIDService.start_node&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;starte RFID-Node </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> mit IP </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">ipAddr</span><span class="si">}</span><span class="s2"> und Port </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">ipPort</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span></div>
+<div class="viewcode-block" id="rfid_service.handle_data_read"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.rfid_service.rfid_service.handle_data_read">[docs]</a>    <span class="k">def</span> <span class="nf">handle_data_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">transponder_type</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">iid</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">dsfid</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets submitted data to given node.</span>
+<span class="sd">        Parameters</span>
+
+<span class="sd">        :param ip: ip address of RFID Node</span>
+<span class="sd">        :type ip: str</span>
+<span class="sd">        :param transponder_type: transponder type of RFID Node</span>
+<span class="sd">        :type transponder_type: str</span>
+<span class="sd">        :param iid: iid of RFID Node</span>
+<span class="sd">        :type iid: str</span>
+<span class="sd">        :param dsfid: dsfid of RFID Node</span>
+<span class="sd">        :type dsfid: str</span>
+<span class="sd">        :param timestamp: timestamp data is read</span>
+<span class="sd">        :type timestamp: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">task</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">ipAddr</span> <span class="o">==</span> <span class="n">ip</span><span class="p">:</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">transponderType</span> <span class="o">=</span> <span class="n">transponder_type</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">iid</span> <span class="o">=</span> <span class="n">iid</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">dsfid</span> <span class="o">=</span> <span class="n">dsfid</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">=</span> <span class="n">timestamp</span>
+                <span class="k">break</span></div>
+<div class="viewcode-block" id="rfid_service.stop_node"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.rfid_service.rfid_service.stop_node">[docs]</a>    <span class="k">def</span> <span class="nf">stop_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stops given RFID Node which is a slice of rfidcontrollers rfidviewmodel and kills its existing QThread</span>
+<span class="sd">        :param node: RFID Node to stop</span>
+<span class="sd">        :type node: RfidModel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eventlogservice</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;RFIDService.stop_node&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;RFID-Node </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> mit IP </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">ipAddr</span><span class="si">}</span><span class="s2"> und Port </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">ipPort</span><span class="si">}</span><span class="s2"> gestoppt.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eventlogservice</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;RFIDService.stop_node&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;RFID-Node </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> mit IP </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">ipAddr</span><span class="si">}</span><span class="s2"> und Port </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">ipPort</span><span class="si">}</span><span class="s2"> konnte nicht gestoppt werden. Node nicht gefunden.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+    <span class="k">def</span> <span class="nf">_validate_ip_port</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validates given ip and port.</span>
+<span class="sd">        :param ip: ip to validate</span>
+<span class="sd">        :type ip: str</span>
+<span class="sd">        :param port: port to validate</span>
+<span class="sd">        :type port: str |int</span>
+<span class="sd">        :return: True if ip and port are valid, False otherwise</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">exps</span> <span class="o">=</span> <span class="n">ip</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">exps</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">exps</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">exp</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">255</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">port</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">65535</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+
+
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">µPlant Warehouse Management</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../view.html">View</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dialogs.html">Dialogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datafiles.html">Data Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plugins.html">PlugIn’s</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Lennart Schink.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

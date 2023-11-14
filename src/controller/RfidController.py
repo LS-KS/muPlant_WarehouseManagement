@@ -56,7 +56,7 @@ class RfidController(QObject):
                 
             
     @Slot(int,str, str, str, str, str, str)        
-    def saveNodeChanges(self, idVal, name, readerIp, readerPort, endpointIp, endpointPort, endpointModbus):
+    def saveNodeChanges(self, idVal, name, readerIp, readerPort,):
         """
         saves changes made to RFID-Nodes.
         :returns: None
@@ -69,9 +69,6 @@ class RfidController(QObject):
                 self.rfidViewModel.setData(index, name, 0)
                 self.rfidViewModel.setData(index, readerIp, 3)
                 self.rfidViewModel.setData(index, readerPort, 4)
-                self.rfidViewModel.setData(index, endpointIp, 6)
-                self.rfidViewModel.setData(index, endpointPort, 7)
-                self.rfidViewModel.setData(index, endpointModbus, 8)
                 self._dumpRfidNodes()
                 return
 

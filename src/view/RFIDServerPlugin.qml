@@ -56,9 +56,10 @@ ApplicationWindow {
                 nameText: model.name
                 readerIpAdress: model.ipAddr
                 readerPort: model.ipPort
-                endpointIpAdress: model.endPointipAddr
-                endpointPort: model.endPointipPort
-                endpointModbusAddress: model.endPointModbus
+                transponderType: model.transponder_type
+                iid: model.iid
+                dsfid: model.dsfid
+                timestamp: model.timestamp
                 locked: true
             }
         }

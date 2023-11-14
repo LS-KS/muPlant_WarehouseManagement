@@ -19,7 +19,7 @@ Die Daten werden in der Klasse `RFIDModel` des nachfolgenden Moduls verwaltet.
 Controller
 __________
 
-Die Controllerlogik wird in der Klasse `RFIDController` des nachfolgenden Moduls implementiert.
+Die Controller -Logik wird in der Klasse `RFIDController` des nachfolgenden Moduls implementiert.
 
 .. automodule:: src.controller.RfidController
     :members:
