@@ -1,6 +1,6 @@
 from typing import Optional
 from OBID_RFID import obidrfid
-from PySide6.QtCore import QObject, Signal, Slot, QThread
+from PySide6.QtCore import QObject, Signal, Slot, QThread, QMutex
 from src.controller.RfidController import RfidController
 from src.service.EventlogService import EventlogService
 from src.model.RfidModel import RfidModel
@@ -16,9 +16,34 @@ class rfid_readerworker(QObject):
         self.service = service
         self.running = False
         self.reader = None
+        self.lock = QMutex() # Thread lock
     
     def run(self):
+        """
+        Ths function uses the obidrfid library to connect to a RFID Node and read its data.
+        It also uses PySides QMutex class to lock the thread while the while loop is running.
+        Data is emitted via the data signal.
+
+        Thread safety needs to be tested, bt change from 14.11.2023 should improve this further. When crashes occur,
+        check if rfid_readertask needs also be muted. There is no good documentation about threadsafety in Qt.
+
+        One thing to be sure: don't use the threading module from python, use Qt-native threading classes instead!
+
+
+        This method first uses obidrfid's validation method to check if the submitted ip is valid. This uses ping command.
+
+        If ping is successful, the method tries to connect to the RFID Node with the given ip and calls the rfid_read
+        function. obidrfid is a fork of the original obidrfid library, which is mainly adapted to use .dll file
+        instead of .so file of the FEIG .NET SDK.
+
+        Any exception is caught and logged to the eventlogservice. Note that only the pointer to the eventlogservice
+        instance is submitted and writeEvent is a Slot. So theoretically, this should be thread safe.
+
+        :raises ValueError: if ip is invalid
+        :raises ConnectionError: if connection to RFID Node failed
+        """
         print("run-method started")
+        self.lock.lock()
         try:
             print("read ip address")
             print("check ip validity")
@@ -49,17 +74,25 @@ class rfid_readerworker(QObject):
         except Exception as e:
             self.service.writeEvent("RFIDReaderTask", f"RFID-Node {self.name} mit IP {self.ip} konnte nicht gelesen werden. {e}")
         finally:
-            self.stop()
+            self.lock.unlock()
 
     def stop(self):
-        self.running = False
+        """
+        Stops the while loop in the run method.
+        """
+        self.lock.lock()
+        try:
+            self.running = False
+        finally:
+            self.lock.unlock()
 
 class rfid_readertask(QThread):
-
+    data = Signal(str, str, str, str, str) # ip, transponder type, iid, dfsid, timestamp
     def __init__(self, ip:str, name:str, service:EventlogService, parent = None ):
         super().__init__(parent)
         self.worker = rfid_readerworker(ip, name, service)
         self.worker.data.connect(self.handle_data_read)
+        self.ip: str = ip
 
     def start(self):
         super().start()
@@ -73,8 +106,8 @@ class rfid_readertask(QThread):
         self.worker.wait()
         self.worker.deleteLater()
     
-    def handle_data_read():
-        pass
+    def handle_data_read(self, transponder_type:str, iid:str, dsfid:str, timestamp:str):
+        self.data.emit(self.ip, transponder_type, iid, dsfid, timestamp)
 
 class rfid_service(QObject):
 
@@ -86,7 +119,10 @@ class rfid_service(QObject):
 
     def start_node(self, node) -> None:
         """
-        Starts given RFID Node which is a slice of rfidcontrollers rfidviewmodel.
+        Starts given RFID Node, which is a slice of rfidcontrollers rfidviewmodel.
+        Connects rfid_readertask.data to own handle_data_read method which sets submitted data to given node.
+        Not that these methods and classes used need to be thread safe!
+
         :param node: RFID Node to start
         :type node: RfidModel
         """
@@ -95,9 +131,32 @@ class rfid_service(QObject):
             return
         task = rfid_readertask(node.ipAddr, node.name, self.eventlogservice, self)
         self.nodes.append([node, task])
+        task.data.connect(self.handle_data_read)
         task.start()
         self.eventlogservice.writeEvent("RFIDService.start_node", f"starte RFID-Node {node.name} mit IP {node.ipAddr} und Port {node.ipPort}...")
+    def handle_data_read(self, ip:str, transponder_type:str, iid:str, dsfid:str, timestamp:str):
+        """
+        Sets submitted data to given node.
+        Parameters
 
+        :param ip: ip address of RFID Node
+        :type ip: str
+        :param transponder_type: transponder type of RFID Node
+        :type transponder_type: str
+        :param iid: iid of RFID Node
+        :type iid: str
+        :param dsfid: dsfid of RFID Node
+        :type dsfid: str
+        :param timestamp: timestamp data is read
+        :type timestamp: str
+        """
+        for node, task in self.nodes:
+            if node.ipAddr == ip:
+                node.transponderType = transponder_type
+                node.iid = iid
+                node.dsfid = dsfid
+                node.timestamp = timestamp
+                break
     def stop_node(self, node) -> bool:
         """
         Stops given RFID Node which is a slice of rfidcontrollers rfidviewmodel and kills its existing QThread

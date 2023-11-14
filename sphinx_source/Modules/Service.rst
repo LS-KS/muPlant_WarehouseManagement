@@ -112,11 +112,3 @@ Anwendung:
     :undoc-members:
     :show-inheritance:
 
-RFID Service
-____________
-Dieser Service stellt die Verbindung zu allen oder ausgewählten RFID Lesern des RFIDServer Plugins her.
-
-.. automodule:: src.service.rfid_service
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -26,6 +26,17 @@ Die Controllerlogik wird in der Klasse `RFIDController` des nachfolgenden Moduls
     :undoc-members:
     :show-inheritance:
 
+Service
+__________
+
+Das Plugin nutzt die Serviceklasse `rfid_service` um für einen oder mehrere Listeneinträge der View einen Thread zum
+Auslesen des Lesegeräts zu erstellen.
+
+.. automodule:: src.service.rfid_service
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 ViewModels
 __________
 

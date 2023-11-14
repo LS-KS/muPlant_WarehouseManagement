@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 
-<html lang="en" data-content_root="../../../">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>src.service.CameraService &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=4f649999" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=039e1c02" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <script src="../../../_static/documentation_options.js?v=7f413068"></script>
-    <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
    
@@ -39,14 +39,13 @@
 <span class="kn">from</span> <span class="nn">ids_peak_ipl.ids_peak_ipl</span> <span class="kn">import</span> <span class="n">PixelFormatName_BGR8</span><span class="p">,</span> <span class="n">ConversionMode_Fast</span><span class="p">,</span> <span class="n">ConversionMode_HighQuality</span>
 <span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QThread</span><span class="p">,</span> <span class="n">Signal</span><span class="p">,</span> <span class="n">Slot</span><span class="p">,</span> <span class="n">QObject</span>
 <span class="kn">from</span> <span class="nn">ids_peak</span> <span class="kn">import</span> <span class="n">ids_peak</span><span class="p">,</span> <span class="n">ids_peak_ipl_extension</span>
+<span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">src.constants.Constants</span> <span class="k">as</span> <span class="nn">const</span>
 <span class="kn">import</span> <span class="nn">cv2</span>
 
 
-<div class="viewcode-block" id="ImageProvider">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.CameraService.ImageProvider">[docs]</a>
-<span class="k">class</span> <span class="nc">ImageProvider</span><span class="p">(</span><span class="n">QThread</span><span class="p">):</span>
+<div class="viewcode-block" id="ImageProvider"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.CameraService.ImageProvider">[docs]</a><span class="k">class</span> <span class="nc">ImageProvider</span><span class="p">(</span><span class="n">QThread</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -55,6 +54,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nodemap_remote_device</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nodemap_datastream</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">esp_url</span> <span class="o">=</span> <span class="s2">&quot;http://192.168.190/capture&quot;</span>
 
     <span class="k">def</span> <span class="nf">_get_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cam</span> <span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -166,10 +166,24 @@
         <span class="k">finally</span><span class="p">:</span>
             <span class="n">ids_peak</span><span class="o">.</span><span class="n">Library</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
 
-
-<div class="viewcode-block" id="ImageProvider.get_image">
-<a class="viewcode-back" href="../../../Modules/Service.html#src.service.CameraService.ImageProvider.get_image">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cam</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_image_esp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Private Method. Uses request module to connect to ESP32 CAM Webserver&#39;s image URL. </span>
+<span class="sd">        Need to be adjusted to the ESP32 CAM&#39;s IP address and setup.</span>
+<span class="sd">        If successful: copies the image to self.image. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span> 
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">esp_url</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="n">nparr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imdecode</span><span class="p">(</span><span class="n">nparr</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CameraService.ImageProvider._get_image_esp: Error while getting image from ESP32 CAM. Status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CameraService.ImageProvider._get_image_esp: Error while getting image from ESP32 CAM: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+<div class="viewcode-block" id="ImageProvider.get_image"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.CameraService.ImageProvider.get_image">[docs]</a>    <span class="k">def</span> <span class="nf">get_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cam</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Public wrapper to call _get_image method.</span>
 <span class="sd">        returns the obtained image</span>
@@ -178,10 +192,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_get_image</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">cam</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_get_image</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cam</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_image_esp</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;CameraService.ImageProvider.getImage: Invalid camera number&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span></div>
-
 
 
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
@@ -191,7 +206,6 @@
 <span class="sd">        elif cam == 1:</span>
 <span class="sd">            return cv2.imread(&quot;../../Jupyter/ChessBoardImages/rawShot5Mp.png&quot;)</span>
 <span class="sd">    &#39;&#39;&#39;</span></div>
-
 </pre></div>
 
           </div>
@@ -255,7 +269,7 @@
       &copy;2023, Lennart Schink.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>

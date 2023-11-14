@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 
-<html lang="en" data-content_root="../">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Data Model &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4f649999" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=039e1c02" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <script src="../_static/documentation_options.js?v=7f413068"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Controller" href="Controller.html" />
@@ -35,15 +35,15 @@
           <div class="body" role="main">
             
   <section id="data-model">
-<h1>Data Model<a class="headerlink" href="#data-model" title="Link to this heading">¶</a></h1>
+<h1>Data Model<a class="headerlink" href="#data-model" title="Permalink to this heading">¶</a></h1>
 <p>Datenmodelle sind so implementiert, dass sie da wo nötig Referenzen in beide Richtungen abbilden.
 Der Datenfluss ist somit jederzeit geregelt und die Fehleranfälligkeit wird minimiert.</p>
 <section id="datamodel-py">
-<h2>DataModel.py<a class="headerlink" href="#datamodel-py" title="Link to this heading">¶</a></h2>
+<h2>DataModel.py<a class="headerlink" href="#datamodel-py" title="Permalink to this heading">¶</a></h2>
 <p>Es bildet alle nötigen Python-Objekte ab die für die Hauptanwndung, der Warenfluss durch die Lagerzelle der muPlant, notwendig sind.</p>
-<dl class="py class" id="module-src.model.DataModel">
+<span class="target" id="module-src.model.DataModel"></span><dl class="py class">
 <dt class="sig sig-object py" id="src.model.DataModel.Cup">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Cup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Cup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Cup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Cup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Implements Cup class from µPlant which exists in two sizes.
 Only small size matters for warehouse management so size will be ignored.
@@ -59,7 +59,7 @@ last revision: 20.06.20223</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Cup.getID">
-<span class="sig-name descname"><span class="pre">getID</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Cup.getID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.getID" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getID</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Cup.getID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.getID" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the id of the cup.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -73,7 +73,7 @@ last revision: 20.06.20223</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Cup.getProduct">
-<span class="sig-name descname"><span class="pre">getProduct</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Cup.getProduct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.getProduct" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getProduct</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Cup.getProduct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.getProduct" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the product stored in the cup.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -87,7 +87,7 @@ last revision: 20.06.20223</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Cup.setID">
-<span class="sig-name descname"><span class="pre">setID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Cup.setID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.setID" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Cup.setID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.setID" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the id of the cup.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -98,7 +98,7 @@ last revision: 20.06.20223</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Cup.setLocation">
-<span class="sig-name descname"><span class="pre">setLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Cup.setLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.setLocation" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Cup.setLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.setLocation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the storage stored the cup is stored in.
 Note, that the Cup cannot now the exact spot of the storage item.
 Therefor if storage is instance of Pallet, use Pallets setSlotA(Cup) / setSlotb(Cup) methods
@@ -115,7 +115,7 @@ storage can be Mobile Robot, Pallet or Gripper</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Cup.setProduct">
-<span class="sig-name descname"><span class="pre">setProduct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Cup.setProduct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.setProduct" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setProduct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Cup.setProduct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Cup.setProduct" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the product stored in the cup. If the cup already has a product,
 calls the withoutCup method on the existing product before setting the new product.</p>
 <p>If the new product is not None and is not already associated with this Cup object,
@@ -133,17 +133,17 @@ calls the withoutCup method on the existing product before setting the new produ
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.DataModel.Gripper">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Gripper</span></span><a class="reference internal" href="../_modules/src/model/DataModel.html#Gripper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Gripper" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Gripper</span></span><a class="reference internal" href="../_modules/src/model/DataModel.html#Gripper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Gripper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Gripper.emitObject">
-<span class="sig-name descname"><span class="pre">emitObject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Gripper.emitObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Gripper.emitObject" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">emitObject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Gripper.emitObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Gripper.emitObject" title="Permalink to this definition">¶</a></dt>
 <dd><p>emits a signal with the current object data</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Gripper.setObject">
-<span class="sig-name descname"><span class="pre">setObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Gripper.setObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Gripper.setObject" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Gripper.setObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Gripper.setObject" title="Permalink to this definition">¶</a></dt>
 <dd><p>takes a Cup or Pallet data object.
 raises an ValueError if gripper already has an object.
 calls objects setLocation function to set gripper as objects location
@@ -154,14 +154,14 @@ calls objects setLocation function to set gripper as objects location
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.Gripper.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;Gripper&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.model.DataModel.Gripper.staticMetaObject" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;Gripper&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.model.DataModel.Gripper.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.DataModel.Inventory">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">controller</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Inventory" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">controller</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Inventory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Implements the storage rack in µPlant.
 holds an 2D List which represents row col in the factory.
@@ -175,12 +175,12 @@ This way pallets don’t have to bear their location.</p>
 <p>:param invController : InventoryController</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Inventory.calcLocations">
-<span class="sig-name descname"><span class="pre">calcLocations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Inventory.calcLocations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Inventory.calcLocations" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">calcLocations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Inventory.calcLocations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Inventory.calcLocations" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Inventory.getStoragePallet">
-<span class="sig-name descname"><span class="pre">getStoragePallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Inventory.getStoragePallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Inventory.getStoragePallet" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getStoragePallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Inventory.getStoragePallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Inventory.getStoragePallet" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -196,7 +196,7 @@ This way pallets don’t have to bear their location.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Inventory.setStoragePallet">
-<span class="sig-name descname"><span class="pre">setStoragePallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Inventory.setStoragePallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Inventory.setStoragePallet" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setStoragePallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Inventory.setStoragePallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Inventory.setStoragePallet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets a pallet into the storage at given position.
 Throws ValueError if storage Position is not empty.
 Calls SetLocation method of pallet.
@@ -210,7 +210,7 @@ Calls SetLocation method of pallet.
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.DataModel.MobileRobot">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">MobileRobot</span></span><a class="reference internal" href="../_modules/src/model/DataModel.html#MobileRobot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.MobileRobot" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">MobileRobot</span></span><a class="reference internal" href="../_modules/src/model/DataModel.html#MobileRobot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.MobileRobot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Implements Mobile Robot class from µPlant.
 can store up to one cup in two different sizes.
@@ -219,7 +219,7 @@ last revision: 21.06.20223
 :type cup: Cup</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.MobileRobot.setCup">
-<span class="sig-name descname"><span class="pre">setCup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#MobileRobot.setCup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.MobileRobot.setCup" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setCup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#MobileRobot.setCup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.MobileRobot.setCup" title="Permalink to this definition">¶</a></dt>
 <dd><p>sets Cup on mobile Robot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -235,7 +235,7 @@ last revision: 21.06.20223
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.DataModel.Pallet">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Pallet</span></span><a class="reference internal" href="../_modules/src/model/DataModel.html#Pallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Pallet" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Pallet</span></span><a class="reference internal" href="../_modules/src/model/DataModel.html#Pallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Pallet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Implements Pallet class from µPlant which stores up tp two cups.
 Cup objects are stored in slotA and slotB and shall be set by corresponding methods.
@@ -251,12 +251,12 @@ last revision: 21.06.20223</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Pallet.setLocation">
-<span class="sig-name descname"><span class="pre">setLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storageElement</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Pallet.setLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Pallet.setLocation" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storageElement</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Pallet.setLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Pallet.setLocation" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Pallet.setSlotA">
-<span class="sig-name descname"><span class="pre">setSlotA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Pallet.setSlotA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Pallet.setSlotA" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setSlotA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Pallet.setSlotA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Pallet.setSlotA" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets or removes a Cup obeject in the front slot of this pallet object.
 If the slot already has a cup,
 calls the setLocation method on the existing cup with None as param before setting the new cup.</p>
@@ -273,7 +273,7 @@ calls the setLocation method on the existing cup before setting the new cup to N
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Pallet.setSlotB">
-<span class="sig-name descname"><span class="pre">setSlotB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Pallet.setSlotB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Pallet.setSlotB" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setSlotB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Pallet.setSlotB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Pallet.setSlotB" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets or removes a Cup obeject in the rear slot of this pallet object.
 If the slot already has a cup,
 calls the setLocation method on the existing cup with None as param before setting the new cup.</p>
@@ -292,7 +292,7 @@ calls the setLocation method on the existing cup before setting the new cup to N
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.DataModel.Product">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Product" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Product" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Implements Product class from µPlant.
 Cup stores an id and name beside a list of Cups filled with the product.
@@ -307,7 +307,7 @@ last revision: 20.06.20223</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Product.withCup">
-<span class="sig-name descname"><span class="pre">withCup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Product.withCup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Product.withCup" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">withCup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Product.withCup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Product.withCup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a Cup object to the cups list if it is not already in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -327,7 +327,7 @@ last revision: 20.06.20223</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Product.withoutCup">
-<span class="sig-name descname"><span class="pre">withoutCup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Product.withoutCup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Product.withoutCup" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">withoutCup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Product.withoutCup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Product.withoutCup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes a Cup object from the cups list if it is not already removed from the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -349,7 +349,7 @@ last revision: 20.06.20223</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">StorageElement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inventory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#StorageElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.StorageElement" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">StorageElement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inventory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#StorageElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.StorageElement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>StorageElement represents a slot in µPlant storage bar, so there are 18 static objects.
 Each usually holds one or none pallet object which should be also the same.
@@ -363,229 +363,229 @@ Each usually holds one or none pallet object which should be also the same.
 :type inventory: Inventory</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Locations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Locations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
 <p>Enum for CommissionDta locations source and target</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.GRIPPER">
-<span class="sig-name descname"><span class="pre">GRIPPER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Gripper'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.GRIPPER" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">GRIPPER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Gripper'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.GRIPPER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.K1A">
-<span class="sig-name descname"><span class="pre">K1A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K1,</span> <span class="pre">slot</span> <span class="pre">A'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.K1A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">K1A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K1,</span> <span class="pre">slot</span> <span class="pre">A'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.K1A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.K1B">
-<span class="sig-name descname"><span class="pre">K1B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K1,</span> <span class="pre">slot</span> <span class="pre">B'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.K1B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">K1B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K1,</span> <span class="pre">slot</span> <span class="pre">B'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.K1B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.K2A">
-<span class="sig-name descname"><span class="pre">K2A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K2,</span> <span class="pre">slot</span> <span class="pre">A'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.K2A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">K2A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K2,</span> <span class="pre">slot</span> <span class="pre">A'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.K2A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.K2B">
-<span class="sig-name descname"><span class="pre">K2B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K2,</span> <span class="pre">slot</span> <span class="pre">B'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.K2B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">K2B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K2,</span> <span class="pre">slot</span> <span class="pre">B'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.K2B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L10A">
-<span class="sig-name descname"><span class="pre">L10A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L10</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L10A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L10A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L10</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L10A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L10B">
-<span class="sig-name descname"><span class="pre">L10B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L10</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L10B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L10B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L10</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L10B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L11A">
-<span class="sig-name descname"><span class="pre">L11A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L11</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L11A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L11A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L11</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L11A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L11B">
-<span class="sig-name descname"><span class="pre">L11B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L11</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L11B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L11B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L11</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L11B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L12A">
-<span class="sig-name descname"><span class="pre">L12A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L12</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L12A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L12A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L12</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L12A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L12B">
-<span class="sig-name descname"><span class="pre">L12B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L12</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L12B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L12B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L12</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L12B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L13A">
-<span class="sig-name descname"><span class="pre">L13A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L13</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L13A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L13A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L13</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L13A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L13B">
-<span class="sig-name descname"><span class="pre">L13B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L13</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L13B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L13B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L13</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L13B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L14A">
-<span class="sig-name descname"><span class="pre">L14A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L14</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L14A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L14A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L14</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L14A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L14B">
-<span class="sig-name descname"><span class="pre">L14B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L14</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L14B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L14B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L14</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L14B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L15A">
-<span class="sig-name descname"><span class="pre">L15A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L15</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L15A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L15A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L15</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L15A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L15B">
-<span class="sig-name descname"><span class="pre">L15B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L15</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L15B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L15B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L15</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L15B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L16A">
-<span class="sig-name descname"><span class="pre">L16A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L16</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L16A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L16A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L16</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L16A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L16B">
-<span class="sig-name descname"><span class="pre">L16B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L16</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L16B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L16B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L16</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L16B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L17A">
-<span class="sig-name descname"><span class="pre">L17A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L17</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L17A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L17A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L17</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L17A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L17B">
-<span class="sig-name descname"><span class="pre">L17B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L17</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L17B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L17B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L17</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L17B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L18A">
-<span class="sig-name descname"><span class="pre">L18A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L18</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L18A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L18A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L18</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L18A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L18B">
-<span class="sig-name descname"><span class="pre">L18B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L18</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L18B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L18B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L18</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L18B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L1A">
-<span class="sig-name descname"><span class="pre">L1A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L1</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L1A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L1A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L1</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L1A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L1B">
-<span class="sig-name descname"><span class="pre">L1B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L1</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L1B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L1B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L1</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L1B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L2A">
-<span class="sig-name descname"><span class="pre">L2A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L2</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L2A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L2A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L2</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L2A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L2B">
-<span class="sig-name descname"><span class="pre">L2B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L2</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L2B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L2B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L2</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L2B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L3A">
-<span class="sig-name descname"><span class="pre">L3A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L3</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L3A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L3A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L3</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L3A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L3B">
-<span class="sig-name descname"><span class="pre">L3B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L3</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L3B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L3B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L3</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L3B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L4A">
-<span class="sig-name descname"><span class="pre">L4A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L4</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L4A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L4A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L4</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L4A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L4B">
-<span class="sig-name descname"><span class="pre">L4B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L4</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L4B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L4B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L4</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L4B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L5A">
-<span class="sig-name descname"><span class="pre">L5A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L5</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L5A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L5A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L5</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L5A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L5B">
-<span class="sig-name descname"><span class="pre">L5B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L5</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L5B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L5B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L5</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L5B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L6A">
-<span class="sig-name descname"><span class="pre">L6A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L6</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L6A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L6A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L6</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L6A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L6B">
-<span class="sig-name descname"><span class="pre">L6B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L6</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L6B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L6B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L6</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L6B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L7A">
-<span class="sig-name descname"><span class="pre">L7A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L7</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L7A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L7A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L7</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L7A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L7B">
-<span class="sig-name descname"><span class="pre">L7B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L7</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L7B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L7B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L7</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L7B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L8A">
-<span class="sig-name descname"><span class="pre">L8A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L8</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L8A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L8A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L8</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L8A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L8B">
-<span class="sig-name descname"><span class="pre">L8B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L8</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L8B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L8B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L8</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L8B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L9A">
-<span class="sig-name descname"><span class="pre">L9A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L9</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L9A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L9A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L9</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L9A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.L9B">
-<span class="sig-name descname"><span class="pre">L9B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L9</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L9B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L9B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L9</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.L9B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.ROBOT">
-<span class="sig-name descname"><span class="pre">ROBOT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Mobile</span> <span class="pre">Robot'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.ROBOT" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ROBOT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Mobile</span> <span class="pre">Robot'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.ROBOT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.Locations.STORAGE">
-<span class="sig-name descname"><span class="pre">STORAGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.STORAGE" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">STORAGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage'</span></em><a class="headerlink" href="#src.model.DataModel.StorageElement.Locations.STORAGE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.StorageElement.setPallet">
-<span class="sig-name descname"><span class="pre">setPallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#StorageElement.setPallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.StorageElement.setPallet" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setPallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#StorageElement.setPallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.StorageElement.setPallet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets or removes a Pallet object in location spot of the storage bar.
 If the storage element already has a pallet object,
 calls the setLocation method on the existing pallet with None as param before setting the new pallet.</p>
@@ -604,7 +604,7 @@ it throws a ValueError.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.DataModel.Workbench">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Workbench</span></span><a class="reference internal" href="../_modules/src/model/DataModel.html#Workbench"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Workbench" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.DataModel.</span></span><span class="sig-name descname"><span class="pre">Workbench</span></span><a class="reference internal" href="../_modules/src/model/DataModel.html#Workbench"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Workbench" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Implements Workbench class from µPlant.
 Workbench stores up to two palette items.
@@ -615,7 +615,7 @@ last revision: 20.06.20223
 :type k2: Pallet</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Workbench.setK1">
-<span class="sig-name descname"><span class="pre">setK1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Workbench.setK1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Workbench.setK1" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setK1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Workbench.setK1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Workbench.setK1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets or removes a Pallet object in location spot k1.
 Raises an ValueError if K1 is already occupied</p>
 <p>If the new pallet is not None and is not already associated with this slot,
@@ -631,7 +631,7 @@ it throws a ValueError.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Workbench.setK2">
-<span class="sig-name descname"><span class="pre">setK2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Workbench.setK2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Workbench.setK2" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setK2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Workbench.setK2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Workbench.setK2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets or removes a Pallet object in location spot k2.
 Raises an ValueError if K2 is already occupied</p>
 <p>If the new pallet is not None and is not already associated with this slot,
@@ -649,294 +649,294 @@ it throws a ValueError.</p>
 
 </section>
 <section id="commissionmodel-py">
-<h2>CommissionModel.py<a class="headerlink" href="#commissionmodel-py" title="Link to this heading">¶</a></h2>
+<h2>CommissionModel.py<a class="headerlink" href="#commissionmodel-py" title="Permalink to this heading">¶</a></h2>
 <p>In dieser Datenklasse werden die Kommissionsaufträge gespeichert und der Anwendung zur Verfügung gestellt.</p>
-<dl class="py class" id="module-src.model.CommissionModel">
+<span class="target" id="module-src.model.CommissionModel"></span><dl class="py class">
 <dt class="sig sig-object py" id="src.model.CommissionModel.CommissionData">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">CommissionData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/CommissionModel.html#CommissionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.CommissionModel.CommissionData" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">CommissionData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pallet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/CommissionModel.html#CommissionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.CommissionModel.CommissionData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Data Class for CommissionData</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">CommissionState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/CommissionModel.html#CommissionState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.CommissionModel.CommissionState" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">CommissionState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/CommissionModel.html#CommissionState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.CommissionModel.CommissionState" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
 <p>Enum for CommissionData State</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState.DONE">
-<span class="sig-name descname"><span class="pre">DONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'done'</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.DONE" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">DONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'done'</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.DONE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState.OPEN">
-<span class="sig-name descname"><span class="pre">OPEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'open'</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.OPEN" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">OPEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'open'</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.OPEN" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState.PENDING">
-<span class="sig-name descname"><span class="pre">PENDING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pending'</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.PENDING" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">PENDING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pending'</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.PENDING" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.CommissionState.PROGRESS">
-<span class="sig-name descname"><span class="pre">PROGRESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'in</span> <span class="pre">progress'</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.PROGRESS" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">PROGRESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'in</span> <span class="pre">progress'</span></em><a class="headerlink" href="#src.model.CommissionModel.CommissionState.PROGRESS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">Locations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/CommissionModel.html#Locations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.CommissionModel.Locations" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.CommissionModel.</span></span><span class="sig-name descname"><span class="pre">Locations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/CommissionModel.html#Locations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.CommissionModel.Locations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
 <p>Enum for CommissionDta locations source and target</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.GRIPPER">
-<span class="sig-name descname"><span class="pre">GRIPPER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Gripper'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.GRIPPER" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">GRIPPER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Gripper'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.GRIPPER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.K1A">
-<span class="sig-name descname"><span class="pre">K1A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K1,</span> <span class="pre">slot</span> <span class="pre">A'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.K1A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">K1A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K1,</span> <span class="pre">slot</span> <span class="pre">A'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.K1A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.K1B">
-<span class="sig-name descname"><span class="pre">K1B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K1,</span> <span class="pre">slot</span> <span class="pre">B'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.K1B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">K1B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K1,</span> <span class="pre">slot</span> <span class="pre">B'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.K1B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.K2A">
-<span class="sig-name descname"><span class="pre">K2A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K2,</span> <span class="pre">slot</span> <span class="pre">A'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.K2A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">K2A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K2,</span> <span class="pre">slot</span> <span class="pre">A'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.K2A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.K2B">
-<span class="sig-name descname"><span class="pre">K2B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K2,</span> <span class="pre">slot</span> <span class="pre">B'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.K2B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">K2B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Comm.</span> <span class="pre">table</span> <span class="pre">K2,</span> <span class="pre">slot</span> <span class="pre">B'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.K2B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L10A">
-<span class="sig-name descname"><span class="pre">L10A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L10</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L10A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L10A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L10</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L10A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L10B">
-<span class="sig-name descname"><span class="pre">L10B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L10</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L10B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L10B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L10</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L10B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L11A">
-<span class="sig-name descname"><span class="pre">L11A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L11</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L11A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L11A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L11</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L11A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L11B">
-<span class="sig-name descname"><span class="pre">L11B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L11</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L11B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L11B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L11</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L11B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L12A">
-<span class="sig-name descname"><span class="pre">L12A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L12</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L12A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L12A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L12</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L12A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L12B">
-<span class="sig-name descname"><span class="pre">L12B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L12</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L12B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L12B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L12</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L12B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L13A">
-<span class="sig-name descname"><span class="pre">L13A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L13</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L13A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L13A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L13</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L13A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L13B">
-<span class="sig-name descname"><span class="pre">L13B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L13</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L13B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L13B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L13</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L13B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L14A">
-<span class="sig-name descname"><span class="pre">L14A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L14</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L14A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L14A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L14</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L14A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L14B">
-<span class="sig-name descname"><span class="pre">L14B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L14</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L14B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L14B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L14</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L14B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L15A">
-<span class="sig-name descname"><span class="pre">L15A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L15</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L15A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L15A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L15</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L15A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L15B">
-<span class="sig-name descname"><span class="pre">L15B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L15</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L15B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L15B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L15</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L15B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L16A">
-<span class="sig-name descname"><span class="pre">L16A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L16</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L16A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L16A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L16</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L16A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L16B">
-<span class="sig-name descname"><span class="pre">L16B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L16</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L16B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L16B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L16</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L16B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L17A">
-<span class="sig-name descname"><span class="pre">L17A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L17</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L17A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L17A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L17</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L17A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L17B">
-<span class="sig-name descname"><span class="pre">L17B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L17</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L17B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L17B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L17</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L17B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L18A">
-<span class="sig-name descname"><span class="pre">L18A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L18</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L18A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L18A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L18</span> <span class="pre">(bot),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L18A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L18B">
-<span class="sig-name descname"><span class="pre">L18B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L18</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L18B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L18B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L18</span> <span class="pre">(bot),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L18B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L1A">
-<span class="sig-name descname"><span class="pre">L1A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L1</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L1A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L1A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L1</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L1A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L1B">
-<span class="sig-name descname"><span class="pre">L1B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L1</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L1B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L1B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L1</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L1B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L2A">
-<span class="sig-name descname"><span class="pre">L2A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L2</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L2A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L2A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L2</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L2A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L2B">
-<span class="sig-name descname"><span class="pre">L2B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L2</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L2B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L2B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L2</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L2B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L3A">
-<span class="sig-name descname"><span class="pre">L3A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L3</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L3A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L3A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L3</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L3A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L3B">
-<span class="sig-name descname"><span class="pre">L3B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L3</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L3B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L3B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L3</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L3B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L4A">
-<span class="sig-name descname"><span class="pre">L4A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L4</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L4A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L4A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L4</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L4A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L4B">
-<span class="sig-name descname"><span class="pre">L4B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L4</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L4B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L4B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L4</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L4B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L5A">
-<span class="sig-name descname"><span class="pre">L5A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L5</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L5A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L5A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L5</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L5A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L5B">
-<span class="sig-name descname"><span class="pre">L5B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L5</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L5B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L5B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L5</span> <span class="pre">(top),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L5B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L6A">
-<span class="sig-name descname"><span class="pre">L6A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L6</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L6A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L6A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L6</span> <span class="pre">(top),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L6A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L6B">
-<span class="sig-name descname"><span class="pre">L6B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L6</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L6B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L6B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L6</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L6B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L7A">
-<span class="sig-name descname"><span class="pre">L7A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L7</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L7A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L7A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L7</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L7A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L7B">
-<span class="sig-name descname"><span class="pre">L7B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L7</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L7B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L7B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L7</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L7B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L8A">
-<span class="sig-name descname"><span class="pre">L8A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L8</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L8A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L8A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L8</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L8A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L8B">
-<span class="sig-name descname"><span class="pre">L8B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L8</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L8B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L8B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L8</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L8B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L9A">
-<span class="sig-name descname"><span class="pre">L9A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L9</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L9A" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L9A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L9</span> <span class="pre">(mid),</span> <span class="pre">front'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L9A" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.L9B">
-<span class="sig-name descname"><span class="pre">L9B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L9</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L9B" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">L9B</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage</span> <span class="pre">L9</span> <span class="pre">(mid),</span> <span class="pre">rear'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.L9B" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.ROBOT">
-<span class="sig-name descname"><span class="pre">ROBOT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Mobile</span> <span class="pre">Robot'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.ROBOT" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ROBOT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Mobile</span> <span class="pre">Robot'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.ROBOT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.CommissionModel.Locations.STORAGE">
-<span class="sig-name descname"><span class="pre">STORAGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.STORAGE" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">STORAGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Storage'</span></em><a class="headerlink" href="#src.model.CommissionModel.Locations.STORAGE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="preferences-py">
-<h2>Preferences.py<a class="headerlink" href="#preferences-py" title="Link to this heading">¶</a></h2>
+<h2>Preferences.py<a class="headerlink" href="#preferences-py" title="Permalink to this heading">¶</a></h2>
 <p>In dieser Datenklasse werden die Einstellungen der Anwendung gespeichert und der Anwendung zur Verfügung gestellt.</p>
-<dl class="py class" id="module-src.model.Preferences">
+<span class="target" id="module-src.model.Preferences"></span><dl class="py class">
 <dt class="sig sig-object py" id="src.model.Preferences.OpcuaPreferences">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">OpcuaPreferences</span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#OpcuaPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.OpcuaPreferences" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">OpcuaPreferences</span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#OpcuaPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.OpcuaPreferences" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.Preferences.PlugInPreferences">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">PlugInPreferences</span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#PlugInPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.PlugInPreferences" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">PlugInPreferences</span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#PlugInPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.PlugInPreferences" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.Preferences.Preferences">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">Preferences</span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#Preferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.Preferences" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">Preferences</span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#Preferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.Preferences" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This class is used to store the preferences of the program</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.Preferences.abbPreferences">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">abbPreferences</span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#abbPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.abbPreferences" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">abbPreferences</span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#abbPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.abbPreferences" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.Preferences.abbPreferences.setIP">
-<span class="sig-name descname"><span class="pre">setIP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#abbPreferences.setIP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.abbPreferences.setIP" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setIP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#abbPreferences.setIP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.abbPreferences.setIP" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method sets the abb IP address and returns True if valid.
 Returns False if ip syntax is invalid.
 :param ip:
@@ -945,7 +945,7 @@ Returns False if ip syntax is invalid.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.Preferences.abbPreferences.setPort">
-<span class="sig-name descname"><span class="pre">setPort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#abbPreferences.setPort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.abbPreferences.setPort" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setPort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#abbPreferences.setPort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.abbPreferences.setPort" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method sets the abb port and returns True if valid.
 Returns False if port syntax is invalid.
 :param port:
@@ -956,11 +956,11 @@ Returns False if port syntax is invalid.
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.Preferences.modBusPreferences">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">modBusPreferences</span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#modBusPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.modBusPreferences" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.Preferences.</span></span><span class="sig-name descname"><span class="pre">modBusPreferences</span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#modBusPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.modBusPreferences" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.Preferences.modBusPreferences.setIP">
-<span class="sig-name descname"><span class="pre">setIP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#modBusPreferences.setIP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.modBusPreferences.setIP" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setIP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#modBusPreferences.setIP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.modBusPreferences.setIP" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method sets the modBus IP address and returns True if valid.
 Returns False if ip syntax is invalid.
 :param ip:
@@ -969,12 +969,12 @@ Returns False if ip syntax is invalid.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.Preferences.modBusPreferences.setMaxReconnects">
-<span class="sig-name descname"><span class="pre">setMaxReconnects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tries</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#modBusPreferences.setMaxReconnects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.modBusPreferences.setMaxReconnects" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setMaxReconnects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tries</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#modBusPreferences.setMaxReconnects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.modBusPreferences.setMaxReconnects" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.Preferences.modBusPreferences.setPort">
-<span class="sig-name descname"><span class="pre">setPort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#modBusPreferences.setPort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.modBusPreferences.setPort" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setPort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/model/Preferences.html#modBusPreferences.setPort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.Preferences.modBusPreferences.setPort" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method sets the modBus port and returns True if valid.
 Returns False if port syntax is invalid.
 :param port:
@@ -1063,7 +1063,7 @@ Returns False if port syntax is invalid.
       &copy;2023, Lennart Schink.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
