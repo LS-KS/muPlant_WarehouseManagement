@@ -1,5 +1,3 @@
-
-
 '''
 µPlant WareHouse Management Software.
 Bachelor Thesis 2023

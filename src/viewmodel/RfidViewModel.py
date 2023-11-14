@@ -9,6 +9,9 @@ from src.model.RfidModel import RfidModel
 
 
 class RfidViewModel(QtCore.QAbstractListModel):
+    """
+    ListModel to render RFID-Server data. 
+    """
 
     def __init__(self, parent: QObject | None = None) -> None:
         super().__init__(parent)
@@ -52,15 +55,17 @@ class RfidViewModel(QtCore.QAbstractListModel):
         if 0 <= index.row() < self.rowCount():
             node = self.rfidData[index.row()]
             field = self.roleNames().get(role)
-            # print("field: "+ str(field), "role: " + str(role))
             if field:
-                print(str(field), getattr(node, field.decode()))
+                print(str(role), str(field), getattr(node, field.decode()))
+                rolename = next((value for key, value in self.roleNames().items() if value == QByteArray(field)), None)
+                if rolename in (b'transponder_type', b'timestamp', b'dsfid', b'iid',b'last_valid_transponder_type', b'last_valid_timestamp', b'last_valid_dsfid', b'last_valid_iid' ):
+                    return str(getattr(node, field.decode()))
                 return getattr(node, field.decode())
             else:
                 return "Unknown role"
 
         
-    def setData(self, index: QModelIndex, value: Any, role: int) -> bool:
+    def setData(self, index: QModelIndex, value: Any, role: int, ) -> bool:
         """
         Writes data to an index and returns true if success
 

@@ -85,7 +85,7 @@ Rectangle {
         }
         Text{
             id: tagText
-            text: "Taginfo: " + tagTextA + " . " + tagTextB + " . " + tagTextC
+            text: "Taginfo: " + root.tagTextA + " . " + root.tagTextB + " . " + root.tagTextC
         }
         Text{
             id: readerText

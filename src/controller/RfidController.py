@@ -55,7 +55,7 @@ class RfidController(QObject):
                 self.rfidViewModel.dataChanged.emit(index, index, [Qt.DisplayRole + 13])
                 
             
-    @Slot(int,str, str, str, str, str, str)        
+    @Slot(int,str, str, str, str,)        
     def saveNodeChanges(self, idVal, name, readerIp, readerPort,):
         """
         saves changes made to RFID-Nodes.
@@ -79,9 +79,10 @@ class RfidController(QObject):
         :returns: None
         
         """
-        for node in self.rfidViewModel.rfidData:
+        for row, node in enumerate(self.rfidViewModel.rfidData):
             if node.selected == True:
-                self.rfid_service.start_node(node)
+                index = self.rfidViewModel.createIndex(row, 0)
+                self.rfid_service.start_node(node, index, self.rfidViewModel.roleNames())
     @Slot()
     def stopSelected(self):
         """
@@ -89,9 +90,10 @@ class RfidController(QObject):
         :returns: None
         
         """
-        for node in self.rfidViewModel.rfidData:
+        for row, node in enumerate(self.rfidViewModel.rfidData):
             if node.selected == True:
-                self.rfid_service.stop_node(node)
+                index = self.rfidViewModel.createIndex(row, 0)
+                self.rfid_service.stop_node(node, index)
 
     @Slot()
     def removeSelected(self):

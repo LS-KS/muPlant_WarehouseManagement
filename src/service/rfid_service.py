@@ -1,6 +1,6 @@
 from typing import Optional
 from OBID_RFID import obidrfid
-from PySide6.QtCore import QObject, Signal, Slot, QThread, QMutex
+from PySide6.QtCore import QObject, Signal, Slot, QThread, QMutex, QModelIndex, QByteArray
 from src.controller.RfidController import RfidController
 from src.service.EventlogService import EventlogService
 from src.model.RfidModel import RfidModel
@@ -71,7 +71,9 @@ class rfid_readerworker(QObject):
                     dsfid = "0"
                     timestamp = datetime.datetime.now().timestamp()
                     self.service.writeEvent("RFIDReaderTask", f"RFID-Node {self.name} mit IP {self.ip}: No Transponder")
+                    self.data.emit(str(transponder_type), str(iid), str(dsfid), str(timestamp))
         except Exception as e:
+            self.data.emit("None","Error", "Error", str(datetime.datetime.now()) )
             self.service.writeEvent("RFIDReaderTask", f"RFID-Node {self.name} mit IP {self.ip} konnte nicht gelesen werden. {e}")
         finally:
             self.lock.unlock()
@@ -107,6 +109,7 @@ class rfid_readertask(QThread):
         self.worker.deleteLater()
     
     def handle_data_read(self, transponder_type:str, iid:str, dsfid:str, timestamp:str):
+        print(f"worker got Signal transponder type: {transponder_type}, iid: {iid}, dsfid:{dsfid}, timestamp: {timestamp}")
         self.data.emit(self.ip, transponder_type, iid, dsfid, timestamp)
 
 class rfid_service(QObject):
@@ -115,9 +118,10 @@ class rfid_service(QObject):
         super().__init__(parent)
         self.eventlogservice = eventlogservice
         self.rfidcontroller = rfidcontroller
+        self.rolenames = None
         self.nodes = []
 
-    def start_node(self, node) -> None:
+    def start_node(self, node, index: QModelIndex, rolenames: dict) -> None:
         """
         Starts given RFID Node, which is a slice of rfidcontrollers rfidviewmodel.
         Connects rfid_readertask.data to own handle_data_read method which sets submitted data to given node.
@@ -126,14 +130,16 @@ class rfid_service(QObject):
         :param node: RFID Node to start
         :type node: RfidModel
         """
+        self.rolenames: dict = rolenames
         if not self._validate_ip_port(node.ipAddr, node.ipPort):
             self.eventlogservice.writeEvent("RFIDService.start_node", f"RFID-Node {node.name} mit IP {node.ipAddr} und Port {node.ipPort} konnte nicht gestartet werden. IP oder Port ungültig")
             return
         task = rfid_readertask(node.ipAddr, node.name, self.eventlogservice, self)
-        self.nodes.append([node, task])
+        self.nodes.append([node, index, task])
         task.data.connect(self.handle_data_read)
         task.start()
         self.eventlogservice.writeEvent("RFIDService.start_node", f"starte RFID-Node {node.name} mit IP {node.ipAddr} und Port {node.ipPort}...")
+
     def handle_data_read(self, ip:str, transponder_type:str, iid:str, dsfid:str, timestamp:str):
         """
         Sets submitted data to given node.
@@ -150,12 +156,23 @@ class rfid_service(QObject):
         :param timestamp: timestamp data is read
         :type timestamp: str
         """
-        for node, task in self.nodes:
+        print(f"service got Signal transponder ip: {ip} type: {transponder_type}, iid: {iid}, dsfid:{dsfid}, timestamp: {timestamp}")
+
+        for node, index, task in self.nodes:
             if node.ipAddr == ip:
-                node.transponderType = transponder_type
-                node.iid = iid
-                node.dsfid = dsfid
-                node.timestamp = timestamp
+                print("found the right one")
+                roles = list(self.rolenames.keys())
+                rolenames = list(self.rolenames.values())
+                
+                self.rfidcontroller.rfidViewModel.setData(index, transponder_type, roles[rolenames.index(b'transponder_type')])
+                self.rfidcontroller.rfidViewModel.setData(index, iid, roles[rolenames.index(b'iid')])
+                self.rfidcontroller.rfidViewModel.setData(index, dsfid, roles[rolenames.index(b'dsfid')])
+                self.rfidcontroller.rfidViewModel.setData(index, timestamp, roles[rolenames.index(b'timestamp')])
+                if iid != "Error":
+                    self.rfidcontroller.rfidViewModel.setData(index, transponder_type, roles[rolenames.index(b'last_valid_transponder_type')])
+                    self.rfidcontroller.rfidViewModel.setData(index, iid, roles[rolenames.index(b'last_valid_iid')])
+                    self.rfidcontroller.rfidViewModel.setData(index, dsfid, roles[rolenames.index(b'last_valid_dsfid')])
+                    self.rfidcontroller.rfidViewModel.setData(index, timestamp, roles[rolenames.index(b'last_valid_timestamp')])
                 break
     def stop_node(self, node) -> bool:
         """
