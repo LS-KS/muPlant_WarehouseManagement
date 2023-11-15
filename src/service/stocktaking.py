@@ -29,11 +29,10 @@ from yaml import  load, Loader
 
 class Stocktaker(QQuickImageProvider):
 
-
-
     def __init__(self, eventLogService: None | EventlogService):
         super().__init__(QQmlImageProviderBase.Image, QQmlImageProviderBase.ForceAsynchronousImageLoading)
         self.cameraService = ImageProvider()
+        self.cameraService.imageSignal.connect(self.handle_image_signal)
         self.constants = Constants()
         self.eventlogService = eventLogService
         self.raw_image = []
@@ -47,19 +46,21 @@ class Stocktaker(QQuickImageProvider):
         self.submitPalletImage = Signal(QImage)
         self.submitCupImage = Signal(QImage)
         self.submitResultMatrix = Signal(list)
+    
+    def handle_image_signal(self, image: np.ndarray):
+        self.image = image
 
     def __del__(self):
         print("Stocktaker: Destructor called")
-
     @Slot()
     def evaluate_storagecell_cam(self):
         """
-        Public Method. Obtains image from CameraServic.Imageprovider, performs 4-point rectification and arUco detection.
+        Public Method. Obtains image from camera via CameraServic.Imageprovider, performs arUco detection.
         Slices the image into sub images related to Storage location.
         Afterwards signals with processed image is emitted to QML Engine.
         Before every step a message is emitted to EventlogService in main screen
         """
-        # TODO: Selective detection parameters
+
         self.detected_cups = []
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Start obtaining image from camera...")
         self.image = self.cameraService.get_image(0)
@@ -136,44 +137,7 @@ class Stocktaker(QQuickImageProvider):
         self.calculate_result_matrix()
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Result matrix calculated. Process finished.")
 
-    def select_marker_parameters(self, i:int, imtype: str, target:str):
-        """
-        Selects detector settings, from locating integer and string
-        """
-        if i in (0, 1, 2, 6, 7, 8):
-            parameters = self._loadDetectorConf(imgtype=imtype, area=1, type=target)
-        elif i in (3, 4, 5, 9, 10, 11):
-            parameters = self._loadDetectorConf(imgtype=imtype, area=2, type=target)
-        elif i in (12, 13, 14):
-            parameters = self._loadDetectorConf(imgtype=imtype, area=3, type=target)
-        elif i in (15, 16, 17):
-            parameters = self._loadDetectorConf(imgtype=imtype, area=4, type=target)
-        else:
-            parameters = cv2.aruco.DetectorParameters()
-        return parameters
-
-    def calculate_result_matrix(self):
-        """
-        Public Method. Calculates the result matrix based on detected markers.
-        Emits self.submitResultMatrix signal with result matrix.
-        """
-        # TODO: Get pallet data
-
-        # TODO: Get cup data
-        # TODO: Calclulate 6x6x2 result matrix
-        # TODO: reformat result matrix to make it qml accessible
-        # TODO: emit signal
-    @Slot(int)
-    def emit_pallet_cup_images(self, storage_cell):
-        pass
-        # TODO get images from storage_cell number
-        # TODO emit images
-
     @Slot()
-    def emit_cell_image(self):
-        pass
-        # TODO get image from cell
-        # TODO emit image
     def evaluate_gripper(self):
         """
         Public Method. Obtains image from CameraService.Imageprovider.
@@ -194,7 +158,46 @@ class Stocktaker(QQuickImageProvider):
         else:
             self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "Image obtained. Start arUco recognition...")
             markers, image = self._detect_markers(section=self.gripper_image, cups=True)
+            if len(markers[0]) >0:
+                print("marker detcted")
+                self._draw_markers(markers[1], markers[0], color= (0,255,0))
+    def select_marker_parameters(self, i:int, imtype: str, target:str):
+        """
+        Selects detector settings, from locating integer and string
+        """
+        if i in (0, 1, 2, 6, 7, 8):
+            parameters = self._loadDetectorConf(imgtype=imtype, area=1, type=target)
+        elif i in (3, 4, 5, 9, 10, 11):
+            parameters = self._loadDetectorConf(imgtype=imtype, area=2, type=target)
+        elif i in (12, 13, 14):
+            parameters = self._loadDetectorConf(imgtype=imtype, area=3, type=target)
+        elif i in (15, 16, 17):
+            parameters = self._loadDetectorConf(imgtype=imtype, area=4, type=target)
+        else:
+            parameters = cv2.aruco.DetectorParameters()
+        return parameters
+    def calculate_result_matrix(self):
+        """
+        Public Method. Calculates the result matrix based on detected markers.
+        Emits self.submitResultMatrix signal with result matrix.
+        """
+        # TODO: Get pallet data
 
+        # TODO: Get cup data
+        # TODO: Calclulate 6x6x2 result matrix
+        # TODO: reformat result matrix to make it qml accessible
+        # TODO: emit signal
+    @Slot(int)
+    def emit_pallet_cup_images(self, storage_cell):
+        pass
+        # TODO get images from storage_cell number
+        # TODO emit images
+    @Slot()
+    def emit_cell_image(self):
+        pass
+        # TODO get image from cell
+        # TODO emit image
+    @Slot()
     def _refactor_corners(self, corners, ids):
         """
         Private method to refactor aruco marker corners.
@@ -212,7 +215,6 @@ class Stocktaker(QQuickImageProvider):
         if ids is not None:
             markers[1].append(corners)
         return markers
-
     def _get_shelf_markers(self, markers):
         """
         Private method to extract shelf-markers from marker list

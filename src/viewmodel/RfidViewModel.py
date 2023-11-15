@@ -56,7 +56,7 @@ class RfidViewModel(QtCore.QAbstractListModel):
             node = self.rfidData[index.row()]
             field = self.roleNames().get(role)
             if field:
-                print(str(role), str(field), getattr(node, field.decode()))
+                #print(str(role), str(field), getattr(node, field.decode()))
                 rolename = next((value for key, value in self.roleNames().items() if value == QByteArray(field)), None)
                 if rolename in (b'transponder_type', b'timestamp', b'dsfid', b'iid',b'last_valid_transponder_type', b'last_valid_timestamp', b'last_valid_dsfid', b'last_valid_iid' ):
                     return str(getattr(node, field.decode()))

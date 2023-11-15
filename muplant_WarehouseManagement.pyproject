@@ -177,6 +177,7 @@
         "src/view/RfidDelegate.qml",
         "src/view/StackLayoutView.qml",
         "src/view/StocktakingPlugin.qml",
+        "src/view/StocktakingPlugin.qml",
         "src/view/StorageDialog.qml",
         "src/view/StorageView.qml",
         "src/view/TurtleDialog.qml",

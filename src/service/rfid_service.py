@@ -45,16 +45,16 @@ class rfid_readerworker(QObject):
         print("run-method started")
         self.lock.lock()
         try:
-            print("read ip address")
-            print("check ip validity")
+            # print("read ip address")
+            # print("check ip validity")
             if self.ip is None or not obidrfid.validate_ip(self.ip):
                 raise ValueError(f"{self.ip} ist eine ungültige IP-Adresse. Die folgende RFID-Node konnte nicht gestartet werden: {self.name}")
-            print(f"connect to rfid node with {self.ip}")
+            #print(f"connect to rfid node with {self.ip}")
             self.reader = obidrfid.rfid_connect(str(self.ip))
             if self.reader is None:
                 raise ConnectionError(f"Verbindung zu RFID-Node {self.name} mit IP {self.ip} konnte nicht hergestellt werden.")
             self.service.writeEvent("RFIDReaderTask", f"RFID-Node {self.name} mit IP {self.ip} connected {obidrfid.rfid_reader_info(self.reader)}")
-            print("start reader loop")
+            #print("start reader loop")
             self.running = True
             while(self.running):
                 data = obidrfid.rfid_read(self.reader)
@@ -94,6 +94,7 @@ class rfid_readertask(QThread):
         super().__init__(parent)
         self.worker = rfid_readerworker(ip, name, service)
         self.worker.data.connect(self.handle_data_read)
+        self.worker.moveToThread(self)
         self.ip: str = ip
 
     def start(self):
@@ -109,7 +110,7 @@ class rfid_readertask(QThread):
         self.worker.deleteLater()
     
     def handle_data_read(self, transponder_type:str, iid:str, dsfid:str, timestamp:str):
-        print(f"worker got Signal transponder type: {transponder_type}, iid: {iid}, dsfid:{dsfid}, timestamp: {timestamp}")
+        #print(f"worker got Signal transponder type: {transponder_type}, iid: {iid}, dsfid:{dsfid}, timestamp: {timestamp}")
         self.data.emit(self.ip, transponder_type, iid, dsfid, timestamp)
 
 class rfid_service(QObject):
@@ -160,7 +161,7 @@ class rfid_service(QObject):
 
         for node, index, task in self.nodes:
             if node.ipAddr == ip:
-                print("found the right one")
+                #print("found the right one")
                 roles = list(self.rolenames.keys())
                 rolenames = list(self.rolenames.values())
                 
