@@ -12,7 +12,7 @@ from random import randint, choice
 from collections import Counter, defaultdict
 
 from .muplant_params import *
-from . import agent
+import agent
 
 #
 # All the stations

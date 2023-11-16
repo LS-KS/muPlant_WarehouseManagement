@@ -23,10 +23,6 @@ import math
 import matplotlib.pyplot as plt
 from yaml import  load, Loader
 
-
-
-
-
 class Stocktaker(QQuickImageProvider):
 
     def __init__(self, eventLogService: None | EventlogService):
@@ -113,7 +109,7 @@ class Stocktaker(QQuickImageProvider):
                 parameters= parameters)
             pallets, ids = self._get_pallet_markers(markers)
             self.pallets[i] = self._draw_markers(pallets, ids, (255,0,0), pallet, i)
-            cv2.imwrite(f"pallet_{i + 1}.png", pallet)
+            cv2.imwrite(f"temp/pallet_{i + 1}.png", pallet)
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Pallets finished. Start marker detection in cups...")
         print("Detection in cups:")
         for i, cup in enumerate(self.cups):
@@ -131,7 +127,7 @@ class Stocktaker(QQuickImageProvider):
                 parameters=parameters)
             cups, ids = self._get_cup_markers(markers)
             self.cups[i] = self._draw_markers(cups, ids, (255,255,255), cup, i)
-            cv2.imwrite(f"cup{i + 1}.png", cup)
+            cv2.imwrite(f"temp/cup{i + 1}.png", cup)
         print(self.detected_cups)
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Cups finished. Start calculating result matrix...")
         self.calculate_result_matrix()
@@ -379,7 +375,7 @@ class Stocktaker(QQuickImageProvider):
         x_min = int(x_min)
         x_max = int(x_max)
         image = image[y_glob_min + 550: y_glob_max + 520, x_min + 300 : x_max - 180]
-        cv2.imwrite("transformed.png", image)
+        cv2.imwrite("temp/transformed.png", image)
         plt.imshow(image, cmap= 'gray')
         plt.title("transformed image")
         plt.show(cmap= 'gray')
@@ -511,7 +507,7 @@ class Stocktaker(QQuickImageProvider):
 
             # print(alpha, beta)
             img = cv2.convertScaleAbs(gray, alpha= alpha, beta=beta)
-            cv2.imwrite("processed_before_detection.png", img)
+            cv2.imwrite("temp/processed_before_detection.png", img)
             #plt.imshow(img, cmap= 'gray')
             #plt.show()
             return img
