@@ -26,6 +26,7 @@ from src.service.AgentService import AgentService
 from src.service.rfid_service import rfid_service
 from src.service.stocktaking import Stocktaker
 from src.controller.ABBController import ABBController
+from src.viewmodel.stockmodel import stockmodel, tablemodel
 
 
 if __name__ == '__main__':
@@ -89,6 +90,12 @@ if __name__ == '__main__':
     stocktaker = Stocktaker(eventlogService)
     engine.rootContext().setContextProperty("stocktaker", stocktaker)
     engine.addImageProvider("stocktaker", stocktaker)
+
+    #create stockmodel
+    stock_model = stockmodel()
+    table_model = tablemodel()
+    engine.rootContext().setContextProperty("storagemodel", stock_model)
+    engine.rootContext().setContextProperty("tablemodel", table_model)
 
     # define load main.qml file to start application
     qml_file =  str(Path(__file__).resolve().parent / "src" / "view" / "main.qml")

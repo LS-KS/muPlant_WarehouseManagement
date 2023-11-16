@@ -46,6 +46,8 @@ Window {
         height: Screen.height
         anchors.centerIn: parent
     }
+
+
     MenuBar{
         id: menuBar
         Menu {
@@ -79,7 +81,7 @@ Window {
                     if (rfidServerComponent.status === Component.Ready){
                         rfidServerComponent.createObject();
                     }
-                    if(rfidServerComponent.status == Component.Error){
+                    if(rfidServerComponent.status === Component.Error){
                         console.log("Error while loading RFID-Server-Plugin: "+ rfidServerComponent.errorString())
                     }
                 }
@@ -88,13 +90,11 @@ Window {
             Action {
                 text: qsTr("&Camera Application")
                 onTriggered: {
-                    console.log("Start Camera-Application...")
-                    var cameraApplicationComponent = Qt.createComponent("StocktakingPlugin.qml");
-                    if (cameraApplicationComponent.status === Component.Ready){
-                        cameraApplicationComponent.createObject();
-                    }
-                    if(cameraApplicationComponent.status == Component.Error){
-                        console.log("Error while loading Camera-Application-Plugin: "+ cameraApplicationComponent.errorString())
+                    console.log("stocktaker action triggered")
+                    var stocktakerComponent = Qt.createComponent("StocktakingPlugin.qml")
+                    if(stocktakerComponent.status === Component.Ready){
+                        var stocktakerWindow = stocktakerComponent.createObject()
+                        stocktakerWindow.show()
                     }
                 }
             }

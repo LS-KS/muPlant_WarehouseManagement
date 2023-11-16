@@ -36,7 +36,6 @@ class Stocktaker(QQuickImageProvider):
         self.sections = []
         self.cups = []
         self.pallets = []
-        self.gripper_image = []
         self.gripper_id = 0
         self.detected_cups = []
         self.submitPalletImage = Signal(QImage)
@@ -144,19 +143,22 @@ class Stocktaker(QQuickImageProvider):
         self.detected_cups = []
         self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "Start obtaining image from camera...")
         try:
-            self.gripper_image = self.cameraService.get_image(2)
+            self.cameraService.get_image(2)
         except Exception as e:
             self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", f"Error while obtaining image from camera: {str(e)}")
             return
-        if self.gripper_image is None:
+        if self.image is None:
             self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "No image obtained from camera! Stocktaking aborted.")
             return
         else:
             self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "Image obtained. Start arUco recognition...")
-            markers, image = self._detect_markers(section=self.gripper_image, cups=True)
-            if len(markers[0]) >0:
+            markers, image = self._detect_markers(section=self.image, cups=True)
+            if markers[0][0] is not None:
                 print("marker detcted")
-                self._draw_markers(markers[1], markers[0], color= (0,255,0))
+                for i, marker in enumerate(markers[0]):
+                    self._draw_markers(markers[1][i], markers[0][i], color= (0,255,0))
+        cv2.imwrite("espImage.png", self.image)
+
     def select_marker_parameters(self, i:int, imtype: str, target:str):
         """
         Selects detector settings, from locating integer and string

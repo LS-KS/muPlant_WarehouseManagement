@@ -149,14 +149,16 @@ class ImageProvider(QThread):
         try: 
             response = requests.get(self.esp_url)
             if response.status_code == 200:
-                nparr = np.frombuffer(response.content, np.uint8)
-                self.image = cv2.imdecode(nparr, cv2.IMREAD_GRAYSCALE)
+                with open("esp32.jpg", 'wb') as f:
+                    f.write(response.content)
+                image = cv2.imread("esp32.jpg", cv2.IMREAD_GRAYSCALE)
+                self.image = image
             else:
                 self.image = None
                 # print(f"CameraService.ImageProvider._get_image_esp: Error while getting image from ESP32 CAM. Status code: {response.status_code}")
         except Exception as e:
             self.image = None
-            # print(f"CameraService.ImageProvider._get_image_esp: Error while getting image from ESP32 CAM: {str(e)}")
+            print(f"CameraService.ImageProvider._get_image_esp: Error while getting image from ESP32 CAM: {str(e)}")
             
         
     @Slot()

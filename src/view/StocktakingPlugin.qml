@@ -3,18 +3,17 @@ import QtQuick.Controls 2.5
 import QtQuick.Controls.Material
 import QtQuick.Layouts 1.3
 
-Window{
+ApplicationWindow{
     id: stocktakerwindow
-    width: 1200
-    height: 800
     ColumnLayout{
         id: maincolumn
         anchors.fill: parent
-        spacing: 0
         Layout.fillHeight: true
         Layout.fillWidth: true
+
         TableView{
-            id: storageVisu
+            id: storagevisu
+            model: storagemodel
             Layout.fillWidth: true
             Layout.fillHeight: true
             delegate: Rectangle{
@@ -23,7 +22,8 @@ Window{
             }
         }
         ListView{
-            id: tableVIsu
+            id: tablevisu
+            model: tablemodel
             Layout.fillWidth: true
             Layout.fillHeight: true
             delegate: Rectangle{
@@ -48,6 +48,7 @@ Window{
                 text: "Greiferkamera"
                 onClicked: {
                     console.log("Greiferkamera aufgerufen")
+                    stocktaker.evaluate_gripper()
                 }
             }
             Button{
