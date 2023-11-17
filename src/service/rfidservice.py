@@ -1,9 +1,9 @@
-from OBID_RFID import obidrfid
-from PySide6.QtCore import QObject, Signal, Slot, QThread, QMutex, QModelIndex, QByteArray, QTimer
-from src.controller.RfidController import RfidController
-from src.service.EventlogService import EventlogService
-from src.model.RfidModel import RfidModel
 import datetime
+from PySide6.QtCore import QObject, Signal, QThread, QMutex, QModelIndex
+from OBID_RFID import obidrfid
+from src.controller.RfidController import RfidController
+from src.model.RfidModel import RfidModel
+from src.service.EventlogService import EventlogService
 
 
 class RfidReaderWorker(QObject):
