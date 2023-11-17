@@ -1,6 +1,6 @@
 from typing import Optional
 from OBID_RFID import obidrfid
-from PySide6.QtCore import QObject, Signal, Slot, QThread, QMutex, QModelIndex, QByteArray
+from PySide6.QtCore import QObject, Signal, Slot, QThread, QMutex, QModelIndex, QByteArray, QTimer
 from src.controller.RfidController import RfidController
 from src.service.EventlogService import EventlogService
 from src.model.RfidModel import RfidModel
@@ -9,13 +9,14 @@ import datetime
 class rfid_readerworker(QObject):
     data = Signal(str, str, str, str) # transponder type, iid, dfsid, timestamp
     
-    def __init__(self, ip:str, name:str, service:EventlogService, parent = None) -> None:
+    def __init__(self, ip:str, name:str, service:EventlogService, master:QThread, parent = None) -> None:
         super().__init__(parent)
         self.ip = ip
         self.name = name
         self.service = service
         self.running = False
         self.reader = None
+        self.master = master
         self.lock = QMutex() # Thread lock
     
     def run(self):
@@ -72,6 +73,9 @@ class rfid_readerworker(QObject):
                     timestamp = datetime.datetime.now().timestamp()
                     self.service.writeEvent("RFIDReaderTask", f"RFID-Node {self.name} mit IP {self.ip}: No Transponder")
                     self.data.emit(str(transponder_type), str(iid), str(dsfid), str(timestamp))
+                self.master.sleep(1)
+
+
         except Exception as e:
             self.data.emit("None","Error", "Error", str(datetime.datetime.now()) )
             self.service.writeEvent("RFIDReaderTask", f"RFID-Node {self.name} mit IP {self.ip} konnte nicht gelesen werden. {e}")
@@ -92,7 +96,7 @@ class rfid_readertask(QThread):
     data = Signal(str, str, str, str, str) # ip, transponder type, iid, dfsid, timestamp
     def __init__(self, ip:str, name:str, service:EventlogService, parent = None ):
         super().__init__(parent)
-        self.worker = rfid_readerworker(ip, name, service)
+        self.worker = rfid_readerworker(ip, name, service, self)
         self.worker.data.connect(self.handle_data_read)
         self.worker.moveToThread(self)
         self.ip: str = ip
@@ -174,6 +178,7 @@ class rfid_service(QObject):
                     self.rfidcontroller.rfidViewModel.setData(index, iid, roles[rolenames.index(b'last_valid_iid')])
                     self.rfidcontroller.rfidViewModel.setData(index, dsfid, roles[rolenames.index(b'last_valid_dsfid')])
                     self.rfidcontroller.rfidViewModel.setData(index, timestamp, roles[rolenames.index(b'last_valid_timestamp')])
+                self.rfidcontroller.send_data_to_opcua()
                 break
     def stop_node(self, node) -> bool:
         """

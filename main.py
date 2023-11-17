@@ -83,8 +83,11 @@ if __name__ == '__main__':
         preferenceController= preferenceController,
         inventory_controller= inventoryController,
         commission_controller= commissionController,
+        rfidcontroller= rfidController,
         agentservice= agentservice)
     engine.rootContext().setContextProperty("opcuaService", opcuaService)
+    opcuaService.online.connect(rfidController.notify_opcua)
+    rfidController.data_to_opcua.connect(opcuaService.handle_rfid_update)
 
     # creates Stocktaker object used in stocktaking plugin
     stocktaker = Stocktaker(eventlogService)

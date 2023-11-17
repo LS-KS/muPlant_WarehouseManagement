@@ -5,6 +5,7 @@ from asyncua.common.methods import uamethod
 from src.controller.PreferenceController import PreferenceController
 from src.controller.invController import invController
 from src.controller.CommissionController import CommissionController
+from src.controller.RfidController import RfidController
 from src.model.DataModel import  Cup
 from src.model.CommissionModel import CommissionData
 from src.service.EventlogService import EventlogService
@@ -132,15 +133,29 @@ class inventory_vars:
         self.L17b: Cup = None
         self.L18a: Cup = None
         self.L18b: Cup = None
-class OpcuaServerHandle(QThread):
+class rfid_vars:
+    ip_id:str
+    name_id:str
+    ip:str
+    name:str
+    iid:str
+    dsfid:str
+    timestamp:str
+    last_valid_iid:str
+    last_valid_dsfid:str
+    last_valid_timestamp:str
 
+    def __init__(self, ip:str, name:str):
+        self.ip_id:str = ip
+        self.name_id:str = name
+
+class OpcuaServerHandle(QThread):
     agentVarsChanged = Signal(dict)
     inventoryVarsChanged = Signal(dict)
     commissionVarsChanged = Signal(dict)
-    
     def __init__(self, preferenceController: PreferenceController, inventory_controller: invController,
                  commission_controller: CommissionController, eventlog_service : EventlogService,
-                 agentservice: AgentService, opc_service, parent = None, ) -> None:
+                 agentservice: AgentService, opc_service, rfidcontroller: RfidController, parent = None, ) -> None:
         QThread.__init__(self, parent)
         self.preferenceController = preferenceController
         self.inventory_controller = inventory_controller
@@ -153,8 +168,11 @@ class OpcuaServerHandle(QThread):
         self.inventory_nodes: list[int] = []
         self.commission_vars: list[CommissionData] = []
         self.commission_nodes: list[int] = []
+        self.rfidcontroller: RfidController = rfidcontroller
+        self.rfidNode: int = 0
+        self.rfid_nodes: list[rfid_vars] = []
         self.opc_service: OpcuaService = opc_service
-
+        self.idx = None
     def __del__(self):
         """
         Deconstructor for OpcuaServerHandle. Stops opcua server.
@@ -340,6 +358,34 @@ class OpcuaServerHandle(QThread):
             pallet = await subnode.add_variable(idx, "pallet", commission.pallet)
             state = await subnode.add_variable(idx, "state", commission.state.value)
             self.commission_nodes.append([subnode, source, target, object, cup, pallet, state])
+
+    async def _create_rfid_nodes(self):
+        node = await self.opcuaServer.nodes.objects.add_object(self.idx, "RFID Nodes")
+        for rfidnode in self.rfidcontroller.rfidViewModel.rfidData:
+            subnode = await node.add_object(self.idx, rfidnode.name)
+            rfidvar = rfid_vars(rfidnode.ipAddr, rfidnode.name)
+            rfidvar.ip = await subnode.add_variable(self.idx, "ip", str(rfidnode.ipAddr))
+            rfidvar.iid = await subnode.add_variable(self.idx, "iid", str(rfidnode.iid))
+            rfidvar.dsfid = await subnode.add_variable(self.idx, "dsfid", str(rfidnode.dsfid))
+            rfidvar.timestamp = await subnode.add_variable(self.idx, "timestamp", str(rfidnode.timestamp))
+            rfidvar.last_valid_iid = await subnode.add_variable(self.idx, "last_valid_iid", str(rfidnode.last_valid_iid))
+            rfidvar.last_valid_dsfid = await subnode.add_variable(self.idx, "last_valid_dsfid", str(rfidnode.last_valid_dsfid))
+            rfidvar.last_valid_timestamp = await subnode.add_variable(self.idx, "last_valid_timestamp", str(rfidnode.last_valid_timestamp))
+            self.rfid_nodes.append(rfidvar)
+
+
+    @Slot(str, str, str, str, str, str, str)
+    async def _update_rfid_vars(self,ip: str, timestamp: str, iid: str, dsfid: str, last_valid_iid: str, last_valid_dsfid: str, last_valid_timestamp: str):
+        for node in self.rfid_nodes:
+            if node.ip_id == ip:
+                self.opcuaServer.get_node(node.timestamp).write_value(str(timestamp))
+                self.opcuaServer.get_node(node.iid).write_value(str(iid))
+                self.opcuaServer.get_node(node.dsfid).write_value(str(dsfid))
+                self.opcuaServer.get_node(node.last_valid_iid).write_value(str(last_valid_iid))
+                self.opcuaServer.get_node(node.last_valid_dsfid).write_value(str(last_valid_dsfid))
+                self.opcuaServer.get_node(node.last_valid_timestamp).write_value(str(last_valid_timestamp))
+        self.eventlog_service("OpcuaService", "Updated RFID Variables")
+
     async def _update_agent_vars(self):
         """
         Sets agent variables to values in agent_vars back to default values.
@@ -401,25 +447,27 @@ class OpcuaServerHandle(QThread):
         """
         try:
             self.eventlog_service.writeEvent("OpcuaService", "OpcuaServerHandle started")
-            idx = await self.setup_server()
+            self.idx = await self.setup_server()
             self.eventlog_service.writeEvent("OpcuaService", "Server started")
-            myobj = await self.opcuaServer.nodes.objects.add_object(idx, "MyObject")
-            myvar = await myobj.add_variable(idx, "MyVariable", 6.7)
+            myobj = await self.opcuaServer.nodes.objects.add_object(self.idx, "MyObject")
+            myvar = await myobj.add_variable(self.idx, "MyVariable", 6.7)
             await myvar.set_writable()
             await self.opcuaServer.nodes.objects.add_method(
-                ua.NodeId("ServerMethod", idx),
-                ua.QualifiedName("ServerMethod", idx),
+                ua.NodeId("ServerMethod", self.idx),
+                ua.QualifiedName("ServerMethod", self.idx),
                 self.func,
                 [ua.VariantType.Int64],
                 [ua.VariantType.Int64],
             )
-            await self._create_agent_nodes(idx)
+            await self._create_rfid_nodes()
+            self.eventlog_service.writeEvent("OpcuaService", "Load and create RFID variables")
+            await self._create_agent_nodes(self.idx)
             self.eventlog_service.writeEvent("OpcuaService", "Load and create inventory variables")
-            await self._create_inventory_nodes(idx)
+            await self._create_inventory_nodes(self.idx)
             self.eventlog_service.writeEvent("OpcuaService", "Load and create commission variables")
             self.commission_vars= self._load_commission_values_from_model()
-            await self._create_commission_nodes(idx)
-            #loop
+            await self._create_commission_nodes(self.idx)
+            # loop
             async with self.opcuaServer:
                 while True:
                     await asyncio.sleep(1)
@@ -433,8 +481,7 @@ class OpcuaServerHandle(QThread):
                     await myvar.write_value(new_val)
         except Exception as e:
             self.eventlog_service.writeEvent("OpcuaService", f"Error in Mainloop: {e}")
-            self.opc_service.isRunning = False
-            
+            self.opc_service.isRunning = False   
     async def setup_server(self):
         """
         setup server object and namespace.
@@ -461,13 +508,14 @@ class OpcuaService(QObject):
     online = Signal(bool)
     def __init__(self, eventlogService : EventlogService, preferenceController : PreferenceController,
                  inventory_controller: invController, commission_controller: CommissionController,
-                 agentservice: AgentService, parent: QObject | None = None) -> None:
+                 agentservice: AgentService, rfidcontroller: RfidController, parent: QObject | None = None) -> None:
         super().__init__(parent)
         self.eventlogService = eventlogService
         self.preferenceController = preferenceController
         self.inventory_controller = inventory_controller
         self.commission_controller = commission_controller
         self.agentservice = agentservice
+        self.rfid_controller = rfidcontroller
         self.opcuaServerHandle = None
         self.isRunning: bool = False
 
@@ -479,15 +527,22 @@ class OpcuaService(QObject):
             commission_controller= self.commission_controller,
             eventlog_service= self.eventlogService,
             agentservice= self.agentservice,
+            rfidcontroller = self.rfid_controller,
             opc_service= self
         )
-        self.opcuaServerHandle.start()
         self.eventlogService.writeEvent("OpcuaService", "OpcuaService started")
+        self.online.emit(True)
+        self.opcuaServerHandle.start()
+        
+        
     @Slot()
     def stopOpcuaService(self):
-        self.opcuaServerHandle.quit()
+        asyncio.ensure_future(self.opcuaServerHandle.quit())
 
     @Slot()
     def check_online_status(self):
         print("check_online emitted")
         self.online.emit(self.isRunning)
+
+    def handle_rfid_update(self, ipAddr, timestamp, iid, dsfid, last_valid_timestamp, last_valid_iid, last_valid_dsfid):
+        self.opcuaServerHandle._update_rfid_vars(ipAddr, timestamp, iid, dsfid, last_valid_timestamp, last_valid_iid, last_valid_dsfid)
