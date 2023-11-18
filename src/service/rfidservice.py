@@ -169,7 +169,7 @@ class RfidService(QObject):
                 roles = list(self.role_names.keys())
                 names = list(self.role_names.values())
                 self.data.emit(
-                    iid != "Error",
+                    iid != "Error" and int(iid) > 0,
                     index,
                     roles[names.index(b'transponder_type')],
                     transponder_type,

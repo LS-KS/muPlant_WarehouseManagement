@@ -72,6 +72,7 @@ if __name__ == '__main__':
     rfid_service = RfidService(eventlogService, rfidController)
     rfidController.rfid_service = rfid_service
     engine.rootContext().setContextProperty("rfid_service", rfid_service)
+    rfid_service.data.connect(rfidController.update_model)
 
     # Create ABB Controller for IRB 140
     abbController = ABBController(preferenceController, eventlogService)
