@@ -65,7 +65,7 @@ if __name__ == '__main__':
     # creates Controller and models for RFID Server Plugin
     rfidController = RfidController()
     engine.rootContext().setContextProperty("rfidController", rfidController)
-    engine.rootContext().setContextProperty("rfidModel", rfidController.rfidViewModel)
+    engine.rootContext().setContextProperty("rfidModel", rfidController.rfid_viewmodel)
     #engine.rootContext().setContextProperty("rfidModel", rfidController.rfidProxyViewModel)
 
     # creates rfid_service object and sets itself as rootContext

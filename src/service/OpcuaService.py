@@ -361,7 +361,7 @@ class OpcuaServerHandle(QThread):
 
     async def _create_rfid_nodes(self):
         node = await self.opcuaServer.nodes.objects.add_object(self.idx, "RFID Nodes")
-        for rfidnode in self.rfidcontroller.rfidViewModel.rfidData:
+        for rfidnode in self.rfidcontroller.rfid_viewmodel.rfidData:
             subnode = await node.add_object(self.idx, rfidnode.name)
             rfidvar = rfid_vars(rfidnode.ipAddr, rfidnode.name)
             rfidvar.ip = await subnode.add_variable(self.idx, "ip", str(rfidnode.ipAddr))

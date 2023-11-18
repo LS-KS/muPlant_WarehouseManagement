@@ -14,18 +14,18 @@ class RfidController(QObject):
         super().__init__(parent)
         self.rfid_service = None
         self.constants = Constants()
-        self.rfidViewModel = RfidViewModel()
+        self.rfid_viewmodel = RfidViewModel()
         self._load_rfid_nodes()
-        self.rfidProxyViewModel = RfidProxyViewModel()
-        self.rfidProxyViewModel.setSourceModel(self.rfidViewModel)
-        self.rfidViewModel.controller = self
+        self.rfid_proxy_viewmodel = RfidProxyViewModel()
+        self.rfid_proxy_viewmodel.setSourceModel(self.rfid_viewmodel)
+        self.rfid_viewmodel.controller = self
 
     @Slot()
     def send_data_to_opcua(self):
         """
         Emits data_to_opcua signal to post new rfid data to opcua server
         """
-        for idx, node in enumerate(self.rfidViewModel.rfidData):
+        for idx, node in enumerate(self.rfid_viewmodel.rfidData):
             self.data_to_opcua.emit(node.ipAddr, node.timestamp, node.iid, node.dsfid, node.last_valid_timestamp,
                                     node.last_valid_iid, node.last_valid_dsfid)
 
@@ -34,7 +34,7 @@ class RfidController(QObject):
         """
         Marks all RFID-Nodes as selected.
         """
-        nodes = [node.idVal for node in self.rfidViewModel.rfidData]
+        nodes = [node.idVal for node in self.rfid_viewmodel.rfidData]
         for node in nodes:
             self.select_node(node, True)
 
@@ -43,7 +43,7 @@ class RfidController(QObject):
         """
         Marks all RFID-Nodes as selected.
         """
-        nodes = [node.idVal for node in self.rfidViewModel.rfidData]
+        nodes = [node.idVal for node in self.rfid_viewmodel.rfidData]
         for node in nodes:
             self.select_node(node, False)
 
@@ -52,30 +52,28 @@ class RfidController(QObject):
         """
         marks RFID-Node with id as selected.
         """
-        rows = self.rfidViewModel.rowCount()
+        rows = self.rfid_viewmodel.rowCount()
         for i in range(rows):
-            print("i: " + str(i))
-            node = self.rfidViewModel.rfidData[i]
+            node = self.rfid_viewmodel.rfidData[i]
             if node.idVal == id:
                 oldVal = node.selected
-                index = self.rfidViewModel.index(i, 0)
-                self.rfidViewModel.setData(index, selected, 13)
+                index = self.rfid_viewmodel.index(i, 0)
+                self.rfid_viewmodel.setData(index, selected, 13)
                 newVal = node.selected
-                print(f"Data changed from {oldVal} to {newVal} in index {index.row()}")
-                self.rfidViewModel.dataChanged.emit(index, index, [Qt.DisplayRole + 13])
+                self.rfid_viewmodel.dataChanged.emit(index, index, [Qt.DisplayRole + 13])
 
     @Slot(int, str, str, str, str)
     def save_node_changes(self, id_val, name, reader_ip, reader_port, ):
         """
         saves changes made to RFID-Nodes.
         """
-        nodes = [node.idVal for node in self.rfidViewModel.rfidData]
-        for i, node in enumerate(self.rfidViewModel.rfidData):
+        nodes = [node.idVal for node in self.rfid_viewmodel.rfidData]
+        for i, node in enumerate(self.rfid_viewmodel.rfidData):
             if node.idVal == id_val:
-                index = self.rfidViewModel.index(i, 0)
-                self.rfidViewModel.setData(index, name, 0)
-                self.rfidViewModel.setData(index, reader_ip, 3)
-                self.rfidViewModel.setData(index, reader_port, 4)
+                index = self.rfid_viewmodel.index(i, 0)
+                self.rfid_viewmodel.setData(index, name, 0)
+                self.rfid_viewmodel.setData(index, reader_ip, 3)
+                self.rfid_viewmodel.setData(index, reader_port, 4)
                 self._dump_rfid_nodes()
                 return
 
@@ -86,10 +84,10 @@ class RfidController(QObject):
         :returns: None
         
         """
-        for row, node in enumerate(self.rfidViewModel.rfidData):
-            if node.selected == True:
-                index = self.rfidViewModel.createIndex(row, 0)
-                self.rfid_service.start_node(node, index, self.rfidViewModel.roleNames())
+        for row, node in enumerate(self.rfid_viewmodel.rfidData):
+            if node.selected:
+                index = self.rfid_viewmodel.createIndex(row, 0)
+                self.rfid_service.start_node(node, index, self.rfid_viewmodel.roleNames())
 
     @Slot()
     def stop_selected(self):
@@ -98,9 +96,9 @@ class RfidController(QObject):
         :returns: None
         
         """
-        for row, node in enumerate(self.rfidViewModel.rfidData):
-            if node.selected == True:
-                index = self.rfidViewModel.createIndex(row, 0)
+        for row, node in enumerate(self.rfid_viewmodel.rfidData):
+            if node.selected:
+                index = self.rfid_viewmodel.createIndex(row, 0)
                 self.rfid_service.stop_node(node, index)
 
     @Slot()
@@ -110,11 +108,11 @@ class RfidController(QObject):
         :returns: None
         
         """
-        nodes = [node.idVal for node in self.rfidViewModel.rfidData]
-        for i, node in enumerate(self.rfidViewModel.rfidData):
-            if node.selected == True:
-                index = self.rfidViewModel.index(i, 0)
-                self.rfidViewModel.removeRow(index.row(), QModelIndex())
+        nodes = [node.idVal for node in self.rfid_viewmodel.rfidData]
+        for i, node in enumerate(self.rfid_viewmodel.rfidData):
+            if node.selected:
+                index = self.rfid_viewmodel.index(i, 0)
+                self.rfid_viewmodel.removeRow(index.row(), QModelIndex())
 
     def _load_rfid_nodes(self):
         """
@@ -126,10 +124,9 @@ class RfidController(QObject):
         with open(self.constants.RFID_DATA, 'r') as file:
             records = safe_load(file)
             if records is None:
-                print("No RFID-Data found")
                 return
-            rfidData = [RfidModel(**record) for record in records]
-            self.rfidViewModel.rfidData = rfidData
+            rfid_data = [RfidModel(**record) for record in records]
+            self.rfid_viewmodel.rfidData = rfid_data
 
     @Slot(bool)
     def notify_opcua(self, online):
@@ -142,7 +139,7 @@ class RfidController(QObject):
         """
         if not online:
             return
-        for node in self.rfidViewModel.rfidData:
+        for node in self.rfid_viewmodel.rfidData:
             self.create_opcua_node.emit(str(node.ipAddr), str(node.name))
 
     @Slot(bool, QModelIndex, int, str, int, str, int, str, int, str)
@@ -152,6 +149,9 @@ class RfidController(QObject):
         Method, connected to RfidService's data signal, is used to update RfidViewModel instance of
         RfidController.
         If the first argument is True, a tag was read. In that case the submitted values are set as last_valid_ vals.
+        Since this method uses the view-model's setData method, the view-model's dataChanged signal is emitted and thus
+        the GUI is updated.
+        Data will be emitted by the method send_data_to_opcua so OpcUaService is updatet.
         :param error: True if iid >0 and not "Error"
         :type error: bool
         :param model_index: Index to directly index into viewmodel
@@ -173,18 +173,20 @@ class RfidController(QObject):
         :param timestamp: value of timestamp
         :type timestamp: str
         """
-        self.rfidViewModel.setData(model_index, transponder_type, transponder_role)
-        self.rfidViewModel.setData(model_index, iid, iid_role)
-        self.rfidViewModel.setData(model_index, dsfid, dsfid_role)
-        self.rfidViewModel.setData(model_index, timestamp, timestamp_role)
+        # TODO: the opc server doesn't show the correct values
+        self.rfid_viewmodel.setData(model_index, transponder_type, transponder_role)
+        self.rfid_viewmodel.setData(model_index, iid, iid_role)
+        self.rfid_viewmodel.setData(model_index, dsfid, dsfid_role)
+        self.rfid_viewmodel.setData(model_index, timestamp, timestamp_role)
         if error:
-            roles = list(self.rfidViewModel.roleNames().keys())
-            names = list(self.rfidViewModel.roleNames().values())
-            self.rfidViewModel.setData(model_index, transponder_type,
-                                       roles[names.index(b'last_valid_transponder_type')])
-            self.rfidViewModel.setData(model_index, iid, roles[names.index(b'last_valid_iid')])
-            self.rfidViewModel.setData(model_index, dsfid, roles[names.index(b'last_valid_dsfid')])
-            self.rfidViewModel.setData(model_index, timestamp, roles[names.index(b'last_valid_timestamp')])
+            roles = list(self.rfid_viewmodel.roleNames().keys())
+            names = list(self.rfid_viewmodel.roleNames().values())
+            self.rfid_viewmodel.setData(model_index, transponder_type,
+                                        roles[names.index(b'last_valid_transponder_type')])
+            self.rfid_viewmodel.setData(model_index, iid, roles[names.index(b'last_valid_iid')])
+            self.rfid_viewmodel.setData(model_index, dsfid, roles[names.index(b'last_valid_dsfid')])
+            self.rfid_viewmodel.setData(model_index, timestamp, roles[names.index(b'last_valid_timestamp')])
+        self.send_data_to_opcua()
 
     def _dump_rfid_nodes(self):
         """
@@ -192,5 +194,5 @@ class RfidController(QObject):
         :returns: None
         """
         with open(self.constants.RFID_DATA, 'w') as file:
-            model_dict = [record.__dict__ for record in self.rfidViewModel.rfidData]
+            model_dict = [record.__dict__ for record in self.rfid_viewmodel.rfidData]
             safe_dump(model_dict, file)
