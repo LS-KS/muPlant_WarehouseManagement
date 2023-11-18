@@ -537,7 +537,7 @@ class OpcuaService(QObject):
         
     @Slot()
     def stopOpcuaService(self):
-        asyncio.ensure_future(self.opcuaServerHandle.quit())
+        asyncio.run(self.opcuaServerHandle.quit())
 
     @Slot()
     def check_online_status(self):
@@ -545,4 +545,4 @@ class OpcuaService(QObject):
         self.online.emit(self.isRunning)
 
     def handle_rfid_update(self, ipAddr, timestamp, iid, dsfid, last_valid_timestamp, last_valid_iid, last_valid_dsfid):
-        self.opcuaServerHandle._update_rfid_vars(ipAddr, timestamp, iid, dsfid, last_valid_timestamp, last_valid_iid, last_valid_dsfid)
+        asyncio.run(self.opcuaServerHandle._update_rfid_vars(ipAddr, timestamp, iid, dsfid, last_valid_timestamp, last_valid_iid, last_valid_dsfid))
