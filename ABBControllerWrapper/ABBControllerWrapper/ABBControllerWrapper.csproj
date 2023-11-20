@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="ABB.Robotics.Controllers.PC">
+      <HintPath>..\RobotStudio SDK 5.60\ABB.Robotics.Controllers.PC.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.Math">
+      <HintPath>..\RobotStudio SDK 5.60\ABB.Robotics.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio">
+      <HintPath>..\RobotStudio SDK 5.60\ABB.Robotics.RobotStudio.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Controllers">
+      <HintPath>..\RobotStudio SDK 5.60\ABB.Robotics.RobotStudio.Controllers.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Documents">
+      <HintPath>..\RobotStudio SDK 5.60\ABB.Robotics.RobotStudio.Documents.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Environment">
+      <HintPath>..\RobotStudio SDK 5.60\ABB.Robotics.RobotStudio.Environment.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Stations">
+      <HintPath>..\RobotStudio SDK 5.60\ABB.Robotics.RobotStudio.Stations.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Stations.Forms">
+      <HintPath>..\RobotStudio SDK 5.60\ABB.Robotics.RobotStudio.Stations.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="RobotStudio.Services.RobApi">
+      <HintPath>..\RobotStudio SDK 5.60\RobotStudio.Services.RobApi.dll</HintPath>
+    </Reference>
+    <Reference Include="RobotStudio.Services.RobApi.Desktop">
+      <HintPath>..\RobotStudio SDK 5.60\RobotStudio.Services.RobApi.Desktop.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="RobotStudioAddin"
+					 targetNamespace="urn:abb-robotics-robotstudio-addin"
+					 elementFormDefault="qualified"
+					 xmlns="urn:abb-robotics-robotstudio-addin"
+					 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           version="1.0">
+
+  
+  <xs:element name="RobotStudioAddIn">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="ApplicationId" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Specifies an optional unique identifier for the add-in.</xs:documentation>
+            <xs:documentation>If multiple add-ins with the same identifier are found, only the first is loaded.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="DisplayName" type="xs:string" minOccurs="0">
+        </xs:element>
+        <xs:element name="DisplayVersion" type="xs:string" minOccurs="0">
+        </xs:element>
+        <xs:element name="Description" type="xs:string" minOccurs="0">
+        </xs:element>
+        <xs:element name="Image" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>A 32x32 pixel image (.png or .bmp) that represents the add-in.</xs:documentation>
+            <xs:documentation>For example it is used for the activation and deactivation user interface for PowerPacs.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="StartPage" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Specifies if information about the add-in should be displayed on the start page</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+            </xs:sequence>
+            <xs:attribute name="show" type="xs:boolean" default="true">
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="AddInType">
+          <xs:annotation>
+            <xs:documentation>
+              Specifies the type of add-in.
+            </xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="Internal"/>
+              <xs:enumeration value="PowerPac"/>
+              <xs:enumeration value="General"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="LicenseFeature" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Specifies a license feature that is required to enable the add-in.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+				<xs:element name="TrialLicenseFile" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the fully qualified path to a license file to be used during a trial period.
+							Common folder paths can be used by prefixing the path with a .NET SpecialFolder surrounded by dollar signs, for example
+							$ProgramFiles$\MyAddin\TrialLicense.bin
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<!--xs:element name="TrialLicenseKey" type="xs:string" minOccurs="0"></xs:element-->
+        <xs:element name="MinimumHostVersion" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Specifies the minimum RobotStudio version required by the add-in, in the form Major.Minor[.Build[.Revision]]</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="MaximumHostVersion" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Specifies the maximum RobotStudio version required by the add-in, in the form Major.Minor[.Build[.Revision]]</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="Assembly">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="FileName" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>Specifies the assembly that contains the add-in. If Entrypoint is not specified, the assembly must contain a public static method called AddinMain.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="Path" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>
+                    Additional search path(s) if the assembly or its dependencies is not found in the same directory as the .rsaddin
+                    Common folder paths can be used by prefixing the path with a .NET SpecialFolder surrounded by dollar signs, for example
+                    $ProgramFiles$\MyAddin
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="Entrypoint" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>
+                    Specifies the entry point for a PowerPac type add-in. This must be a class that inherits HostedAddInBase.
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DocumentProviders" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Path" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>
+                    Specifies the fully qualified path to the XML file that contains the description of one or more Document providers. The XML file must conform to the XXX Schema.   
+                    Common folder paths can be used by prefixing the path with a .NET SpecialFolder surrounded by dollar signs, for example
+                    $ProgramFiles$\MyAddin\MyProviders.xml
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>              
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Dependencies">
+          <xs:annotation>
+            <xs:documentation>
+              Specifies the APIs used by this add-in.
+            </xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="None"/>
+              <xs:enumeration value="Station"/>
+              <xs:enumeration value="Online"/>
+              <xs:enumeration value="Station,Online"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="Platform" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              Specifies the CPU architecture supported by this add-in and its dependencies.
+            </xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="x86"/>
+              <xs:enumeration value="x64"/>
+              <xs:enumeration value="Any"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:all>
+      <xs:attribute name="autoLoad" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation>Specifies if the add-in should be loaded automatically when the dependencies have been initialized. Only valid for General add-ins.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+		</xs:complexType>
+  </xs:element>
+</xs:schema>

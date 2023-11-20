@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="LibraryResource"
+    targetNamespace="urn:abb-robotics-robotstudio-libraryresource"
+    elementFormDefault="qualified"
+    xmlns="urn:abb-robotics-robotstudio-libraryresource"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+	<xs:complexType name="TDynamicPropertyResource">
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<!--xs:attribute name="caption" type="xs:string" use="optional"/-->
+		<xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+
+	<xs:complexType name="TIOSignalResource">
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<!--xs:attribute name="caption" type="xs:string" use="optional"/-->
+		<xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+
+	<xs:complexType name="TStringResource">
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="value" type="xs:string" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="TSmartComponentResource">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="DynamicProperty" type="TDynamicPropertyResource"/>
+				<xs:element name="IOSignal" type="TIOSignalResource"/>
+				<xs:element name="String" type="TStringResource"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<!--xs:attribute name="caption" type="xs:string" use="optional"/-->
+		<xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	
+	<xs:element name="LibraryResource">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SmartComponent" type="TSmartComponentResource" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

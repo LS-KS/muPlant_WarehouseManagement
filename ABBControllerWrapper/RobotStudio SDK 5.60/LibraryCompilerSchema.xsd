@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="LibraryCompiler"
+    targetNamespace="urn:abb-robotics-robotstudio-librarycompiler"
+    elementFormDefault="qualified"
+    xmlns="urn:abb-robotics-robotstudio-librarycompiler"
+		xmlns:gc="urn:abb-robotics-robotstudio-graphiccomponent"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<xs:import namespace="urn:abb-robotics-robotstudio-graphiccomponent"
+						 schemaLocation="GraphicComponentSchema.xsd"/>
+
+	<xs:complexType name="TInclude">
+		<xs:annotation>
+			<xs:documentation>Specifies an additional XML file to compile.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="source" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="TImage">
+		<xs:attribute name="source" type="xs:string" use="optional"/>
+		<xs:attribute name="generate" type="xs:boolean" use="optional"/>
+		<xs:attribute name="flip" type="xs:boolean" use="optional"/>
+		<xs:attribute name="zoom" type="xs:int" use="optional"/>
+		<xs:attribute name="panx" type="xs:int" use="optional"/>
+		<xs:attribute name="pany" type="xs:int" use="optional"/>
+		<xs:attribute name="look" type="gc:TDoubleVector" use="optional"/>
+	</xs:complexType>
+
+	<xs:complexType name="TDocumentProperties">
+		<xs:all>
+			<xs:element name="Title" type="xs:string" minOccurs="0"/>
+			<xs:element name="Author" type="xs:string" minOccurs="0"/>
+			<xs:element name="Revision" type="xs:string" minOccurs="0"/>
+			<xs:element name="Comments" type="xs:string" minOccurs="0"/>
+			<xs:element name="Image" type="TImage" minOccurs="0"/>
+			<xs:element name="Type" type="xs:string" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="TLibrary">
+		<xs:sequence>
+			<xs:element name="DocumentProperties" type="TDocumentProperties" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Specifies metadata for the generated document(s). Properties can be overriden in the Variant element. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			
+			<xs:element ref="gc:GraphicComponent" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Specifies the root component of the library.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			
+			<xs:element name="Attribute" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Declares an attribute that can be instantiated in the Variant element.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="name" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Name of the attribute.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="xpath" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>XPath expression that specifies the node for which to set the value.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			
+			<xs:element name="Variant" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Specifies a library variant.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:all>
+						<xs:element name="DocumentProperties" type="TDocumentProperties" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Specifies metadata for the generated document. </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="fileName" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>Specifies the name of the .rslib file.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+ 					<xs:anyAttribute processContents="skip"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		
+		<xs:attribute name="source" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies an .rsxml or .txt file to load the root component from.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="fileName" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the name of the .rslib file (if not using variants).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:element name="LibraryCompiler">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Include" type="TInclude" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Specifies an additional xml file to compile.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DefaultProperties" type="TDocumentProperties" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>Specifies default metadata for the generated documents. Properties can be overriden in the Library or Variant element. </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Library" type="TLibrary" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="resources" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The base name (excluding language specifier) of xml files that contain localized resources for SmartComponents. </xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

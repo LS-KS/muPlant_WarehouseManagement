@@ -1,0 +1,808 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="GraphicComponent"
+    targetNamespace="urn:abb-robotics-robotstudio-graphiccomponent"
+    elementFormDefault="qualified"
+    xmlns="urn:abb-robotics-robotstudio-graphiccomponent"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+	<!-- Base types -->
+	
+	<xs:simpleType name="TVector3">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[-+]?\d*\.?\d+,\s?[-+]?\d*\.?\d+,\s?[-+]?\d*\.?\d+"></xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TQuaternion">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[-+]?\d*\.?\d+,\s?[-+]?\d*\.?\d+,\s?[-+]?\d*\.?\d+,\s?[-+]?\d*\.?\d+"></xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TDoubleVector">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([-+]?\d*\.?\d+,\s?)*[-+]?\d*\.?\d+"></xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:attributeGroup name="Matrix4">
+		<xs:attribute name="x" type="TVector3" use="optional"/>
+		<xs:attribute name="y" type="TVector3" use="optional"/>
+		<xs:attribute name="z" type="TVector3" use="optional"/>
+		<xs:attribute name="t" type="TVector3" use="optional"/>
+		<xs:attribute name="euler" type="TVector3" use="optional"/>
+		<xs:attribute name="quat" type="TQuaternion" use="optional"/>
+	</xs:attributeGroup>
+
+	<xs:simpleType name="TLengthUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="m"/>
+			<xs:enumeration value="mm"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TAngleUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="deg"/>
+			<xs:enumeration value="rad"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- SmartComponent types -->
+	
+	<xs:simpleType name="TKnownPropertyType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="System.Double"/>
+			<xs:enumeration value="System.Int32"/>
+			<xs:enumeration value="System.String"/>
+			<xs:enumeration value="System.Boolean"/>
+      <xs:enumeration value="System.Drawing.Color"/>
+			<xs:enumeration value="ABB.Robotics.Math.Vector3"/>
+			<xs:enumeration value="ABB.Robotics.RobotStudio.ProjectObject"/>
+			<xs:enumeration value="ABB.Robotics.RobotStudio.Stations.GraphicComponent"/>
+			<xs:enumeration value="ABB.Robotics.RobotStudio.Stations.SmartComponent"/>
+			<xs:enumeration value="ABB.Robotics.RobotStudio.Stations.Mechanism"/>
+			<xs:enumeration value="ABB.Robotics.RobotStudio.Stations.Part"/>
+			<xs:enumeration value="ABB.Robotics.RobotStudio.Stations.Body"/>
+			<xs:enumeration value="ABB.Robotics.RobotStudio.Stations.Face"/>
+			<xs:enumeration value="ABB.Robotics.RobotStudio.Stations.Wire"/>
+			<xs:enumeration value="ABB.Robotics.RobotStudio.Stations.IHasTransform"/>
+			<xs:enumeration value="ABB.Robotics.RobotStudio.Stations.IAttachableChild"/>
+			<xs:enumeration value="ABB.Robotics.RobotStudio.Stations.IAttachableParent"/>
+			<xs:enumeration value="ABB.Robotics.RobotStudio.Stations.IHasGraphicComponents"/>
+			<xs:enumeration value="ABB.Robotics.RobotStudio.Stations.Camera"/>
+			<xs:enumeration value="ABB.Robotics.RobotStudio.Stations.Asset"/>
+      <xs:enumeration value="ABB.Robotics.RobotStudio.Stations.Light"/>
+			<!-- TODO: the rest. See also DynamicProperty.GetValidTypes() -->
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TPropertyType">
+		<xs:union memberTypes="TKnownPropertyType xs:string"/>
+	</xs:simpleType>
+
+	<xs:simpleType name="TKnownSignalName">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SensorOut">
+				<xs:annotation>
+					<xs:documentation>Used for outputs from sensor components.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Active">
+				<xs:annotation>
+					<xs:documentation>Used to activate a component.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Execute">
+				<xs:annotation>
+					<xs:documentation>Used to execute an action.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Executed">
+				<xs:annotation>
+					<xs:documentation>Used to indicate when an action has been executed.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TSignalName">
+		<xs:union memberTypes="TKnownSignalName xs:string"/>
+	</xs:simpleType>
+
+	<xs:simpleType name="TSignalType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DigitalInput"/>
+			<xs:enumeration value="DigitalOutput"/>
+			<xs:enumeration value="DigitalGroupInput"/>
+			<xs:enumeration value="DigitalGroupOutput"/>
+			<xs:enumeration value="AnalogInput"/>
+			<xs:enumeration value="AnalogOutput"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TKnownAttributeKey">
+		<xs:restriction base="xs:string">
+			<!--xs:enumeration value="Protected">
+				<xs:annotation>
+					<xs:documentation>Indicates that the property should not be possible to delete or modify.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration-->
+			<xs:enumeration value="MinValue">
+				<xs:annotation>
+					<xs:documentation>Indicates the minium value for a numeric property. Value must be a number.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MaxValue">
+				<xs:annotation>
+					<xs:documentation>Indicates the maximum value for a numeric property. Value must be a number.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AllowedValues">
+				<xs:annotation>
+					<xs:documentation>Indicates the allowed values for a numeric or string property.</xs:documentation>
+					<xs:documentation>Value must be a list delimited by semicolons</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MinLength">
+				<xs:annotation>
+					<xs:documentation>Indicates the minimum length of a string property. Value must be an integer.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MaxLength">
+				<xs:annotation>
+					<xs:documentation>Indicates the maximum length of a string property. Value must be an integer.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AllowedCharacters">
+				<xs:annotation>
+					<xs:documentation>Indicates the allowed characters in a string property.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ValueFilter">
+				<xs:annotation>
+					<xs:documentation>Specifies a regular expression used to verify the property value (converted to a string).</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Quantity">
+				<xs:annotation>
+					<xs:documentation>Indicates the quantity that a numeric property represents.</xs:documentation>
+					<xs:documentation>Value must be a member of the BuiltinQuantity enumeration.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AutoApply">
+				<xs:annotation>
+					<xs:documentation>Indicates that the property value should be applied immediately when it is changed</xs:documentation>
+					<xs:documentation>in the GUI, rather than when the user clicks "Apply" or equivalent.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Slider">
+				<xs:annotation>
+					<xs:documentation>Indicates that a numeric property should be displayed as a slider.</xs:documentation>
+					<xs:documentation>Requires that MinValue and MaxValue are also set.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CustomValidation">
+				<xs:annotation>
+					<xs:documentation>Indicates that QueryPropertyValueValid() should be called to validate the value.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AllowedTypes">
+				<xs:annotation>
+					<xs:documentation>Allows additional type checking. Value must be full names of allowed types</xs:documentation>
+					<xs:documentation>delimited by semicolons.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AllowParent">
+				<xs:annotation>
+					<xs:documentation>Indicates that the component that owns the property is a valid value (by default it is not).</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AddToDisplayName">
+				<xs:annotation>
+					<xs:documentation>Indicates that the value of the property should be added to the DisplayName of the parent component.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DisplayValues">
+				<xs:annotation>
+					<xs:documentation>Indicates alternative display values for a property. Value must be a list delimited by</xs:documentation>
+					<xs:documentation>semicolons with the same number of elements as the AllowedValues attribute.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VectorUsage">
+				<xs:annotation>
+					<xs:documentation>Indicates the usage of a Vector3 property. Valid values are Position and Direction.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Multiline">
+				<xs:annotation>
+					<xs:documentation>Indicates that a string property can have multiple lines.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TAttributeKey">
+		<xs:union memberTypes="TKnownAttributeKey xs:string"/>
+	</xs:simpleType>
+
+	<xs:complexType name="TPropertyAttribute">
+		<xs:annotation>
+			<xs:documentation> Key-value pair that specifies additional information about a property. </xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="key" type="TAttributeKey" use="required">
+			<xs:annotation>
+				<xs:documentation> Name of the attribute key. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="value" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation> Value of the attribute. Specify the dummy value '?' to indicate that
+				the actual value should be dynamically retrieved from Code Behind. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TDynamicProperty">
+		<xs:sequence>
+			<xs:element name="Attribute" type="TPropertyAttribute" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Specifies a unique name for the property.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="valueType" type="TPropertyType" use="required">
+			<xs:annotation>
+				<xs:documentation>Specifies the type of the property value.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="value" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies an initial property value.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="uiVisible" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Indicates if the property should be visible in the user interface</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="readOnly" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Indicates if the property value should be read-only in the user interface</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TAsset">
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="source" type="xs:string"/>
+		<xs:attribute name="allowSave" type="xs:boolean" default="true"/>
+	</xs:complexType>
+
+	<xs:complexType name="TIOSignal">
+		<!-- xs:sequence>
+      <xs:element name="Attribute" type="TPropertyAttribute" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence -->
+		<xs:attribute name="name" type="TSignalName" use="required">
+			<xs:annotation>
+				<xs:documentation>Specifies a unique name for the signal.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="signalType" type="TSignalType" use="required">
+			<xs:annotation>
+				<xs:documentation>Specifies the type of the signal value.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="value" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies an initial value for the signal.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="uiVisible" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Indicates if the signal should be visible in the user interface</xs:documentation>
+				<xs:documentation>If not defined, this defaults to false for auto-reset output signals.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="readOnly" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Indicates if the signal value should be read-only in the user interface</xs:documentation>
+				<xs:documentation>If not defined, this defaults to true on output signals</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="autoReset" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Indicates if a digital signal should automatically be reset to 0</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="minValue" type="xs:double" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the minimum value for an analog signal</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxValue" type="xs:double" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies the maximum value for an analog signal</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TPropertyBinding">
+		<xs:attribute name="source" type="xs:string"/>
+		<xs:attribute name="target" type="xs:string"/>
+	</xs:complexType>
+
+	<!-- Special case to reduce the amount of typing -->
+	<xs:complexType name="TExpressionBinding">
+		<xs:attribute name="sources" type="xs:string"/>
+		<xs:attribute name="expression" type="xs:string"/>
+		<xs:attribute name="target" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="TIOConnection">
+		<xs:attribute name="source" type="xs:string"/>
+		<xs:attribute name="target" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="TPropertyValue">
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="value" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="TSignalValue">
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="value" type="xs:string"/>
+	</xs:complexType>
+
+	<!-- Mechanism types -->
+
+	<xs:simpleType name="TMechanismType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Undefined"/>
+			<xs:enumeration value="Tool"/>
+			<xs:enumeration value="Robot"/>
+			<xs:enumeration value="ExternalAxis"/>
+			<xs:enumeration value="Irc5Conveyor"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TJointType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Rotational"/>
+			<xs:enumeration value="Prismatic"/>
+			<!--xs:enumeration value="Undefined"/-->
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="TJoint">
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="parent" type="xs:string"/>
+		<xs:attribute name="child" type="xs:string"/>
+		<xs:attribute name="type" type="TJointType"/>
+		<xs:attribute name="active" type="xs:boolean"/>
+		<xs:attribute name="point1" type="TVector3"/>
+		<xs:attribute name="point2" type="TVector3"/>
+	</xs:complexType>
+	
+	<xs:complexType name="TLimit">
+    <xs:sequence>
+      <xs:element name="Polynomial" type="TPolynomial" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="joint" type="xs:string"/>
+    <xs:attribute name="min" type="xs:double"/>
+    <xs:attribute name="max" type="xs:double"/>
+    <xs:attribute name="points" type="TDoubleVector" use="optional"/>
+	</xs:complexType>
+
+  <xs:complexType name="TPolynomial">
+    <xs:attribute name="min" type="xs:string"/>
+    <xs:attribute name="max" type="xs:string"/>
+    <xs:attribute name="angleUnit" type="TAngleUnit" use="optional">
+      <xs:annotation>
+        <xs:documentation>Angle unit used in the expression (for both input and output), if other than specified on the GraphicComponent level.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="TConstantDependency">
+		<xs:attribute name="joint" type="xs:string"/>
+		<xs:attribute name="leadJoint" type="xs:string"/>
+		<xs:attribute name="factor" type="xs:double"/>
+	</xs:complexType>
+
+	<xs:complexType name="TVariableDependency">
+		<xs:attribute name="joint" type="xs:string"/>
+		<xs:attribute name="expression" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="TLoadData">
+		<xs:attribute name="mass" type="xs:double" use="required"/>
+		<xs:attribute name="centerOfGravity" type="TVector3"/>
+		<xs:attribute name="axesOfMoment" type="TQuaternion"/>
+		<xs:attribute name="inertia" type="TVector3"/>
+	</xs:complexType>
+	
+	<xs:complexType name="TToolData">
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="link" type="xs:string" use="required"/>
+		<xs:attributeGroup ref="Matrix4"/>
+	</xs:complexType>
+
+	<xs:complexType name="TFlange">
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="link" type="xs:string" use="required"/>
+		<xs:attributeGroup ref="Matrix4"/>
+		<!--local???-->
+	</xs:complexType>
+
+	<xs:simpleType name="TFrameType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Generic">
+				<xs:annotation>
+					<xs:documentation> Defines a generic modelling frame. </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AttachmentPoint">
+				<xs:annotation>
+					<xs:documentation> Defines a point where another object can be attached. </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MountingPoint">
+				<xs:annotation>
+					<xs:documentation> Defines a point where the object can be attached to another object. </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="TFrame">
+		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="type" type="TFrameType" use="required"/>
+		<!--xs:attribute name="uiVisible" type="xs:boolean"/-->
+		<xs:attributeGroup ref="Matrix4"/>
+	</xs:complexType>
+
+	<xs:complexType name="TFrameCollection">
+		<xs:sequence>
+			<xs:element name="Frame" type="TFrame" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="TMask">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([01],\s?)*[01]"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- GraphicComponent base types -->
+	
+	<xs:complexType name="TGraphicComponent" abstract="true">
+		<xs:attribute name="lengthUnit" type="TLengthUnit" use="optional">
+			<xs:annotation>
+				<xs:documentation> The length unit used in the XML. If not specified, meters is assumed. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="angleUnit" type="TAngleUnit" use="optional">
+			<xs:annotation>
+				<xs:documentation> The angle unit used in the XML. If not specified, radians is assumed. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="uiVisible" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies if the component should be visible in the user interface, e.g. browsers.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+    <xs:attribute name="gfxVisible" type="xs:boolean" use="optional">
+      <xs:annotation>
+        <xs:documentation>Specifies if the component should be visible in the 3D graphic.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Matrix4"/>
+	</xs:complexType>
+
+	<xs:complexType name="TGraphicComponentCollection">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Part" type="TPart"/>
+				<xs:element name="GraphicComponentGroup" type="TGraphicComponentGroup"/>
+				<xs:element name="SmartComponent" type="TSmartComponent"/>
+				<xs:element name="Mechanism" type="TMechanism"/>
+				<xs:element name="EmbeddedLibrary" type="TEmbeddedLibrary"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TEmbeddedLibrary">
+		<xs:annotation>
+			<xs:documentation>Specifies an existing library</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="TGraphicComponent">
+				<xs:sequence>
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="PropertyValue" type="TPropertyValue">
+							<xs:annotation>
+								<xs:documentation>Specifies initial values for properties in the embedded component.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="SignalValue" type="TSignalValue">
+							<xs:annotation>
+								<xs:documentation>Specifies initial values for signals in the embedded component.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:sequence>
+				<xs:attribute name="source" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>Specifies the .rslib to load the component from.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Part -->
+	
+	<xs:complexType name="TPart">
+		<xs:complexContent>
+			<xs:extension base="TGraphicComponent">
+				<xs:all>
+					<!-- TBD xs:element name="Frames" type="TFrameCollection" minOccurs="0"/-->
+				</xs:all>
+				<xs:attribute name="source" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>Specifies the file to load the part from.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="surfaceModel" type="xs:boolean" use="optional">
+					<xs:annotation>
+						<xs:documentation>Specifies if the part is a surface (non-solid).</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="repeat" type="xs:int" use="optional">
+					<xs:annotation>
+						<xs:documentation>Specifies that the part should be repeated (only valid in a GraphicComponentGroup).</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="offset" type="TVector3" use="optional">
+					<xs:annotation>
+						<xs:documentation>Specifies the offset between repeated parts.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- GraphicComponentGroup -->
+		
+	<xs:complexType name="TGraphicComponentGroup">
+		<xs:annotation>
+			<xs:documentation>Specifies child components.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="TGraphicComponent">
+				<xs:all>
+					<xs:element name="GraphicComponents" type="TGraphicComponentCollection" minOccurs="0"/>
+					<!-- TBD xs:element name="Frames" type="TFrameCollection" minOccurs="0"/-->
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- SmartComponent -->
+	
+	<xs:complexType name="TSmartComponent">
+		<xs:complexContent>
+			<xs:extension base="TGraphicComponent">
+				<xs:all>
+					<xs:element name="Properties" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="DynamicProperty" type="TDynamicProperty" minOccurs="0" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Bindings" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:choice minOccurs="0" maxOccurs="unbounded">
+									<xs:element name="PropertyBinding" type="TPropertyBinding"/>
+									<xs:element name="ExpressionBinding" type="TExpressionBinding"/>
+								</xs:choice>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Signals" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="IOSignal" type="TIOSignal" minOccurs="0" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Connections" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="IOConnection" type="TIOConnection" minOccurs="0" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Assets" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Asset" type="TAsset" minOccurs="0" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="GraphicComponents" type="TGraphicComponentCollection" minOccurs="0"/>
+					<!-- TBD xs:element name="Frames" type="TFrameCollection" minOccurs="0"/-->
+				</xs:all>
+				<xs:attribute name="codeBehind" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>Specifies the full name of the code behind class for the component.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="canBeSimulated" type="xs:boolean" use="optional">
+					<xs:annotation>
+						<xs:documentation>Specifies if the component should be part of the simulation,</xs:documentation>
+						<xs:documentation>e.g. if the code behind receives simulation ticks.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="resources" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>The base name (excluding language specifier) of xml files that contain localized resources.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="icon" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>File name of an image that will be associated with the component.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Mechanism -->
+
+	<xs:complexType name="TMechanism">
+		<xs:complexContent>
+			<xs:extension base="TGraphicComponent">
+				<xs:all minOccurs="0" maxOccurs="1">
+					<xs:element name="Links" minOccurs="1">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:choice minOccurs="1" maxOccurs="unbounded">
+									<xs:element name="Part" type="TPart"/>
+									<xs:element name="GraphicComponentGroup" type="TGraphicComponentGroup"/>
+								</xs:choice>
+							</xs:sequence>
+							<xs:attribute name="baseLink" type="xs:string" use="required"/>
+						</xs:complexType>
+					</xs:element>
+					
+					<xs:element name="Joints" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Joint" type="TJoint" minOccurs="0" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Limits" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Limit" type="TLimit" minOccurs="0" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+
+					<xs:element name="JointMask" minOccurs="0">
+						<xs:complexType>
+							<xs:attribute name="value" type="TMask" use="required"/>
+						</xs:complexType>
+					</xs:element>
+
+					<xs:element name="Dependencies" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:choice minOccurs="0" maxOccurs="unbounded">
+									<xs:element name="ConstantDependency" type="TConstantDependency"/>
+									<xs:element name="VariableDependency" type="TVariableDependency"/>
+								</xs:choice>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+
+					<xs:element name="Flanges" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Flange" type="TFlange" minOccurs="0" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					
+					<xs:element name="ToolDatas" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ToolData" type="TToolData" minOccurs="0" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+
+					<xs:element name="LoadData" type="TLoadData" minOccurs="0">
+					</xs:element>
+
+
+					<xs:element name="BaseFrame" minOccurs="0">
+						<xs:complexType>
+							<xs:attributeGroup ref="Matrix4"/>
+						</xs:complexType>
+					</xs:element>
+					
+					<xs:element name="KinematicBaseFrame" minOccurs="0">
+						<xs:complexType>
+							<xs:attributeGroup ref="Matrix4"/>
+						</xs:complexType>
+					</xs:element>
+
+					<xs:element name="CalibrationPosition" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="CalibrationFrame" minOccurs="1" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:attributeGroup ref="Matrix4"/>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					
+					<xs:element name="HomePosition" minOccurs="0">
+						<xs:complexType>
+							<xs:attribute name="value" type="TDoubleVector" use="required"/>
+						</xs:complexType>
+					</xs:element>
+
+					<xs:element name="CustomKinematics" minOccurs="0">
+						<xs:complexType>
+							<xs:attribute name="progID" type="xs:string" use="required"/>
+							<xs:attribute name="initValues" type="TDoubleVector" use="required"/>
+						</xs:complexType>
+					</xs:element>
+
+					<xs:element name="Frames" type="TFrameCollection" minOccurs="0"/>
+
+					<xs:element name="AttachmentPoints" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Deprecated, use Frames instead.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="AttachmentPoint" minOccurs="1" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:attributeGroup ref="Matrix4"/>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:all>
+				<xs:attribute name="source" type="xs:string" use="optional"/>
+				<xs:attribute name="type" type="TMechanismType" use="required"/>
+				<xs:attribute name="modelName" type="xs:string" use="optional"/>
+				<!--xs:attribute name="mass" type="xs:double" use="optional"/-->
+			</xs:extension>
+		</xs:complexContent>
+  </xs:complexType>
+	
+	<!-- Root element -->
+	
+	<xs:element name="GraphicComponent" abstract="true"/>
+	<xs:element name="Part" type="TPart" substitutionGroup="GraphicComponent"/>
+	<xs:element name="SmartComponent" type="TSmartComponent" substitutionGroup="GraphicComponent"/>
+	<xs:element name="GraphicComponentGroup" type="TGraphicComponentGroup" substitutionGroup="GraphicComponent"/>
+	<xs:element name="Mechanism" type="TMechanism" substitutionGroup="GraphicComponent"/>
+
+</xs:schema>
