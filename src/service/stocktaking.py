@@ -23,17 +23,12 @@ import math
 import matplotlib.pyplot as plt
 from yaml import  load, Loader
 
-
-
-
-
 class Stocktaker(QQuickImageProvider):
-
-
 
     def __init__(self, eventLogService: None | EventlogService):
         super().__init__(QQmlImageProviderBase.Image, QQmlImageProviderBase.ForceAsynchronousImageLoading)
         self.cameraService = ImageProvider()
+        self.cameraService.imageSignal.connect(self.handle_image_signal)
         self.constants = Constants()
         self.eventlogService = eventLogService
         self.raw_image = []
@@ -41,25 +36,26 @@ class Stocktaker(QQuickImageProvider):
         self.sections = []
         self.cups = []
         self.pallets = []
-        self.gripper_image = []
         self.gripper_id = 0
         self.detected_cups = []
         self.submitPalletImage = Signal(QImage)
         self.submitCupImage = Signal(QImage)
         self.submitResultMatrix = Signal(list)
+    
+    def handle_image_signal(self, image: np.ndarray):
+        self.image = image
 
     def __del__(self):
         print("Stocktaker: Destructor called")
-
     @Slot()
     def evaluate_storagecell_cam(self):
         """
-        Public Method. Obtains image from CameraServic.Imageprovider, performs 4-point rectification and arUco detection.
+        Public Method. Obtains image from camera via CameraServic.Imageprovider, performs arUco detection.
         Slices the image into sub images related to Storage location.
         Afterwards signals with processed image is emitted to QML Engine.
         Before every step a message is emitted to EventlogService in main screen
         """
-        # TODO: Selective detection parameters
+
         self.detected_cups = []
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Start obtaining image from camera...")
         self.image = self.cameraService.get_image(0)
@@ -112,7 +108,7 @@ class Stocktaker(QQuickImageProvider):
                 parameters= parameters)
             pallets, ids = self._get_pallet_markers(markers)
             self.pallets[i] = self._draw_markers(pallets, ids, (255,0,0), pallet, i)
-            cv2.imwrite(f"pallet_{i + 1}.png", pallet)
+            cv2.imwrite(f"temp/pallet_{i + 1}.png", pallet)
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Pallets finished. Start marker detection in cups...")
         print("Detection in cups:")
         for i, cup in enumerate(self.cups):
@@ -130,11 +126,38 @@ class Stocktaker(QQuickImageProvider):
                 parameters=parameters)
             cups, ids = self._get_cup_markers(markers)
             self.cups[i] = self._draw_markers(cups, ids, (255,255,255), cup, i)
-            cv2.imwrite(f"cup{i + 1}.png", cup)
+            cv2.imwrite(f"temp/cup{i + 1}.png", cup)
         print(self.detected_cups)
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Cups finished. Start calculating result matrix...")
         self.calculate_result_matrix()
         self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Result matrix calculated. Process finished.")
+
+    @Slot()
+    def evaluate_gripper(self):
+        """
+        Public Method. Obtains image from CameraService.Imageprovider.
+        Since marker should take a significant area of the image, no rectification is performed.
+        Performs arUco detection after brightness and color adjustment.
+        processed image is kept in gripper_image property.
+        """
+        self.detected_cups = []
+        self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "Start obtaining image from camera...")
+        try:
+            self.cameraService.get_image(2)
+        except Exception as e:
+            self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", f"Error while obtaining image from camera: {str(e)}")
+            return
+        if self.image is None:
+            self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "No image obtained from camera! Stocktaking aborted.")
+            return
+        else:
+            self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "Image obtained. Start arUco recognition...")
+            markers, image = self._detect_markers(section=self.image, cups=True)
+            if markers[0][0] is not None:
+                print("marker detcted")
+                for i, marker in enumerate(markers[0]):
+                    self._draw_markers(markers[1][i], markers[0][i], color= (0,255,0))
+        cv2.imwrite("espImage.png", self.image)
 
     def select_marker_parameters(self, i:int, imtype: str, target:str):
         """
@@ -151,7 +174,6 @@ class Stocktaker(QQuickImageProvider):
         else:
             parameters = cv2.aruco.DetectorParameters()
         return parameters
-
     def calculate_result_matrix(self):
         """
         Public Method. Calculates the result matrix based on detected markers.
@@ -168,33 +190,12 @@ class Stocktaker(QQuickImageProvider):
         pass
         # TODO get images from storage_cell number
         # TODO emit images
-
     @Slot()
     def emit_cell_image(self):
         pass
         # TODO get image from cell
         # TODO emit image
-    def evaluate_gripper(self):
-        """
-        Public Method. Obtains image from CameraService.Imageprovider.
-        Since marker should take a significant area of the image, no rectification is performed.
-        Performs arUco detection after brightness and color adjustment.
-        processed image is kept in gripper_image property.
-        """
-        self.detected_cups = []
-        self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "Start obtaining image from camera...")
-        try:
-            self.gripper_image = self.cameraService.get_image(2)
-        except Exception as e:
-            self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", f"Error while obtaining image from camera: {str(e)}")
-            return
-        if self.gripper_image is None:
-            self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "No image obtained from camera! Stocktaking aborted.")
-            return
-        else:
-            self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "Image obtained. Start arUco recognition...")
-            markers, image = self._detect_markers(section=self.gripper_image, cups=True)
-
+    @Slot()
     def _refactor_corners(self, corners, ids):
         """
         Private method to refactor aruco marker corners.
@@ -212,7 +213,6 @@ class Stocktaker(QQuickImageProvider):
         if ids is not None:
             markers[1].append(corners)
         return markers
-
     def _get_shelf_markers(self, markers):
         """
         Private method to extract shelf-markers from marker list
@@ -377,7 +377,7 @@ class Stocktaker(QQuickImageProvider):
         x_min = int(x_min)
         x_max = int(x_max)
         image = image[y_glob_min + 550: y_glob_max + 520, x_min + 300 : x_max - 180]
-        cv2.imwrite("transformed.png", image)
+        cv2.imwrite("temp/transformed.png", image)
         plt.imshow(image, cmap= 'gray')
         plt.title("transformed image")
         plt.show(cmap= 'gray')
@@ -509,7 +509,7 @@ class Stocktaker(QQuickImageProvider):
 
             # print(alpha, beta)
             img = cv2.convertScaleAbs(gray, alpha= alpha, beta=beta)
-            cv2.imwrite("processed_before_detection.png", img)
+            cv2.imwrite("temp/processed_before_detection.png", img)
             #plt.imshow(img, cmap= 'gray')
             #plt.show()
             return img

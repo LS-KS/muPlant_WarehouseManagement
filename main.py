@@ -1,5 +1,3 @@
-
-
 '''
 µPlant WareHouse Management Software.
 Bachelor Thesis 2023
@@ -25,9 +23,10 @@ from src.service.EventlogService import EventlogService
 from src.service.OpcuaService import OpcuaService
 from src.constants.Constants import Constants
 from src.service.AgentService import AgentService
-from src.service.rfid_service import rfid_service
+from src.service.rfidservice import RfidService
 from src.service.stocktaking import Stocktaker
 from src.controller.ABBController import ABBController
+from src.viewmodel.stockmodel import stockmodel, tablemodel
 
 
 if __name__ == '__main__':
@@ -66,13 +65,14 @@ if __name__ == '__main__':
     # creates Controller and models for RFID Server Plugin
     rfidController = RfidController()
     engine.rootContext().setContextProperty("rfidController", rfidController)
-    engine.rootContext().setContextProperty("rfidModel", rfidController.rfidViewModel)
+    engine.rootContext().setContextProperty("rfidModel", rfidController.rfid_viewmodel)
     #engine.rootContext().setContextProperty("rfidModel", rfidController.rfidProxyViewModel)
 
     # creates rfid_service object and sets itself as rootContext
-    rfid_service = rfid_service(eventlogService, rfidController)
+    rfid_service = RfidService(eventlogService, rfidController)
     rfidController.rfid_service = rfid_service
     engine.rootContext().setContextProperty("rfid_service", rfid_service)
+    rfid_service.data.connect(rfidController.update_model)
 
     # Create ABB Controller for IRB 140
     abbController = ABBController(preferenceController, eventlogService)
@@ -84,13 +84,22 @@ if __name__ == '__main__':
         preferenceController= preferenceController,
         inventory_controller= inventoryController,
         commission_controller= commissionController,
+        rfidcontroller= rfidController,
         agentservice= agentservice)
     engine.rootContext().setContextProperty("opcuaService", opcuaService)
+    opcuaService.online.connect(rfidController.notify_opcua)
+    rfidController.data_to_opcua.connect(opcuaService.handle_rfid_update)
 
     # creates Stocktaker object used in stocktaking plugin
     stocktaker = Stocktaker(eventlogService)
     engine.rootContext().setContextProperty("stocktaker", stocktaker)
     engine.addImageProvider("stocktaker", stocktaker)
+
+    #create stockmodel
+    stock_model = stockmodel()
+    table_model = tablemodel()
+    engine.rootContext().setContextProperty("storagemodel", stock_model)
+    engine.rootContext().setContextProperty("tablemodel", table_model)
 
     # define load main.qml file to start application
     qml_file =  str(Path(__file__).resolve().parent / "src" / "view" / "main.qml")

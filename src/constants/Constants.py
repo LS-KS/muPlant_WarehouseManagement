@@ -50,6 +50,8 @@ class Constants:
         self.ARUCO_DETECTOR_GRAY_PALLETS_3 = Path(__file__).resolve().parent.parent / "data" / "ConfDetectionGrayPallets3.yaml"
         self.ARUCO_DETECTOR_GRAY_PALLETS_4 = Path(__file__).resolve().parent.parent / "data" / "ConfDetectionGrayPallets4.yaml"
         self.ARUCO_DETECTOR_GRAY_PALLETS_5 = Path(__file__).resolve().parent.parent / "data" / "ConfDetectionGrayPallets5.yaml"
+        self.ESP32_IMAGE_URL = "http://141.51.45.177:8140/capture"
+
 
 
 

@@ -50,9 +50,9 @@ ApplicationWindow {
                 width: contentRect.width
                 idVal: model.idVal
                 selected: model.selected
-                tagTextA: model.tagId
-                tagTextB: model.productID
-                tagTextC: model.cupSize
+                tagTextA: model.last_valid_iid
+                tagTextB: model.last_valid_dsfid
+                tagTextC: model.last_valid_timestamp
                 nameText: model.name
                 readerIpAdress: model.ipAddr
                 readerPort: model.ipPort

@@ -8,8 +8,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1bb59e4-14c6-46d3-92d8-82a94a6183ab" name="Changes" comment="setup data signals of rfid_Service. &#10;updated sphinx">
+      <change beforePath="$PROJECT_DIR$/.idea/muPlant_WarehouseManagement.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/muPlant_WarehouseManagement.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/muplant_WarehouseManagement.pyproject.user" beforeDir="false" afterPath="$PROJECT_DIR$/muplant_WarehouseManagement.pyproject.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/research/1_esp32.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/research/2_espImage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/research/3_esp32.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/research/3_espImage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/research/4_esp32.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/research/4_espImage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/research/5_esp32.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/research/5_espImage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/research/6_esp32.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/research/6_espImage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/rfid_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/rfidservice.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,7 +152,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="rfid_service" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="rfidservice" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="muPlant_WarehouseManagement" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -153,7 +165,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/service/rfid_service.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/service/rfidservice.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -231,7 +243,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.test" />
-        <item itemvalue="Python.rfid_service" />
+        <item itemvalue="Python.rfidservice" />
         <item itemvalue="Python.stocktaking" />
         <item itemvalue="Python.standardsettings" />
         <item itemvalue="Python.DetectionOptimizationService" />
@@ -300,8 +312,8 @@
       <workItem from="1698660808374" duration="1000" />
       <workItem from="1699808691241" duration="865000" />
       <workItem from="1699811838007" duration="2254000" />
-      <workItem from="1699945857882" duration="7596000" />
-      <workItem from="1700030100653" duration="9000" />
+      <workItem from="1699945857882" duration="7497000" />
+      <workItem from="1700237764516" duration="3319000" />
     </task>
     <task id="LOCAL-00001" summary="implemented Cup and Product">
       <created>1687298522583</created>
@@ -695,17 +707,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/controller/ABBController.py</url>
-          <line>106</line>
+          <line>105</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/controller/ABBController.py</url>
-          <line>236</line>
+          <line>235</line>
           <option name="timeStamp" value="59" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/controller/ABBController.py</url>
-          <line>51</line>
+          <line>50</line>
           <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -714,12 +726,7 @@
           <option name="timeStamp" value="96" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/test.py</url>
-          <line>12</line>
-          <option name="timeStamp" value="97" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/service/rfid_service.py</url>
+          <url>file://$PROJECT_DIR$/src/service/rfidservice.py</url>
           <option name="timeStamp" value="99" />
         </line-breakpoint>
       </breakpoints>

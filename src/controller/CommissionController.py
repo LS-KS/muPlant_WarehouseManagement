@@ -511,7 +511,7 @@ class CommissionController:
             valid = False
             return valid
         slot = sE.slotA if target.name[-1] == 'A' else sE.slotB
-        if cup and slot.id is not 0:
+        if cup and slot.id != 0:
             self.eventlogService.writeEvent("CommissionController",
                                             f"Commission {commission.id} is invalid: target location {target.name} is not empty.")
             valid = False
