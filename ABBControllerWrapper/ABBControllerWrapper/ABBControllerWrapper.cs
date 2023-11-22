@@ -21,9 +21,9 @@ namespace ABBControllerWrapper
     {
         private RobotController robotController;
         private IPAddress IPAddressRequested;
-        private Task controllerTask;
+        private Task? controllerTask;
         public ControllerWrapper(IPAddress IPAddressRequested) {
-            this.robotController = new RobotController();
+            robotController = new RobotController();
             this.IPAddressRequested = IPAddressRequested;
         }
         ~ControllerWrapper() { 
@@ -32,25 +32,88 @@ namespace ABBControllerWrapper
                 this.robotController.Disconnect();
             }
         }
-        public bool setup()
+        public bool Setup()
         {
             this.controllerTask = this.robotController.TryConnectAsync(this.IPAddressRequested);
             return this.robotController.IsConnected;
         }
-        public bool createAndExecute(string source, string target) {
+        /// <summary>
+        /// creates a command object and executes it using the ABBRobotics dlls.
+        /// this method takes a source string and a target string. 
+        /// </summary>
+        /// <param name="source">source string: 'm' for mobile robot, 'k1a' for commissiontable, 'l1a' to 'l18b' for storage. If no suffix letter is submitted, a pallet is meant.</param>
+        /// <param name="target">target string: 'm' for mobile robot, 'k1a' for commissiontable, 'l1a' to 'l18b' for storage. If no suffix letter is submitted, a pallet is meant</param>
+        /// <returns></returns>
+        public bool CreateAndExecute(string source, string target) {
             // This way of programming my lead to deadlock in this specific thread. 
             // maybe it is better to return the Task and await the Task in python.
             // If this works, it is definitely the more easy way!
-            ControllerCommand command = new ControllerCommand();
-            Task<bool> task = this.robotController.ExecuteCommand(command);
-            task.Wait();
-            return task.Result;
+
+            ControllerCommand? command = null;
+            // parse source
+            if (source.Equals('m'))
+            {
+                // source is mobile robot. Thus only 'RobotToWorkbench' can be called
+                if (target[0].Equals('k'))
+                {
+                    int w_col = (int)target[1];
+                    int w_pos = target[2].Equals('a') ? 0 : 1;
+                    command = ControllerCommand.RobotToWorkbench(w_col: w_col, w_pos: w_pos, executable: true);
+                }
+            }
+            else if (source[0].Equals('l'))
+            {
+                // source is storage, so storage->workbench (Pallet)
+                int storage = (source.Length == 3) ? (int)source[1] : (int.Parse(source.Substring(1, 1)));
+                // calculate row/col from string
+                int s_row = (storage - 1) / 6;
+                int s_col = (storage - 1) % 6;
+                int w_col = (int)target[1];
+                command = ControllerCommand.StorageToWorkbench(s_row: s_row, s_col: s_col, w_col: w_col, executable: true);
+            }
+            else if (source[0].Equals('k'))
+            {
+                // source is workbench,so workbench->workbench, workbench->robot, workbench->storage
+                if (target[0].Equals('k'))
+                {
+                    // workbench->workbench (Cup)
+                    int from_col = (int)source[1];
+                    int from_pos = (source[2].Equals('a')) ? 0 : 1;
+                    int to_col = (int)target[1];
+                    int to_pos = (target[2].Equals('a')) ? 0 : 1;
+                    command = ControllerCommand.WorkbenchToWorkbench(from_col: from_col, from_pos: from_pos, to_col: to_col, to_pos: to_pos, executable: true);
+                }else if (target[0].Equals('l'))
+                {
+                    // workbench->storage (Pallet)
+                    int w_col = (int)source[1];
+                    int storage = (target.Length == 3) ? (int)target[1] : (int.Parse(target.Substring(1, 1)));
+                    int s_row = (storage - 1) / 6;
+                    int s_col = (storage - 1) % 6;
+                    command = ControllerCommand.WorkbenchToStorage(w_col: w_col, s_row: s_row, s_col: s_col, executable: true);
+                }else if (target[0].Equals('m'))
+                {
+                    // workbench->robot (Cup)
+                    int w_col = (int)source[1];
+                    int w_pos = (source[2].Equals('a')) ? 0 : 1;
+
+                    command = ControllerCommand.WorkbenchToRobot(w_col: w_col, w_pos: w_pos, executable: true);
+                }
+            }
+            if(command != null)
+            {
+                Task<bool> task = this.robotController.ExecuteCommand(command);
+                task.Wait();
+                return task.Result;
+            }else
+            {
+                return false;
+            }
         }
     }
     public class ControllerCommand : INotifyPropertyChanged
     {
         #region Property Changed Event
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         public void NotifyPropertyChanged(string propName)
         {
             if (PropertyChanged != null)
@@ -121,8 +184,6 @@ namespace ABBControllerWrapper
         public ushort prodID;
         public bool requireMobileRobot;
         public bool shouldCheckID;
-        public object fromElement;
-        public object toElement;
         #endregion
 
 
@@ -136,10 +197,10 @@ namespace ABBControllerWrapper
         /// <param name="cupId"> ID eines Bechers </param>
         /// <param name="prodId"> ID eines Produkts</param>
         /// <param name="executable"> ?? Ob Command ausführbar ist? </param>
-        /// <param name="storage"> Palettenplatz im Lager ? </param>
-        /// <param name="workbench"> Palettenplatz auf dem Kommissioniertisch ?</param>
+        /// <param name="storage"> Palettenobjekt im Lager</param>
+        /// <param name="workbench"> Palettenobject auf dem Kommissioniertisch ?</param>
         /// <returns> Ein ControllerCommand Objekt.</returns>
-        static public ControllerCommand StorageToWorkbench(int s_row, int s_col, int w_col, ushort cupId, ushort prodId, bool executable, Pallet storage, Pallet workbench)
+        static public ControllerCommand StorageToWorkbench(int s_row, int s_col, int w_col, bool executable)
         {
             ControllerCommand cmd = new ControllerCommand();
 
@@ -150,15 +211,10 @@ namespace ABBControllerWrapper
             if (s_row == 2) position += 6;
 
             cmd.command = string.Format("Palette_{0}_{1}_1_{2}", station, position, w_col + 1);
-            cmd.cupID = cupId;
-            cmd.prodID = prodId;
             cmd.IsExecuting = false;
             cmd.Executable = executable;
             cmd.requireMobileRobot = false;
             cmd.shouldCheckID = false;
-            cmd.Description = string.Format("[{0}.{1}] {2}({3}) → {4}({5})", cupId, prodId, Properties.Resources.str_title_Storage, storage.PositionName, Properties.Resources.str_title_Commissioning, workbench.PositionName);
-            cmd.fromElement = storage;
-            cmd.toElement = workbench;
             return cmd;
         }
         /// <summary>
@@ -170,29 +226,21 @@ namespace ABBControllerWrapper
         /// <param name="cupId"> ID eines Bechers</param>
         /// <param name="prodId"> ID eines Produkts</param>
         /// <param name="executable"> ??? ob command ausführbar ist?</param>
-        /// <param name="storage"> Palettenplatz im Lager?</param>
-        /// <param name="workbench"> Palettenplatz auf dem Kommissioniertisch ?</param>
+        /// <param name="storage"> Palettenobjekt im Lager?</param>
+        /// <param name="workbench"> Palettenobjekt auf dem Kommissioniertisch ?</param>
         /// <returns></returns>
-        static public ControllerCommand WorkbenchToStorage(int s_row, int s_col, int w_col, ushort cupId, ushort prodId, bool executable, Pallet storage, Pallet workbench)
+        static public ControllerCommand WorkbenchToStorage(int s_row, int s_col, int w_col, bool executable)
         {
             ControllerCommand cmd = new ControllerCommand();
-
             int station = 3;
             if (s_row > 0) station = 2;
-
             int position = s_col + 1;
             if (s_row == 2) position += 6;
-
             cmd.command = string.Format("Palette_1_{2}_{0}_{1}", station, position, w_col + 1);
-            cmd.cupID = cupId;
-            cmd.prodID = prodId;
             cmd.IsExecuting = false;
             cmd.Executable = executable;
             cmd.requireMobileRobot = false;
             cmd.shouldCheckID = false;
-            cmd.Description = string.Format("[{0}.{1}] {4}({5}) → {2}({3})", cupId, prodId, Properties.Resources.str_title_Storage, storage.PositionName, Properties.Resources.str_title_Commissioning, workbench.PositionName);
-            cmd.fromElement = workbench;
-            cmd.toElement = storage;
             return cmd;
         }
         /// <summary>
@@ -206,21 +254,13 @@ namespace ABBControllerWrapper
         /// <param name="workbenchPallet">Palette auf dem Kommissioniertisch</param>
         /// <param name="mobileRobotCup">Becher im Roboter (Ziel)</param>
         /// <returns></returns>
-        static public ControllerCommand WorkbenchToRobot(int w_col, int w_pos, ushort cupId, ushort prodId, bool executable, Pallet workbenchPallet, Cup mobileRobotCup)
+        static public ControllerCommand WorkbenchToRobot(int w_col, int w_pos, bool executable)
         {
             ControllerCommand cmd = new ControllerCommand();
-            Cup workbenchCup = workbenchPallet.CupList[w_pos];
 
             cmd.command = string.Format("Becher_1_{0}_{1}_0_1_1", w_col + 1, w_pos + 1);
-            cmd.cupID = cupId;
-            cmd.prodID = prodId;
             cmd.IsExecuting = false;
             cmd.Executable = executable;
-            cmd.requireMobileRobot = true;
-            cmd.shouldCheckID = false;
-            cmd.Description = string.Format("[{0}.{1}] {2}({3}.{4}) → {5}", cupId, prodId, Properties.Resources.str_title_Commissioning, workbenchPallet.PositionName, workbenchCup.PositionName, Properties.Resources.str_title_MobileRobot);
-            cmd.fromElement = workbenchCup;
-            cmd.toElement = mobileRobotCup;
             return cmd;
         }
         /// <summary>
@@ -234,21 +274,12 @@ namespace ABBControllerWrapper
         /// <param name="workbenchPallet"> Palette die auf dem Kommissioniertisch steht </param>
         /// <param name="mobileRobotCup"> Becher, der auf dem mobilen Roboter steht </param>
         /// <returns></returns>
-        static public ControllerCommand RobotToWorkbench(int w_col, int w_pos, ushort cupId, ushort prodId, bool executable, Pallet workbenchPallet, Cup mobileRobotCup)
+        static public ControllerCommand RobotToWorkbench(int w_col, int w_pos, bool executable)
         {
             ControllerCommand cmd = new ControllerCommand();
-            Cup workbenchCup = workbenchPallet.CupList[w_pos];
-
             cmd.command = string.Format("Becher_0_1_1_1_{0}_{1}", w_col + 1, w_pos + 1);
-            cmd.cupID = cupId;
-            cmd.prodID = prodId;
             cmd.IsExecuting = false;
             cmd.Executable = executable;
-            cmd.requireMobileRobot = true;
-            cmd.shouldCheckID = true;
-            cmd.Description = string.Format("[{0}.{1}] {5} → {2}({3}.{4})", cupId, prodId, Properties.Resources.str_title_Commissioning, workbenchPallet.PositionName, workbenchCup.PositionName, Properties.Resources.str_title_MobileRobot);
-            cmd.fromElement = mobileRobotCup;
-            cmd.toElement = workbenchCup;
             return cmd;
         }
         /// <summary>
@@ -262,22 +293,15 @@ namespace ABBControllerWrapper
         /// <param name="palletFrom"> Palettenobjekt (Start)</param>
         /// <param name="palletTo"> Palettenobjekt(Ziel)</param>
         /// <returns></returns>
-        static public ControllerCommand WorkbenchToWorkbench(int from_col, int from_pos, int to_col, int to_pos, bool executable, Pallet palletFrom, Pallet palletTo)
+        static public ControllerCommand WorkbenchToWorkbench(int from_col, int from_pos, int to_col, int to_pos, bool executable)
         {
             ControllerCommand cmd = new ControllerCommand();
-            Cup cupFrom = palletFrom.CupList[from_pos];
-            Cup cupTo = palletTo.CupList[to_pos];
 
             cmd.command = string.Format("Becher_1_{0}_{1}_1_{2}_{3}", from_col + 1, from_pos + 1, to_col + 1, to_pos + 1);
             cmd.cupID = 0;
             cmd.prodID = 0;
             cmd.IsExecuting = false;
             cmd.Executable = executable;
-            cmd.requireMobileRobot = false;
-            cmd.shouldCheckID = false;
-            cmd.Description = string.Format("[0.0] {0}({1}.{2}) → {3}({4}.{5})", Properties.Resources.str_title_Commissioning, palletFrom.PositionName, cupFrom.PositionName, Properties.Resources.str_title_Commissioning, palletTo.PositionName, cupTo.PositionName);
-            cmd.fromElement = cupFrom;
-            cmd.toElement = cupTo;
             return cmd;
         }
         #endregion
@@ -285,7 +309,7 @@ namespace ABBControllerWrapper
     public class RobotControllerBase : INotifyPropertyChanged
     {
         #region Property Changed Event
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         public void NotifyPropertyChanged(string propName)
         {
             if (PropertyChanged != null)
@@ -373,8 +397,8 @@ namespace ABBControllerWrapper
             public bool IsWorking { get; private set; }
 
             private NetworkScanner scanner = new NetworkScanner();
-            private Controller controller = null;
-            private Mastership mastership = null;
+            private Controller? controller = null;
+            private Mastership? mastership = null;
             private const string TaskName = "T_ROB1";
             private const string ModuleName = "Module1";
 

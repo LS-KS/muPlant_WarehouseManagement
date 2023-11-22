@@ -17,7 +17,7 @@ class stockmodel(QtCore.QAbstractTableModel):
     def columnCount(self, index:QModelIndex):
         return 1
     def roleNames(self):
-        return b'none'
+        return {b'none'}
     
 class tablemodel(QtCore.QAbstractListModel):
 
