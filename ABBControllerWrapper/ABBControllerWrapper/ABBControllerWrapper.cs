@@ -21,10 +21,19 @@ namespace ABBControllerWrapper
     {
         private RobotController robotController;
         private IPAddress IPAddressRequested;
+        private string ipstring;
         private Task? controllerTask;
-        public ControllerWrapper(IPAddress IPAddressRequested) {
+        public ControllerWrapper(string ip) {
             robotController = new RobotController();
-            this.IPAddressRequested = IPAddressRequested;
+            this.ipstring = ip;
+            if( IPAddress.TryParse(ipstring, out IPAddress iPAddress))
+            {
+                this.IPAddressRequested = iPAddress;
+            }
+            else
+            {
+                throw new ArgumentException("submitted ip address could not be parsed: ", nameof(iPAddress));
+            }
         }
         ~ControllerWrapper() { 
             if (this.robotController != null)
