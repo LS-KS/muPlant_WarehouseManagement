@@ -8,14 +8,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1bb59e4-14c6-46d3-92d8-82a94a6183ab" name="Changes" comment="setup data signals of rfid_Service. &#10;updated sphinx">
-      <change afterPath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/DesignTimeBuild/.dtbcache.v2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/FileContentIndex/3bb90bd2-29c0-452b-8161-30861058ee18.vsidx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/FileContentIndex/e7726d0c-e25e-44c9-a614-b24128bb57bd.vsidx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/v17/.futdcache.v2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ProjectEvaluation/abbcontrollerwrapper.metadata.v7.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ProjectEvaluation/abbcontrollerwrapper.projects.v7.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.Controllers.PC.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.Math.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.RobotStudio.Controllers.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.RobotStudio.Documents.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.RobotStudio.Environment.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.RobotStudio.Stations.Forms.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.RobotStudio.Stations.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.RobotStudio.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABBControllerWrapper.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/dll/RobotStudio.Services.RobApi.Desktop.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/dll/RobotStudio.Services.RobApi.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/muPlant_WarehouseManagement.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/muPlant_WarehouseManagement.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/DesignTimeBuild/.dtbcache.v2" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/DesignTimeBuild/.dtbcache.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/FileContentIndex/aa9a42ac-db6c-4a96-8175-183aba6cbbc0.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/FileContentIndex/b58acaa5-1eea-4957-9f5c-e8c15148270a.vsidx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/v17/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/v17/.suo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper.sln" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/ABBControllerWrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/ABBControllerWrapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/bin/Release/net6.0/ABBControllerWrapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/bin/Release/net6.0/ABBControllerWrapper.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/bin/Release/net6.0/ABBControllerWrapper.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/bin/Release/net6.0/ABBControllerWrapper.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/ABBControllerWrapper.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/ABBControllerWrapper.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/ABBControllerWrapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/ABBControllerWrapper.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/ABBControllerWrapper.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/ABBControllerWrapper.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/ref/ABBControllerWrapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/ref/ABBControllerWrapper.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/refint/ABBControllerWrapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/refint/ABBControllerWrapper.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/Constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/Constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/ABBController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ABBController.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,35 +84,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Lagerzelle/muPlant_WarehouseManagement/Jupyter&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/pink_/Documents/GitHub/muPlant_WarehouseManagement/src/controller/dll",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\pink_\Documents\GitHub\muPlant_WarehouseManagement\src\controller\dll" />
       <recent name="C:\Lagerzelle\muPlant_WarehouseManagement\Jupyter" />
       <recent name="C:\Lagerzelle\muPlant_WarehouseManagement\src\data" />
       <recent name="$PROJECT_DIR$/src/view" />
       <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/src/constants" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Lagerzelle\muPlant_WarehouseManagement\src\data" />
@@ -101,8 +120,8 @@
       <recent name="$PROJECT_DIR$/src/view" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
-    <configuration name="DetectionOptimizationService" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.ABBController">
+    <configuration name="ABBController" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="muPlant_WarehouseManagement" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -110,12 +129,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/service" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/controller" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/service/DetectionOptimizationService.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/controller/ABBController.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -236,11 +255,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.ABBController" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.rfidservice" />
         <item itemvalue="Python.stocktaking" />
         <item itemvalue="Python.standardsettings" />
-        <item itemvalue="Python.DetectionOptimizationService" />
       </list>
     </recent_temporary>
   </component>
@@ -308,6 +327,7 @@
       <workItem from="1699811838007" duration="2254000" />
       <workItem from="1699945857882" duration="7497000" />
       <workItem from="1700237764516" duration="3319000" />
+      <workItem from="1700731251935" duration="1443000" />
     </task>
     <task id="LOCAL-00001" summary="implemented Cup and Product">
       <created>1687298522583</created>
@@ -701,17 +721,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/controller/ABBController.py</url>
-          <line>105</line>
+          <line>117</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/controller/ABBController.py</url>
-          <line>235</line>
+          <line>247</line>
           <option name="timeStamp" value="59" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/controller/ABBController.py</url>
-          <line>50</line>
+          <line>62</line>
           <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -723,11 +743,16 @@
           <url>file://$PROJECT_DIR$/src/service/rfidservice.py</url>
           <option name="timeStamp" value="99" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/controller/ABBController.py</url>
+          <line>33</line>
+          <option name="timeStamp" value="100" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1699953491249" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ABBController.coverage" NAME="ABBController Coverage Results" MODIFIED="1700649450242" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/controller" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ABBController.coverage" NAME="ABBController Coverage Results" MODIFIED="1700732693356" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/controller" />
   </component>
 </project>

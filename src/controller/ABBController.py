@@ -4,7 +4,9 @@ from requests import Session
 from PySide6.QtCore import QObject
 from src.controller.PreferenceController import PreferenceController
 from src.service.EventlogService import EventlogService
+from src.constants.Constants import Constants
 from typing import Any
+import clr
 class ABBController( QObject ):
     """
     class to communicate with ABB RobotWare via ABB's RESTful API.
@@ -17,10 +19,20 @@ class ABBController( QObject ):
         self.username = "Default User"
         self.password = "robotics"
         self.session = None
-        self.ip = 0
+        self.ip = "192.168.2.51" #garbage value
         self.port = 0
+        self.constants = Constants()
+        self.abb_controller = None
     def __del__(self):
         print("ABBController: Destructor called")
+
+    def setup(self):
+        abb_path = "dll/ABBControllerWrapper"
+
+        clr.AddReference(abb_path)
+        from ABBControllerWrapper import ABBControllerWrapper
+        self.abb_controller = ABBControllerWrapper()
+        self.abb_controller.Setup(self.ip)
     def _loadPreferences(self):
         self.ip = self.preference_controller.preferences.abb.ip
         self.port = self.preference_controller.preferences.abb.port
@@ -234,8 +246,4 @@ if __name__ == '__main__':
     eventlogService = EventlogService()
     preferenceController = PreferenceController(eventlogService)
     controller = ABBController(preferenceController=preferenceController, eventlogService= eventlogService)
-    if controller.start_session():
-        controller.request_mastership()
-        controller.request_rmmp()
-        controller.release_mastership()
-        controller.cancel_rmmp()
+    controller.setup()

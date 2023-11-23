@@ -17,16 +17,26 @@ using System.Security.Cryptography;
 
 namespace ABBControllerWrapper
 {
-    public class ControllerWrapper
+    public class ABBControllerWrapper
     {
         private RobotController robotController;
         private IPAddress IPAddressRequested;
         private string ipstring;
         private Task? controllerTask;
-        public ControllerWrapper(string ip) {
+        public ABBControllerWrapper() {
             robotController = new RobotController();
+           
+        }
+        ~ABBControllerWrapper() { 
+            if (this.robotController != null)
+            {
+                this.robotController.Disconnect();
+            }
+        }
+        public bool Setup(string ip)
+        {
             this.ipstring = ip;
-            if( IPAddress.TryParse(ipstring, out IPAddress iPAddress))
+            if (IPAddress.TryParse(ipstring, out IPAddress iPAddress))
             {
                 this.IPAddressRequested = iPAddress;
             }
@@ -34,15 +44,6 @@ namespace ABBControllerWrapper
             {
                 throw new ArgumentException("submitted ip address could not be parsed: ", nameof(iPAddress));
             }
-        }
-        ~ControllerWrapper() { 
-            if (this.robotController != null)
-            {
-                this.robotController.Disconnect();
-            }
-        }
-        public bool Setup()
-        {
             this.controllerTask = this.robotController.TryConnectAsync(this.IPAddressRequested);
             return this.robotController.IsConnected;
         }
