@@ -1,0 +1,18 @@
+StocktakingDelegate
+==================
+
+Bei diesem QML-Datentyp handelt es sich um das Delegate welches sowohl in der Tabellenansicht als auch in der
+Listenansicht des StocktakingPlugins verwendet wird.
+Es visualisiert einen Lagerplatz mit den Zuständen vor und nach dem Inventurvorgang.
+Eine Palette ist durch ein Rechteck dargestellt. Ist sie vorhanden, ist die Füllfarbe des Rechtecks hellblau.
+In ihr sind zwei weitere Rechtecke, die je einen Becher in Platz a und Platz b der Palette darstellen.
+Für die Becher und die Palette gibt es je ein icon, welches in Abhängigkeit eines Soll/Ist Vergleichs der beiden Zustände
+angezeigt wird. Stimmen die Daten vor- und nach dem Inventurvorgang überein, wird ein grünes Symbol mit weißem Haken angezeigt.
+Gibt es eine Abweichung, wird ein rotes Symbol mit weißem Ausrufezeichen angezeigt.
+
+Ist der Inventurvergang noch nicht erfolgt, werden die icons ausgeblendet. Der Rand um beide Zustände ist rot eingefärbt.
+Ist der Inventurvorgang für diesen Lagerslot abgeschlossen, wird dieser grün eingefärbt.
+
+.. literalinclude:: ../../src/view/StocktakingDelegate.qml
+    :language: javascript
+    :linenos:
