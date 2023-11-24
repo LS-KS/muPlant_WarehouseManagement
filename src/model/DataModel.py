@@ -21,7 +21,7 @@ class Inventory:
         :param controller:
 
         """
-        self.pallets : List[StorageElement] = []
+        self.pallets : List[List[StorageElement]] = []
         self.invController = controller
         for row in range(3):
             self.pallets.append([])
@@ -31,9 +31,13 @@ class Inventory:
 
     def getStoragePallet(self, row, col):
         """
+        Returns pallet object at given index.
         :param row:
+        :type row: int
         :param col:
+        :type col: int
         :return: Returns Pallet object at given position
+        :rtype: Pallet or None if no pallet is stored
         """
         return self.pallets[row][col].pallet
     def setStoragePallet(self, row, col, pallet):
@@ -547,8 +551,8 @@ class StorageElement:
         :param inventory: parent class of StorageElement
         :type inventory: Inventory
         """
-        self.row = row
-        self.col = col
+        self.row: int = row
+        self.col: int = col
         self.pallet : Pallet = None
         self.inventory : Inventory = inventory
         self.locations : List[Locations]= []

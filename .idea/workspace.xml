@@ -8,22 +8,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1bb59e4-14c6-46d3-92d8-82a94a6183ab" name="Changes" comment="setup data signals of rfid_Service. &#10;updated sphinx">
-      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.Controllers.PC.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.Math.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.RobotStudio.Controllers.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.RobotStudio.Documents.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.RobotStudio.Environment.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.RobotStudio.Stations.Forms.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.RobotStudio.Stations.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABB.Robotics.RobotStudio.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/dll/ABBControllerWrapper.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/dll/RobotStudio.Services.RobApi.Desktop.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/dll/RobotStudio.Services.RobApi.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/muPlant_WarehouseManagement.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/muPlant_WarehouseManagement.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/DesignTimeBuild/.dtbcache.v2" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/DesignTimeBuild/.dtbcache.v2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/FileContentIndex/aa9a42ac-db6c-4a96-8175-183aba6cbbc0.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/FileContentIndex/b58acaa5-1eea-4957-9f5c-e8c15148270a.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/FileContentIndex/a5e86098-b26d-4ca1-8f8c-781c389e2ce9.vsidx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/v17/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/v17/.suo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/ABBControllerWrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/ABBControllerWrapper.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/bin/Release/net6.0/ABBControllerWrapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/bin/Release/net6.0/ABBControllerWrapper.dll" afterDir="false" />
@@ -33,8 +19,8 @@
       <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/ABBControllerWrapper.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/ABBControllerWrapper.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/ref/ABBControllerWrapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/ref/ABBControllerWrapper.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/refint/ABBControllerWrapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/ABBControllerWrapper/obj/Release/net6.0/refint/ABBControllerWrapper.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/Constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/Constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/ABBController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ABBController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/dll/ABBControllerWrapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/dll/ABBControllerWrapper.dll" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -327,7 +313,7 @@
       <workItem from="1699811838007" duration="2254000" />
       <workItem from="1699945857882" duration="7497000" />
       <workItem from="1700237764516" duration="3319000" />
-      <workItem from="1700731251935" duration="1443000" />
+      <workItem from="1700731251935" duration="4159000" />
     </task>
     <task id="LOCAL-00001" summary="implemented Cup and Product">
       <created>1687298522583</created>
@@ -721,18 +707,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/controller/ABBController.py</url>
-          <line>117</line>
+          <line>45</line>
           <option name="timeStamp" value="56" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/controller/ABBController.py</url>
-          <line>247</line>
-          <option name="timeStamp" value="59" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/controller/ABBController.py</url>
-          <line>62</line>
-          <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/service/OpcuaService.py</url>
@@ -745,7 +721,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/controller/ABBController.py</url>
-          <line>33</line>
+          <line>30</line>
           <option name="timeStamp" value="100" />
         </line-breakpoint>
       </breakpoints>
@@ -753,6 +729,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1699953491249" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ABBController.coverage" NAME="ABBController Coverage Results" MODIFIED="1700732693356" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/controller" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ABBController.coverage" NAME="ABBController Coverage Results" MODIFIED="1700748761952" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/controller" />
   </component>
 </project>

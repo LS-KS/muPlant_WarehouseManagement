@@ -1,7 +1,7 @@
 from PySide6.QtCore import Signal, Slot, QObject
-from PySide6.QtCore import Qt, QAbstractTableModel, QByteArray, QModelIndex
+from PySide6.QtCore import Qt, QAbstractTableModel, QByteArray, QModelIndex, QSortFilterProxyModel
 from src.model.EventModel import EventMessage
-from typing import List, Dict, Any, Union
+from typing import List, Dict, Any, Optional, Union
 class EventViewModel(QAbstractTableModel):
 
     def __init__(self, messages):
@@ -22,14 +22,15 @@ class EventViewModel(QAbstractTableModel):
         return roles
 
     def add(self, msg : EventMessage):
-        self.beginInsertRows(QModelIndex(), 0, 1)
-        self.messages.append(msg)
+        self.beginInsertRows(QModelIndex(), 0, 0)
+        self.messages.insert(0, msg)
         self.endInsertRows()
+
     def data(self, index: QModelIndex, role: int) -> Any:
         if index.row() < 0 or index.row() >= len(self.messages):
-            return None
+            return "row out of range"
         if index.column() < 0 or index.column() >= 3:
-            return None
+            return "column out of range"
         row = index.row()
         col = index.column()
         if col == 0:
@@ -40,7 +41,7 @@ class EventViewModel(QAbstractTableModel):
         elif col == 2:
             msg = self.messages[row].message
         else:
-            return None
+            return "None"
         if role == Qt.DisplayRole + 0:
             return str(msg)
         elif role == Qt.DisplayRole + 1:
@@ -57,4 +58,28 @@ class EventViewModel(QAbstractTableModel):
             elif section == 2:
                 return "Message"
         return super().headerData(section, orientation, role)
+    
+class EventSortModel(QSortFilterProxyModel):
+    
+    def __init__(self, parent: QObject | None = None):
+        super().__init__(parent)
+        self.model: EventViewModel = None
+
+    def lessThan(self, source_left: QModelIndex, source_right: QModelIndex ) -> bool:
+        left_row = source_left.row()
+        right_row = source_right.row()
+        if left_row < 0 or left_row >= len(self.model.messages) or right_row < 0 or right_row >= len(self.model.messages):
+            return False
+        left_time = self.model.messages[left_row].time
+        right_time = self.model.messages[right_row].time
+        return left_time > right_time
+
+    
+    def setSourceModel(self, sourceModel: QAbstractTableModel):
+        super().setSourceModel(sourceModel)
+        self.model = sourceModel
+
+    def filterAcceptsRow(self, source_row: int, source_parent: QModelIndex) -> bool:
+        return True
+        
 

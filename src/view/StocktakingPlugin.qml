@@ -5,72 +5,229 @@ import QtQuick.Layouts 1.3
 
 ApplicationWindow{
     id: stocktakerwindow
+    width: 1300
+    height: 1100
+    title: "Stocktaking - Overview"
     ColumnLayout{
         id: maincolumn
         anchors.fill: parent
         Layout.fillHeight: true
         Layout.fillWidth: true
-
         TableView{
             id: storagevisu
+            Layout.minimumHeight: 750
+            rowSpacing: 5
+            columnSpacing: 5
             model: storagemodel
             Layout.fillWidth: true
-            Layout.fillHeight: true
-            delegate: Rectangle{
-                width: 10
-                height: 10
+            Layout.fillHeight: false
+            Layout.preferredHeight: 600
+            delegate:Row{
+                id: stockrow
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                spacing: 10
+                Rectangle{
+                    id: stocklabel
+                    width: 50
+                    height: 200
+                    color: "#00ffffff"
+                    visible: model.column === 0
+                    anchors.verticalCenter: parent.verticalCenter
+                    ColumnLayout{
+                        id: stocklablecol
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        Rectangle{
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                            color: "#00ffffff"
+                        }
+                        Text {
+                            text: qsTr("a")
+                            horizontalAlignment: Text.AlignHCenter
+                            font.bold: true
+                            font.pointSize: 14
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                        }
+                        Text {
+                            text: qsTr("b")
+                            horizontalAlignment: Text.AlignHCenter
+                            font.bold: true
+                            font.pointSize: 14
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                        }
+                        Rectangle{
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                            color: "#00ffffff"
+                        }
+                    }
+                }
+                Column{
+                    id: column
+                    Text{
+                        text: "L" + ((model.row * 6) + (model.column + 1))
+                        font.bold: true
+                        font.pointSize: 14
+                        horizontalAlignment: Text.AlignHCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        Layout.fillWidth: true
+                    }
+                    StocktakingDelegate{
+                        height: 200
+                        width: 200
+                        previous_pallet: model.previous_pallet
+                        previous_cupA: model.previous_cupA
+                        previous_cupB: model.previous_cupB
+                        new_pallet : model.new_pallet
+                        new_cupA: model.new_cupA
+                        new_cupB: model.new_cupB
+                        tested: model.tested
+                    }
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                }
             }
         }
         ListView{
             id: tablevisu
-            model: tablemodel
+            Layout.minimumHeight: 250
+            Layout.maximumHeight: 250
+            Layout.preferredHeight: 10
             Layout.fillWidth: true
-            Layout.fillHeight: true
-            delegate: Rectangle{
-                width: 10
-                height: 10
+            Layout.fillHeight:true
+            model: tablemodel
+            orientation: Qt.Horizontal
+            delegate: Row{
+                id: row
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                spacing: 10
+                Rectangle{
+                    id: tablelabel
+                    width: 50
+                    height: 200
+                    color: "#00ffffff"
+                    visible: model.row === 0
+                    anchors.verticalCenter: parent.verticalCenter
+                    ColumnLayout{
+                        id: tablelablecol
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        Rectangle{
+                            id: filler_rect
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                            color: "#00ffffff"
+                        }
+                        Text {
+                            id: table_a
+                            text: qsTr("a")
+                            horizontalAlignment: Text.AlignHCenter
+                            font.bold: true
+                            font.pointSize: 14
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                        }
+                        Text {
+                            id: table_b
+                            text: qsTr("b")
+                            horizontalAlignment: Text.AlignHCenter
+                            font.bold: true
+                            font.pointSize: 14
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                        }
+                        Rectangle{
+                            id: filler_rect2
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                            color: "#00ffffff"
+                        }
+                    }
+                }
+                Column{
+                    id: tablecolumn
+                    Text{
+                        text: "K" + (model.row + 1)
+                        font.bold: true
+                        font.pointSize: 14
+                        horizontalAlignment: Text.AlignHCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        Layout.fillWidth: true
+                    }
+                    StocktakingDelegate{
+                        height: 200
+                        width: 200
+                        previous_pallet: model.previous_pallet
+                        previous_cupA: model.previous_cupA
+                        previous_cupB: model.previous_cupB
+                        new_pallet : model.new_pallet
+                        new_cupA: model.new_cupA
+                        new_cupB: model.new_cupB
+                        tested: model.tested
+                    }
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                }
+
             }
         }
         RowLayout{
             id: buttonRow
-            Layout.fillHeight: false
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.preferredHeight: 5
             Button{
                 id: overviewcamButton
-                text: "Übersichtskamera"
+                text: "Overview Camera"
                 onClicked: {
-                    console.log("Übersichtskamera aufgerufen")
+                    console.log("Called overview camera - not implemented yet")
                 }
+                Layout.fillWidth: true
             }
             Button{
                 id: grippercamButton
-                text: "Greiferkamera"
+                text: "Gripper Camera"
                 onClicked: {
-                    console.log("Greiferkamera aufgerufen")
+                    console.log("called gripper camera")
                     stocktaker.evaluate_gripper()
                 }
+                Layout.fillWidth: true
             }
             Button{
                 id: inventoryButton
-                text: "Inventur durchführen"
+                text: "Perform Inventory"
                 onClicked: {
-                    console.log("Inventur angefordert")
+                    console.log("called stocktaking - not implemented yet")
                 }
+                Layout.fillWidth: true
             }
             Button{
                 id: acceptButton
-                text: "Inventurdaten übernehmen"
+                text: "Accept and Overwrite Inventory"
                 onClicked:{
-                    console.log("Inventur übernehmen")
+                    console.log("called accept - not implemented yet")
                 }
+                Layout.fillWidth: true
             }
             Button{
                 id: autoButton
-                text: "Automatische Inventur"
+                text: "Automated Stocktaking"
                 onClicked:{
-                    console.log("Automatikbetrieb")
+                    console.log("called auto stocktaking - not implemented yet")
                 }
+                Layout.fillWidth: true
             }
         }
     }

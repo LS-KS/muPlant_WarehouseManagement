@@ -29,14 +29,17 @@ Window {
         anchors.centerIn: parent
         Text {
             anchors.centerIn: parent
-            text: "Copyright 2023, Lennart Schink"
+            text: "Created in 2023, Lennart Schink\nQuestions? Contact me via mail:\nL.i.schink@gmail.com"
         }
-        Button {
-            text: qsTr("Close")
-            onClicked: aboutDialog.close()
+        Row {
             anchors{
                 bottom: parent.bottom
                 horizontalCenter: parent.horizontalCenter
+            }
+
+            Button {
+                text: qsTr("Close")
+                onClicked: aboutDialog.close()
             }
         }
     }
@@ -88,7 +91,7 @@ Window {
 
             }
             Action {
-                text: qsTr("&Camera Application")
+                text: qsTr("&tocktaking Application")
                 onTriggered: {
                     console.log("stocktaker action triggered")
                     var stocktakerComponent = Qt.createComponent("StocktakingPlugin.qml")

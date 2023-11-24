@@ -1,7 +1,7 @@
-from PySide6.QtCore import Signal, Slot, QObject
+from PySide6.QtCore import Signal, Slot, QObject, Qt
 from datetime import datetime
 from src.model.EventModel import EventMessage
-from src.viewmodel.EventViewModel import EventViewModel
+from src.viewmodel.EventViewModel import EventViewModel, EventSortModel
 class EventlogService (QObject):
     """
 
@@ -17,6 +17,9 @@ class EventlogService (QObject):
         super().__init__()
         self.messages = []
         self.eventViewModel = EventViewModel(self.messages)
+        #self.eventSortModel = EventSortModel()
+        #self.eventSortModel.setSourceModel(self.eventViewModel)
+        #self.eventSortModel.sort(0, Qt.DescendingOrder)
 
     def createMessage(self,source, message):
         """
@@ -47,4 +50,3 @@ class EventlogService (QObject):
         """
         #print("Eventcontroller: "+message)
         msg = self.createMessage(source, message)
-        self.messages.append(msg)

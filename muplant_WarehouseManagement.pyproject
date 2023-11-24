@@ -21,7 +21,6 @@
         "src/agentlib/muplant_order.py",
         "src/agentlib/muplant_params.py",
         "src/agentlib/muplant_station.py",
-        "src/agentlib/muplant_station.py",
         "src/assets/KommissionTable.svg",
         "src/assets/Lock_closed.svg",
         "src/assets/Lock_open.svg",
@@ -191,6 +190,7 @@
         "src/viewmodel/productlistViewModel.py",
         "src/viewmodel/storageViewModel.py",
         "test/test_inventory.py",
-        "test/test_inventoryController.py"
+        "test/test_inventoryController.py",
+        "src/view/StocktakingDelegate.qml"
     ]
 }

@@ -76,7 +76,7 @@ Rectangle {
             checked: false
             onCheckedChanged: {
                 if (isSelected.checked !== selected){
-                    rfidController.selectNode(idVal, checked)
+                    rfidController.select_node(idVal, checked)
                 }
             }
             Component.onCompleted: {

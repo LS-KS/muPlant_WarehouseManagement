@@ -15,26 +15,16 @@ using System.Collections.ObjectModel;
 using Task = System.Threading.Tasks.Task;
 using System.Security.Cryptography;
 
-namespace ABBControllerWrapper
+namespace ABBPythonLinker
 {
-    public class ABBControllerWrapper
+    public class ABBLinker
     {
         private RobotController robotController;
         private IPAddress IPAddressRequested;
         private string ipstring;
         private Task? controllerTask;
-        public ABBControllerWrapper() {
+        public ABBLinker(string ip) {
             robotController = new RobotController();
-           
-        }
-        ~ABBControllerWrapper() { 
-            if (this.robotController != null)
-            {
-                this.robotController.Disconnect();
-            }
-        }
-        public bool Setup(string ip)
-        {
             this.ipstring = ip;
             if (IPAddress.TryParse(ipstring, out IPAddress iPAddress))
             {
@@ -44,7 +34,23 @@ namespace ABBControllerWrapper
             {
                 throw new ArgumentException("submitted ip address could not be parsed: ", nameof(iPAddress));
             }
-            this.controllerTask = this.robotController.TryConnectAsync(this.IPAddressRequested);
+        }
+        ~ABBLinker() { 
+            if (this.robotController != null)
+            {
+                this.robotController.Disconnect();
+            }
+        }
+        public bool Setup()
+        {
+            try {
+                this.controllerTask = this.robotController.TryConnectAsync(this.IPAddressRequested);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error during Setup: {e.ToString()}");
+                return false;
+            }
             return this.robotController.IsConnected;
         }
         /// <summary>
@@ -135,7 +141,6 @@ namespace ABBControllerWrapper
         private bool isExecuting = false;
         private bool executable = false;
         private string command = string.Empty;
-        private string description = string.Empty;
         #endregion
 
         #region Properties Handlers:
@@ -175,27 +180,7 @@ namespace ABBControllerWrapper
                 }
             }
         }
-        public string Description
-        {
-            get { return description; }
-            set
-            {
-                if (description != value)
-                {
-                    description = value;
-                    NotifyPropertyChanged("Description");
-                }
-            }
-        }
         #endregion
-
-        #region Variables
-        public ushort cupID;
-        public ushort prodID;
-        public bool requireMobileRobot;
-        public bool shouldCheckID;
-        #endregion
-
 
         #region Static Methods
         /// <summary>
@@ -223,8 +208,6 @@ namespace ABBControllerWrapper
             cmd.command = string.Format("Palette_{0}_{1}_1_{2}", station, position, w_col + 1);
             cmd.IsExecuting = false;
             cmd.Executable = executable;
-            cmd.requireMobileRobot = false;
-            cmd.shouldCheckID = false;
             return cmd;
         }
         /// <summary>
@@ -249,8 +232,6 @@ namespace ABBControllerWrapper
             cmd.command = string.Format("Palette_1_{2}_{0}_{1}", station, position, w_col + 1);
             cmd.IsExecuting = false;
             cmd.Executable = executable;
-            cmd.requireMobileRobot = false;
-            cmd.shouldCheckID = false;
             return cmd;
         }
         /// <summary>
@@ -308,8 +289,6 @@ namespace ABBControllerWrapper
             ControllerCommand cmd = new ControllerCommand();
 
             cmd.command = string.Format("Becher_1_{0}_{1}_1_{2}_{3}", from_col + 1, from_pos + 1, to_col + 1, to_pos + 1);
-            cmd.cupID = 0;
-            cmd.prodID = 0;
             cmd.IsExecuting = false;
             cmd.Executable = executable;
             return cmd;

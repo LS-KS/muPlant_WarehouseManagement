@@ -74,14 +74,14 @@ ApplicationWindow {
             text: "Select All"
             Layout.preferredWidth: 150
             onClicked:{
-                rfidController.selectAll()
+                rfidController.select_all()
             }
         }
         Button{
             text: "Select None"
             Layout.preferredWidth: 150
             onClicked:{
-                rfidController.selectNone()
+                rfidController.select_none()
             }
         }
     }
@@ -95,21 +95,21 @@ ApplicationWindow {
             text: "Remove Selected"
             Layout.preferredWidth: 150
             onClicked: {
-                rfidController.removeSelected()
+                rfidController.remove_selected()
             }
         }
         Button{
             text: "Start Selected"
             Layout.preferredWidth: 150
             onClicked: {
-                rfidController.startSelected()
+                rfidController.start_selected()
             }
         }
         Button{
             text: "Stop Selected"
             Layout.preferredWidth: 150
             onClicked: {
-                rfidController.stopSelected()
+                rfidController.stop_selected()
             }
         }
     }

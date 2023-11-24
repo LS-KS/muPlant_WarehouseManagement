@@ -27,7 +27,11 @@ from src.service.rfidservice import RfidService
 from src.service.stocktaking import Stocktaker
 from src.controller.ABBController import ABBController
 from src.viewmodel.stockmodel import stockmodel, tablemodel
+from src.viewmodel.EventViewModel import EventSortModel
 
+#TODO: check and correct function of START / STOP Buttons in main.qml - this should quit and reset all services.
+#TODO: find out why async OPC UA Server doesnt get destroyed when quit is called.
+#TODO: find out why eventlogservice is not callable from OPC UA Server (use signal emitted by opc ua service and connected to eventlogservice.writeEvent())
 
 if __name__ == '__main__':
     app = QGuiApplication(sys.argv)
@@ -43,6 +47,7 @@ if __name__ == '__main__':
 
     # creates EventlogService object and sets itself as rootContext
     eventlogService = EventlogService()
+    #engine.rootContext().setContextProperty("eventModel", eventlogService.eventSortModel)
     engine.rootContext().setContextProperty("eventModel", eventlogService.eventViewModel)
     inventoryController.eventlogService = eventlogService
     engine.rootContext().setContextProperty("eventLogController", eventlogService)
@@ -96,8 +101,8 @@ if __name__ == '__main__':
     engine.addImageProvider("stocktaker", stocktaker)
 
     #create stockmodel
-    stock_model = stockmodel()
-    table_model = tablemodel()
+    stock_model = stockmodel(inv_controller=inventoryController)
+    table_model = tablemodel(inv_controller=inventoryController)
     engine.rootContext().setContextProperty("storagemodel", stock_model)
     engine.rootContext().setContextProperty("tablemodel", table_model)
 
