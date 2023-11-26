@@ -116,7 +116,7 @@ Creates a dictionary with rolenames and roles.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.viewmodel.productlistViewModel.ProductListViewModel.rowCount">
-<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x0000023944343440&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent:</span> <span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))</span> <span class="pre">at</span> <span class="pre">0x0000027B86E42480&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/viewmodel/productlistViewModel.html#ProductListViewModel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.productlistViewModel.ProductListViewModel.rowCount" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns number of rows at index
 :param parent:
 :type: QModelIndex
@@ -458,6 +458,227 @@ Creates a dictionary with rolenames and roles.
 </dd></dl>
 
 </section>
+<section id="stockmodel">
+<h2>stockmodel<a class="headerlink" href="#stockmodel" title="Permalink to this heading">¶</a></h2>
+<p>Das Modul stockmodel enthält zwei Klassen, die für die Visualisierung des Inventur-Prozesses benutzt werden.</p>
+<span class="target" id="module-src.viewmodel.stockmodel"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stock_delegate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.viewmodel.stockmodel.</span></span><span class="sig-name descname"><span class="pre">stock_delegate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/viewmodel/stockmodel.html#stock_delegate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.stockmodel.stock_delegate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stock_delegate.new_cupA">
+<span class="sig-name descname"><span class="pre">new_cupA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#src.viewmodel.stockmodel.stock_delegate.new_cupA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stock_delegate.new_cupB">
+<span class="sig-name descname"><span class="pre">new_cupB</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#src.viewmodel.stockmodel.stock_delegate.new_cupB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stock_delegate.new_pallet">
+<span class="sig-name descname"><span class="pre">new_pallet</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#src.viewmodel.stockmodel.stock_delegate.new_pallet" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stock_delegate.previous_cupA">
+<span class="sig-name descname"><span class="pre">previous_cupA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#src.viewmodel.stockmodel.stock_delegate.previous_cupA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stock_delegate.previous_cupB">
+<span class="sig-name descname"><span class="pre">previous_cupB</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#src.viewmodel.stockmodel.stock_delegate.previous_cupB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stock_delegate.previous_pallet">
+<span class="sig-name descname"><span class="pre">previous_pallet</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#src.viewmodel.stockmodel.stock_delegate.previous_pallet" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stock_delegate.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;stock_delegate&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.viewmodel.stockmodel.stock_delegate.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stock_delegate.tested">
+<span class="sig-name descname"><span class="pre">tested</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#src.viewmodel.stockmodel.stock_delegate.tested" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stockmodel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.viewmodel.stockmodel.</span></span><span class="sig-name descname"><span class="pre">stockmodel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inv_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.invController.invController" title="src.controller.invController.invController"><span class="pre">invController</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/viewmodel/stockmodel.html#stockmodel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.stockmodel.stockmodel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QAbstractTableModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stockmodel.columnCount">
+<span class="sig-name descname"><span class="pre">columnCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QModelIndex</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/src/viewmodel/stockmodel.html#stockmodel.columnCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.stockmodel.stockmodel.columnCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented for inherited viewmodel class.
+Returns the number of columns of this viewmodel’s table data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>parent</strong> (<em>QModelIndex</em>) – The parent index. Must exist as argument for this method but is unused in this case.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of columns of this viewmodel’s table data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stockmodel.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QModelIndex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/viewmodel/stockmodel.html#stockmodel.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.stockmodel.stockmodel.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented for inherited viewmodel class.
+Returns the data to be displayed in the specified index and role.
+You can get the role name by calling roleNames() method of this viewmodel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>QModelIndex</em>) – The index of the item. Must exist as argument for this method but is unused in this case.</p></li>
+<li><p><strong>role</strong> (<em>int</em>) – The role of the item (not roleName).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data to be displayed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[str, int, bool, None]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stockmodel.roleNames">
+<span class="sig-name descname"><span class="pre">roleNames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/viewmodel/stockmodel.html#stockmodel.roleNames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.stockmodel.stockmodel.roleNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented for inherited viewmodel class.
+Returns a dictionary mapping role names to their corresponding role values.</p>
+<p>:return roles : A dictionary mapping role names to their corresponding role values.
+:rtype: dict [int, QByteArray]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stockmodel.rowCount">
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QModelIndex</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/src/viewmodel/stockmodel.html#stockmodel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.stockmodel.stockmodel.rowCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented for inherited viewmodel class.
+Returns the number of rows of this viewmodel’s table data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>parent</strong> (<em>QModelIndex</em>) – The parent index.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of rows of this viewmodel’s table data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stockmodel.setData">
+<span class="sig-name descname"><span class="pre">setData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QModelIndex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/viewmodel/stockmodel.html#stockmodel.setData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.stockmodel.stockmodel.setData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented for inherited viewmodel class.
+Sets the data for the specified index with the given value and role.
+You can get the role name by calling roleNames() method of this viewmodel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>QModelIndex</em>) – The index of the item to set the data for.</p></li>
+<li><p><strong>value</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>, </em><em>bool</em><em>, </em><em>None</em><em>]</em>) – The new value to set.</p></li>
+<li><p><strong>role</strong> (<em>int</em>) – The role of the data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the data was successfully set, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.stockmodel.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;stockmodel&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QAbstractTableModel&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.viewmodel.stockmodel.stockmodel.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.tablemodel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.viewmodel.stockmodel.</span></span><span class="sig-name descname"><span class="pre">tablemodel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inv_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.invController.invController" title="src.controller.invController.invController"><span class="pre">invController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/viewmodel/stockmodel.html#tablemodel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.stockmodel.tablemodel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QAbstractListModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.tablemodel.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QModelIndex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/viewmodel/stockmodel.html#tablemodel.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.stockmodel.tablemodel.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented for inherited viewmodel class.
+Returns the data to be displayed in the specified index and role.
+You can get the role name by calling roleNames() method of this viewmodel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>QModelIndex</em>) – The index of the item.</p></li>
+<li><p><strong>role</strong> (<em>int</em>) – The role of the item (not roleName).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data to be displayed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[str, int, bool, None]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.tablemodel.roleNames">
+<span class="sig-name descname"><span class="pre">roleNames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/viewmodel/stockmodel.html#tablemodel.roleNames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.stockmodel.tablemodel.roleNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented for inherited viewmodel class.
+Returns a dictionary mapping role names to their corresponding role values.</p>
+<p>:return roles : A dictionary mapping role names to their corresponding role values.
+:rtype: dict [int, QByteArray]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.tablemodel.rowCount">
+<span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PySide6.QtCore.QModelIndex</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QPersistentModelIndex</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Invalid(PySide6.QtCore.QModelIndex)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/src/viewmodel/stockmodel.html#tablemodel.rowCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.stockmodel.tablemodel.rowCount" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.tablemodel.setData">
+<span class="sig-name descname"><span class="pre">setData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QModelIndex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/viewmodel/stockmodel.html#tablemodel.setData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.viewmodel.stockmodel.tablemodel.setData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must be implemented for inherited viewmodel class.
+Sets the data for the specified index with the given value and role.
+You can get the role name by calling roleNames() method of this viewmodel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>QModelIndex</em>) – The index of the item to set the data for.</p></li>
+<li><p><strong>value</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>, </em><em>bool</em><em>, </em><em>None</em><em>]</em>) – The new value to set.</p></li>
+<li><p><strong>role</strong> (<em>int</em>) – The role of the data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the data was successfully set, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.viewmodel.stockmodel.tablemodel.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;tablemodel&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QAbstractListModel&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.viewmodel.stockmodel.tablemodel.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -490,6 +711,7 @@ Creates a dictionary with rolenames and roles.
 <li class="toctree-l3"><a class="reference internal" href="#productsummaryviewmodel">productSummaryViewModel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#storageviewmodel">storageViewModel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#commissionviewmodel">commissionViewModel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stockmodel">stockmodel</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="constants.html">Constants</a></li>

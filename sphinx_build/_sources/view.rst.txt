@@ -32,6 +32,10 @@ Das GUI ist in QML geschrieben und wird durch die QML-Engine des Qt-Frameworks g
 
    Views/StackLayoutView
 
+   Views/StocktakingPlugin
+
+   Views/StocktakingDelegate
+
    Views/GripperDialog
 
    Views/PreferenceDialog

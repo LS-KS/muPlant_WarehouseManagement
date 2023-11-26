@@ -25,16 +25,16 @@ class invController(QObject):
         Controller class which gives access to DataModel module to remain consistent Data.
         """
         super().__init__(parent)
-        self.inventory = Inventory(self)
-        self.mobileRobot = MobileRobot()
-        self.gripper = Gripper()
-        self.workbench = Workbench()
-        self.constants = Constants()
-        self.storageViewModel : StorageViewModel | None = None
+        self.inventory: Inventory = Inventory(self)
+        self.mobileRobot: MobileRobot = MobileRobot()
+        self.gripper: Gripper = Gripper()
+        self.workbench: Workbench = Workbench()
+        self.constants: Constants = Constants()
+        self.storageViewModel: StorageViewModel | None = None
         self.productListViewModel: ProductListViewModel | None = None
         self.productSummaryViewModel: ProductSummaryViewModel | None = None
         self.eventlogService: EventlogService | None = None
-        self.productList = []
+        self.productList: list[Product] = []
         self.__loadData()
 
     @Slot(str)
@@ -164,7 +164,7 @@ class invController(QObject):
         productAName = self.__productFromID(productAID).name
         productBName = self.__productFromID(productBID).name
         self.transmitGripper.emit(isPallet, isCup, cupAID, productAID, productAName, cupBID, productBID, productBName)
-        self.eventlogService.writeEvent("Gripper",
+        self.eventlogService.write_event("Gripper",
                                         f"\n*** ATTENTION ***\n\n!!! GRIPPER OVERRIDE !!!\n\nLocation: Gripper\n\n*** DANGER ***\n\nThe storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.\n\n*** THIS IS A LIFE-THREATENING SITUATION ***\n\n>>>>> CHANGES ARE PERMANENT <<<<<\n\n_____\n")
     @Slot()
     def loadGripper(self):
@@ -311,7 +311,7 @@ class invController(QObject):
         pallet = self.storageViewModel.setData(index, isPallet, role=rolePallet)
         self.storageViewModel.dataChanged.emit(index, index, [roleCup, roleProduct, roleName, rolePallet])
         self.idSwapped.emit(product, productID)
-        self.eventlogService.writeEvent("USER", "Inventory Override!")
+        self.eventlogService.write_event("USER", "Inventory Override!")
         oldIndex = self.productListViewModel.indexOf(oldproductID)
         self.productListViewModel.setData(oldIndex, -1, role=Qt.UserRole + 3)  # reduces quantity of old product by 1
         newIndex = self.productListViewModel.indexOf(productID)
@@ -430,7 +430,7 @@ class invController(QObject):
         self.transmitWorkbenchPallet.emit(storage, cup_a_id, prod_a_id, prod_a_name, pallet_present, cup_b_id, prod_b_id, prod_b_name)
         self._dumpStorage()
         print(f"transmitWorkbenchPallet emitted:{storage} {cup_a_id}, {prod_a_id},{prod_a_name}, {pallet_present}, {cup_b_id}, {prod_b_id}, {prod_b_name}")
-        self.eventlogService.writeEvent("USER", "Workbench override!")
+        self.eventlogService.write_event("USER", "Workbench override!")
     @Slot(int, int)
     def changeMobileRobot(self, cupID: int, productID: int):
         """
@@ -717,8 +717,10 @@ class invController(QObject):
         for element in storageData:
             if element.isPallet:
                 pallet = Pallet()
-                pallet.setSlotA(Cup(element.a_CupID, self.__productFromID(element.a_ProductID)))
-                pallet.setSlotB(Cup(element.b_CupID, self.__productFromID(element.b_ProductID)))
+                cup_a = Cup(element.a_CupID, self.__productFromID(element.a_ProductID)) if element.a_ProductID != 0 else None
+                pallet.setSlotA(cup_a)
+                cup_b = Cup(element.b_CupID, self.__productFromID(element.b_ProductID)) if element.b_ProductID != 0 else None
+                pallet.setSlotB(cup_b)
                 self.inventory.setStoragePallet(element.row, element.col, pallet)
     import yaml
 

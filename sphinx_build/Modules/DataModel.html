@@ -181,17 +181,13 @@ This way pallets don’t have to bear their location.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.DataModel.Inventory.getStoragePallet">
 <span class="sig-name descname"><span class="pre">getStoragePallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/model/DataModel.html#Inventory.getStoragePallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.DataModel.Inventory.getStoragePallet" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>row</strong> – </p></li>
-<li><p><strong>col</strong> – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Returns Pallet object at given position</p>
-</dd>
-</dl>
+<dd><p>Returns pallet object at given index.
+:param row:
+:type row: int
+:param col:
+:type col: int
+:return: Returns Pallet object at given position
+:rtype: Pallet or None if no pallet is stored</p>
 </dd></dl>
 
 <dl class="py method">

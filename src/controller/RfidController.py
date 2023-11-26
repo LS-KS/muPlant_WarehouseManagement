@@ -148,7 +148,7 @@ class RfidController(QObject):
         """
         Method, connected to RfidService's data signal, is used to update RfidViewModel instance of
         RfidController.
-        If the first argument is True, a tag was read. In that case the submitted values are set as last_valid_ vals.
+        If the first argument is True, a tag was read. In that case the submitted values are set as 'last_valid_' vals.
         Since this method uses the view-model's setData method, the view-model's dataChanged signal is emitted and thus
         the GUI is updated.
         Data will be emitted by the method send_data_to_opcua so OpcUaService is updatet.

@@ -19,7 +19,7 @@ Die Daten werden in der Klasse `RFIDModel` des nachfolgenden Moduls verwaltet.
 Controller
 __________
 
-Die Controllerlogik wird in der Klasse `RFIDController` des nachfolgenden Moduls implementiert.
+Die Controller -Logik wird in der Klasse `RFIDController` des nachfolgenden Moduls implementiert.
 
 .. automodule:: src.controller.RfidController
     :members:
@@ -32,7 +32,7 @@ __________
 Das Plugin nutzt die Serviceklasse `rfid_service` um für einen oder mehrere Listeneinträge der View einen Thread zum
 Auslesen des Lesegeräts zu erstellen.
 
-.. automodule:: src.service.rfid_service
+.. automodule:: src.service.rfidservice
     :members:
     :undoc-members:
     :show-inheritance:

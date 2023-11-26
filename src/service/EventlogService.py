@@ -39,7 +39,7 @@ class EventlogService (QObject):
         return msg
 
     @Slot(str, str)
-    def writeEvent(self, source, message):
+    def write_event(self, source, message):
         """
         obtains two strings, creates an event message from it and emits the formatted string as signal.
         :param source: can be any string

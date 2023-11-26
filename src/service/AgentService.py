@@ -25,7 +25,7 @@ class AgentService(QObject):
             port = self.preferenceController.preferences.modBus.port,
         )
         # TODO: implement OPC Agent Server
-        self.eventlogService.writeEvent("AgentService", "AgentService setup complete")
+        self.eventlogService.write_event("AgentService", "AgentService setup complete")
     
     @Slot()
     def stopAgentService(self):

@@ -11,6 +11,7 @@ Window {
     id: mccWindow
     visible: true
     property bool connected: false
+    title : "Manual Commission Control"
     width: 450
     height: 800
     ScrollView{
@@ -88,6 +89,7 @@ Window {
                     Layout.preferredHeight : 50
                     Layout.preferredWidth: 200
                     model: ['Cup', 'Pallet']
+                    onAccepted: submitButton.enabled = false
                 }
                 Layout.fillWidth: true
             }
@@ -104,6 +106,7 @@ Window {
                     Layout.preferredHeight : 50
                     Layout.preferredWidth: 200
                     model: ['Mobile Robot', 'Commission Table', 'Storage']
+                    onAccepted: submitButton.enabled = false
                 }
                 Layout.fillWidth: true
             }
@@ -130,6 +133,7 @@ Window {
                                     'L16', 'L17', 'L18']
                         }
                     }
+                    onAccepted: submitButton.enabled = false
                 }
                 Layout.fillWidth: true
             }
@@ -150,12 +154,13 @@ Window {
                             if (mccCommissionSource.currentValue === 'Mobile Robot'){
                                 return ['-']
                             }else{
-                                return ['a', 'b']
+                                return ['A', 'B']
                             }
                         }else{
                             return ['NA']
                         }
                     }
+                    onAccepted: submitButton.enabled = false
                 }
                 Layout.fillWidth: true
             }
@@ -172,6 +177,7 @@ Window {
                     Layout.preferredHeight : 50
                     Layout.preferredWidth: 200
                     model: ['Mobile Robot', 'Commission Table', 'Storage']
+                    onAccepted: submitButton.enabled = false
                 }
                 Layout.fillWidth: true
             }
@@ -198,6 +204,7 @@ Window {
                                     'L16', 'L17', 'L18']
                         }
                     }
+                    onAccepted: submitButton.enabled = false
                 }
                 Layout.fillWidth: true
             }
@@ -215,25 +222,42 @@ Window {
                     Layout.preferredWidth: 200
                     model: {
                         if ( mccCommissionObject.currentValue === 'Cup'){
-                            if (mccCommissionSource.currentValue === 'Mobile Robot'){
+                            if (mccCommissionDestination.currentValue === 'Mobile Robot'){
                                 return ['-']
                             }else{
-                                return ['a', 'b']
+                                return ['A', 'B']
                             }
                         }else{
                             return ['NA']
                         }
                     }
+                    onAccepted: submitButton.enabled = false
                 }
                 Layout.fillWidth: true
             }
             RowLayout{
-                Button{
+                Button {
                     id: checkButton
                     text: "Check Commission"
                     font.pixelSize: 15
-                    Layout.preferredHeight : 50
+                    Layout.preferredHeight: 50
                     Layout.fillWidth: true
+                    onClicked: {
+                        console.log("checkbutton clicked")
+                        let source = mccCommissionSource.currentText === "Mobile Robot"? 'ROBOT' : mccCommissionDetailSource.currentValue
+                        if (mccCommissionObject.currentValue === 'Cup' && mccCommissionSource.currentValue !== 'Mobile Robot') {
+                            source += mccCommissionSourceSlot.currentValue
+                        }
+                        let target = mccCommissionDestination.currentText === "Mobile Robot"? 'ROBOT' :mccCommissionDetailDestination.currentValue
+                        if (mccCommissionObject.currentValue === 'Cup' && mccCommissionDestination.currentValue !== 'Mobile Robot') {
+                            target += mccCommissionDestinationSlot.currentValue
+                        }
+                        const object = mccCommissionObject.currentValue
+                        console.log("Check Commission: " + source + " -> " + target + ", (" + object + ")")
+                        let valid = commissionController.check_commission(source, target, object)
+                        console.log("Result: " + valid)
+                        submitButton.enabled = valid
+                    }
                 }
                 Button{
                     id: submitButton
@@ -242,6 +266,21 @@ Window {
                     Layout.preferredHeight : 50
                     Layout.fillWidth: true
                     enabled: false
+                    onClicked: {
+                        console.log("submitbutton clicked")
+                        let source = mccCommissionSource.currentText === "Mobile Robot"? 'ROBOT' : mccCommissionDetailSource.currentValue
+                        if (mccCommissionObject.currentValue === 'Cup' && mccCommissionSource.currentValue !== 'Mobile Robot') {
+                            source += mccCommissionSourceSlot.currentValue
+                        }
+                        let target = mccCommissionDestination.currentText === "Mobile Robot"? 'ROBOT' :mccCommissionDetailDestination.currentValue
+                        if (mccCommissionObject.currentValue === 'Cup' && mccCommissionDestination.currentValue !== 'Mobile Robot') {
+                            target += mccCommissionDestinationSlot.currentValue
+                        }
+                        const object = mccCommissionObject.currentValue
+                        console.log("Submit Commission: " + source + " -> " + target + ", (" + object + ")")
+                        commissionController.create_new_commission(source, target, object)
+                        submitButton.enabled = false
+                    }
                 }
                 Layout.fillWidth: true
             }

@@ -48,3 +48,13 @@ Das commissionViewModel stellt die Daten der Kommissionsliste als QAbstractListM
     :members:
     :undoc-members:
     :show-inheritance:
+
+stockmodel
+----------
+
+Das Modul stockmodel enthält zwei Klassen, die für die Visualisierung des Inventur-Prozesses benutzt werden.
+
+.. automodule:: src.viewmodel.stockmodel
+    :members:
+    :undoc-members:
+    :show-inheritance:

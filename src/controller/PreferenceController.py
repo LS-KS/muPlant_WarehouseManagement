@@ -34,17 +34,17 @@ class PreferenceController(QObject):
         reconnectRes = self.preferences.modBus.setMaxReconnects(reconnects)
 
         if not ipRes:
-            self.eventLogService.writeEvent("Preferences", f"{ip} is an invalid IP address!")
+            self.eventLogService.write_event("Preferences", f"{ip} is an invalid IP address!")
             self.modbusIPError.emit(True)
         else:
             self.modbusIPError.emit(False)
         if not portRes:
-            self.eventLogService.writeEvent("Preferences", f"Error in port: {port} is an invalid port!")
+            self.eventLogService.write_event("Preferences", f"Error in port: {port} is an invalid port!")
             self.modbusPortError.emit(True)
         else:
             self.modbusPortError.emit(False)
         if not reconnectRes:
-            self.eventLogService.writeEvent("Preferences", f"Error in max reconnects: {reconnects} is not a number")
+            self.eventLogService.write_event("Preferences", f"Error in max reconnects: {reconnects} is not a number")
             self.modbusReconnectError.emit(True)
         else:
             self.modbusReconnectError.emit(False)
@@ -74,12 +74,12 @@ class PreferenceController(QObject):
         ipRes = self.preferences.abb.setIP(ip)
         portRes = self.preferences.abb.setPort(port)
         if not ipRes:
-            self.eventLogService.writeEvent("Preferences", f"{ip} is an invalid IP address!")
+            self.eventLogService.write_event("Preferences", f"{ip} is an invalid IP address!")
             self.abbIPError.emit(True)
         else:
             self.abbIPError.emit(False)
         if not portRes:
-            self.eventLogService.writeEvent("Preferences", f"{port} is an invalid port!")
+            self.eventLogService.write_event("Preferences", f"{port} is an invalid port!")
             self.abbPortError.emit(True)
         else:
             self.abbPortError.emit(False)
@@ -155,5 +155,5 @@ class PreferenceController(QObject):
                 self.preferences.opcua.clientUrl = read['clientUrl']
                 self.preferences.opcua.clientNamespace = read['clientNamespace']
         except FileNotFoundError as e:
-            self.eventLogService.writeEvent("Preferences", "Preferences file not found No preferences can be loaded.")
+            self.eventLogService.write_event("Preferences", "Preferences file not found No preferences can be loaded.")
             print("Preferences file not found No preferences can be loaded." + str(e))

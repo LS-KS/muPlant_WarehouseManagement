@@ -503,68 +503,36 @@ Es gibt kein ViewModel, jedoch werden die Daten über Signal und Slot an Prefere
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.controller.ABBController.</span></span><span class="sig-name descname"><span class="pre">ABBController</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">eventlogService</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="Service.html#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/controller/ABBController.html#ABBController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.ABBController.ABBController" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="src.controller.ABBController.ABBController.cancel_rmmp">
-<span class="sig-name descname"><span class="pre">cancel_rmmp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/controller/ABBController.html#ABBController.cancel_rmmp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.ABBController.ABBController.cancel_rmmp" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.controller.ABBController.ABBController.get_variable">
-<span class="sig-name descname"><span class="pre">get_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/src/controller/ABBController.html#ABBController.get_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.ABBController.ABBController.get_variable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Public Method. Loads actual Settings from PreferenceController (ABB IP and Port).
-After this it writes a GET Request to ABB-Robot Web Service’s RESTful API with submitted variable name.
-Result of GET-Request is submitted to eventlogservice.
-In Case Request was successful, value is returned, else False.
-:param variable_name: Name of variable write to
-:type variable_name: str
-:rtype: Any, False if Request failed.</p>
+<dt class="sig sig-object py" id="src.controller.ABBController.ABBController.move_item">
+<span class="sig-name descname"><span class="pre">move_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/controller/ABBController.html#ABBController.move_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.ABBController.ABBController.move_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>If setup is successful, this method calls the CreateAndExecute method of the ABBLinker class.
+This creates a command task of the SDK and sends an execute command to the controller unit.
+the strings must be formatted accordingly.
+:param source: formatted string of the execute command
+:type source: str
+:param target: formatted string of the execute command
+:type target: str</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.controller.ABBController.ABBController.release_mastership">
-<span class="sig-name descname"><span class="pre">release_mastership</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/controller/ABBController.html#ABBController.release_mastership"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.ABBController.ABBController.release_mastership" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.controller.ABBController.ABBController.request_mastership">
-<span class="sig-name descname"><span class="pre">request_mastership</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="k"><span class="pre">True</span></span></span></span><a class="reference internal" href="../_modules/src/controller/ABBController.html#ABBController.request_mastership"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.ABBController.ABBController.request_mastership" title="Permalink to this definition">¶</a></dt>
-<dd><p>Request mastership of the ABB robot controller.
-This method sends a POST request to the ABB robot controller’s RESTful API to request mastership.
-Mastership is necessary for controlling the robot and performing certain operations.</p>
+<dt class="sig sig-object py" id="src.controller.ABBController.ABBController.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/controller/ABBController.html#ABBController.setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.ABBController.ABBController.setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses clr module to expose .NET framework to Python.
+.NET version is 6.
+Sets up the ABB controller by adding a reference to the ABBControllerWrapper DLL,
+initializing the ABBLinker class, which establishes a connection to IRC5 controller unit of IRB140.
+Hint: Ignore, that references to C# namespaces, classes and methods are not recognized by IDE.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>True if mastership request was successful, False otherwise.</p>
+<dt class="field-odd">Param<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>bool</p>
+<dt class="field-even">Return self.connected<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the setup is successful and a connection is established, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.controller.ABBController.ABBController.request_rmmp">
-<span class="sig-name descname"><span class="pre">request_rmmp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/controller/ABBController.html#ABBController.request_rmmp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.ABBController.ABBController.request_rmmp" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.controller.ABBController.ABBController.set_variable">
-<span class="sig-name descname"><span class="pre">set_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/controller/ABBController.html#ABBController.set_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.ABBController.ABBController.set_variable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Public Method. Loads actual Settings from PreferenceController (ABB IP and Port).
-After this it writes a PUT Request to ABB-Robot Web Service’s RESTful API with submitted variable name and value.
-Result of PUT-Request is submitted to eventlogservice.
-In Case Request was successful, True is returned, else False.
-:param variable_name: Name of variable write to
-:type variable_name: str
-:param value: value that shall be written
-:type value: Any
-:rtype: bool</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.controller.ABBController.ABBController.start_session">
-<span class="sig-name descname"><span class="pre">start_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/src/controller/ABBController.html#ABBController.start_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.ABBController.ABBController.start_session" title="Permalink to this definition">¶</a></dt>
-<dd><p>Start a session with the ABB robot controller’s RESTful API using HTTP digest authentication.
-:return: True if the session was successfully started, False otherwise.
-:rtype: bool</p>
 </dd></dl>
 
 <dl class="py attribute">

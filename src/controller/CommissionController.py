@@ -1,8 +1,10 @@
+from typing import Union
+
 from src.viewmodel.commissionViewModel import CommissionViewModel, CommissionFilterProxyModel
 
 from PySide6.QtCore import QSortFilterProxyModel, Slot, Qt
 from PySide6 import QtCore
-from PySide6.QtCore import QModelIndex
+from PySide6.QtCore import QModelIndex, QObject, Signal, Slot
 from src.model.CommissionModel import CommissionData, CommissionState, Locations
 from src.constants.Constants import Constants
 from src.controller.invController import invController
@@ -10,16 +12,17 @@ from yaml import safe_load, safe_dump
 from src.model.DataModel import Cup, Pallet, Product, StorageElement, Inventory, Workbench
 from src.service.EventlogService import EventlogService
 
-class CommissionController:
+class CommissionController(QObject):
     """
     This class is used to provide a viewModel for all commission data source is a database file where all commissions are saved.
     While operating commissions will be passed to CommisioonController by ModbusService or
     OPCUAService.
     """
     def __init__(self, inventoryController: invController, eventlogService : EventlogService):
+        super().__init__(None)
         self.constants = Constants()
-        self.inventoryController = inventoryController
-        self.eventlogService = eventlogService
+        self.inventoryController: invController = inventoryController
+        self.eventlogService: EventlogService = eventlogService
         self.commissionViewModel = CommissionViewModel(self.loadCommissionData())
         self.dumpCommissionData()
         self.commissionFilterProxyModel = CommissionFilterProxyModel()
@@ -32,10 +35,411 @@ class CommissionController:
         self.validateCommissionData()
 
 
+    @Slot(str, str, str, result=bool)
+    def check_commission(self, source: str, target: str, cup_or_pallet: str) -> bool:
+        """
+        Checks if a new commission would be valid. This method just checks if the source and target could be valid.
+        It does not check if the source and target are empty or if the source and target are the same.
+
+        :param source: source location
+        :type source: str
+        :param target: target location
+        :type target: str
+        :param cup_or_pallet: "Cup" for cup or "Pallet" for pallet
+        :type cup_or_pallet: str
+        :return: True if valid, False if not
+        :rtype: bool
+        """
+        print(f"check_commission called with source: {source}, target: {target}, object: {cup_or_pallet}")
+        source = Locations[source]
+        target = Locations[target]
+        cup = True if cup_or_pallet == "Cup" else False
+        pallet = True if cup_or_pallet == "Pallet" else False
+        valid = [False, False]
+        if cup and source.name[-1] in ['A', 'B']:
+            valid[0] = True 
+        elif pallet and source.name[-1] not in ['A', 'B']:
+            valid[0] = True 
+        if cup and target.name[-1] in ['A', 'B']:
+            valid[1] = True
+        elif pallet and target.name[-1] not in ['A', 'B']:
+            valid[1] = True
+        if pallet and source.name[0] == 'K' and target.name[0] == 'K':    
+            self.eventlogService.write_event("CommissionController", f"Note! Workbench -> Workbench is only valiid for cups.")
+        result = all(valid)
+        return result
+
+
+
+
+    @Slot(str, str, str)
+    def create_new_commission(self, source: str, target: str, cup_or_pallet: str):
+        """
+        Creates a new commission and adds it to the commissionViewModel.
+        Cases: 
+        1.) robot -> workbench (vice versa, cup only) : 1 commission
+        2.) workbench -> workbench (cup only, 2 pallets at workbench, target empty) : 1 commissions
+        3.) workbench -> storage (vice versa, pallet only, with empty target) : 1 commissions
+        4.) workbench -> storage (cup) : 3 commissions (1. storage -> workbench (pallet with empty slot), 2. workbench-> workbench(cup) 3. workbench -> storage (pallet together with cup))
+        5.) storage -> workbench (cup | pallet, at least one slot for pallet in workbench empty) : 1 commission
+        6.) storage -> storage (pallet only, with empty workbench) : 4 commissions (1. storage -> workbench, 2. storage -> workbench, 3. workbench -> storage, 4. workbench -> storage)
+        7.) storage -> storage (cup only, empty workbench, target pallet slot is empty) : 5 commissions (1. storage -> workbench (pallet), 2. storage -> workbench (pallet), 3. workbench -> workbench (cup), 4. workbench -> storage (pallet), 5. workbench -> storage (pallet))
+        :param source: source location
+        :type source: str
+        :param target: target location
+        :type target: str
+        :param cup_or_pallet: "Cup" for cup or "Pallet" for pallet
+        :type cup_or_pallet: str
+        """
+        src = Locations[source]
+        trg = Locations[target]
+        source_object = self._get_object_from_location(src)
+        target_object = self._get_object_from_location(trg)
+        cup = True if cup_or_pallet == "Cup" else False
+        pallet = True if cup_or_pallet == "Pallet" else False
+
+        # case 1
+        if src == Locations.ROBOT and trg.name[0] == 'K' and cup:
+            if target_object is None:
+                self._create_new_commission(
+                    source= src,
+                    target= trg,
+                    cup= cup,
+                    pallet= pallet,
+                    object= getattr(source_object, 'id', 0),
+                )
+                self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {trg.value} created")
+        elif trg == Locations.ROBOT and src.name[0] == 'K' and cup:
+            source_object = self._get_object_from_location(src)
+            target_object = self._get_object_from_location(trg)
+            if target_object is None:
+                self._create_new_commission(
+                    source= src,
+                    target= trg,
+                    cup= cup,
+                    pallet= pallet,
+                    object= getattr(target_object, 'id', 0),
+                )
+                self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
+
+        # case 2
+        elif src.name[0] == 'K' and trg.name[0] == 'K' and cup:
+            source_object = self._get_object_from_location(src)
+            target_object = self._get_object_from_location(trg)
+            if target_object is None:
+                self._create_new_commission(
+                    source= src,
+                    target= trg,
+                    cup= cup,
+                    pallet= pallet,
+                    object= getattr(source_object, 'id', 0),
+                )
+                self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
+
+        # case 3
+        elif src.name[0] == 'K' and trg.name[0] == 'L' and pallet:
+            source_object = self._get_object_from_location(src)
+            target_object = self._get_object_from_location(trg)
+            if target_object is None:
+                self._create_new_commission(
+                    source= src.name,
+                    target= trg.name,
+                    cup= cup,
+                    pallet= pallet,
+                    object= 0,
+                )
+                self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
+
+        # case 4
+        elif src.name[0] == 'K' and trg.name[0] == 'L' and cup:
+            source_object = self._get_object_from_location(src)
+            target_object = self._get_object_from_location(trg)
+            other_workbench = 'K' + (1 if target.name[1] == '2' else 1)
+            other_workbenchslot = other_workbench + ('A' if target.name[-1] == 'A' else 'B')
+            # create first commission storage -> workbench
+            if target_object.location is not None and other_workbenchslot is not None:
+                self._create_new_commission(
+                    source= Locations[target[0:-1]], # pull pallet from storage
+                    target= Locations[other_workbench],
+                    cup= False,
+                    pallet= True,
+                    object= 0,
+                )
+                self.eventlogService.write_event("CommissionController", f"New sub-commission from {source} to {target} created")
+            # create second commission workbench -> workbench
+            self._create_new_commission(
+                source = Locations[source],
+                target = Locations[other_workbenchslot],
+                cup = True,
+                pallet = False,
+                object = getattr(self._get_object_from_location(source).id,0),
+            )
+            self.eventlogService.write_event("CommissionController", f"New sub-commission from {source} to {target} created")
+            # create third commission workbench -> storage
+            self._create_new_commission(
+                source = Locations[other_workbenchslot[0:-1]],
+                target = Locations[target[0:-1]],
+                cup = False,
+                pallet = True,
+                object = 0,
+            )
+            self.eventlogService.write_event("CommissionController", f"Final sub-commission from {source} to {target} created")
+    
+        # case 5
+        elif src.name[0] == 'L' and trg.name[0] == 'K' and pallet:
+            source_object = self._get_object_from_location(src)
+            target_object = self._get_object_from_location(trg)
+            if target_object is None:
+                self._create_new_commission(
+                    source= src,
+                    target= trg,
+                    cup= cup,
+                    pallet= pallet,
+                    object= getattr(source_object, 'id', 0),
+                )
+                self.eventlogService.write_event("CommissionController", f"New commission from {source} to {target} created")
+        
+        # case 6
+        elif src.name[0] == 'L' and trg.name[0] == 'L' and pallet:
+            if self._get_object_from_location(Locations['K1']) is None and self._get_object_from_location(Locations['K2']) is None:
+                self._create_new_commission(
+                    source= src,
+                    target= Locations.K1,
+                    cup= cup,
+                    pallet= pallet,
+                    object= getattr(source_object, 'id', 0),
+                )
+                self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K1'].value} created")
+                if target_object is not None:
+                    self._create_new_commission(
+                        source = trg,
+                        target = Locations.K2,
+                        cup = cup,
+                        pallet = pallet,
+                        object = getattr(source_object, 'id', 0),
+                    )
+                    self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K2'].value} created")
+                    self._create_new_commission(
+                        source = Locations.K2,
+                        target = src,
+                        cup = cup,
+                        pallet = pallet,
+                        object = getattr(source_object, 'id', 0),
+                    )
+                    self.eventlogService.write_event("CommissionController", f"New sub-commission from {Locations['K2']} to {src} created")
+                self._create_new_commission(
+                    source = Locations.K1,
+                    target = trg,
+                    cup = cup,
+                    pallet = pallet,
+                    object = getattr(source_object, 'id', 0),
+                )
+                self.eventlogService.write_event("CommissionController", f"Final sub-commission from {Locations['K1'].value} to {src.value} created")
+                
+        # case 7
+        elif src.name[0] == 'L' and trg.name[0] == 'L' and cup:
+            if self._get_object_from_location(trg) is None and self._get_object_from_location(Locations['K1'].name) is None and self._get_object_from_location(Locations['K2'].name) is None:
+                self._create_new_commission(
+                    source= src,
+                    target= Locations['K1'].name,
+                    cup= False,
+                    pallet= True,
+                    object= 0,
+                )
+                self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K1'].value} created")
+                self._create_new_commission(
+                    source = trg,
+                    target = Locations['K2'].name,
+                    cup = False,
+                    pallet = True,
+                    object = 0,
+                )
+                self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K2'].value} created")
+                self._create_new_commission(
+                    source = Locations['K1'+source[-1]].name,
+                    target = Locations['K2'+target[-1]].name,
+                    cup = True,
+                    pallet = False,
+                    object = getattr(source_object, 'id', 0),
+                )
+                self.eventlogService.write_event("CommissionController", f"New sub-commission from {Locations['K1'+ source[-1]].value} to {Locations['K2'+ target[-1]].value} created")
+                self._create_new_commission(
+                    source = Locations['K2'].name,
+                    target = Locations[trg[0:-1]],
+                    cup = False,
+                    pallet = True,
+                    object = 0,
+                )
+                self.eventlogService.write_event("CommissionController", f"New sub-commission from {Locations['K2'].value} to {Locations[trg[0:-1]].value} created")
+                self._create_new_commission(
+                    source = Locations['K1'].name,
+                    target = Locations[src[0:-1]].name,
+                    cup = False,
+                    pallet = True,
+                    object = 0,
+                )
+                self.eventlogService.write_event("CommissionController", f"Final sub-commission from {Locations['K1'].name} to {Locations[src[0:-1]].value} created")
+        check =self.validateCommissionData()
+        if check:
+            self.dumpCommissionData()
+            self.eventlogService.write_event("CommissionController", f"All commissions valid.")
+        else:
+            self.eventlogService.write_event("CommissionController", f"Error! Commission invalid.")
+
+    def _get_object_from_location(self, location: Locations) -> Union[Cup, Pallet]:
+        """
+        Returns the object at the specified location.
+        Parameters
+        :param location: location to get object from
+        :type location: Locations
+        """
+        default = None
+        match location:
+            case Locations.ROBOT:
+                return getattr(self.inventoryController.mobileRobot, 'cup', default)
+            case Locations.K1A:
+                return getattr(self.inventoryController.workbench.k1, 'slotA', default)
+            case Locations.K1B:
+                return getattr(self.inventoryController.workbench.k1, 'slotB', default)
+            case Locations.K2A:
+                return getattr(self.inventoryController.workbench.k2, 'slotA', default)
+            case Locations.K2B:
+                return getattr(self.inventoryController.workbench.k2, 'slotB', default)
+            case Locations.GRIPPER:
+                return self.inventoryController.gripper.object
+            case Locations.STORAGE:
+                return None
+            case Locations.L1:
+                return self.inventoryController.inventory.getStoragePallet(0, 0)
+            case Locations.L1A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(0, 0), 'slotA', default)
+            case Locations.L1B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(0, 0), 'slotB', default)
+            case Locations.L2:
+                return self.inventoryController.inventory.getStoragePallet(0, 1)
+            case Locations.L2A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(0, 1), 'slotA', default)
+            case Locations.L2B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(0, 1), 'slotB', default)
+            case Locations.L3:
+                return self.inventoryController.inventory.getStoragePallet(0, 2)
+            case Locations.L3A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(0, 2), 'slotA', default)
+            case Locations.L3B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(0, 2), 'slotB', default)
+            case Locations.L4:
+                return self.inventoryController.inventory.getStoragePallet(0, 3)
+            case Locations.L4A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(0, 3), 'slotA', default)
+            case Locations.L4B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(0, 3), 'slotB', default)
+            case Locations.L5:
+                return self.inventoryController.inventory.getStoragePallet(0, 4)
+            case Locations.L5A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(0, 4), 'slotA', default)
+            case Locations.L5B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(0, 4), 'slotB', default)
+            case Locations.L6:
+                return self.inventoryController.inventory.getStoragePallet(0, 5)
+            case Locations.L6A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(0, 5), 'slotA', default)
+            case Locations.L6B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(0, 5), 'slotB', default)
+            case Locations.L7:
+                return self.inventoryController.inventory.getStoragePallet(1, 0)
+            case Locations.L7A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(1, 0), 'slotA', default)
+            case Locations.L7B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(1, 0), 'slotB', default)
+            case Locations.L8:
+                return self.inventoryController.inventory.getStoragePallet(1, 1)
+            case Locations.L8A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(1, 1), 'slotA', default)
+            case Locations.L8B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(1, 1), 'slotB', default)
+            case Locations.L9:
+                return self.inventoryController.inventory.getStoragePallet(1, 2)
+            case Locations.L9A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(1, 2), 'slotA', default)
+            case Locations.L9B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(1, 2), 'slotB', default)
+            case Locations.L10:
+                return self.inventoryController.inventory.getStoragePallet(1, 3)
+            case Locations.L10A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(1, 3), 'slotA', default)
+            case Locations.L10B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(1, 3), 'slotB', default)
+            case Locations.L11:
+                return self.inventoryController.inventory.getStoragePallet(1, 4)
+            case Locations.L11A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(1, 4), 'slotA', default)
+            case Locations.L11B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(1, 4), 'slotB', default)
+            case Locations.L12:
+                return self.inventoryController.inventory.getStoragePallet(1, 5)
+            case Locations.L12A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(1, 5), 'slotA', default)
+            case Locations.L12B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(1, 5), 'slotB', default)
+            case Locations.L13:
+                return self.inventoryController.inventory.getStoragePallet(2, 0)
+            case Locations.L13A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(2, 0), 'slotA', default)
+            case Locations.L13B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(2, 0), 'slotB', default)
+            case Locations.L14:
+                return self.inventoryController.inventory.getStoragePallet(2, 1)
+            case Locations.L14A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(2, 1), 'slotA', default)
+            case Locations.L14B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(2, 1), 'slotB', default)
+            case Locations.L15:
+                return self.inventoryController.inventory.getStoragePallet(2, 2)
+            case Locations.L15A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(2, 2), 'slotA', default)
+            case Locations.L15B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(2, 2), 'slotB', default)
+            case Locations.L16:
+                return self.inventoryController.inventory.getStoragePallet(2, 3)
+            case Locations.L16A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(2, 3), 'slotA', default)
+            case Locations.L16B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(2, 3), 'slotB', default)
+            case Locations.L17:
+                return self.inventoryController.inventory.getStoragePallet(2, 4)
+            case Locations.L17A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(2, 4), 'slotA', default)
+            case Locations.L17B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(2, 4), 'slotB', default)
+            case Locations.L18:
+                return self.inventoryController.inventory.getStoragePallet(2, 5)
+            case Locations.L18A:
+                return getattr(self.inventoryController.inventory.getStoragePallet(2, 5), 'slotA', default)
+            case Locations.L18B:
+                return getattr(self.inventoryController.inventory.getStoragePallet(2, 5), 'slotB', default)
+
+    def _create_new_commission(self, **kwargs):
+        """
+        Creates a new commission and adds it to the commissionViewModel.
+        Parameters
+
+        """
+        comission = CommissionData(
+            id=self.commissionViewModel.new_comission_id(),
+            source=kwargs.get('source'),
+            target=kwargs.get('target'),
+            object=kwargs.get('object'),
+            cup=kwargs.get('cup'),
+            pallet=kwargs.get('pallet'))
+        self.commissionViewModel.add(comission)
+
+
     def loadCommissionData(self):
         commissionData = []
         with open(Constants().COMMISSIONDATA, 'r') as file:
             data = safe_load(file)
+            if data is None:
+                return []
             for line in data:
                 source = Locations[line['CommissionData']['source']]
                 target = Locations[line['CommissionData']['target']]
@@ -53,7 +457,7 @@ class CommissionController:
                 ))
                 #print(commissionData[-1].source.value)
             self.sortComissionData(commissionData)
-        return  commissionData
+        return commissionData
 
     def sortComissionData(self, commissionData):
         statusOrder = ["in progress", "pending", "open", "done"]
@@ -110,13 +514,13 @@ class CommissionController:
 
             # Check for obvious errors
             if cup & pallet:
-                self.eventlogService.writeEvent("CommissionController", f"Commission {commission.id} is invalid: cup and pallet are set")
+                self.eventlogService.write_event("CommissionController", f"Commission {commission.id} is invalid: cup and pallet are set")
                 valid = False
             elif cup == False and pallet == False:
-                self.eventlogService.writeEvent("CommissionController", f"Commission {commission.id} is invalid: nor cup or pallet are set")
+                self.eventlogService.write_event("CommissionController", f"Commission {commission.id} is invalid: nor cup or pallet are set")
                 valid = False
             if source == target:
-                self.eventlogService.writeEvent("CommissionController", f"Commission {commission.id} is invalid: source and target are the same")
+                self.eventlogService.write_event("CommissionController", f"Commission {commission.id} is invalid: source and target are the same")
                 valid = False
             # check source location
             valid = self._commissioncheck_source_location(**data)
@@ -128,6 +532,7 @@ class CommissionController:
             if valid is False:
                 break
         return valid
+
 
     def _commissioncheck_peform(self, **kwargs):
         """
@@ -206,8 +611,8 @@ class CommissionController:
 
     def _commissioncheck_source_location(self, **kwargs):
         valid = kwargs.get('valid')
-        source = kwargs.get('source')
-        target = kwargs.get('target')
+        source: Locations = kwargs.get('source')
+        target: Locations = kwargs.get('target')
         pallet = kwargs.get('pallet')
         inventory = kwargs.get('inventory')
         workbench = kwargs.get('workbench')
@@ -238,15 +643,15 @@ class CommissionController:
         elif source.name[0] == 'K':  # source is a Workbench-Location
             valid = self._verifyWorkbenchSource(**data)
         else:
-            self.eventlogService.writeEvent("CommissionController",
+            self.eventlogService.write_event("CommissionController",
                                             f"Commission {commission.id} is invalid: source is not valid")
             valid = False
         return valid
 
     def _commissioncheck_target_location(self, **kwargs):
         valid = kwargs.get('valid')
-        source = kwargs.get('source')
-        target = kwargs.get('target')
+        source: Locations = kwargs.get('source')
+        target: Locations = kwargs.get('target')
         pallet = kwargs.get('pallet')
         inventory = kwargs.get('inventory')
         workbench = kwargs.get('workbench')
@@ -298,34 +703,38 @@ class CommissionController:
         :type valid: bool
         :return bool: The updated validity status of the commission after the verification process.
         """
-        source = kwargs.get('source')
+        source: Locations = kwargs.get('source')
         valid = kwargs.get('valid')
-        inventory = kwargs.get('inventory')
+        inventory: Inventory = kwargs.get('inventory')
         cup = kwargs.get('cup')
         commission = kwargs.get('commission')
         pallet = kwargs.get('pallet')
 
-        source_row = (int(source.name[1:-1])-1) // 6
-        source_col = (int(source.name[1:-1])-1) % 6
-        slot = source.name[-1] # claclulate slot from StrEnum name
-        sE = inventory.pallets[source_row][source_col] # get the StorageElement at the dest location
+        
 
         if cup:
+            source_row = (int(source.name[1:-1])-1) // 6
+            source_col = (int(source.name[1:-1])-1) % 6
+            slot = source.name[-1] # calculate slot from StrEnum name
+            sE = inventory.pallets[source_row][source_col] # get the StorageElement at the dest location
             slot = sE.pallet.slotA if slot == 'A' else sE.pallet.slotB # get the slot of the pallet
             # check source location for cup
             if slot is None: # StorageElement maybe empty
                 valid = False
-                self.eventlogService.writeEvent("CommissionController", f"Commission {commission.id} is invalid: source location {source.name} is empty")
+                self.eventlogService.write_event("CommissionController", f"Commission {commission.id} is invalid: source location {source.name} is empty")
                 return valid
             if not slot.id == object:
-                self.eventlogService.writeEvent("CommissionController",
+                self.eventlogService.write_event("CommissionController",
                                                 f"Commission {commission.id} is invalid: cup -id at row, col, slot = [{source_row + 1}, {source_col}, {slot.id}] does not match with source")
                 valid = False
-        if pallet:
+        elif pallet:
             # check source location for pallet
+            source_row = (int(source.name[1:])-1) // 6
+            source_col = (int(source.name[1:])-1) % 6
+            sE = inventory.pallets[source_row][source_col] # get the StorageElement at the dest location
             if sE.pallet is None: # StorageElement maybe empty
                 valid = False
-                self.eventlogService.writeEvent("CommissionController", f"Commission {commission.id} is invalid: source location is empty")
+                self.eventlogService.write_event("CommissionController", f"Commission {commission.id} is invalid: source location is empty")
                 return valid
         return valid
 
@@ -350,71 +759,27 @@ class CommissionController:
         workbench = kwargs.get('workbench')
         commission = kwargs.get('commission')
         valid = kwargs.get('valid')
+        object = kwargs.get('object')
+        cup = kwargs.get('cup')
+        pallet = kwargs.get('pallet')
 
-        if int(source.name[1]) == 1:
-            if workbench.k1 is not None:
-                if source.name[-1] == 'A':
-                    if workbench.k1.slotA is None:
-                        if not workbench.k1.slotA.id == object:
-                            self.eventlogService.writeEvent("CommissionController",
-                                                            f"Commission {commission.id} is invalid: cup -id at workbench slot 1A does not match with source")
-                            valid = False
-                    else:
-                        self.eventlogService.writeEvent("CommissionController",
-                                                        f"Commission {commission.id} is invalid: No cup at workbench slot {source.name}")
-                        valid = False
-                elif source.name[-1] == 'B':
-                    if workbench.k1.slotB is None:
-                        if not workbench.k1.slotB.id == object:
-                            self.eventlogService.writeEvent("CommissionController",
-                                                            f"Commission {commission.id} is invalid: cup -id at workbench slot 1B does not match with source")
-                            valid = False
-                    else:
-                        self.eventlogService.writeEvent("CommissionController",
-                                                        f"Commission {commission.id} is invalid: No cup at workbench slot {source.name}")
-                        valid = False
-                else:
-                    self.eventlogService.writeEvent("CommissionController",
-                                                    f"Commission {commission.id} is invalid: Could not resolve source slot")
-                    valid = False
-            else:
-                self.eventlogService.writeEvent("CommissionController",
-                                                f"Commission {commission.id} is invalid: No pallet at {source.name}")
+        pallet_object:Pallet = workbench.k1 if source.name[1] == '1' else workbench.k2
+        if pallet:
+            if pallet_object is None:
+                self.eventlogService.write_event("CommissionController",f"Commission {commission.id} is invalid: source location {source.name} is has no pallet.")
                 valid = False
-        elif int(source.name[1]) == 2:
-            if workbench.k2 is not None:
-                if source.name[-1] == 'A':
-                    if workbench.k2.slotA is None:
-                        if not workbench.k2.slotA.id == object:
-                            self.eventlogService.writeEvent("CommissionController",
-                                                            f"Commission {commission.id} is invalid: cup -id at workbench slot {source.name} does not match with source")
-                            valid = False
-                    else:
-                        self.eventlogService.writeEvent("CommissionController",
-                                                        f"Commission {commission.id} is invalid: No cup at workbench slot {source.name}")
-                        valid = False
-                elif source.name[-1] == 'B':
-                    if workbench.k2.slotB is None:
-                        if not workbench.k2.slotB.id == object:
-                            self.eventlogService.writeEvent("CommissionController",
-                                                            f"Commission {commission.id} is invalid: cup -id at workbench slot {source.name} does not match with source")
-                            valid = False
-                    else:
-                        self.eventlogService.writeEvent("CommissionController",
-                                                        f"Commission {commission.id} is invalid: No cup at workbench slot {source.name}")
-                        valid = False
-                else:
-                    self.eventlogService.writeEvent("CommissionController",
-                                                    f"Commission {commission.id} is invalid: Could not resolve source slot")
-                    valid = False
-            else:
-                self.eventlogService.writeEvent("CommissionController",
-                                                f"Commission {commission.id} is invalid: No pallet at {source.name}")
+        elif cup:
+            if pallet_object is None:
+                self.eventlogService.write_event("CommissionController",f"Commission {commission.id} is invalid: source location {source.name} is has no pallet.")
                 valid = False
-        else:
-            self.eventlogService.writeEvent("CommissionController",
-                                            f"Commission {commission.id} is invalid: Workbench slot {source.name} could not be resolved")
-            valid = False
+            else:
+                slot = pallet_object.slotA if source.name[-1] == 'A' else pallet_object.slotB
+                if slot is None:
+                    self.eventlogService.write_event("CommissionController",f"Commission {commission.id} is invalid: source location {source.name} is has no cup.")
+                    valid = False
+                elif slot.id != object:
+                    self.eventlogService.write_event("CommissionController",f"Commission {commission.id} is invalid: cup -id at slot {source.name[-1]} does not match with source.")
+                    valid = False
         return valid
 
     def _verifyWorkbenchTarget(self, **kwargs) -> bool:
@@ -440,30 +805,24 @@ class CommissionController:
         :rtype: bool
         """
         workbench = kwargs.get('workbench')
-        loc = kwargs.get('target')
+        loc: Locations = kwargs.get('target')
         pallet = kwargs.get('pallet')
         commission = kwargs.get('commission')
         cup = kwargs.get('cup')
         valid = kwargs.get('valid')
 
-        sE = workbench.k1 if int(loc.name[1]) == 1 else workbench.k2
-        if pallet and sE is not None:
-            self.eventlogService.writeEvent("CommissionController",
-                                            f"Commission {commission.id} is invalid: target location {loc.name} is not empty.")
+        pallet_object:Pallet = workbench.k1 if loc.name[1] == '1' else workbench.k2
+        if pallet and pallet_object is not None:
+            self.eventlogService.write_event("CommissionController",f"Commission {commission.id} is invalid: target location {loc.name} is not empty.")
             valid = False
-            return valid
-        elif cup and sE is None:
-            self.eventlogService.writeEvent("CommissionController",
-                                            f"Commission {commission.id} is invalid: target location {loc.name} is empty.")
+        elif cup and pallet_object is None:
+            self.eventlogService.write_event("CommissionController",f"Commission {commission.id} is invalid: target location {loc.name} has no pallet.")
             valid = False
-            return valid
-        if sE is not None:
-            slot = sE.slotA if loc.name[-1] == 'A' else sE.slotB
-        if cup and slot is not None:
-            self.eventlogService.writeEvent("CommissionController",
-                                            f"Commission {commission.id} is invalid: target location {loc.name} is not empty.")
-            valid = False
-            return valid
+        elif cup and pallet_object is not None:
+            slot = pallet_object.slotA if loc.name[-1] == 'A' else pallet_object.slotB
+            if slot is not None:
+                self.eventlogService.write_event("CommissionController",f"Commission {commission.id} is invalid: target location {loc.name} is not empty.")
+                valid = False
         return valid
 
     def _verifyStorageElementTarget(self, **kwargs) -> bool:
@@ -488,7 +847,7 @@ class CommissionController:
         :return valid: The updated validity status of the commission after the verification process.
         :rtype: bool
         """
-        target = kwargs.get('target')
+        target: Locations = kwargs.get('target')
         inventory = kwargs.get('inventory')
         pallet = kwargs.get('pallet')
         commission = kwargs.get('commission')
@@ -501,18 +860,18 @@ class CommissionController:
         col = int(locName[1:-1]) % 6 -1
         sE = inventory.pallets[row][col].pallet
         if pallet and sE is not None:
-            self.eventlogService.writeEvent("CommissionController",
+            self.eventlogService.write_event("CommissionController",
                                             f"Commission {commission.id} is invalid: target location {target.name} is not empty.")
             valid = False
             return valid
         elif cup and sE is None:
-            self.eventlogService.writeEvent("CommissionController",
+            self.eventlogService.write_event("CommissionController",
                                             f"Commission {commission.id} is invalid: target location {target.name} has no pallet.")
             valid = False
             return valid
         slot = sE.slotA if target.name[-1] == 'A' else sE.slotB
         if cup and slot.id != 0:
-            self.eventlogService.writeEvent("CommissionController",
+            self.eventlogService.write_event("CommissionController",
                                             f"Commission {commission.id} is invalid: target location {target.name} is not empty.")
             valid = False
             return valid
@@ -592,7 +951,4 @@ class CommissionController:
                     nSE.pallet.setSlotA(slotA)
                     nSE.pallet.setSlotB(slotB)
         return inventory
-
-
-
     

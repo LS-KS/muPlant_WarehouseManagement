@@ -57,16 +57,16 @@ class Stocktaker(QQuickImageProvider):
         """
 
         self.detected_cups = []
-        self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Start obtaining image from camera...")
+        self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Start obtaining image from camera...")
         self.image = self.cameraService.get_image(0)
         self.raw_image = np.copy(self.image)
         plt.imshow(self.image, cmap= 'gray')
         plt.show()
         if self.image is None:
-            self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "No image obtained from camera! Stocktaking aborted.")
+            self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "No image obtained from camera! Stocktaking aborted.")
             return
         else:
-            self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Image obtained. Start arUco recognition...")
+            self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Image obtained. Start arUco recognition...")
         self.image = self._automatic_brightness_and_contrast(
             clip_hist_percent = 1,
             image=self.image)
@@ -75,7 +75,7 @@ class Stocktaker(QQuickImageProvider):
             area=0,
             type= 'cell')
         markers, self.image = self._detect_markers(parameters= parameters)
-        self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "arUco recognition finished. Start image transformation...")
+        self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "arUco recognition finished. Start image transformation...")
         shelf_corners, shelf_ids = self._get_shelf_markers(markers)
         x_corners, y_corners, y_min, y_max, ret = self._get_transformation_corners(shelf_corners)
         if ret:
@@ -83,16 +83,16 @@ class Stocktaker(QQuickImageProvider):
             self.image = image
             image, tform3 = self._transform_image(self.raw_image, x_corners, y_corners, y_min, y_max)
             self.raw_image = image
-            self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam","Image transformation finished. Start detecting slicing...")
+            self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Image transformation finished. Start detecting slicing...")
         else:
-            self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Not enough shelf markers found!\n"
+            self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Not enough shelf markers found!\n"
                                                                                    f"x_corners: {x_corners}\n"
                                                                                    f"y_corners: {y_corners}\n"
                                                                                    "Possible Reason: Markers are not visible die to camera position/angle change.\n"
                                                                                    "Possiblee Solution: Adjust image slice boundaries in '_get_transformation_corners' method.")
             return
         self._slice_storage(self.raw_image)
-        self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Slicing finished. Start marker detection in sections...")
+        self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Slicing finished. Start marker detection in sections...")
         print("Detection in pallets:")
         for i, pallet in enumerate(self.pallets):
             parameters = self.select_marker_parameters(
@@ -109,7 +109,7 @@ class Stocktaker(QQuickImageProvider):
             pallets, ids = self._get_pallet_markers(markers)
             self.pallets[i] = self._draw_markers(pallets, ids, (255,0,0), pallet, i)
             cv2.imwrite(f"temp/pallet_{i + 1}.png", pallet)
-        self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Pallets finished. Start marker detection in cups...")
+        self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Pallets finished. Start marker detection in cups...")
         print("Detection in cups:")
         for i, cup in enumerate(self.cups):
             parameters= self.select_marker_parameters(
@@ -128,9 +128,9 @@ class Stocktaker(QQuickImageProvider):
             self.cups[i] = self._draw_markers(cups, ids, (255,255,255), cup, i)
             cv2.imwrite(f"temp/cup{i + 1}.png", cup)
         print(self.detected_cups)
-        self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Cups finished. Start calculating result matrix...")
+        self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Cups finished. Start calculating result matrix...")
         self.calculate_result_matrix()
-        self.eventlogService.writeEvent("Stocktaker.evaluate_storagecell_cam", "Result matrix calculated. Process finished.")
+        self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Result matrix calculated. Process finished.")
 
     @Slot()
     def evaluate_gripper(self):
@@ -141,17 +141,17 @@ class Stocktaker(QQuickImageProvider):
         processed image is kept in gripper_image property.
         """
         self.detected_cups = []
-        self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "Start obtaining image from camera...")
+        self.eventlogService.write_event("Stocktaker.evaluate_gripper", "Start obtaining image from camera...")
         try:
             self.cameraService.get_image(2)
         except Exception as e:
-            self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", f"Error while obtaining image from camera: {str(e)}")
+            self.eventlogService.write_event("Stocktaker.evaluate_gripper", f"Error while obtaining image from camera: {str(e)}")
             return
         if self.image is None:
-            self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "No image obtained from camera! Stocktaking aborted.")
+            self.eventlogService.write_event("Stocktaker.evaluate_gripper", "No image obtained from camera! Stocktaking aborted.")
             return
         else:
-            self.eventlogService.writeEvent("Stocktaker.evaluate_gripper", "Image obtained. Start arUco recognition...")
+            self.eventlogService.write_event("Stocktaker.evaluate_gripper", "Image obtained. Start arUco recognition...")
             markers, image = self._detect_markers(section=self.image, cups=True)
             if markers[0][0] is not None:
                 print("marker detcted")
@@ -542,9 +542,9 @@ class Stocktaker(QQuickImageProvider):
                     try:
                         setattr(parameters, key, value)
                     except Exception as ex:
-                        self.eventlogService.writeEvent("Stocktaker._loadDetectorConf", f"Could not set detector attribute {key}, Exceptio: {ex}")
+                        self.eventlogService.write_event("Stocktaker._loadDetectorConf", f"Could not set detector attribute {key}, Exceptio: {ex}")
         except FileNotFoundError as e:
-            self.eventlogService.writeEvent("Stocktaker._loadDetectorConf", f"Exception while opening configuration file: {e}")
+            self.eventlogService.write_event("Stocktaker._loadDetectorConf", f"Exception while opening configuration file: {e}")
         return parameters
 
 if __name__ == '__main__':

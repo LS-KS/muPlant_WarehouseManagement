@@ -1,30 +1,34 @@
-import requests
-from requests.auth import HTTPDigestAuth
-from requests import Session
-from PySide6.QtCore import QObject
+import asyncio
+
+from PySide6.QtCore import QObject, Signal, Slot
 from src.controller.PreferenceController import PreferenceController
 from src.service.EventlogService import EventlogService
 from src.constants.Constants import Constants
-from typing import Any
 import clr
-class ABBController( QObject ):
+
+
+class ABBController(QObject):
     """
     ABB IRB 140 in muPant storage cell uses RobotWare version RW5.15_10.00.9100.
     This class uses the ABBControllerWrapper DLL to establish a connection to the controller unit.
     ABBControllerWrapper is a C# class library using the ABB.Robotics.Controllers library of an old PC SDK.
     DLLs were imported from old Software Application called 'Lagerverwaltung 3.0'.
     """
-    def __init__(self, preferenceController: None | PreferenceController, eventlogService: None | EventlogService, parent= None):
+    notify_transport = Signal(str, str)
+    notify_busy = Signal(bool)
+    def __init__(self, preferenceController: None | PreferenceController, eventlogService: None | EventlogService,
+                 parent=None):
         super().__init__(parent)
         self.preference_controller = preferenceController
         self.eventlog_service = eventlogService
-        self.ip = "192.168.2.51" #garbage value
+        self.ip = "192.168.2.51"  # garbage value
         self.port = 0
         self.constants = Constants()
         self.abb_controller = None
         self.connected = False
         self.busy = False
 
+    @Slot()
     def setup(self):
         """
         Uses clr module to expose .NET framework to Python.
@@ -46,10 +50,12 @@ class ABBController( QObject ):
             print(f"ABBController: Error during setup: {e}")
             self.abb_controller = None
             self.connected = False
-            self.eventlog_service.writeEvent("ABBController.setup", f"Error during setup: {e}")
+            self.eventlog_service.write_event("ABBController.setup", f"Error during setup: {e}")
         finally:
             return self.connected
-        
+        self.eventlog_service.write_event("ABBController.setup", "Setup complete")
+
+    @Slot(str, str)
     def move_item(self, source: str, target: str):
         """
         If setup is successful, this method calls the CreateAndExecute method of the ABBLinker class.
@@ -61,9 +67,18 @@ class ABBController( QObject ):
         :type target: str
         """
         if self.connected and not self.busy:
-            self.abb_controller.CreateAndExecute(source, target)
             self.busy = True
-        #TODO: Execution must be in an async function.
+            self.notify_busy.emit(self.busy)
+            result = asyncio.run(self.abb_controller.CreateAndExecute(source, target))
+        if result:
+            self.busy = False
+            self.notify_busy.emit(self.busy)
+            self.notify_transport.emit(source, target)
+            self.eventlog_service.write_event("ABBControlller", f"Moved Item {source}-->{target}")
+        else:
+            self.busy = False
+            self.notify_busy.emit(self.busy)
+            self.eventlog_service.write_event("ABBControlller", f"Error moving Item {source}-->{target}, False returned")
 
     def _loadPreferences(self):
         self.ip = self.preference_controller.preferences.abb.ip

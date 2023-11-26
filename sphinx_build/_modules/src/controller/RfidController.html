@@ -32,118 +32,123 @@
           <div class="body" role="main">
             
   <h1>Source code for src.controller.RfidController</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">src.model.RfidModel</span> <span class="kn">import</span> <span class="n">RfidModel</span>
+<span></span><span class="kn">from</span> <span class="nn">src.model.RfidModel</span> <span class="kn">import</span> <span class="n">RfidModel</span>
 <span class="kn">from</span> <span class="nn">src.viewmodel.RfidViewModel</span> <span class="kn">import</span> <span class="n">RfidViewModel</span><span class="p">,</span> <span class="n">RfidProxyViewModel</span>
 <span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
 <span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QObject</span><span class="p">,</span> <span class="n">Signal</span><span class="p">,</span> <span class="n">Slot</span><span class="p">,</span> <span class="n">Qt</span><span class="p">,</span> <span class="n">QModelIndex</span>
 <span class="kn">from</span> <span class="nn">yaml</span> <span class="kn">import</span> <span class="n">safe_load</span><span class="p">,</span> <span class="n">safe_dump</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">fields</span>
+
 
 <div class="viewcode-block" id="RfidController"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController">[docs]</a><span class="k">class</span> <span class="nc">RfidController</span><span class="p">(</span><span class="n">QObject</span><span class="p">):</span>
+    <span class="n">data_to_opcua</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="c1"># Data to send: ip, timestamp, iid, dsfid, last_valid_timestamp, last_valid_iid, last_valid_dsfid</span>
+    <span class="n">create_opcua_node</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">QObject</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rfid_service</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">Constants</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span> <span class="o">=</span> <span class="n">RfidViewModel</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_loadRfidNodes</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rfidProxyViewModel</span> <span class="o">=</span> <span class="n">RfidProxyViewModel</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rfidProxyViewModel</span><span class="o">.</span><span class="n">setSourceModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">controller</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span> <span class="o">=</span> <span class="n">RfidViewModel</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_rfid_nodes</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rfid_proxy_viewmodel</span> <span class="o">=</span> <span class="n">RfidProxyViewModel</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rfid_proxy_viewmodel</span><span class="o">.</span><span class="n">setSourceModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">controller</span> <span class="o">=</span> <span class="bp">self</span>
 
-<div class="viewcode-block" id="RfidController.selectAll"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.selectAll">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">selectAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RfidController.send_data_to_opcua"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.send_data_to_opcua">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">send_data_to_opcua</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Emits data_to_opcua signal to post new rfid data to opcua server</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_to_opcua</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">iid</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">dsfid</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">last_valid_timestamp</span><span class="p">,</span>
+                                    <span class="n">node</span><span class="o">.</span><span class="n">last_valid_iid</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">last_valid_dsfid</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RfidController.select_all"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.select_all">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">select_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Marks all RFID-Nodes as selected.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">idVal</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">]</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">idVal</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">selectNode</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">select_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="RfidController.selectNone"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.selectNone">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">selectNone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RfidController.select_none"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.select_none">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">select_none</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Marks all RFID-Nodes as selected.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">idVal</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">]</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">idVal</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">selectNode</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">select_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RfidController.selectNode"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.selectNode">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">selectNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">selected</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<div class="viewcode-block" id="RfidController.select_node"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.select_node">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">select_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">selected</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        marks RFID-Node with id as selected.</span>
-<span class="sd">        :returns: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;i: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-            <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">idVal</span> <span class="o">==</span> <span class="nb">id</span><span class="p">:</span>
                 <span class="n">oldVal</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">selected</span>
-                <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">selected</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">selected</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
                 <span class="n">newVal</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">selected</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data changed from </span><span class="si">{</span><span class="n">oldVal</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">newVal</span><span class="si">}</span><span class="s2"> in index </span><span class="si">{</span><span class="n">index</span><span class="o">.</span><span class="n">row</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">dataChanged</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="p">[</span><span class="n">Qt</span><span class="o">.</span><span class="n">DisplayRole</span> <span class="o">+</span> <span class="mi">13</span><span class="p">])</span></div>
-                
-            
-<div class="viewcode-block" id="RfidController.saveNodeChanges"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.saveNodeChanges">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>        
-    <span class="k">def</span> <span class="nf">saveNodeChanges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idVal</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">readerIp</span><span class="p">,</span> <span class="n">readerPort</span><span class="p">,</span> <span class="n">endpointIp</span><span class="p">,</span> <span class="n">endpointPort</span><span class="p">,</span> <span class="n">endpointModbus</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">dataChanged</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="p">[</span><span class="n">Qt</span><span class="o">.</span><span class="n">DisplayRole</span> <span class="o">+</span> <span class="mi">13</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="RfidController.save_node_changes"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.save_node_changes">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">save_node_changes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_val</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">reader_ip</span><span class="p">,</span> <span class="n">reader_port</span><span class="p">,</span> <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        saves changes made to RFID-Nodes.</span>
-<span class="sd">        :returns: None</span>
-<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">idVal</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">idVal</span> <span class="o">==</span> <span class="n">idVal</span><span class="p">:</span>
-                <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">readerIp</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">readerPort</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">endpointIp</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">endpointPort</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">endpointModbus</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_dumpRfidNodes</span><span class="p">()</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">idVal</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">idVal</span> <span class="o">==</span> <span class="n">id_val</span><span class="p">:</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">reader_ip</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">reader_port</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dump_rfid_nodes</span><span class="p">()</span>
                 <span class="k">return</span></div>
 
-<div class="viewcode-block" id="RfidController.startSelected"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.startSelected">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">startSelected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RfidController.start_selected"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.start_selected">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">start_selected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        starts all RFID-Nodes.</span>
 <span class="sd">        :returns: None</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">selected</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rfid_service</span><span class="o">.</span><span class="n">start_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span></div>
-<div class="viewcode-block" id="RfidController.stopSelected"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.stopSelected">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">stopSelected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">row</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">selected</span><span class="p">:</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">createIndex</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rfid_service</span><span class="o">.</span><span class="n">start_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">roleNames</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="RfidController.stop_selected"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.stop_selected">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">stop_selected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        stops all RFID-Nodes.</span>
 <span class="sd">        :returns: None</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">selected</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rfid_service</span><span class="o">.</span><span class="n">stop_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span></div>
+        <span class="k">for</span> <span class="n">row</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">selected</span><span class="p">:</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">createIndex</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rfid_service</span><span class="o">.</span><span class="n">stop_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RfidController.removeSelected"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.removeSelected">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">removeSelected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RfidController.remove_selected"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.remove_selected">[docs]</a>    <span class="nd">@Slot</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">remove_selected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        removes all selected RFID-Nodes.</span>
 <span class="sd">        :returns: None</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">idVal</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">selected</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-                <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">removeRow</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">row</span><span class="p">(),</span> <span class="n">QModelIndex</span><span class="p">())</span></div>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">idVal</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">selected</span><span class="p">:</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">removeRow</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">row</span><span class="p">(),</span> <span class="n">QModelIndex</span><span class="p">())</span></div>
 
-    <span class="k">def</span> <span class="nf">_loadRfidNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_load_rfid_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads all RFID-Nodes from file RfidData.yaml and overwrites data in rfidViewModel.</span>
 <span class="sd">        List comprehension syntax is used in heavily shortened syntax to parse data into RfidModel.</span>
@@ -153,21 +158,78 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">RFID_DATA</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="n">records</span> <span class="o">=</span> <span class="n">safe_load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">records</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No RFID-Data found&quot;</span><span class="p">)</span>
                 <span class="k">return</span>
-            <span class="n">rfidData</span> <span class="o">=</span> <span class="p">[</span><span class="n">RfidModel</span><span class="p">(</span><span class="o">**</span><span class="n">record</span><span class="p">)</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">rfidData</span> <span class="o">=</span> <span class="n">rfidData</span>
+            <span class="n">rfid_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">RfidModel</span><span class="p">(</span><span class="o">**</span><span class="n">record</span><span class="p">)</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">rfidData</span> <span class="o">=</span> <span class="n">rfid_data</span>
 
-    <span class="k">def</span> <span class="nf">_dumpRfidNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RfidController.notify_opcua"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.notify_opcua">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">notify_opcua</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">online</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method is connected to rfid_service&#39;s online signal in main.py.</span>
+<span class="sd">        This makes it be called right after the opcua_service is initialized so that the</span>
+<span class="sd">        opcua server gets at least last_valid - data after startup.</span>
+<span class="sd">        :param online: True if server is started (should not be anything else)</span>
+<span class="sd">        :type online: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">online</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_opcua_node</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="RfidController.update_model"><a class="viewcode-back" href="../../../RFIDServer.html#src.controller.RfidController.RfidController.update_model">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">QModelIndex</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">update_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">model_index</span><span class="p">:</span> <span class="n">QModelIndex</span><span class="p">,</span> <span class="n">transponder_role</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">transponder_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                     <span class="n">iid_role</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">iid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dsfid_role</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dsfid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timestamp_role</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method, connected to RfidService&#39;s data signal, is used to update RfidViewModel instance of</span>
+<span class="sd">        RfidController.</span>
+<span class="sd">        If the first argument is True, a tag was read. In that case the submitted values are set as &#39;last_valid_&#39; vals.</span>
+<span class="sd">        Since this method uses the view-model&#39;s setData method, the view-model&#39;s dataChanged signal is emitted and thus</span>
+<span class="sd">        the GUI is updated.</span>
+<span class="sd">        Data will be emitted by the method send_data_to_opcua so OpcUaService is updatet.</span>
+<span class="sd">        :param error: True if iid &gt;0 and not &quot;Error&quot;</span>
+<span class="sd">        :type error: bool</span>
+<span class="sd">        :param model_index: Index to directly index into viewmodel</span>
+<span class="sd">        :type model_index: QModelIndex</span>
+<span class="sd">        :param transponder_role: role to index into viewmodel role</span>
+<span class="sd">        :type transponder_role: int</span>
+<span class="sd">        :param transponder_type: value of transponder type</span>
+<span class="sd">        :type transponder_type: str</span>
+<span class="sd">        :param iid_role: role to index into viewmodel&#39;s iid role</span>
+<span class="sd">        :type iid_role: int</span>
+<span class="sd">        :param iid: value of IID</span>
+<span class="sd">        :type iid: str</span>
+<span class="sd">        :param dsfid_role: role to index into viewmodel&#39;s dsfid role</span>
+<span class="sd">        :type dsfid_role: int</span>
+<span class="sd">        :param dsfid: value of DSFID</span>
+<span class="sd">        :type dsfid: str</span>
+<span class="sd">        :param timestamp_role: role to index into viewmodel&#39;s timestamp role</span>
+<span class="sd">        :type timestamp_role: int</span>
+<span class="sd">        :param timestamp: value of timestamp</span>
+<span class="sd">        :type timestamp: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: the opc server doesn&#39;t show the correct values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">model_index</span><span class="p">,</span> <span class="n">transponder_type</span><span class="p">,</span> <span class="n">transponder_role</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">model_index</span><span class="p">,</span> <span class="n">iid</span><span class="p">,</span> <span class="n">iid_role</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">model_index</span><span class="p">,</span> <span class="n">dsfid</span><span class="p">,</span> <span class="n">dsfid_role</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">model_index</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">timestamp_role</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+            <span class="n">roles</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">roleNames</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">roleNames</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">model_index</span><span class="p">,</span> <span class="n">transponder_type</span><span class="p">,</span>
+                                        <span class="n">roles</span><span class="p">[</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;last_valid_transponder_type&#39;</span><span class="p">)])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">model_index</span><span class="p">,</span> <span class="n">iid</span><span class="p">,</span> <span class="n">roles</span><span class="p">[</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;last_valid_iid&#39;</span><span class="p">)])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">model_index</span><span class="p">,</span> <span class="n">dsfid</span><span class="p">,</span> <span class="n">roles</span><span class="p">[</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;last_valid_dsfid&#39;</span><span class="p">)])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">model_index</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">roles</span><span class="p">[</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;last_valid_timestamp&#39;</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_data_to_opcua</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_dump_rfid_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves all RFID-Nodes from rfidViewModel to file RfidData.yaml.</span>
 <span class="sd">        :returns: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">RFID_DATA</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-            <span class="nb">dict</span> <span class="o">=</span> <span class="p">[</span><span class="n">record</span><span class="o">.</span><span class="vm">__dict__</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">]</span>
-            <span class="n">safe_dump</span><span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div>
-
-    
+            <span class="n">model_dict</span> <span class="o">=</span> <span class="p">[</span><span class="n">record</span><span class="o">.</span><span class="vm">__dict__</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="o">.</span><span class="n">rfidData</span><span class="p">]</span>
+            <span class="n">safe_dump</span><span class="p">(</span><span class="n">model_dict</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

@@ -44,7 +44,7 @@ visualisiert. Die Daten werden außerdem über OPCUA im ganzen Netz zur Verfügu
 <p>Die Daten werden in der Klasse <cite>RFIDModel</cite> des nachfolgenden Moduls verwaltet.</p>
 <span class="target" id="module-src.model.RfidModel"></span><dl class="py class">
 <dt class="sig sig-object py" id="src.model.RfidModel.RfidModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.RfidModel.</span></span><span class="sig-name descname"><span class="pre">RfidModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idVal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workingState</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ipAddr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ipPort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rfidStatus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endPointipAddr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endPointipPort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endPointModbus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endPointStatus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tagId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">productID</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cupSize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dsfid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transponder_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">date</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_valid_iid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_valid_dsfid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_valid_transponder_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_valid_timestamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">date</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/RfidModel.html#RfidModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.RfidModel.RfidModel" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.RfidModel.</span></span><span class="sig-name descname"><span class="pre">RfidModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idVal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workingState</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ipAddr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ipPort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rfidStatus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endPointipAddr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endPointipPort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endPointModbus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endPointStatus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tagId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">productID</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cupSize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'None'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dsfid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'None'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transponder_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'None'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'None'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_valid_iid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'None'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_valid_dsfid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'None'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_valid_transponder_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'None'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_valid_timestamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'None'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model/RfidModel.html#RfidModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model.RfidModel.RfidModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QStandardItem</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.RfidModel.RfidModel.cupSize">
@@ -58,7 +58,7 @@ visualisiert. Die Daten werden außerdem über OPCUA im ganzen Netz zur Verfügu
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.RfidModel.RfidModel.dsfid">
-<span class="sig-name descname"><span class="pre">dsfid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.dsfid" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dsfid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'None'</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.dsfid" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -88,7 +88,7 @@ visualisiert. Die Daten werden außerdem über OPCUA im ganzen Netz zur Verfügu
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.RfidModel.RfidModel.iid">
-<span class="sig-name descname"><span class="pre">iid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.iid" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">iid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'None'</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.iid" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -103,22 +103,22 @@ visualisiert. Die Daten werden außerdem über OPCUA im ganzen Netz zur Verfügu
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.RfidModel.RfidModel.last_valid_dsfid">
-<span class="sig-name descname"><span class="pre">last_valid_dsfid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.last_valid_dsfid" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">last_valid_dsfid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'None'</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.last_valid_dsfid" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.RfidModel.RfidModel.last_valid_iid">
-<span class="sig-name descname"><span class="pre">last_valid_iid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.last_valid_iid" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">last_valid_iid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'None'</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.last_valid_iid" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.RfidModel.RfidModel.last_valid_timestamp">
-<span class="sig-name descname"><span class="pre">last_valid_timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">date</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.last_valid_timestamp" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">last_valid_timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'None'</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.last_valid_timestamp" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.RfidModel.RfidModel.last_valid_transponder_type">
-<span class="sig-name descname"><span class="pre">last_valid_transponder_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.last_valid_transponder_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">last_valid_transponder_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'None'</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.last_valid_transponder_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -153,12 +153,12 @@ visualisiert. Die Daten werden außerdem über OPCUA im ganzen Netz zur Verfügu
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.RfidModel.RfidModel.timestamp">
-<span class="sig-name descname"><span class="pre">timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">date</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.timestamp" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'None'</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.timestamp" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.RfidModel.RfidModel.transponder_type">
-<span class="sig-name descname"><span class="pre">transponder_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.transponder_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">transponder_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'None'</span></em><a class="headerlink" href="#src.model.RfidModel.RfidModel.transponder_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -171,61 +171,116 @@ visualisiert. Die Daten werden außerdem über OPCUA im ganzen Netz zur Verfügu
 </section>
 <section id="controller">
 <h2>Controller<a class="headerlink" href="#controller" title="Permalink to this heading">¶</a></h2>
-<p>Die Controllerlogik wird in der Klasse <cite>RFIDController</cite> des nachfolgenden Moduls implementiert.</p>
+<p>Die Controller -Logik wird in der Klasse <cite>RFIDController</cite> des nachfolgenden Moduls implementiert.</p>
 <span class="target" id="module-src.controller.RfidController"></span><dl class="py class">
 <dt class="sig sig-object py" id="src.controller.RfidController.RfidController">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.controller.RfidController.</span></span><span class="sig-name descname"><span class="pre">RfidController</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QObject</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.create_opcua_node">
+<span class="sig-name descname"><span class="pre">create_opcua_node</span></span><a class="headerlink" href="#src.controller.RfidController.RfidController.create_opcua_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.data_to_opcua">
+<span class="sig-name descname"><span class="pre">data_to_opcua</span></span><a class="headerlink" href="#src.controller.RfidController.RfidController.data_to_opcua" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
-<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.removeSelected">
-<span class="sig-name descname"><span class="pre">removeSelected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.removeSelected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.removeSelected" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.notify_opcua">
+<span class="sig-name descname"><span class="pre">notify_opcua</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">online</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.notify_opcua"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.notify_opcua" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is connected to rfid_service’s online signal in main.py.
+This makes it be called right after the opcua_service is initialized so that the
+opcua server gets at least last_valid - data after startup.
+:param online: True if server is started (should not be anything else)
+:type online: bool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.remove_selected">
+<span class="sig-name descname"><span class="pre">remove_selected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.remove_selected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.remove_selected" title="Permalink to this definition">¶</a></dt>
 <dd><p>removes all selected RFID-Nodes.
 :returns: None</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.saveNodeChanges">
-<span class="sig-name descname"><span class="pre">saveNodeChanges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idVal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">readerIp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">readerPort</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpointIp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpointPort</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpointModbus</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.saveNodeChanges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.saveNodeChanges" title="Permalink to this definition">¶</a></dt>
-<dd><p>saves changes made to RFID-Nodes.
-:returns: None</p>
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.save_node_changes">
+<span class="sig-name descname"><span class="pre">save_node_changes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader_ip</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader_port</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.save_node_changes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.save_node_changes" title="Permalink to this definition">¶</a></dt>
+<dd><p>saves changes made to RFID-Nodes.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.selectAll">
-<span class="sig-name descname"><span class="pre">selectAll</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.selectAll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.selectAll" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.select_all">
+<span class="sig-name descname"><span class="pre">select_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.select_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.select_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>Marks all RFID-Nodes as selected.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.selectNode">
-<span class="sig-name descname"><span class="pre">selectNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.selectNode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.selectNode" title="Permalink to this definition">¶</a></dt>
-<dd><p>marks RFID-Node with id as selected.
-:returns: None</p>
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.select_node">
+<span class="sig-name descname"><span class="pre">select_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.select_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.select_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>marks RFID-Node with id as selected.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.selectNone">
-<span class="sig-name descname"><span class="pre">selectNone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.selectNone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.selectNone" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.select_none">
+<span class="sig-name descname"><span class="pre">select_none</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.select_none"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.select_none" title="Permalink to this definition">¶</a></dt>
 <dd><p>Marks all RFID-Nodes as selected.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.startSelected">
-<span class="sig-name descname"><span class="pre">startSelected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.startSelected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.startSelected" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.send_data_to_opcua">
+<span class="sig-name descname"><span class="pre">send_data_to_opcua</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.send_data_to_opcua"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.send_data_to_opcua" title="Permalink to this definition">¶</a></dt>
+<dd><p>Emits data_to_opcua signal to post new rfid data to opcua server</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.start_selected">
+<span class="sig-name descname"><span class="pre">start_selected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.start_selected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.start_selected" title="Permalink to this definition">¶</a></dt>
 <dd><p>starts all RFID-Nodes.
 :returns: None</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.controller.RfidController.RfidController.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;RfidController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Slot,</span> <span class="pre">signature=selectAll()</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Slot,</span> <span class="pre">signature=selectNone()</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Slot,</span> <span class="pre">signature=selectNode(int,bool),</span> <span class="pre">parameters=int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Slot,</span> <span class="pre">signature=saveNodeChanges(int,QString,QString,QString,QString,QString,QString),</span> <span class="pre">parameters=int,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Slot,</span> <span class="pre">signature=startSelected()</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Slot,</span> <span class="pre">signature=stopSelected()</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=removeSelected()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.RfidController.RfidController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;RfidController&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=data_to_opcua(QString,QString,QString,QString,QString,QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=create_opcua_node(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Slot,</span> <span class="pre">signature=send_data_to_opcua()</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Slot,</span> <span class="pre">signature=select_all()</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Slot,</span> <span class="pre">signature=select_none()</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Slot,</span> <span class="pre">signature=select_node(int,bool),</span> <span class="pre">parameters=int,</span> <span class="pre">bool</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=save_node_changes(int,QString,QString,QString,QString),</span> <span class="pre">parameters=int,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Slot,</span> <span class="pre">signature=start_selected()</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Slot,</span> <span class="pre">signature=stop_selected()</span>&#160;&#160; <span class="pre">#14</span> <span class="pre">type=Slot,</span> <span class="pre">signature=remove_selected()</span>&#160;&#160; <span class="pre">#15</span> <span class="pre">type=Slot,</span> <span class="pre">signature=notify_opcua(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#16</span> <span class="pre">type=Slot,</span> <span class="pre">signature=update_model(bool,QModelIndex,int,QString,int,QString,int,QString,int,QString),</span> <span class="pre">parameters=bool,</span> <span class="pre">QModelIndex,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.controller.RfidController.RfidController.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.stopSelected">
-<span class="sig-name descname"><span class="pre">stopSelected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.stopSelected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.stopSelected" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.stop_selected">
+<span class="sig-name descname"><span class="pre">stop_selected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.stop_selected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.stop_selected" title="Permalink to this definition">¶</a></dt>
 <dd><p>stops all RFID-Nodes.
 :returns: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.controller.RfidController.RfidController.update_model">
+<span class="sig-name descname"><span class="pre">update_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QModelIndex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transponder_role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transponder_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iid_role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dsfid_role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dsfid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/controller/RfidController.html#RfidController.update_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.controller.RfidController.RfidController.update_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method, connected to RfidService’s data signal, is used to update RfidViewModel instance of
+RfidController.
+If the first argument is True, a tag was read. In that case the submitted values are set as ‘<a href="#id1"><span class="problematic" id="id2">last_valid_</span></a>’ vals.
+Since this method uses the view-model’s setData method, the view-model’s dataChanged signal is emitted and thus
+the GUI is updated.
+Data will be emitted by the method send_data_to_opcua so OpcUaService is updatet.
+:param error: True if iid &gt;0 and not “Error”
+:type error: bool
+:param model_index: Index to directly index into viewmodel
+:type model_index: QModelIndex
+:param transponder_role: role to index into viewmodel role
+:type transponder_role: int
+:param transponder_type: value of transponder type
+:type transponder_type: str
+:param iid_role: role to index into viewmodel’s iid role
+:type iid_role: int
+:param iid: value of IID
+:type iid: str
+:param dsfid_role: role to index into viewmodel’s dsfid role
+:type dsfid_role: int
+:param dsfid: value of DSFID
+:type dsfid: str
+:param timestamp_role: role to index into viewmodel’s timestamp role
+:type timestamp_role: int
+:param timestamp: value of timestamp
+:type timestamp: str</p>
 </dd></dl>
 
 </dd></dl>
@@ -235,101 +290,105 @@ visualisiert. Die Daten werden außerdem über OPCUA im ganzen Netz zur Verfügu
 <h2>Service<a class="headerlink" href="#service" title="Permalink to this heading">¶</a></h2>
 <p>Das Plugin nutzt die Serviceklasse <cite>rfid_service</cite> um für einen oder mehrere Listeneinträge der View einen Thread zum
 Auslesen des Lesegeräts zu erstellen.</p>
-<span class="target" id="module-src.service.rfid_service"></span><dl class="py class">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_readertask">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.rfid_service.</span></span><span class="sig-name descname"><span class="pre">rfid_readertask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Modules/Service.html#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfid_service.html#rfid_readertask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfid_service.rfid_readertask" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QThread</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_readertask.data">
-<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#src.service.rfid_service.rfid_readertask.data" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_readertask.handle_data_read">
-<span class="sig-name descname"><span class="pre">handle_data_read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transponder_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dsfid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfid_service.html#rfid_readertask.handle_data_read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfid_service.rfid_readertask.handle_data_read" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_readertask.ip">
-<span class="sig-name descname"><span class="pre">ip</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.service.rfid_service.rfid_readertask.ip" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_readertask.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/service/rfid_service.html#rfid_readertask.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfid_service.rfid_readertask.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_readertask.start">
-<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PySide6.QtCore.QThread.Priority</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Instance(PySide6.QtCore.QThread.Priority.InheritPriority)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/service/rfid_service.html#rfid_readertask.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfid_service.rfid_readertask.start" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_readertask.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;rfid_readertask&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Signal,</span> <span class="pre">signature=data(QString,QString,QString,QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.rfid_service.rfid_readertask.staticMetaObject" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_readertask.stop">
-<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfid_service.html#rfid_readertask.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfid_service.rfid_readertask.stop" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_readerworker">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.rfid_service.</span></span><span class="sig-name descname"><span class="pre">rfid_readerworker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Modules/Service.html#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfid_service.html#rfid_readerworker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfid_service.rfid_readerworker" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-src.service.rfidservice"></span><dl class="py class">
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidReaderWorker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.rfidservice.</span></span><span class="sig-name descname"><span class="pre">RfidReaderWorker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfidservice.html#RfidReaderWorker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfidservice.RfidReaderWorker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_readerworker.data">
-<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#src.service.rfid_service.rfid_readerworker.data" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidReaderWorker.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#src.service.rfidservice.RfidReaderWorker.data" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_readerworker.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfid_service.html#rfid_readerworker.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfid_service.rfid_readerworker.run" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidReaderWorker.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfidservice.html#RfidReaderWorker.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfidservice.RfidReaderWorker.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ths function uses the obidrfid library to connect to a RFID Node and read its data.
 It also uses PySides QMutex class to lock the thread while the while loop is running.
 Data is emitted via the data signal.</p>
-<p>Thread safety needs to be tested, bt change from 14.11.2023 should improve this further. When crashes occur,
-check if rfid_readertask needs also be muted. There is no good documentation about threadsafety in Qt.</p>
-<p>One thing to be sure: don’t use the threading module from python, use Qt-native threading classes instead!</p>
-<p>This method first uses obidrfid’s validation method to check if the submitted ip is valid. This uses ping command.</p>
-<p>If ping is successful, the method tries to connect to the RFID Node with the given ip and calls the rfid_read
-function. obidrfid is a fork of the original obidrfid library, which is mainly adapted to use .dll file
+<p>Ip must be valid!
+thread is locked while connecting to the node.
+Tries to connect to the RFID Node with the given ip and calls the rfid_read
+function for a max amount of five times.
+obidrfid is a fork of the original obidrfid library, which is mainly adapted to use .dll file
 instead of .so file of the FEIG .NET SDK.</p>
-<p>Any exception is caught and logged to the eventlogservice. Note that only the pointer to the eventlogservice
-instance is submitted and writeEvent is a Slot. So theoretically, this should be thread safe.</p>
+<p>Any exception is caught. Note that no eventlog_service is submitted to this clas because of thread-safety.
+errored readings must be identified by strings</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ValueError</strong> – if ip is invalid</p></li>
-<li><p><strong>ConnectionError</strong> – if connection to RFID Node failed</p></li>
-</ul>
+<dd class="field-odd"><p><strong>ConnectionError</strong> – if connection to RFID Node failed for 5 times, catches this and emits a erroneous data signal</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_readerworker.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;rfid_readerworker&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=data(QString,QString,QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.rfid_service.rfid_readerworker.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidReaderWorker.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;RfidReaderWorker&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=data(QString,QString,QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.rfidservice.RfidReaderWorker.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_readerworker.stop">
-<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfid_service.html#rfid_readerworker.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfid_service.rfid_readerworker.stop" title="Permalink to this definition">¶</a></dt>
-<dd><p>Stops the while loop in the run method.</p>
-</dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_service">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.rfid_service.</span></span><span class="sig-name descname"><span class="pre">rfid_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventlogservice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Modules/Service.html#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rfidcontroller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.controller.RfidController.RfidController" title="src.controller.RfidController.RfidController"><span class="pre">RfidController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfid_service.html#rfid_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfid_service.rfid_service" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidReadertask">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.rfidservice.</span></span><span class="sig-name descname"><span class="pre">RfidReadertask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfidservice.html#RfidReadertask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfidservice.RfidReadertask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QThread</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidReadertask.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#src.service.rfidservice.RfidReadertask.data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_service.handle_data_read">
-<span class="sig-name descname"><span class="pre">handle_data_read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transponder_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dsfid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfid_service.html#rfid_service.handle_data_read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfid_service.rfid_service.handle_data_read" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidReadertask.handle_data_read">
+<span class="sig-name descname"><span class="pre">handle_data_read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transponder_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dsfid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfidservice.html#RfidReadertask.handle_data_read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfidservice.RfidReadertask.handle_data_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is connected to RfidReaderWorker’s instance data signal.
+emits RfidReaderTasks’s data signal.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidReadertask.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfidservice.html#RfidReadertask.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfidservice.RfidReadertask.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main-loop of the RfidReaderTask instance.
+calls RfidReaderWorker’s run method, which connects to the node and emits data read as signal.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidReadertask.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfidservice.html#RfidReadertask.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfidservice.RfidReadertask.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts the QThread.
+Creates RfidReaderWorker instance.
+Links RfidReaderWorker’s data signal to handle_data_read - method.
+Moves RfidReaderWorker to this QThread instance.e</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidReadertask.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;RfidReadertask&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Signal,</span> <span class="pre">signature=data(QString,QString,QString,QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.rfidservice.RfidReadertask.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidReadertask.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfidservice.html#RfidReadertask.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfidservice.RfidReadertask.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops the main loop and stops the QThread instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidReadertask.worker">
+<span class="sig-name descname"><span class="pre">worker</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#src.service.rfidservice.RfidReaderWorker" title="src.service.rfidservice.RfidReaderWorker"><span class="pre">RfidReaderWorker</span></a></em><a class="headerlink" href="#src.service.rfidservice.RfidReadertask.worker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidService">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.rfidservice.</span></span><span class="sig-name descname"><span class="pre">RfidService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventlog_service</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Modules/Service.html#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rfid_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.controller.RfidController.RfidController" title="src.controller.RfidController.RfidController"><span class="pre">RfidController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfidservice.html#RfidService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfidservice.RfidService" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidService.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#src.service.rfidservice.RfidService.data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidService.handle_data_read">
+<span class="sig-name descname"><span class="pre">handle_data_read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transponder_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dsfid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/service/rfidservice.html#RfidService.handle_data_read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfidservice.RfidService.handle_data_read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets submitted data to given node.
 Parameters</p>
 <dl class="field-list simple">
@@ -346,26 +405,30 @@ Parameters</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_service.start_node">
-<span class="sig-name descname"><span class="pre">start_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/service/rfid_service.html#rfid_service.start_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfid_service.rfid_service.start_node" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidService.start_node">
+<span class="sig-name descname"><span class="pre">start_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QModelIndex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/service/rfidservice.html#RfidService.start_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfidservice.RfidService.start_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Starts given RFID Node, which is a slice of rfidcontrollers rfidviewmodel.
 Connects rfid_readertask.data to own handle_data_read method which sets submitted data to given node.
 Not that these methods and classes used need to be thread safe!</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>node</strong> (<a class="reference internal" href="#src.model.RfidModel.RfidModel" title="src.model.RfidModel.RfidModel"><em>RfidModel</em></a>) – RFID Node to start</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<a class="reference internal" href="#src.model.RfidModel.RfidModel" title="src.model.RfidModel.RfidModel"><em>RfidModel</em></a>) – RFID Node to start</p></li>
+<li><p><strong>index</strong> (<em>QModelIndex</em>) – Index of RfidController’s viewmodel</p></li>
+<li><p><strong>role_names</strong> – submitted dict to be able to emit the right role for viewmodel’s setData slot</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_service.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;rfid_service&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.rfid_service.rfid_service.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidService.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;RfidService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=data(bool,QModelIndex,int,QString,int,QString,int,QString,int,QString),</span> <span class="pre">parameters=bool,</span> <span class="pre">QModelIndex,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">QString,</span> <span class="pre">int,</span> <span class="pre">QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.rfidservice.RfidService.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="src.service.rfid_service.rfid_service.stop_node">
-<span class="sig-name descname"><span class="pre">stop_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/service/rfid_service.html#rfid_service.stop_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfid_service.rfid_service.stop_node" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.service.rfidservice.RfidService.stop_node">
+<span class="sig-name descname"><span class="pre">stop_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/service/rfidservice.html#RfidService.stop_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.rfidservice.RfidService.stop_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stops given RFID Node which is a slice of rfidcontrollers rfidviewmodel and kills its existing QThread
 :param node: RFID Node to stop
 :type node: RfidModel</p>
@@ -532,73 +595,74 @@ Die Daten werden in dem Delegate RfidDelegate.qml dargestellt.</p>
 <span class="linenos"> 50</span>                <span class="n">width</span><span class="p">:</span> <span class="n">contentRect</span><span class="o">.</span><span class="n">width</span>
 <span class="linenos"> 51</span>                <span class="n">idVal</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">idVal</span>
 <span class="linenos"> 52</span>                <span class="n">selected</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">selected</span>
-<span class="linenos"> 53</span>                <span class="n">tagTextA</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">tagId</span>
-<span class="linenos"> 54</span>                <span class="n">tagTextB</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">productID</span>
-<span class="linenos"> 55</span>                <span class="n">tagTextC</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">cupSize</span>
+<span class="linenos"> 53</span>                <span class="n">tagTextA</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">last_valid_iid</span>
+<span class="linenos"> 54</span>                <span class="n">tagTextB</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">last_valid_dsfid</span>
+<span class="linenos"> 55</span>                <span class="n">tagTextC</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">last_valid_timestamp</span>
 <span class="linenos"> 56</span>                <span class="n">nameText</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">name</span>
 <span class="linenos"> 57</span>                <span class="n">readerIpAdress</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">ipAddr</span>
 <span class="linenos"> 58</span>                <span class="n">readerPort</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">ipPort</span>
-<span class="linenos"> 59</span>                <span class="n">endpointIpAdress</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">endPointipAddr</span>
-<span class="linenos"> 60</span>                <span class="n">endpointPort</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">endPointipPort</span>
-<span class="linenos"> 61</span>                <span class="n">endpointModbusAddress</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">endPointModbus</span>
-<span class="linenos"> 62</span>                <span class="n">locked</span><span class="p">:</span> <span class="n">true</span>
-<span class="linenos"> 63</span>            <span class="p">}</span>
-<span class="linenos"> 64</span>        <span class="p">}</span>
-<span class="linenos"> 65</span>    <span class="p">}</span>
-<span class="linenos"> 66</span>    <span class="n">RowLayout</span><span class="p">{</span>
-<span class="linenos"> 67</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">leftFooter</span>
-<span class="linenos"> 68</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
-<span class="linenos"> 69</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
-<span class="linenos"> 70</span>        <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="mi">6</span>
-<span class="linenos"> 71</span>        <span class="n">height</span><span class="p">:</span> <span class="mi">50</span>
-<span class="linenos"> 72</span>        <span class="n">Button</span><span class="p">{</span>
-<span class="linenos"> 73</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Select All&quot;</span>
-<span class="linenos"> 74</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">preferredWidth</span><span class="p">:</span> <span class="mi">150</span>
-<span class="linenos"> 75</span>            <span class="n">onClicked</span><span class="p">:{</span>
-<span class="linenos"> 76</span>                <span class="n">rfidController</span><span class="o">.</span><span class="n">selectAll</span><span class="p">()</span>
-<span class="linenos"> 77</span>            <span class="p">}</span>
-<span class="linenos"> 78</span>        <span class="p">}</span>
-<span class="linenos"> 79</span>        <span class="n">Button</span><span class="p">{</span>
-<span class="linenos"> 80</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Select None&quot;</span>
-<span class="linenos"> 81</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">preferredWidth</span><span class="p">:</span> <span class="mi">150</span>
-<span class="linenos"> 82</span>            <span class="n">onClicked</span><span class="p">:{</span>
-<span class="linenos"> 83</span>                <span class="n">rfidController</span><span class="o">.</span><span class="n">selectNone</span><span class="p">()</span>
-<span class="linenos"> 84</span>            <span class="p">}</span>
-<span class="linenos"> 85</span>        <span class="p">}</span>
-<span class="linenos"> 86</span>    <span class="p">}</span>
-<span class="linenos"> 87</span>    <span class="n">RowLayout</span><span class="p">{</span>
-<span class="linenos"> 88</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">rightFooter</span>
-<span class="linenos"> 89</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
-<span class="linenos"> 90</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
-<span class="linenos"> 91</span>        <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span><span class="mi">3</span><span class="o">/</span><span class="mi">6</span>
-<span class="linenos"> 92</span>        <span class="n">height</span><span class="p">:</span> <span class="mi">50</span>
-<span class="linenos"> 93</span>        <span class="n">Button</span><span class="p">{</span>
-<span class="linenos"> 94</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Remove Selected&quot;</span>
-<span class="linenos"> 95</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">preferredWidth</span><span class="p">:</span> <span class="mi">150</span>
-<span class="linenos"> 96</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
-<span class="linenos"> 97</span>                <span class="n">rfidController</span><span class="o">.</span><span class="n">removeSelected</span><span class="p">()</span>
-<span class="linenos"> 98</span>            <span class="p">}</span>
-<span class="linenos"> 99</span>        <span class="p">}</span>
-<span class="linenos">100</span>        <span class="n">Button</span><span class="p">{</span>
-<span class="linenos">101</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Start Selected&quot;</span>
-<span class="linenos">102</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">preferredWidth</span><span class="p">:</span> <span class="mi">150</span>
-<span class="linenos">103</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
-<span class="linenos">104</span>                <span class="n">rfidController</span><span class="o">.</span><span class="n">startSelected</span><span class="p">()</span>
-<span class="linenos">105</span>            <span class="p">}</span>
-<span class="linenos">106</span>        <span class="p">}</span>
-<span class="linenos">107</span>        <span class="n">Button</span><span class="p">{</span>
-<span class="linenos">108</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Stop Selected&quot;</span>
-<span class="linenos">109</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">preferredWidth</span><span class="p">:</span> <span class="mi">150</span>
-<span class="linenos">110</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
-<span class="linenos">111</span>                <span class="n">rfidController</span><span class="o">.</span><span class="n">stopSelected</span><span class="p">()</span>
-<span class="linenos">112</span>            <span class="p">}</span>
-<span class="linenos">113</span>        <span class="p">}</span>
-<span class="linenos">114</span>    <span class="p">}</span>
-<span class="linenos">115</span>    <span class="o">//</span> <span class="n">check</span> <span class="n">Signal</span> <span class="n">onClosed</span> <span class="n">to</span> <span class="n">destroy</span> <span class="nb">object</span>
-<span class="linenos">116</span>    <span class="n">onClosing</span><span class="p">:</span> <span class="p">{</span>
-<span class="linenos">117</span>        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;RFID Server crashed.&quot;</span><span class="p">)</span>
-<span class="linenos">118</span>    <span class="p">}</span>
-<span class="linenos">119</span><span class="p">}</span>
+<span class="linenos"> 59</span>                <span class="n">transponderType</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">transponder_type</span>
+<span class="linenos"> 60</span>                <span class="n">iid</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">iid</span>
+<span class="linenos"> 61</span>                <span class="n">dsfid</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">dsfid</span>
+<span class="linenos"> 62</span>                <span class="n">timestamp</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">timestamp</span>
+<span class="linenos"> 63</span>                <span class="n">locked</span><span class="p">:</span> <span class="n">true</span>
+<span class="linenos"> 64</span>            <span class="p">}</span>
+<span class="linenos"> 65</span>        <span class="p">}</span>
+<span class="linenos"> 66</span>    <span class="p">}</span>
+<span class="linenos"> 67</span>    <span class="n">RowLayout</span><span class="p">{</span>
+<span class="linenos"> 68</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">leftFooter</span>
+<span class="linenos"> 69</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
+<span class="linenos"> 70</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">left</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span>
+<span class="linenos"> 71</span>        <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="mi">6</span>
+<span class="linenos"> 72</span>        <span class="n">height</span><span class="p">:</span> <span class="mi">50</span>
+<span class="linenos"> 73</span>        <span class="n">Button</span><span class="p">{</span>
+<span class="linenos"> 74</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Select All&quot;</span>
+<span class="linenos"> 75</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">preferredWidth</span><span class="p">:</span> <span class="mi">150</span>
+<span class="linenos"> 76</span>            <span class="n">onClicked</span><span class="p">:{</span>
+<span class="linenos"> 77</span>                <span class="n">rfidController</span><span class="o">.</span><span class="n">select_all</span><span class="p">()</span>
+<span class="linenos"> 78</span>            <span class="p">}</span>
+<span class="linenos"> 79</span>        <span class="p">}</span>
+<span class="linenos"> 80</span>        <span class="n">Button</span><span class="p">{</span>
+<span class="linenos"> 81</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Select None&quot;</span>
+<span class="linenos"> 82</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">preferredWidth</span><span class="p">:</span> <span class="mi">150</span>
+<span class="linenos"> 83</span>            <span class="n">onClicked</span><span class="p">:{</span>
+<span class="linenos"> 84</span>                <span class="n">rfidController</span><span class="o">.</span><span class="n">select_none</span><span class="p">()</span>
+<span class="linenos"> 85</span>            <span class="p">}</span>
+<span class="linenos"> 86</span>        <span class="p">}</span>
+<span class="linenos"> 87</span>    <span class="p">}</span>
+<span class="linenos"> 88</span>    <span class="n">RowLayout</span><span class="p">{</span>
+<span class="linenos"> 89</span>        <span class="nb">id</span><span class="p">:</span> <span class="n">rightFooter</span>
+<span class="linenos"> 90</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">bottom</span>
+<span class="linenos"> 91</span>        <span class="n">anchors</span><span class="o">.</span><span class="n">right</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span>
+<span class="linenos"> 92</span>        <span class="n">width</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span><span class="mi">3</span><span class="o">/</span><span class="mi">6</span>
+<span class="linenos"> 93</span>        <span class="n">height</span><span class="p">:</span> <span class="mi">50</span>
+<span class="linenos"> 94</span>        <span class="n">Button</span><span class="p">{</span>
+<span class="linenos"> 95</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Remove Selected&quot;</span>
+<span class="linenos"> 96</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">preferredWidth</span><span class="p">:</span> <span class="mi">150</span>
+<span class="linenos"> 97</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
+<span class="linenos"> 98</span>                <span class="n">rfidController</span><span class="o">.</span><span class="n">remove_selected</span><span class="p">()</span>
+<span class="linenos"> 99</span>            <span class="p">}</span>
+<span class="linenos">100</span>        <span class="p">}</span>
+<span class="linenos">101</span>        <span class="n">Button</span><span class="p">{</span>
+<span class="linenos">102</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Start Selected&quot;</span>
+<span class="linenos">103</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">preferredWidth</span><span class="p">:</span> <span class="mi">150</span>
+<span class="linenos">104</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
+<span class="linenos">105</span>                <span class="n">rfidController</span><span class="o">.</span><span class="n">start_selected</span><span class="p">()</span>
+<span class="linenos">106</span>            <span class="p">}</span>
+<span class="linenos">107</span>        <span class="p">}</span>
+<span class="linenos">108</span>        <span class="n">Button</span><span class="p">{</span>
+<span class="linenos">109</span>            <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Stop Selected&quot;</span>
+<span class="linenos">110</span>            <span class="n">Layout</span><span class="o">.</span><span class="n">preferredWidth</span><span class="p">:</span> <span class="mi">150</span>
+<span class="linenos">111</span>            <span class="n">onClicked</span><span class="p">:</span> <span class="p">{</span>
+<span class="linenos">112</span>                <span class="n">rfidController</span><span class="o">.</span><span class="n">stop_selected</span><span class="p">()</span>
+<span class="linenos">113</span>            <span class="p">}</span>
+<span class="linenos">114</span>        <span class="p">}</span>
+<span class="linenos">115</span>    <span class="p">}</span>
+<span class="linenos">116</span>    <span class="o">//</span> <span class="n">check</span> <span class="n">Signal</span> <span class="n">onClosed</span> <span class="n">to</span> <span class="n">destroy</span> <span class="nb">object</span>
+<span class="linenos">117</span>    <span class="n">onClosing</span><span class="p">:</span> <span class="p">{</span>
+<span class="linenos">118</span>        <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;RFID Server crashed.&quot;</span><span class="p">)</span>
+<span class="linenos">119</span>    <span class="p">}</span>
+<span class="linenos">120</span><span class="p">}</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span>import QtQuick 2.15
@@ -609,7 +673,7 @@ Die Daten werden in dem Delegate RfidDelegate.qml dargestellt.</p>
 <span class="linenos">  6</span>
 <span class="linenos">  7</span>Rectangle {
 <span class="linenos">  8</span>    id: root
-<span class="linenos">  9</span>    width: 400
+<span class="linenos">  9</span>    width: 800
 <span class="linenos"> 10</span>    height: infoLabel.height + entries.height +20
 <span class="linenos"> 11</span>    color: &quot;white&quot;
 <span class="linenos"> 12</span>    property string tagTextA: &quot;0&quot;
@@ -617,300 +681,279 @@ Die Daten werden in dem Delegate RfidDelegate.qml dargestellt.</p>
 <span class="linenos"> 14</span>    property string tagTextC: &quot;0&quot;
 <span class="linenos"> 15</span>    property string readerIpAdress: &quot;&quot;
 <span class="linenos"> 16</span>    property string readerPort: &quot;&quot;
-<span class="linenos"> 17</span>    property string endpointIpAdress: &quot;&quot;
-<span class="linenos"> 18</span>    property string endpointPort:&quot;&quot;
-<span class="linenos"> 19</span>    property string endpointModbusAddress: &quot;&quot;
+<span class="linenos"> 17</span>    property string transponderType: &quot;&quot;
+<span class="linenos"> 18</span>    property string iid:&quot;&quot;
+<span class="linenos"> 19</span>    property string dsfid: &quot;&quot;
 <span class="linenos"> 20</span>    property string nameText: &quot;&quot;
-<span class="linenos"> 21</span>    onNameTextChanged: {
-<span class="linenos"> 22</span>        name.text = nameText
-<span class="linenos"> 23</span>    }
-<span class="linenos"> 24</span>    property int idVal: 0
-<span class="linenos"> 25</span>    property bool selected: false
-<span class="linenos"> 26</span>    onSelectedChanged: {
-<span class="linenos"> 27</span>        if (isSelected.checked !== selected){
-<span class="linenos"> 28</span>            isSelected.checked = selected
-<span class="linenos"> 29</span>        }
-<span class="linenos"> 30</span>    }
-<span class="linenos"> 31</span>    property var prefHeight : infoLabel.height + entries.height +20
-<span class="linenos"> 32</span>    property bool minimized: false
-<span class="linenos"> 33</span>    property bool locked: false
-<span class="linenos"> 34</span>    border.color: &quot;#1F82B2&quot;
-<span class="linenos"> 35</span>    border.width: 1
-<span class="linenos"> 36</span>    radius: 5
-<span class="linenos"> 37</span>    RowLayout{
-<span class="linenos"> 38</span>        id: infoLabel
-<span class="linenos"> 39</span>        anchors. top: parent.top
-<span class="linenos"> 40</span>        anchors. left: parent.left
-<span class="linenos"> 41</span>        anchors. right: parent.right
-<span class="linenos"> 42</span>        anchors. leftMargin: 20
-<span class="linenos"> 43</span>        anchors. rightMargin: 20
-<span class="linenos"> 44</span>        Layout.fillWidth: true
-<span class="linenos"> 45</span>        Image {
-<span class="linenos"> 46</span>            id: arrow
-<span class="linenos"> 47</span>            source: minimized === true ? &quot;../assets/angle-small-down.png&quot; : &quot;../assets/angle-small-up.png&quot;
-<span class="linenos"> 48</span>            Layout.preferredHeight : 15
-<span class="linenos"> 49</span>            fillMode: Image.PreserveAspectFit
-<span class="linenos"> 50</span>            MouseArea {
-<span class="linenos"> 51</span>                anchors.fill: parent
-<span class="linenos"> 52</span>                onClicked: {
-<span class="linenos"> 53</span>                    minimized = minimized ? false : true
-<span class="linenos"> 54</span>                    root.height = minimized?  50 : prefHeight
-<span class="linenos"> 55</span>                    entries.visible = entries.visible ? false: true
-<span class="linenos"> 56</span>                }
-<span class="linenos"> 57</span>            }
-<span class="linenos"> 58</span>        }
-<span class="linenos"> 59</span>        Text{
-<span class="linenos"> 60</span>            id: name
-<span class="linenos"> 61</span>            text: &quot;Node Name &quot;
-<span class="linenos"> 62</span>            font.bold: true
-<span class="linenos"> 63</span>            Component.onCompleted: {
-<span class="linenos"> 64</span>                name.text = nameText
-<span class="linenos"> 65</span>            }
-<span class="linenos"> 66</span>        }
-<span class="linenos"> 67</span>        Text{
-<span class="linenos"> 68</span>            id: idValText
-<span class="linenos"> 69</span>            text: &quot;(&quot; + idVal + &quot;)&quot;
-<span class="linenos"> 70</span>        }
-<span class="linenos"> 71</span>        CheckBox{
-<span class="linenos"> 72</span>            id: isSelected
-<span class="linenos"> 73</span>            text: &quot;selected&quot;
-<span class="linenos"> 74</span>            checked: false
-<span class="linenos"> 75</span>            onCheckedChanged: {
-<span class="linenos"> 76</span>                if (isSelected.checked !== selected){
-<span class="linenos"> 77</span>                    rfidController.selectNode(idVal, checked)
-<span class="linenos"> 78</span>                }
-<span class="linenos"> 79</span>            }
-<span class="linenos"> 80</span>            Component.onCompleted: {
-<span class="linenos"> 81</span>                isSelected.checked = selected
-<span class="linenos"> 82</span>            }
-<span class="linenos"> 83</span>        }
-<span class="linenos"> 84</span>        Text{
-<span class="linenos"> 85</span>            id: tagText
-<span class="linenos"> 86</span>            text: &quot;Taginfo: &quot; + tagTextA + &quot; . &quot; + tagTextB + &quot; . &quot; + tagTextC
-<span class="linenos"> 87</span>        }
-<span class="linenos"> 88</span>        Text{
-<span class="linenos"> 89</span>            id: readerText
-<span class="linenos"> 90</span>            property bool reader: false
-<span class="linenos"> 91</span>            text: &quot;Reader: &quot; + 0 
-<span class="linenos"> 92</span>        }
-<span class="linenos"> 93</span>        Text{
-<span class="linenos"> 94</span>            id: endpointText
-<span class="linenos"> 95</span>            property bool reader: false
-<span class="linenos"> 96</span>            text: &quot;Endpoint: &quot; + 0
-<span class="linenos"> 97</span>        }
-<span class="linenos"> 98</span>        Image{
-<span class="linenos"> 99</span>            id: lock
-<span class="linenos">100</span>            source: locked === true ? &quot;../assets/Lock_closed.svg&quot; : &quot;../assets/Lock_open.svg&quot;
-<span class="linenos">101</span>            MouseArea{
-<span class="linenos">102</span>                anchors.fill: parent
-<span class="linenos">103</span>                onClicked: {
-<span class="linenos">104</span>                    locked = locked ? false : true
-<span class="linenos">105</span>                }
-<span class="linenos">106</span>            }
-<span class="linenos">107</span>            Layout.preferredHeight : 0.4*70
-<span class="linenos">108</span>            Layout.preferredWidth : 0.4*50
-<span class="linenos">109</span>        }        
-<span class="linenos">110</span>    }
-<span class="linenos">111</span>    ColumnLayout{
-<span class="linenos">112</span>        id: entries
-<span class="linenos">113</span>        anchors. top: infoLabel.bottom
-<span class="linenos">114</span>        anchors. left: parent.left
-<span class="linenos">115</span>        anchors. right: parent.right
-<span class="linenos">116</span>        anchors.leftMargin: 20
-<span class="linenos">117</span>        anchors.rightMargin: 20
-<span class="linenos">118</span>        clip: true
-<span class="linenos">119</span>        Row {
-<span class="linenos">120</span>            Label {
-<span class="linenos">121</span>                text: &quot;Name&quot; 
-<span class="linenos">122</span>                width: 120
-<span class="linenos">123</span>                height:  30
-<span class="linenos">124</span>
-<span class="linenos">125</span>            }
-<span class="linenos">126</span>            TextField{
-<span class="linenos">127</span>                id: nameTextField
-<span class="linenos">128</span>                width: parent.width - 120
-<span class="linenos">129</span>                height:  30
-<span class="linenos">130</span>                text: &quot;&quot;
-<span class="linenos">131</span>                onTextChanged: {
-<span class="linenos">132</span>                    name.text = nameTextField.text
-<span class="linenos">133</span>                }
-<span class="linenos">134</span>                enabled: !locked
-<span class="linenos">135</span>                Component.onCompleted: {
-<span class="linenos">136</span>                    nameTextField.text = nameText
-<span class="linenos">137</span>                }
-<span class="linenos">138</span>            }
-<span class="linenos">139</span>            Layout.fillWidth: true
-<span class="linenos">140</span>            clip: true
-<span class="linenos">141</span>        }
-<span class="linenos">142</span>        Text{
-<span class="linenos">143</span>            text: &quot;Tag Reader&quot;
-<span class="linenos">144</span>            font.bold: true
-<span class="linenos">145</span>            height: 50
-<span class="linenos">146</span>        }
-<span class="linenos">147</span>        Row {
-<span class="linenos">148</span>            Label{
-<span class="linenos">149</span>                text: &quot;  Ip Adress: &quot;
-<span class="linenos">150</span>                width: 120
-<span class="linenos">151</span>                height:  30
-<span class="linenos">152</span>            }
-<span class="linenos">153</span>            TextField{
-<span class="linenos">154</span>                id: readerIpAdressField
-<span class="linenos">155</span>                text: &quot;0.0.0.0&quot;
-<span class="linenos">156</span>                width: parent.width - 120
-<span class="linenos">157</span>                height:  30
-<span class="linenos">158</span>                validator: RegularExpressionValidator {
-<span class="linenos">159</span>                    regularExpression: /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
-<span class="linenos">160</span>                    // /^means string must start at the beginning
-<span class="linenos">161</span>                    // {1,3} means 1 to 3 digits
-<span class="linenos">162</span>                    // \. means a dot, [0-9] means a digit
-<span class="linenos">163</span>                    // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
-<span class="linenos">164</span>                    // followed by 1 to 3 digits
-<span class="linenos">165</span>                }
-<span class="linenos">166</span>                onEditingFinished: {
-<span class="linenos">167</span>                    saveButton.enabled = true
-<span class="linenos">168</span>                }
-<span class="linenos">169</span>                enabled: !locked
-<span class="linenos">170</span>                Component.onCompleted: {
-<span class="linenos">171</span>                    readerIpAdressField.text = readerIpAdress
-<span class="linenos">172</span>                }
-<span class="linenos">173</span>            }
-<span class="linenos">174</span>            Layout.fillWidth: true
-<span class="linenos">175</span>            clip: true
-<span class="linenos">176</span>        }
-<span class="linenos">177</span>        Row {
-<span class="linenos">178</span>            Label{
-<span class="linenos">179</span>                text: &quot;  Port: &quot;
-<span class="linenos">180</span>                width: 120
-<span class="linenos">181</span>                height:  30
-<span class="linenos">182</span>            }
-<span class="linenos">183</span>            TextField{
-<span class="linenos">184</span>                id: readerPortField
-<span class="linenos">185</span>                text: &quot;0&quot;
-<span class="linenos">186</span>                width: parent.width - 120
-<span class="linenos">187</span>                height:  30
-<span class="linenos">188</span>                enabled: !locked
-<span class="linenos">189</span>                onEditingFinished: {
-<span class="linenos">190</span>                    saveButton.enabled = true
-<span class="linenos">191</span>                }
-<span class="linenos">192</span>                Component.onCompleted: {
-<span class="linenos">193</span>                    readerPortField.text = readerPort
-<span class="linenos">194</span>                }
-<span class="linenos">195</span>            }
-<span class="linenos">196</span>            Layout.fillWidth: true
-<span class="linenos">197</span>            clip: true
-<span class="linenos">198</span>
-<span class="linenos">199</span>        }
-<span class="linenos">200</span>        Text{
-<span class="linenos">201</span>            text: &quot;Tag Endpoint&quot;
-<span class="linenos">202</span>            font.bold: true
-<span class="linenos">203</span>            height: 50
-<span class="linenos">204</span>        }
-<span class="linenos">205</span>        Row {
-<span class="linenos">206</span>            Label{
-<span class="linenos">207</span>                text: &quot;  Ip Adress: &quot;
-<span class="linenos">208</span>                width: 120
-<span class="linenos">209</span>                height:  30
-<span class="linenos">210</span>            }
-<span class="linenos">211</span>            TextField{
-<span class="linenos">212</span>                id: endpointIpAdressField
-<span class="linenos">213</span>                text: &quot;0.0.0.0&quot;
-<span class="linenos">214</span>                width: parent.width - 120
-<span class="linenos">215</span>                height:  30
-<span class="linenos">216</span>                validator: RegularExpressionValidator {
-<span class="linenos">217</span>                    regularExpression: /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
-<span class="linenos">218</span>                    // /^means string must start at the beginning
-<span class="linenos">219</span>                    // {1,3} means 1 to 3 digits
-<span class="linenos">220</span>                    // \. means a dot, [0-9] means a digit
-<span class="linenos">221</span>                    // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
-<span class="linenos">222</span>                    // followed by 1 to 3 digits
-<span class="linenos">223</span>                }
-<span class="linenos">224</span>                enabled: !locked
-<span class="linenos">225</span>                onEditingFinished: {
-<span class="linenos">226</span>                    saveButton.enabled = true
-<span class="linenos">227</span>                }
-<span class="linenos">228</span>                Component.onCompleted: {
-<span class="linenos">229</span>                    endpointIpAdressField.text = endpointIpAdress
-<span class="linenos">230</span>                }
-<span class="linenos">231</span>            }
-<span class="linenos">232</span>            Layout.fillWidth: true
-<span class="linenos">233</span>            clip: true
-<span class="linenos">234</span>        }
-<span class="linenos">235</span>        Row {
-<span class="linenos">236</span>            Label{
-<span class="linenos">237</span>                text: &quot;  Port: &quot;
-<span class="linenos">238</span>                width: 120
-<span class="linenos">239</span>                height:  30
-<span class="linenos">240</span>            }
-<span class="linenos">241</span>            TextField{
-<span class="linenos">242</span>                id: endpointPortField
-<span class="linenos">243</span>                text: &quot;0&quot;
-<span class="linenos">244</span>                width: parent.width - 120
-<span class="linenos">245</span>                height:  30
-<span class="linenos">246</span>                enabled: !locked
-<span class="linenos">247</span>                onEditingFinished: {
-<span class="linenos">248</span>                    saveButton.enabled = true
-<span class="linenos">249</span>                }
-<span class="linenos">250</span>                Component.onCompleted: {
-<span class="linenos">251</span>                    endpointPortField.text = endpointPort
-<span class="linenos">252</span>                }
-<span class="linenos">253</span>            }
-<span class="linenos">254</span>            Layout.fillWidth: true
-<span class="linenos">255</span>            clip: true
-<span class="linenos">256</span>        }
-<span class="linenos">257</span>        Row{
-<span class="linenos">258</span>            Label{
-<span class="linenos">259</span>                text: &quot;  Modbus Address: &quot;
-<span class="linenos">260</span>                width: 120
-<span class="linenos">261</span>                height:  30
-<span class="linenos">262</span>
-<span class="linenos">263</span>            }
-<span class="linenos">264</span>            TextField{
-<span class="linenos">265</span>                id: endpointModbusAddressField
-<span class="linenos">266</span>                text: &quot;0.0.0.0&quot;
-<span class="linenos">267</span>                width: parent.width - 120
-<span class="linenos">268</span>                height:  30
-<span class="linenos">269</span>                validator: RegularExpressionValidator {
-<span class="linenos">270</span>                    regularExpression: /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
-<span class="linenos">271</span>                    // /^means string must start at the beginning
-<span class="linenos">272</span>                    // {1,3} means 1 to 3 digits
-<span class="linenos">273</span>                    // \. means a dot, [0-9] means a digit
-<span class="linenos">274</span>                    // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
-<span class="linenos">275</span>                    // followed by 1 to 3 digits
-<span class="linenos">276</span>                }
-<span class="linenos">277</span>                enabled: !locked
-<span class="linenos">278</span>                onEditingFinished: {
-<span class="linenos">279</span>                    saveButton.enabled = true
-<span class="linenos">280</span>                }
-<span class="linenos">281</span>                Component.onCompleted: {
-<span class="linenos">282</span>                    endpointModbusAddressField.text = endpointModbusAddress
-<span class="linenos">283</span>                }
+<span class="linenos"> 21</span>    property string timestamp: &quot;&quot;
+<span class="linenos"> 22</span>
+<span class="linenos"> 23</span>    onNameTextChanged: {
+<span class="linenos"> 24</span>        name.text = nameText
+<span class="linenos"> 25</span>    }
+<span class="linenos"> 26</span>    property int idVal: 0
+<span class="linenos"> 27</span>    property bool selected: false
+<span class="linenos"> 28</span>    onSelectedChanged: {
+<span class="linenos"> 29</span>        if (isSelected.checked !== selected){
+<span class="linenos"> 30</span>            isSelected.checked = selected
+<span class="linenos"> 31</span>        }
+<span class="linenos"> 32</span>    }
+<span class="linenos"> 33</span>    property var prefHeight : infoLabel.height + entries.height +20
+<span class="linenos"> 34</span>    property bool minimized: false
+<span class="linenos"> 35</span>    property bool locked: false
+<span class="linenos"> 36</span>    border.color: &quot;#1F82B2&quot;
+<span class="linenos"> 37</span>    border.width: 1
+<span class="linenos"> 38</span>    radius: 5
+<span class="linenos"> 39</span>    RowLayout{
+<span class="linenos"> 40</span>        id: infoLabel
+<span class="linenos"> 41</span>        anchors. top: parent.top
+<span class="linenos"> 42</span>        anchors. left: parent.left
+<span class="linenos"> 43</span>        anchors. right: parent.right
+<span class="linenos"> 44</span>        anchors. leftMargin: 20
+<span class="linenos"> 45</span>        anchors. rightMargin: 20
+<span class="linenos"> 46</span>        Layout.fillWidth: true
+<span class="linenos"> 47</span>        Image {
+<span class="linenos"> 48</span>            id: arrow
+<span class="linenos"> 49</span>            source: minimized === true ? &quot;../assets/angle-small-down.png&quot; : &quot;../assets/angle-small-up.png&quot;
+<span class="linenos"> 50</span>            Layout.preferredHeight : 15
+<span class="linenos"> 51</span>            fillMode: Image.PreserveAspectFit
+<span class="linenos"> 52</span>            MouseArea {
+<span class="linenos"> 53</span>                anchors.fill: parent
+<span class="linenos"> 54</span>                onClicked: {
+<span class="linenos"> 55</span>                    minimized = minimized ? false : true
+<span class="linenos"> 56</span>                    root.height = minimized?  50 : prefHeight
+<span class="linenos"> 57</span>                    entries.visible = entries.visible ? false: true
+<span class="linenos"> 58</span>                }
+<span class="linenos"> 59</span>            }
+<span class="linenos"> 60</span>        }
+<span class="linenos"> 61</span>        Text{
+<span class="linenos"> 62</span>            id: name
+<span class="linenos"> 63</span>            text: &quot;Node Name &quot;
+<span class="linenos"> 64</span>            font.bold: true
+<span class="linenos"> 65</span>            Component.onCompleted: {
+<span class="linenos"> 66</span>                name.text = nameText
+<span class="linenos"> 67</span>            }
+<span class="linenos"> 68</span>        }
+<span class="linenos"> 69</span>        Text{
+<span class="linenos"> 70</span>            id: idValText
+<span class="linenos"> 71</span>            text: &quot;(&quot; + idVal + &quot;)&quot;
+<span class="linenos"> 72</span>        }
+<span class="linenos"> 73</span>        CheckBox{
+<span class="linenos"> 74</span>            id: isSelected
+<span class="linenos"> 75</span>            text: &quot;selected&quot;
+<span class="linenos"> 76</span>            checked: false
+<span class="linenos"> 77</span>            onCheckedChanged: {
+<span class="linenos"> 78</span>                if (isSelected.checked !== selected){
+<span class="linenos"> 79</span>                    rfidController.select_node(idVal, checked)
+<span class="linenos"> 80</span>                }
+<span class="linenos"> 81</span>            }
+<span class="linenos"> 82</span>            Component.onCompleted: {
+<span class="linenos"> 83</span>                isSelected.checked = selected
+<span class="linenos"> 84</span>            }
+<span class="linenos"> 85</span>        }
+<span class="linenos"> 86</span>        Text{
+<span class="linenos"> 87</span>            id: tagText
+<span class="linenos"> 88</span>            text: &quot;Taginfo: &quot; + root.tagTextA + &quot; . &quot; + root.tagTextB + &quot; . &quot; + root.tagTextC
+<span class="linenos"> 89</span>        }
+<span class="linenos"> 90</span>        Text{
+<span class="linenos"> 91</span>            id: readerText
+<span class="linenos"> 92</span>            property bool reader: false
+<span class="linenos"> 93</span>            text: &quot;Reader: &quot; + 0 
+<span class="linenos"> 94</span>        }
+<span class="linenos"> 95</span>        Text{
+<span class="linenos"> 96</span>            id: endpointText
+<span class="linenos"> 97</span>            property bool reader: false
+<span class="linenos"> 98</span>            text: &quot;Endpoint: &quot; + 0
+<span class="linenos"> 99</span>        }
+<span class="linenos">100</span>        Image{
+<span class="linenos">101</span>            id: lock
+<span class="linenos">102</span>            source: locked === true ? &quot;../assets/Lock_closed.svg&quot; : &quot;../assets/Lock_open.svg&quot;
+<span class="linenos">103</span>            MouseArea{
+<span class="linenos">104</span>                anchors.fill: parent
+<span class="linenos">105</span>                onClicked: {
+<span class="linenos">106</span>                    locked = locked ? false : true
+<span class="linenos">107</span>                }
+<span class="linenos">108</span>            }
+<span class="linenos">109</span>            Layout.preferredHeight : 0.4*70
+<span class="linenos">110</span>            Layout.preferredWidth : 0.4*50
+<span class="linenos">111</span>        }        
+<span class="linenos">112</span>    }
+<span class="linenos">113</span>    ColumnLayout{
+<span class="linenos">114</span>        id: entries
+<span class="linenos">115</span>        anchors. top: infoLabel.bottom
+<span class="linenos">116</span>        anchors. left: parent.left
+<span class="linenos">117</span>        anchors. right: parent.right
+<span class="linenos">118</span>        anchors.leftMargin: 20
+<span class="linenos">119</span>        anchors.rightMargin: 20
+<span class="linenos">120</span>        clip: true
+<span class="linenos">121</span>        Row {
+<span class="linenos">122</span>            Label {
+<span class="linenos">123</span>                text: &quot;Name&quot; 
+<span class="linenos">124</span>                width: 120
+<span class="linenos">125</span>                height:  30
+<span class="linenos">126</span>
+<span class="linenos">127</span>            }
+<span class="linenos">128</span>            TextField{
+<span class="linenos">129</span>                id: nameTextField
+<span class="linenos">130</span>                width: parent.width - 120
+<span class="linenos">131</span>                height:  30
+<span class="linenos">132</span>                text: &quot;&quot;
+<span class="linenos">133</span>                onTextChanged: {
+<span class="linenos">134</span>                    name.text = nameTextField.text
+<span class="linenos">135</span>                }
+<span class="linenos">136</span>                enabled: !locked
+<span class="linenos">137</span>                Component.onCompleted: {
+<span class="linenos">138</span>                    nameTextField.text = nameText
+<span class="linenos">139</span>                }
+<span class="linenos">140</span>            }
+<span class="linenos">141</span>            Layout.fillWidth: true
+<span class="linenos">142</span>            clip: true
+<span class="linenos">143</span>        }
+<span class="linenos">144</span>        Text{
+<span class="linenos">145</span>            text: &quot;Tag Reader&quot;
+<span class="linenos">146</span>            font.bold: true
+<span class="linenos">147</span>            height: 50
+<span class="linenos">148</span>        }
+<span class="linenos">149</span>        Row {
+<span class="linenos">150</span>            Label{
+<span class="linenos">151</span>                text: &quot;  Ip Adress: &quot;
+<span class="linenos">152</span>                width: 120
+<span class="linenos">153</span>                height:  30
+<span class="linenos">154</span>            }
+<span class="linenos">155</span>            TextField{
+<span class="linenos">156</span>                id: readerIpAdressField
+<span class="linenos">157</span>                text: &quot;0.0.0.0&quot;
+<span class="linenos">158</span>                width: parent.width - 120
+<span class="linenos">159</span>                height:  30
+<span class="linenos">160</span>                validator: RegularExpressionValidator {
+<span class="linenos">161</span>                    regularExpression: /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
+<span class="linenos">162</span>                    // /^means string must start at the beginning
+<span class="linenos">163</span>                    // {1,3} means 1 to 3 digits
+<span class="linenos">164</span>                    // \. means a dot, [0-9] means a digit
+<span class="linenos">165</span>                    // so /^(?:[0-9]{1,3}\.){3} means 1 to 3 digits followed by a dot, repeated 3 times
+<span class="linenos">166</span>                    // followed by 1 to 3 digits
+<span class="linenos">167</span>                }
+<span class="linenos">168</span>                onEditingFinished: {
+<span class="linenos">169</span>                    saveButton.enabled = true
+<span class="linenos">170</span>                }
+<span class="linenos">171</span>                enabled: !locked
+<span class="linenos">172</span>                Component.onCompleted: {
+<span class="linenos">173</span>                    readerIpAdressField.text = readerIpAdress
+<span class="linenos">174</span>                }
+<span class="linenos">175</span>            }
+<span class="linenos">176</span>            Layout.fillWidth: true
+<span class="linenos">177</span>            clip: true
+<span class="linenos">178</span>        }
+<span class="linenos">179</span>        Row {
+<span class="linenos">180</span>            Label{
+<span class="linenos">181</span>                text: &quot;  Port: &quot;
+<span class="linenos">182</span>                width: 120
+<span class="linenos">183</span>                height:  30
+<span class="linenos">184</span>            }
+<span class="linenos">185</span>            TextField{
+<span class="linenos">186</span>                id: readerPortField
+<span class="linenos">187</span>                text: &quot;0&quot;
+<span class="linenos">188</span>                width: parent.width - 120
+<span class="linenos">189</span>                height:  30
+<span class="linenos">190</span>                enabled: !locked
+<span class="linenos">191</span>                onEditingFinished: {
+<span class="linenos">192</span>                    saveButton.enabled = true
+<span class="linenos">193</span>                }
+<span class="linenos">194</span>                Component.onCompleted: {
+<span class="linenos">195</span>                    readerPortField.text = readerPort
+<span class="linenos">196</span>                }
+<span class="linenos">197</span>            }
+<span class="linenos">198</span>            Layout.fillWidth: true
+<span class="linenos">199</span>            clip: true
+<span class="linenos">200</span>
+<span class="linenos">201</span>        }
+<span class="linenos">202</span>        Text{
+<span class="linenos">203</span>            text: &quot;Tag&quot;
+<span class="linenos">204</span>            font.bold: true
+<span class="linenos">205</span>            height: 50
+<span class="linenos">206</span>        }
+<span class="linenos">207</span>        Row {
+<span class="linenos">208</span>            Label{
+<span class="linenos">209</span>                id: transponderlabel
+<span class="linenos">210</span>                text: &quot;  Transponder: &quot;
+<span class="linenos">211</span>                width: 120
+<span class="linenos">212</span>                height:  30
+<span class="linenos">213</span>            }
+<span class="linenos">214</span>            TextField{
+<span class="linenos">215</span>                id: transponderField
+<span class="linenos">216</span>                text: root.transponderType
+<span class="linenos">217</span>                width: (parent.width/2 -120)
+<span class="linenos">218</span>                height:  30
+<span class="linenos">219</span>                readOnly: true
+<span class="linenos">220</span>            }
+<span class="linenos">221</span>            Label{
+<span class="linenos">222</span>                id: timestamplabel
+<span class="linenos">223</span>                text: &quot;  Zeitstempel: &quot;
+<span class="linenos">224</span>                width: 120
+<span class="linenos">225</span>                height:  30
+<span class="linenos">226</span>            }
+<span class="linenos">227</span>            TextField{
+<span class="linenos">228</span>                id: timestampField
+<span class="linenos">229</span>                text: root.timestamp
+<span class="linenos">230</span>                width: (parent.width/2 -120)
+<span class="linenos">231</span>                height:  30
+<span class="linenos">232</span>                readOnly: true
+<span class="linenos">233</span>            }
+<span class="linenos">234</span>            Layout.fillWidth: true
+<span class="linenos">235</span>            clip: true
+<span class="linenos">236</span>        }
+<span class="linenos">237</span>        Row {
+<span class="linenos">238</span>            Label{
+<span class="linenos">239</span>                text: &quot;  IID: &quot;
+<span class="linenos">240</span>                width: 120
+<span class="linenos">241</span>                height:  30
+<span class="linenos">242</span>            }
+<span class="linenos">243</span>            TextField{
+<span class="linenos">244</span>                id: iidField
+<span class="linenos">245</span>                text: root.iid
+<span class="linenos">246</span>                width: parent.width - 120
+<span class="linenos">247</span>                height:  30
+<span class="linenos">248</span>                readOnly: true
+<span class="linenos">249</span>            }
+<span class="linenos">250</span>            Layout.fillWidth: true
+<span class="linenos">251</span>            clip: true
+<span class="linenos">252</span>        }
+<span class="linenos">253</span>        Row{
+<span class="linenos">254</span>            Label{
+<span class="linenos">255</span>                text: &quot;  DSF - ID: &quot;
+<span class="linenos">256</span>                width: 120
+<span class="linenos">257</span>                height:  30
+<span class="linenos">258</span>
+<span class="linenos">259</span>            }
+<span class="linenos">260</span>            TextField{
+<span class="linenos">261</span>                id: dsfidField
+<span class="linenos">262</span>                text: root.dsfid
+<span class="linenos">263</span>                width: parent.width - 120
+<span class="linenos">264</span>                height:  30
+<span class="linenos">265</span>                readOnly: true
+<span class="linenos">266</span>            }
+<span class="linenos">267</span>            Layout.fillWidth: true
+<span class="linenos">268</span>            clip: true
+<span class="linenos">269</span>        }
+<span class="linenos">270</span>        Button{
+<span class="linenos">271</span>            id: saveButton
+<span class="linenos">272</span>            text: &quot;Save Changes&quot;
+<span class="linenos">273</span>            enabled: false
+<span class="linenos">274</span>            Layout.preferredHeight: 50
+<span class="linenos">275</span>            Layout.preferredWidth: 200
+<span class="linenos">276</span>            onClicked:{
+<span class="linenos">277</span>                rfidController.saveNodeChanges(
+<span class="linenos">278</span>                    idVal,
+<span class="linenos">279</span>                    nameTextField.text, 
+<span class="linenos">280</span>                    readerIpAdressField.text, 
+<span class="linenos">281</span>                    readerPortField.text,
+<span class="linenos">282</span>                )
+<span class="linenos">283</span>                saveButton.enabled = false
 <span class="linenos">284</span>            }
-<span class="linenos">285</span>            Layout.fillWidth: true
-<span class="linenos">286</span>            clip: true
-<span class="linenos">287</span>        }
-<span class="linenos">288</span>        Button{
-<span class="linenos">289</span>            id: saveButton
-<span class="linenos">290</span>            text: &quot;Save Changes&quot;
-<span class="linenos">291</span>            enabled: false
-<span class="linenos">292</span>            Layout.preferredHeight: 50
-<span class="linenos">293</span>            Layout.preferredWidth: 200
-<span class="linenos">294</span>            onClicked:{
-<span class="linenos">295</span>                rfidController.saveNodeChanges(
-<span class="linenos">296</span>                    idVal,
-<span class="linenos">297</span>                    nameTextField.text, 
-<span class="linenos">298</span>                    readerIpAdressField.text, 
-<span class="linenos">299</span>                    readerPortField.text, 
-<span class="linenos">300</span>                    endpointIpAdressField.text, 
-<span class="linenos">301</span>                    endpointPortField.text, 
-<span class="linenos">302</span>                    endpointModbusAddressField.text
-<span class="linenos">303</span>                )
-<span class="linenos">304</span>                saveButton.enabled = false
-<span class="linenos">305</span>            }
-<span class="linenos">306</span>        }
-<span class="linenos">307</span>        Behavior on visible { PropertyAnimation{ duration: minimized? 10 : 1000; easing.type: Easing.InOutQuad}}
-<span class="linenos">308</span>    }
-<span class="linenos">309</span>    Behavior on height { PropertyAnimation{ duration: 1000; easing.type: Easing.OutCubic}}
-<span class="linenos">310</span>}
+<span class="linenos">285</span>        }
+<span class="linenos">286</span>        Behavior on visible { PropertyAnimation{ duration: minimized? 10 : 1000; easing.type: Easing.InOutQuad}}
+<span class="linenos">287</span>    }
+<span class="linenos">288</span>    Behavior on height { PropertyAnimation{ duration: 1000; easing.type: Easing.OutCubic}}
+<span class="linenos">289</span>}
 </pre></div>
 </div>
 </section>

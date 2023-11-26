@@ -55,7 +55,7 @@
 <span class="sd">        :param controller:</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pallets</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">StorageElement</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pallets</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">StorageElement</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">invController</span> <span class="o">=</span> <span class="n">controller</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pallets</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
@@ -65,9 +65,13 @@
 
 <div class="viewcode-block" id="Inventory.getStoragePallet"><a class="viewcode-back" href="../../../Modules/DataModel.html#src.model.DataModel.Inventory.getStoragePallet">[docs]</a>    <span class="k">def</span> <span class="nf">getStoragePallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns pallet object at given index.</span>
 <span class="sd">        :param row:</span>
+<span class="sd">        :type row: int</span>
 <span class="sd">        :param col:</span>
+<span class="sd">        :type col: int</span>
 <span class="sd">        :return: Returns Pallet object at given position</span>
+<span class="sd">        :rtype: Pallet or None if no pallet is stored</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pallets</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">pallet</span></div>
 <div class="viewcode-block" id="Inventory.setStoragePallet"><a class="viewcode-back" href="../../../Modules/DataModel.html#src.model.DataModel.Inventory.setStoragePallet">[docs]</a>    <span class="k">def</span> <span class="nf">setStoragePallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">pallet</span><span class="p">):</span>
@@ -581,8 +585,8 @@
 <span class="sd">        :param inventory: parent class of StorageElement</span>
 <span class="sd">        :type inventory: Inventory</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">row</span> <span class="o">=</span> <span class="n">row</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">col</span> <span class="o">=</span> <span class="n">col</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">row</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">col</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">col</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pallet</span> <span class="p">:</span> <span class="n">Pallet</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inventory</span> <span class="p">:</span> <span class="n">Inventory</span> <span class="o">=</span> <span class="n">inventory</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">locations</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Locations</span><span class="p">]</span><span class="o">=</span> <span class="p">[]</span>

@@ -1,4 +1,4 @@
-from typing import Union
+from src.model.CommissionModel import CommissionData, Locations, CommissionState
 from PySide6.QtCore import QSortFilterProxyModel, Slot, Qt, QModelIndex
 from PySide6 import QtCore
 
@@ -18,7 +18,7 @@ class CommissionViewModel(QtCore.QAbstractTableModel):
     commissionData = []
     def __init__(self, commissionData, parent=None):
         super().__init__()
-        self.commissionData = commissionData
+        self.commissionData: list[CommissionData] = commissionData
         self._headers = ["ID", "Source", "Target", "Object", "Cup", "Pallet", "State"]
 
     def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: int = Qt.DisplayRole):
@@ -67,13 +67,58 @@ class CommissionViewModel(QtCore.QAbstractTableModel):
                 case 6: return self.commissionData[row].state.value
                 case _: return None
 
+    def setData(self, index, value, role=Qt.EditRole):
+        """
+        Sets the role data for the item at index to value.
+        **UNTESTED**
+        :param index: index of item
+        :type index: QModelIndex
+        :param value: value to set
+        :type value: str
+        :param role: role of item
+        :type role: QtUserRole +1 per column
+        :return: returns True if successful, False otherwise
+        """
+        row = index.row()
+        col = index.column()
+        if not index.isValid() or row >= self.rowCount() or col >= self.columnCount():
+            return False
+        else:
+            match col:
+                case 0: self.commissionData[row].id = value
+                case 1: self.commissionData[row].source = value
+                case 2: self.commissionData[row].target = value
+                case 3: self.commissionData[row].object = value
+                case 4: self.commissionData[row].cup = value
+                case 5: self.commissionData[row].pallet = value
+                case 6: self.commissionData[row].state = value
+                case _: return False
+            self.dataChanged.emit(index, index)
+            return True
+
+    def add(self, commission: CommissionData):
+        """
+        Adds a new commission to the model.
+        From Documentation:
+        beginInsertRows() emits the rowsAboutToBeInserted() signal which is connected to views.
+        endInsertRows() must be called after row is inserted 'to notify components' (which is not fulfilled).
+        :param commission: commission to add
+        :type commission: CommissionData
+        """
+        last_index, start_index = len(self.commissionData), len(self.commissionData)-1
+        self.beginInsertRows(QModelIndex(), start_index, last_index)
+        self.commissionData.append(commission)
+        self.endInsertRows()
+        self.dataChanged.emit(self.index(start_index, 0), self.index(last_index, 0))
+
 
 
     def roleNames(self):
         """
-        Must be implemendted.
-        Creates a dictionary with rolenames and roles.
-        :return: dictionary with rolenames and roles
+        Must be implemented.
+        Creates a dictionary with roles and roleNames.
+        :return: dictionary with roles and roleNames.
+        :rtype: dict[int: bytes]
         """
         roles = {
             QtCore.Qt.UserRole + 1: b'text',
@@ -95,6 +140,13 @@ class CommissionViewModel(QtCore.QAbstractTableModel):
             if commissionID == commission:
                 return index
 
+    def new_comission_id(self):
+        """
+        Returns a new commission ID, based on the last ID.
+        :return: new commission ID
+        :rtype: int
+        """
+        return max((commission.id for commission in self.commissionData), default= -1)+1
 
 
 class CommissionFilterProxyModel(QSortFilterProxyModel):
@@ -129,7 +181,7 @@ class CommissionFilterProxyModel(QSortFilterProxyModel):
     
     def mapToSource(self, proxyIndex: QModelIndex ) -> QModelIndex:
         """
-        Maps the sorted inices back to the source model.
+        Maps the sorted indices back to the source model.
         """
         return super().mapToSource(proxyIndex)
         

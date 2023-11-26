@@ -38,241 +38,71 @@
 <span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">QObject</span>
 <span class="kn">from</span> <span class="nn">src.controller.PreferenceController</span> <span class="kn">import</span> <span class="n">PreferenceController</span>
 <span class="kn">from</span> <span class="nn">src.service.EventlogService</span> <span class="kn">import</span> <span class="n">EventlogService</span>
+<span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">import</span> <span class="nn">clr</span>
 <div class="viewcode-block" id="ABBController"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.ABBController.ABBController">[docs]</a><span class="k">class</span> <span class="nc">ABBController</span><span class="p">(</span> <span class="n">QObject</span> <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    class to communicate with ABB RobotWare via ABB&#39;s RESTful API.</span>
 <span class="sd">    ABB IRB 140 in muPant storage cell uses RobotWare version RW5.15_10.00.9100.</span>
+<span class="sd">    This class uses the ABBControllerWrapper DLL to establish a connection to the controller unit.</span>
+<span class="sd">    ABBControllerWrapper is a C# class library using the ABB.Robotics.Controllers library of an old PC SDK.</span>
+<span class="sd">    DLLs were imported from old Software Application called &#39;Lagerverwaltung 3.0&#39;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preferenceController</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">PreferenceController</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">EventlogService</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">preference_controller</span> <span class="o">=</span> <span class="n">preferenceController</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span> <span class="o">=</span> <span class="n">eventlogService</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;Default User&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;robotics&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="s2">&quot;192.168.2.51&quot;</span> <span class="c1">#garbage value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ABBController: Destructor called&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">Constants</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abb_controller</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">busy</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="ABBController.setup"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.ABBController.ABBController.setup">[docs]</a>    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Uses clr module to expose .NET framework to Python.</span>
+<span class="sd">        .NET version is 6.</span>
+<span class="sd">        Sets up the ABB controller by adding a reference to the ABBControllerWrapper DLL,</span>
+<span class="sd">        initializing the ABBLinker class, which establishes a connection to IRC5 controller unit of IRB140.</span>
+<span class="sd">        Hint: Ignore, that references to C# namespaces, classes and methods are not recognized by IDE.</span>
+
+<span class="sd">        :param: None</span>
+<span class="sd">        :return self.connected:  True if the setup is successful and a connection is established, False otherwise.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">clr</span><span class="o">.</span><span class="n">AddReference</span><span class="p">(</span><span class="s2">&quot;dll/ABBControllerWrapper&quot;</span><span class="p">)</span>
+        <span class="kn">from</span> <span class="nn">ABBPythonLinker</span> <span class="kn">import</span> <span class="n">ABBLinker</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">abb_controller</span> <span class="o">=</span> <span class="n">ABBLinker</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">abb_controller</span><span class="o">.</span><span class="n">Setup</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ABBController: Error during setup: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">abb_controller</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.setup&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Error during setup: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span></div>
+        
+<div class="viewcode-block" id="ABBController.move_item"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.ABBController.ABBController.move_item">[docs]</a>    <span class="k">def</span> <span class="nf">move_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If setup is successful, this method calls the CreateAndExecute method of the ABBLinker class.</span>
+<span class="sd">        This creates a command task of the SDK and sends an execute command to the controller unit.</span>
+<span class="sd">        the strings must be formatted accordingly.</span>
+<span class="sd">        :param source: formatted string of the execute command</span>
+<span class="sd">        :type source: str</span>
+<span class="sd">        :param target: formatted string of the execute command</span>
+<span class="sd">        :type target: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">busy</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">abb_controller</span><span class="o">.</span><span class="n">CreateAndExecute</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">busy</span> <span class="o">=</span> <span class="kc">True</span></div>
+        <span class="c1">#TODO: Execution must be in an async function.</span>
+
     <span class="k">def</span> <span class="nf">_loadPreferences</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preference_controller</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">abb</span><span class="o">.</span><span class="n">ip</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preference_controller</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">abb</span><span class="o">.</span><span class="n">port</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ABB Controller: Settings loaded: Ip: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">, Port: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_set_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="c1"># url =  f&quot;http://{self.ip}:{self.port}/rw/vars/{variable_name}&quot;</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">/rw/vars/</span><span class="si">{</span><span class="n">variable_name</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">value</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">payload</span>
-    <span class="k">def</span> <span class="nf">_get_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable_name</span><span class="p">):</span>
-        <span class="c1"># url =  f&quot;http://{self.ip}:{self.port}/rw/vars/{variable_name}&quot;</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">/rw/vars/</span><span class="si">{</span><span class="n">variable_name</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">return</span> <span class="n">url</span>
-
-<div class="viewcode-block" id="ABBController.start_session"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.ABBController.ABBController.start_session">[docs]</a>    <span class="k">def</span> <span class="nf">start_session</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Start a session with the ABB robot controller&#39;s RESTful API using HTTP digest authentication.</span>
-<span class="sd">        :return: True if the session was successfully started, False otherwise.</span>
-<span class="sd">        :rtype: bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_loadPreferences</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">Session</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="n">HTTPDigestAuth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
-            <span class="c1"># response = self.session.get(f&quot;http://{self.ip}:{self.port}/rw/rapid/symbol/data/RAPID_Variable&quot;)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="c1"># resp = self.session.post(self.base_url + &#39;/rw/rapid/execution?action=resetpp&#39;)</span>
-            <span class="c1"># if resp.status_code == 204:</span>
-                <span class="c1"># print(&#39;Program pointer reset to main&#39;)</span>
-            <span class="c1"># else:</span>
-                <span class="c1"># print(&#39;Could not reset program pointer to main&#39;)</span>
-            <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;LogonUser -name&#39;</span><span class="p">:</span> <span class="s1">&#39;Default User&#39;</span><span class="p">,</span> <span class="s1">&#39;-pwd&#39;</span><span class="p">:</span> <span class="s1">&#39;robotics&#39;</span><span class="p">,</span> <span class="s1">&#39;locale Remote App&#39;</span><span class="p">:</span> <span class="s1">&#39;Warehouse Manager.exe&#39;</span><span class="p">,</span> <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="s1">&#39;MRT-PC230&#39;</span><span class="p">,</span> <span class="s1">&#39;alias&#39;</span><span class="p">:</span> <span class="s1">&#39;muPlant&#39;</span>  <span class="p">}</span>
-            <span class="c1">#payload = {&#39;regain&#39;: &#39;continue&#39;, &#39;execmode&#39;: &#39;continue&#39;, &#39;cycle&#39;: &#39;once&#39;, &#39;condition&#39;: &#39;none&#39;,</span>
-            <span class="c1">#           &#39;stopatbp&#39;: &#39;disabled&#39;, &#39;alltaskbytsp&#39;: &#39;false&#39;}</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">+</span> <span class="s2">&quot;/rw/rapid/execution?action=start&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span>
-                    <span class="s2">&quot;ABBController.start_session&quot;</span><span class="p">,</span>
-                    <span class="sa">f</span><span class="s2">&quot;Session initialized.&quot;</span>
-                <span class="p">)</span>
-                <span class="k">return</span> <span class="kc">True</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span>
-                    <span class="s2">&quot;ABBController.start_session&quot;</span><span class="p">,</span>
-                    <span class="sa">f</span><span class="s2">&quot;Session initialization failed. Status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="p">)</span>
-                <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="c1"># Handle network-related errors.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span>
-                <span class="s2">&quot;ABBController.start_session&quot;</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s2">&quot;Session initialization failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-            <span class="c1"># Handle other exceptions.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span>
-                <span class="s2">&quot;ABBController.start_session&quot;</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s2">&quot;An unexpected error occurred during session initialization: </span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span></div>
-
-<div class="viewcode-block" id="ABBController.request_mastership"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.ABBController.ABBController.request_mastership">[docs]</a>    <span class="k">def</span> <span class="nf">request_mastership</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">True</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Request mastership of the ABB robot controller.</span>
-<span class="sd">        This method sends a POST request to the ABB robot controller&#39;s RESTful API to request mastership.</span>
-<span class="sd">        Mastership is necessary for controlling the robot and performing certain operations.</span>
-
-<span class="sd">        :return: True if mastership request was successful, False otherwise.</span>
-<span class="sd">        :rtype: bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_loadPreferences</span><span class="p">()</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s2">/rw/mastership&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.request_mastership: Request successful&quot;</span><span class="p">)</span>
-                <span class="k">return</span> <span class="kc">True</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">message</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;message&quot;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ABBController.request_mastership: Request failed: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.request_mastership&quot;</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;Request failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.request_mastership&quot;</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;An unexpected error occurred: </span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span></div>
-<div class="viewcode-block" id="ABBController.release_mastership"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.ABBController.ABBController.release_mastership">[docs]</a>    <span class="k">def</span> <span class="nf">release_mastership</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_loadPreferences</span><span class="p">()</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s2">/rw/mastership?action=release&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.release_mastership: Request successful&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">message</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;message&quot;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ABBController.release_mastership: Request failed: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.release_mastership&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Request failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.release_mastership&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;An unexpected error occurred: </span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span></div>
-
-<div class="viewcode-block" id="ABBController.request_rmmp"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.ABBController.ABBController.request_rmmp">[docs]</a>    <span class="k">def</span> <span class="nf">request_rmmp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">base_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">base_url</span> <span class="o">+</span> <span class="s1">&#39;/users/rmmp&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;privilege&#39;</span><span class="p">:</span> <span class="s1">&#39;modify&#39;</span><span class="p">})</span>
-            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.request_rmmp: Request successful&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">message</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;message&quot;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ABBController.request_rmmp: Request failed: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.request_rmmp&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Request failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.request_rmmp&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;An unexpected error occurred: </span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span></div>
-
-<div class="viewcode-block" id="ABBController.cancel_rmmp"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.ABBController.ABBController.cancel_rmmp">[docs]</a>    <span class="k">def</span> <span class="nf">cancel_rmmp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">+</span> <span class="s1">&#39;/users/rmmp?action=cancel&#39;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.cancel_rmmp: Request successful&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">message</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;message&quot;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ABBController.cancel_rmmp: Request failed: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.cancel_rmmp&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Request failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.cancel_rmmp&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;An unexpected error occurred: </span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span></div>
-<div class="viewcode-block" id="ABBController.set_variable"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.ABBController.ABBController.set_variable">[docs]</a>    <span class="k">def</span> <span class="nf">set_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Public Method. Loads actual Settings from PreferenceController (ABB IP and Port).</span>
-<span class="sd">        After this it writes a PUT Request to ABB-Robot Web Service&#39;s RESTful API with submitted variable name and value.</span>
-<span class="sd">        Result of PUT-Request is submitted to eventlogservice.</span>
-<span class="sd">        In Case Request was successful, True is returned, else False.</span>
-<span class="sd">        :param variable_name: Name of variable write to</span>
-<span class="sd">        :type variable_name: str</span>
-<span class="sd">        :param value: value that shall be written</span>
-<span class="sd">        :type value: Any</span>
-<span class="sd">        :rtype: bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_loadPreferences</span><span class="p">()</span>
-        <span class="n">url</span><span class="p">,</span> <span class="n">payload</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_variable</span><span class="p">(</span><span class="n">variable_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span> <span class="n">payload</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.set_variable:&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Request successful: </span><span class="si">{</span><span class="n">variable_name</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PUT- Request successful,</span><span class="si">{</span><span class="n">variable_name</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-                <span class="k">return</span> <span class="kc">True</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">message</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;message&quot;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.set_variable:&quot;</span><span class="p">,</span>
-                                                 <span class="sa">f</span><span class="s2">&quot;Request failed: </span><span class="si">{</span><span class="n">variable_name</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">, response = </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PUT Request failed!: </span><span class="si">{</span><span class="n">variable_name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">, response: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ABBController.set_variable: Request failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.set_variable:&quot;</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;Request failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ConnectionError</span> <span class="k">as</span> <span class="n">ec</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ABBController.set_variable: Failed to connect: </span><span class="si">{</span><span class="n">ec</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.set_variable:&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Request failed: </span><span class="si">{</span><span class="n">ec</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">Timeout</span> <span class="k">as</span> <span class="n">et</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ABBController.set_variable: Timeout: </span><span class="si">{</span><span class="n">et</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.set_variable:&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Timeout: </span><span class="si">{</span><span class="n">et</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span></div>
-<div class="viewcode-block" id="ABBController.get_variable"><a class="viewcode-back" href="../../../Modules/Controller.html#src.controller.ABBController.ABBController.get_variable">[docs]</a>    <span class="k">def</span> <span class="nf">get_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable_name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Public Method. Loads actual Settings from PreferenceController (ABB IP and Port).</span>
-<span class="sd">        After this it writes a GET Request to ABB-Robot Web Service&#39;s RESTful API with submitted variable name.</span>
-<span class="sd">        Result of GET-Request is submitted to eventlogservice.</span>
-<span class="sd">        In Case Request was successful, value is returned, else False.</span>
-<span class="sd">        :param variable_name: Name of variable write to</span>
-<span class="sd">        :type variable_name: str</span>
-<span class="sd">        :rtype: Any, False if Request failed.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_loadPreferences</span><span class="p">()</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_variable</span><span class="p">(</span><span class="n">variable_name</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">value</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">message</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;message&quot;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.get_variable:&quot;</span><span class="p">,</span>
-                                         <span class="sa">f</span><span class="s2">&quot;Request failed: </span><span class="si">{</span><span class="n">variable_name</span><span class="si">}</span><span class="s2">, response = </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GET Request failed!: </span><span class="si">{</span><span class="n">variable_name</span><span class="si">}</span><span class="s2">, response: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ABBController.get_variable: Request failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.get_variable:&quot;</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;Request failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ConnectionError</span> <span class="k">as</span> <span class="n">ec</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ABBController.get_variable: Failed to connect: </span><span class="si">{</span><span class="n">ec</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.get_variable:&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Request failed: </span><span class="si">{</span><span class="n">ec</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">Timeout</span> <span class="k">as</span> <span class="n">et</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ABBController.get_variable: Timeout: </span><span class="si">{</span><span class="n">et</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventlog_service</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">(</span><span class="s2">&quot;ABBController.get_variable:&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Timeout: </span><span class="si">{</span><span class="n">et</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span></div></div>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">eventlogService</span> <span class="o">=</span> <span class="n">EventlogService</span><span class="p">()</span>
-    <span class="n">preferenceController</span> <span class="o">=</span> <span class="n">PreferenceController</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">)</span>
-    <span class="n">controller</span> <span class="o">=</span> <span class="n">ABBController</span><span class="p">(</span><span class="n">preferenceController</span><span class="o">=</span><span class="n">preferenceController</span><span class="p">,</span> <span class="n">eventlogService</span><span class="o">=</span> <span class="n">eventlogService</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">controller</span><span class="o">.</span><span class="n">start_session</span><span class="p">():</span>
-        <span class="n">controller</span><span class="o">.</span><span class="n">request_mastership</span><span class="p">()</span>
-        <span class="n">controller</span><span class="o">.</span><span class="n">request_rmmp</span><span class="p">()</span>
-        <span class="n">controller</span><span class="o">.</span><span class="n">release_mastership</span><span class="p">()</span>
-        <span class="n">controller</span><span class="o">.</span><span class="n">cancel_rmmp</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ABB Controller: Settings loaded: Ip: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">, Port: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

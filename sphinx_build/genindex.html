@@ -54,6 +54,7 @@
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
  | <a href="#Y"><strong>Y</strong></a>
@@ -112,7 +113,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Modules/DataModel.html#src.model.DataModel.Inventory.calcLocations">calcLocations() (src.model.DataModel.Inventory method)</a>
 </li>
-      <li><a href="Modules/Controller.html#src.controller.ABBController.ABBController.cancel_rmmp">cancel_rmmp() (src.controller.ABBController.ABBController method)</a>
+      <li><a href="Modules/Service.html#src.service.stocktaking.Stocktaker.calculate_result_matrix">calculate_result_matrix() (src.service.stocktaking.Stocktaker method)</a>
 </li>
       <li><a href="Modules/Controller.html#src.controller.invController.invController.changeGripper">changeGripper() (src.controller.invController.invController method)</a>
 </li>
@@ -131,6 +132,8 @@
       <li><a href="Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.columnCount">columnCount() (src.viewmodel.commissionViewModel.CommissionViewModel method)</a>
 
       <ul>
+        <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stockmodel.columnCount">(src.viewmodel.stockmodel.stockmodel method)</a>
+</li>
         <li><a href="Modules/ViewModel.html#src.viewmodel.storageViewModel.StorageViewModel.columnCount">(src.viewmodel.storageViewModel.StorageViewModel method)</a>
 </li>
       </ul></li>
@@ -150,6 +153,8 @@
 </li>
       <li><a href="Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel">CommissionViewModel (class in src.viewmodel.commissionViewModel)</a>
 </li>
+      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.create_opcua_node">create_opcua_node (src.controller.RfidController.RfidController attribute)</a>
+</li>
       <li><a href="Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.create_population">create_population() (src.service.DetectionOptimizationService.DetectionOptimizationService method)</a>
 </li>
       <li><a href="Modules/Service.html#src.service.EventlogService.EventlogService.createMessage">createMessage() (src.service.EventlogService.EventlogService method)</a>
@@ -167,9 +172,11 @@
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.data">data (src.model.RfidModel.RfidModel attribute)</a>
 
       <ul>
-        <li><a href="RFIDServer.html#src.service.rfid_service.rfid_readertask.data">(src.service.rfid_service.rfid_readertask attribute)</a>
+        <li><a href="RFIDServer.html#src.service.rfidservice.RfidReadertask.data">(src.service.rfidservice.RfidReadertask attribute)</a>
 </li>
-        <li><a href="RFIDServer.html#src.service.rfid_service.rfid_readerworker.data">(src.service.rfid_service.rfid_readerworker attribute)</a>
+        <li><a href="RFIDServer.html#src.service.rfidservice.RfidReaderWorker.data">(src.service.rfidservice.RfidReaderWorker attribute)</a>
+</li>
+        <li><a href="RFIDServer.html#src.service.rfidservice.RfidService.data">(src.service.rfidservice.RfidService attribute)</a>
 </li>
       </ul></li>
       <li><a href="Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.data">data() (src.viewmodel.commissionViewModel.CommissionViewModel method)</a>
@@ -179,17 +186,27 @@
 </li>
         <li><a href="RFIDServer.html#src.viewmodel.RfidViewModel.RfidViewModel.data">(src.viewmodel.RfidViewModel.RfidViewModel method)</a>
 </li>
+        <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stockmodel.data">(src.viewmodel.stockmodel.stockmodel method)</a>
+</li>
+        <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.tablemodel.data">(src.viewmodel.stockmodel.tablemodel method)</a>
+</li>
         <li><a href="Modules/ViewModel.html#src.viewmodel.storageViewModel.StorageViewModel.data">(src.viewmodel.storageViewModel.StorageViewModel method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.data_to_opcua">data_to_opcua (src.controller.RfidController.RfidController attribute)</a>
+</li>
       <li><a href="Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService">DetectionOptimizationService (class in src.service.DetectionOptimizationService)</a>
 </li>
       <li><a href="Modules/DataModel.html#src.model.CommissionModel.CommissionState.DONE">DONE (src.model.CommissionModel.CommissionState attribute)</a>
 </li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.dsfid">dsfid (src.model.RfidModel.RfidModel attribute)</a>
+
+      <ul>
+        <li><a href="Modules/Service.html#src.service.OpcuaService.rfid_vars.dsfid">(src.service.OpcuaService.rfid_vars attribute)</a>
 </li>
+      </ul></li>
       <li><a href="Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.dump_parameters">dump_parameters() (src.service.DetectionOptimizationService.DetectionOptimizationService method)</a>
 </li>
       <li><a href="Modules/Controller.html#src.controller.CommissionController.CommissionController.dumpCommissionData">dumpCommissionData() (src.controller.CommissionController.CommissionController method)</a>
@@ -200,20 +217,34 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Modules/Service.html#src.service.stocktaking.Stocktaker.emit_cell_image">emit_cell_image() (src.service.stocktaking.Stocktaker method)</a>
+</li>
+      <li><a href="Modules/Service.html#src.service.stocktaking.Stocktaker.emit_pallet_cup_images">emit_pallet_cup_images() (src.service.stocktaking.Stocktaker method)</a>
+</li>
       <li><a href="Modules/DataModel.html#src.model.DataModel.Gripper.emitObject">emitObject() (src.model.DataModel.Gripper method)</a>
 </li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.endPointipAddr">endPointipAddr (src.model.RfidModel.RfidModel attribute)</a>
 </li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.endPointipPort">endPointipPort (src.model.RfidModel.RfidModel attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.endPointModbus">endPointModbus (src.model.RfidModel.RfidModel attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.endPointStatus">endPointStatus (src.model.RfidModel.RfidModel attribute)</a>
 </li>
       <li><a href="Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.evaluate_fitness">evaluate_fitness() (src.service.DetectionOptimizationService.DetectionOptimizationService method)</a>
 </li>
+      <li><a href="Modules/Service.html#src.service.stocktaking.Stocktaker.evaluate_gripper">evaluate_gripper() (src.service.stocktaking.Stocktaker method)</a>
+</li>
+      <li><a href="Modules/Service.html#src.service.stocktaking.Stocktaker.evaluate_storagecell_cam">evaluate_storagecell_cam() (src.service.stocktaking.Stocktaker method)</a>
+</li>
+      <li><a href="Modules/Service.html#src.service.OpcuaService.OpcuaServerHandle.event">event (src.service.OpcuaService.OpcuaServerHandle attribute)</a>
+
+      <ul>
+        <li><a href="Modules/Service.html#src.service.OpcuaService.OpcuaService.event">(src.service.OpcuaService.OpcuaService attribute)</a>
+</li>
+      </ul></li>
       <li><a href="Modules/Service.html#src.service.EventlogService.EventlogService">EventlogService (class in src.service.EventlogService)</a>
 </li>
   </ul></td>
@@ -244,8 +275,6 @@
 </li>
       <li><a href="Modules/Service.html#src.service.CameraService.ImageProvider.get_image">get_image() (src.service.CameraService.ImageProvider method)</a>
 </li>
-      <li><a href="Modules/Controller.html#src.controller.ABBController.ABBController.get_variable">get_variable() (src.controller.ABBController.ABBController method)</a>
-</li>
       <li><a href="Modules/DataModel.html#src.model.DataModel.Cup.getID">getID() (src.model.DataModel.Cup method)</a>
 </li>
       <li><a href="Modules/DataModel.html#src.model.DataModel.Cup.getProduct">getProduct() (src.model.DataModel.Cup method)</a>
@@ -270,14 +299,18 @@
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="RFIDServer.html#src.service.rfid_service.rfid_readertask.handle_data_read">handle_data_read() (src.service.rfid_service.rfid_readertask method)</a>
+      <li><a href="RFIDServer.html#src.service.rfidservice.RfidReadertask.handle_data_read">handle_data_read() (src.service.rfidservice.RfidReadertask method)</a>
 
       <ul>
-        <li><a href="RFIDServer.html#src.service.rfid_service.rfid_service.handle_data_read">(src.service.rfid_service.rfid_service method)</a>
+        <li><a href="RFIDServer.html#src.service.rfidservice.RfidService.handle_data_read">(src.service.rfidservice.RfidService method)</a>
 </li>
       </ul></li>
+      <li><a href="Modules/Service.html#src.service.stocktaking.Stocktaker.handle_image_signal">handle_image_signal() (src.service.stocktaking.Stocktaker method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Modules/Service.html#src.service.OpcuaService.OpcuaService.handle_rfid_update">handle_rfid_update() (src.service.OpcuaService.OpcuaService method)</a>
+</li>
       <li><a href="Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.headerData">headerData() (src.viewmodel.commissionViewModel.CommissionViewModel method)</a>
 
       <ul>
@@ -295,8 +328,14 @@
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.idVal">idVal (src.model.RfidModel.RfidModel attribute)</a>
 </li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.iid">iid (src.model.RfidModel.RfidModel attribute)</a>
+
+      <ul>
+        <li><a href="Modules/Service.html#src.service.OpcuaService.rfid_vars.iid">(src.service.OpcuaService.rfid_vars attribute)</a>
 </li>
+      </ul></li>
       <li><a href="Modules/Service.html#src.service.CameraService.ImageProvider">ImageProvider (class in src.service.CameraService)</a>
+</li>
+      <li><a href="Modules/Service.html#src.service.CameraService.ImageProvider.imageSignal">imageSignal (src.service.CameraService.ImageProvider attribute)</a>
 </li>
       <li><a href="Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.indexOf">indexOf() (src.viewmodel.commissionViewModel.CommissionViewModel method)</a>
 
@@ -316,7 +355,9 @@
 </li>
       <li><a href="Modules/Service.html#src.service.OpcuaService.OpcuaServerHandle.inventoryVarsChanged">inventoryVarsChanged (src.service.OpcuaService.OpcuaServerHandle attribute)</a>
 </li>
-      <li><a href="RFIDServer.html#src.service.rfid_service.rfid_readertask.ip">ip (src.service.rfid_service.rfid_readertask attribute)</a>
+      <li><a href="Modules/Service.html#src.service.OpcuaService.rfid_vars.ip">ip (src.service.OpcuaService.rfid_vars attribute)</a>
+</li>
+      <li><a href="Modules/Service.html#src.service.OpcuaService.rfid_vars.ip_id">ip_id (src.service.OpcuaService.rfid_vars attribute)</a>
 </li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.ipAddr">ipAddr (src.model.RfidModel.RfidModel attribute)</a>
 </li>
@@ -488,14 +529,14 @@
         <li><a href="Modules/DataModel.html#src.model.DataModel.StorageElement.Locations.L2A">(src.model.DataModel.StorageElement.Locations attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Modules/DataModel.html#src.model.CommissionModel.Locations.L2B">L2B (src.model.CommissionModel.Locations attribute)</a>
 
       <ul>
         <li><a href="Modules/DataModel.html#src.model.DataModel.StorageElement.Locations.L2B">(src.model.DataModel.StorageElement.Locations attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Modules/DataModel.html#src.model.CommissionModel.Locations.L3A">L3A (src.model.CommissionModel.Locations attribute)</a>
 
       <ul>
@@ -581,11 +622,23 @@
 </li>
       </ul></li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.last_valid_dsfid">last_valid_dsfid (src.model.RfidModel.RfidModel attribute)</a>
+
+      <ul>
+        <li><a href="Modules/Service.html#src.service.OpcuaService.rfid_vars.last_valid_dsfid">(src.service.OpcuaService.rfid_vars attribute)</a>
 </li>
+      </ul></li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.last_valid_iid">last_valid_iid (src.model.RfidModel.RfidModel attribute)</a>
+
+      <ul>
+        <li><a href="Modules/Service.html#src.service.OpcuaService.rfid_vars.last_valid_iid">(src.service.OpcuaService.rfid_vars attribute)</a>
 </li>
+      </ul></li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.last_valid_timestamp">last_valid_timestamp (src.model.RfidModel.RfidModel attribute)</a>
+
+      <ul>
+        <li><a href="Modules/Service.html#src.service.OpcuaService.rfid_vars.last_valid_timestamp">(src.service.OpcuaService.rfid_vars attribute)</a>
 </li>
+      </ul></li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.last_valid_transponder_type">last_valid_transponder_type (src.model.RfidModel.RfidModel attribute)</a>
 </li>
       <li><a href="Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.lastId">lastId (src.viewmodel.commissionViewModel.CommissionViewModel attribute)</a>
@@ -658,7 +711,9 @@
 </li>
         <li><a href="Modules/Service.html#module-src.service.OpcuaService">src.service.OpcuaService</a>
 </li>
-        <li><a href="RFIDServer.html#module-src.service.rfid_service">src.service.rfid_service</a>
+        <li><a href="RFIDServer.html#module-src.service.rfidservice">src.service.rfidservice</a>
+</li>
+        <li><a href="Modules/Service.html#module-src.service.stocktaking">src.service.stocktaking</a>
 </li>
         <li><a href="Modules/ViewModel.html#module-src.viewmodel.commissionViewModel">src.viewmodel.commissionViewModel</a>
 </li>
@@ -668,11 +723,15 @@
 </li>
         <li><a href="RFIDServer.html#module-src.viewmodel.RfidViewModel">src.viewmodel.RfidViewModel</a>
 </li>
+        <li><a href="Modules/ViewModel.html#module-src.viewmodel.stockmodel">src.viewmodel.stockmodel</a>
+</li>
         <li><a href="Modules/ViewModel.html#module-src.viewmodel.storageViewModel">src.viewmodel.storageViewModel</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Modules/Controller.html#src.controller.ABBController.ABBController.move_item">move_item() (src.controller.ABBController.ABBController method)</a>
+</li>
       <li><a href="Modules/Controller.html#src.controller.invController.invController.moveCupToK1">moveCupToK1() (src.controller.invController.invController method)</a>
 </li>
       <li><a href="Modules/Controller.html#src.controller.invController.invController.moveCupToK2">moveCupToK2() (src.controller.invController.invController method)</a>
@@ -694,6 +753,22 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.name">name (src.model.RfidModel.RfidModel attribute)</a>
+
+      <ul>
+        <li><a href="Modules/Service.html#src.service.OpcuaService.rfid_vars.name">(src.service.OpcuaService.rfid_vars attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="Modules/Service.html#src.service.OpcuaService.rfid_vars.name_id">name_id (src.service.OpcuaService.rfid_vars attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stock_delegate.new_cupA">new_cupA (src.viewmodel.stockmodel.stock_delegate attribute)</a>
+</li>
+      <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stock_delegate.new_cupB">new_cupB (src.viewmodel.stockmodel.stock_delegate attribute)</a>
+</li>
+      <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stock_delegate.new_pallet">new_pallet (src.viewmodel.stockmodel.stock_delegate attribute)</a>
+</li>
+      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.notify_opcua">notify_opcua() (src.controller.RfidController.RfidController method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -737,8 +812,14 @@
 </li>
       <li><a href="Modules/DataModel.html#src.model.Preferences.Preferences">Preferences (class in src.model.Preferences)</a>
 </li>
+      <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stock_delegate.previous_cupA">previous_cupA (src.viewmodel.stockmodel.stock_delegate attribute)</a>
+</li>
+      <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stock_delegate.previous_cupB">previous_cupB (src.viewmodel.stockmodel.stock_delegate attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stock_delegate.previous_pallet">previous_pallet (src.viewmodel.stockmodel.stock_delegate attribute)</a>
+</li>
       <li><a href="Modules/DataModel.html#src.model.DataModel.Product">Product (class in src.model.DataModel)</a>
 </li>
       <li><a href="Modules/ViewModel.html#src.viewmodel.productlistViewModel.ProductData">ProductData (class in src.viewmodel.productlistViewModel)</a>
@@ -771,21 +852,11 @@
 </li>
       <li><a href="Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.recombine_parameters">recombine_parameters() (src.service.DetectionOptimizationService.DetectionOptimizationService method)</a>
 </li>
-      <li><a href="Modules/Controller.html#src.controller.ABBController.ABBController.release_mastership">release_mastership() (src.controller.ABBController.ABBController method)</a>
+      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.remove_selected">remove_selected() (src.controller.RfidController.RfidController method)</a>
 </li>
       <li><a href="RFIDServer.html#src.viewmodel.RfidViewModel.RfidViewModel.removeRow">removeRow() (src.viewmodel.RfidViewModel.RfidViewModel method)</a>
 </li>
-      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.removeSelected">removeSelected() (src.controller.RfidController.RfidController method)</a>
-</li>
-      <li><a href="Modules/Controller.html#src.controller.ABBController.ABBController.request_mastership">request_mastership() (src.controller.ABBController.ABBController method)</a>
-</li>
-      <li><a href="Modules/Controller.html#src.controller.ABBController.ABBController.request_rmmp">request_rmmp() (src.controller.ABBController.ABBController method)</a>
-</li>
-      <li><a href="RFIDServer.html#src.service.rfid_service.rfid_readertask">rfid_readertask (class in src.service.rfid_service)</a>
-</li>
-      <li><a href="RFIDServer.html#src.service.rfid_service.rfid_readerworker">rfid_readerworker (class in src.service.rfid_service)</a>
-</li>
-      <li><a href="RFIDServer.html#src.service.rfid_service.rfid_service">rfid_service (class in src.service.rfid_service)</a>
+      <li><a href="Modules/Service.html#src.service.OpcuaService.rfid_vars">rfid_vars (class in src.service.OpcuaService)</a>
 </li>
       <li><a href="RFIDServer.html#src.controller.RfidController.RfidController">RfidController (class in src.controller.RfidController)</a>
 </li>
@@ -793,12 +864,16 @@
 </li>
       <li><a href="RFIDServer.html#src.viewmodel.RfidViewModel.RfidProxyViewModel">RfidProxyViewModel (class in src.viewmodel.RfidViewModel)</a>
 </li>
+      <li><a href="RFIDServer.html#src.service.rfidservice.RfidReadertask">RfidReadertask (class in src.service.rfidservice)</a>
+</li>
+      <li><a href="RFIDServer.html#src.service.rfidservice.RfidReaderWorker">RfidReaderWorker (class in src.service.rfidservice)</a>
+</li>
+      <li><a href="RFIDServer.html#src.service.rfidservice.RfidService">RfidService (class in src.service.rfidservice)</a>
+</li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.rfidStatus">rfidStatus (src.model.RfidModel.RfidModel attribute)</a>
 </li>
       <li><a href="RFIDServer.html#src.viewmodel.RfidViewModel.RfidViewModel">RfidViewModel (class in src.viewmodel.RfidViewModel)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Modules/DataModel.html#src.model.CommissionModel.Locations.ROBOT">ROBOT (src.model.CommissionModel.Locations attribute)</a>
 
       <ul>
@@ -812,9 +887,15 @@
 </li>
         <li><a href="RFIDServer.html#src.viewmodel.RfidViewModel.RfidViewModel.roleNames">(src.viewmodel.RfidViewModel.RfidViewModel method)</a>
 </li>
+        <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stockmodel.roleNames">(src.viewmodel.stockmodel.stockmodel method)</a>
+</li>
+        <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.tablemodel.roleNames">(src.viewmodel.stockmodel.tablemodel method)</a>
+</li>
         <li><a href="Modules/ViewModel.html#src.viewmodel.storageViewModel.StorageViewModel.roleNames">(src.viewmodel.storageViewModel.StorageViewModel method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Modules/ViewModel.html#src.viewmodel.storageViewModel.StorageData.row">row (src.viewmodel.storageViewModel.StorageData attribute)</a>
 </li>
       <li><a href="Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionViewModel.rowCount">rowCount() (src.viewmodel.commissionViewModel.CommissionViewModel method)</a>
@@ -824,15 +905,19 @@
 </li>
         <li><a href="RFIDServer.html#src.viewmodel.RfidViewModel.RfidViewModel.rowCount">(src.viewmodel.RfidViewModel.RfidViewModel method)</a>
 </li>
+        <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stockmodel.rowCount">(src.viewmodel.stockmodel.stockmodel method)</a>
+</li>
+        <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.tablemodel.rowCount">(src.viewmodel.stockmodel.tablemodel method)</a>
+</li>
         <li><a href="Modules/ViewModel.html#src.viewmodel.storageViewModel.StorageViewModel.rowCount">(src.viewmodel.storageViewModel.StorageViewModel method)</a>
 </li>
       </ul></li>
       <li><a href="Modules/Service.html#src.service.OpcuaService.OpcuaServerHandle.run">run() (src.service.OpcuaService.OpcuaServerHandle method)</a>
 
       <ul>
-        <li><a href="RFIDServer.html#src.service.rfid_service.rfid_readertask.run">(src.service.rfid_service.rfid_readertask method)</a>
+        <li><a href="RFIDServer.html#src.service.rfidservice.RfidReadertask.run">(src.service.rfidservice.RfidReadertask method)</a>
 </li>
-        <li><a href="RFIDServer.html#src.service.rfid_service.rfid_readerworker.run">(src.service.rfid_service.rfid_readerworker method)</a>
+        <li><a href="RFIDServer.html#src.service.rfidservice.RfidReaderWorker.run">(src.service.rfidservice.RfidReaderWorker method)</a>
 </li>
       </ul></li>
       <li><a href="Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.run_ga">run_ga() (src.service.DetectionOptimizationService.DetectionOptimizationService method)</a>
@@ -843,21 +928,23 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.saveNodeChanges">saveNodeChanges() (src.controller.RfidController.RfidController method)</a>
+      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.save_node_changes">save_node_changes() (src.controller.RfidController.RfidController method)</a>
 </li>
-      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.selectAll">selectAll() (src.controller.RfidController.RfidController method)</a>
+      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.select_all">select_all() (src.controller.RfidController.RfidController method)</a>
+</li>
+      <li><a href="Modules/Service.html#src.service.stocktaking.Stocktaker.select_marker_parameters">select_marker_parameters() (src.service.stocktaking.Stocktaker method)</a>
+</li>
+      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.select_node">select_node() (src.controller.RfidController.RfidController method)</a>
+</li>
+      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.select_none">select_none() (src.controller.RfidController.RfidController method)</a>
 </li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.selected">selected (src.model.RfidModel.RfidModel attribute)</a>
 </li>
-      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.selectNode">selectNode() (src.controller.RfidController.RfidController method)</a>
-</li>
-      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.selectNone">selectNone() (src.controller.RfidController.RfidController method)</a>
-</li>
       <li><a href="Modules/Controller.html#src.controller.invController.invController.selectRow">selectRow() (src.controller.invController.invController method)</a>
 </li>
-      <li><a href="Modules/Controller.html#src.controller.PreferenceController.PreferenceController.sendPreferences">sendPreferences (src.controller.PreferenceController.PreferenceController attribute)</a>
+      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.send_data_to_opcua">send_data_to_opcua() (src.controller.RfidController.RfidController method)</a>
 </li>
-      <li><a href="Modules/Controller.html#src.controller.ABBController.ABBController.set_variable">set_variable() (src.controller.ABBController.ABBController method)</a>
+      <li><a href="Modules/Controller.html#src.controller.PreferenceController.PreferenceController.sendPreferences">sendPreferences (src.controller.PreferenceController.PreferenceController attribute)</a>
 </li>
       <li><a href="Modules/Controller.html#src.controller.PreferenceController.PreferenceController.setAbbPreferences">setAbbPreferences() (src.controller.PreferenceController.PreferenceController method)</a>
 </li>
@@ -867,6 +954,10 @@
 
       <ul>
         <li><a href="RFIDServer.html#src.viewmodel.RfidViewModel.RfidViewModel.setData">(src.viewmodel.RfidViewModel.RfidViewModel method)</a>
+</li>
+        <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stockmodel.setData">(src.viewmodel.stockmodel.stockmodel method)</a>
+</li>
+        <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.tablemodel.setData">(src.viewmodel.stockmodel.tablemodel method)</a>
 </li>
         <li><a href="Modules/ViewModel.html#src.viewmodel.storageViewModel.StorageViewModel.setData">(src.viewmodel.storageViewModel.StorageViewModel method)</a>
 </li>
@@ -920,6 +1011,8 @@
       <li><a href="Modules/DataModel.html#src.model.DataModel.Pallet.setSlotB">setSlotB() (src.model.DataModel.Pallet method)</a>
 </li>
       <li><a href="Modules/DataModel.html#src.model.DataModel.Inventory.setStoragePallet">setStoragePallet() (src.model.DataModel.Inventory method)</a>
+</li>
+      <li><a href="Modules/Controller.html#src.controller.ABBController.ABBController.setup">setup() (src.controller.ABBController.ABBController method)</a>
 </li>
       <li><a href="Modules/Service.html#src.service.OpcuaService.OpcuaServerHandle.setup_server">setup_server() (src.service.OpcuaService.OpcuaServerHandle method)</a>
 </li>
@@ -997,8 +1090,6 @@
         <li><a href="Modules/Service.html#module-src.service.AgentService">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     src.service.CameraService
 
@@ -1006,6 +1097,8 @@
         <li><a href="Modules/Service.html#module-src.service.CameraService">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     src.service.DetectionOptimizationService
 
@@ -1028,10 +1121,17 @@
 </li>
       </ul></li>
       <li>
-    src.service.rfid_service
+    src.service.rfidservice
 
       <ul>
-        <li><a href="RFIDServer.html#module-src.service.rfid_service">module</a>
+        <li><a href="RFIDServer.html#module-src.service.rfidservice">module</a>
+</li>
+      </ul></li>
+      <li>
+    src.service.stocktaking
+
+      <ul>
+        <li><a href="Modules/Service.html#module-src.service.stocktaking">module</a>
 </li>
       </ul></li>
       <li>
@@ -1063,6 +1163,13 @@
 </li>
       </ul></li>
       <li>
+    src.viewmodel.stockmodel
+
+      <ul>
+        <li><a href="Modules/ViewModel.html#module-src.viewmodel.stockmodel">module</a>
+</li>
+      </ul></li>
+      <li>
     src.viewmodel.storageViewModel
 
       <ul>
@@ -1072,16 +1179,14 @@
       <li><a href="Modules/Service.html#src.service.OpcuaService.OpcuaServerHandle.start">start() (src.service.OpcuaService.OpcuaServerHandle method)</a>
 
       <ul>
-        <li><a href="RFIDServer.html#src.service.rfid_service.rfid_readertask.start">(src.service.rfid_service.rfid_readertask method)</a>
+        <li><a href="RFIDServer.html#src.service.rfidservice.RfidReadertask.start">(src.service.rfidservice.RfidReadertask method)</a>
 </li>
       </ul></li>
-      <li><a href="RFIDServer.html#src.service.rfid_service.rfid_service.start_node">start_node() (src.service.rfid_service.rfid_service method)</a>
+      <li><a href="RFIDServer.html#src.service.rfidservice.RfidService.start_node">start_node() (src.service.rfidservice.RfidService method)</a>
 </li>
-      <li><a href="Modules/Controller.html#src.controller.ABBController.ABBController.start_session">start_session() (src.controller.ABBController.ABBController method)</a>
+      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.start_selected">start_selected() (src.controller.RfidController.RfidController method)</a>
 </li>
       <li><a href="Modules/Service.html#src.service.OpcuaService.OpcuaService.startOpcuaService">startOpcuaService() (src.service.OpcuaService.OpcuaService method)</a>
-</li>
-      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.startSelected">startSelected() (src.controller.RfidController.RfidController method)</a>
 </li>
       <li><a href="Modules/Controller.html#src.controller.ABBController.ABBController.staticMetaObject">staticMetaObject (src.controller.ABBController.ABBController attribute)</a>
 
@@ -1104,11 +1209,13 @@
 </li>
         <li><a href="Modules/Service.html#src.service.OpcuaService.OpcuaService.staticMetaObject">(src.service.OpcuaService.OpcuaService attribute)</a>
 </li>
-        <li><a href="RFIDServer.html#src.service.rfid_service.rfid_readertask.staticMetaObject">(src.service.rfid_service.rfid_readertask attribute)</a>
+        <li><a href="RFIDServer.html#src.service.rfidservice.RfidReadertask.staticMetaObject">(src.service.rfidservice.RfidReadertask attribute)</a>
 </li>
-        <li><a href="RFIDServer.html#src.service.rfid_service.rfid_readerworker.staticMetaObject">(src.service.rfid_service.rfid_readerworker attribute)</a>
+        <li><a href="RFIDServer.html#src.service.rfidservice.RfidReaderWorker.staticMetaObject">(src.service.rfidservice.RfidReaderWorker attribute)</a>
 </li>
-        <li><a href="RFIDServer.html#src.service.rfid_service.rfid_service.staticMetaObject">(src.service.rfid_service.rfid_service attribute)</a>
+        <li><a href="RFIDServer.html#src.service.rfidservice.RfidService.staticMetaObject">(src.service.rfidservice.RfidService attribute)</a>
+</li>
+        <li><a href="Modules/Service.html#src.service.stocktaking.Stocktaker.staticMetaObject">(src.service.stocktaking.Stocktaker attribute)</a>
 </li>
         <li><a href="Modules/ViewModel.html#src.viewmodel.commissionViewModel.CommissionFilterProxyModel.staticMetaObject">(src.viewmodel.commissionViewModel.CommissionFilterProxyModel attribute)</a>
 </li>
@@ -1122,22 +1229,30 @@
 </li>
         <li><a href="RFIDServer.html#src.viewmodel.RfidViewModel.RfidViewModel.staticMetaObject">(src.viewmodel.RfidViewModel.RfidViewModel attribute)</a>
 </li>
+        <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stock_delegate.staticMetaObject">(src.viewmodel.stockmodel.stock_delegate attribute)</a>
+</li>
+        <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stockmodel.staticMetaObject">(src.viewmodel.stockmodel.stockmodel attribute)</a>
+</li>
+        <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.tablemodel.staticMetaObject">(src.viewmodel.stockmodel.tablemodel attribute)</a>
+</li>
         <li><a href="Modules/ViewModel.html#src.viewmodel.storageViewModel.StorageViewModel.staticMetaObject">(src.viewmodel.storageViewModel.StorageViewModel attribute)</a>
 </li>
       </ul></li>
-      <li><a href="RFIDServer.html#src.service.rfid_service.rfid_readertask.stop">stop() (src.service.rfid_service.rfid_readertask method)</a>
-
-      <ul>
-        <li><a href="RFIDServer.html#src.service.rfid_service.rfid_readerworker.stop">(src.service.rfid_service.rfid_readerworker method)</a>
+      <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stock_delegate">stock_delegate (class in src.viewmodel.stockmodel)</a>
 </li>
-      </ul></li>
-      <li><a href="RFIDServer.html#src.service.rfid_service.rfid_service.stop_node">stop_node() (src.service.rfid_service.rfid_service method)</a>
+      <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stockmodel">stockmodel (class in src.viewmodel.stockmodel)</a>
+</li>
+      <li><a href="Modules/Service.html#src.service.stocktaking.Stocktaker">Stocktaker (class in src.service.stocktaking)</a>
+</li>
+      <li><a href="RFIDServer.html#src.service.rfidservice.RfidReadertask.stop">stop() (src.service.rfidservice.RfidReadertask method)</a>
+</li>
+      <li><a href="RFIDServer.html#src.service.rfidservice.RfidService.stop_node">stop_node() (src.service.rfidservice.RfidService method)</a>
+</li>
+      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.stop_selected">stop_selected() (src.controller.RfidController.RfidController method)</a>
 </li>
       <li><a href="Modules/Service.html#src.service.AgentService.AgentService.stopAgentService">stopAgentService() (src.service.AgentService.AgentService method)</a>
 </li>
       <li><a href="Modules/Service.html#src.service.OpcuaService.OpcuaService.stopOpcuaService">stopOpcuaService() (src.service.OpcuaService.OpcuaService method)</a>
-</li>
-      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.stopSelected">stopSelected() (src.controller.RfidController.RfidController method)</a>
 </li>
       <li><a href="Modules/DataModel.html#src.model.CommissionModel.Locations.STORAGE">STORAGE (src.model.CommissionModel.Locations attribute)</a>
 
@@ -1159,16 +1274,24 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.tablemodel">tablemodel (class in src.viewmodel.stockmodel)</a>
+</li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.tagId">tagId (src.model.RfidModel.RfidModel attribute)</a>
 </li>
+      <li><a href="Modules/ViewModel.html#src.viewmodel.stockmodel.stock_delegate.tested">tested (src.viewmodel.stockmodel.stock_delegate attribute)</a>
+</li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.timestamp">timestamp (src.model.RfidModel.RfidModel attribute)</a>
+
+      <ul>
+        <li><a href="Modules/Service.html#src.service.OpcuaService.rfid_vars.timestamp">(src.service.OpcuaService.rfid_vars attribute)</a>
 </li>
+      </ul></li>
       <li><a href="Modules/Service.html#src.service.DetectionOptimizationService.DetectionOptimizationService.tournament_selection">tournament_selection() (src.service.DetectionOptimizationService.DetectionOptimizationService method)</a>
-</li>
-      <li><a href="Modules/Controller.html#src.controller.invController.invController.transmitGripper">transmitGripper (src.controller.invController.invController attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Modules/Controller.html#src.controller.invController.invController.transmitGripper">transmitGripper (src.controller.invController.invController attribute)</a>
+</li>
       <li><a href="Modules/Controller.html#src.controller.invController.invController.transmitMobileRobot">transmitMobileRobot (src.controller.invController.invController attribute)</a>
 </li>
       <li><a href="Modules/Controller.html#src.controller.invController.invController.transmitStorageData">transmitStorageData (src.controller.invController.invController attribute)</a>
@@ -1178,6 +1301,14 @@
       <li><a href="Modules/Controller.html#src.controller.invController.invController.transmitWorkbenchPallet">transmitWorkbenchPallet (src.controller.invController.invController attribute)</a>
 </li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.transponder_type">transponder_type (src.model.RfidModel.RfidModel attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="RFIDServer.html#src.controller.RfidController.RfidController.update_model">update_model() (src.controller.RfidController.RfidController method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1197,9 +1328,11 @@
 </li>
       <li><a href="Modules/DataModel.html#src.model.DataModel.Product.withoutCup">withoutCup() (src.model.DataModel.Product method)</a>
 </li>
+      <li><a href="Modules/DataModel.html#src.model.DataModel.Workbench">Workbench (class in src.model.DataModel)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Modules/DataModel.html#src.model.DataModel.Workbench">Workbench (class in src.model.DataModel)</a>
+      <li><a href="RFIDServer.html#src.service.rfidservice.RfidReadertask.worker">worker (src.service.rfidservice.RfidReadertask attribute)</a>
 </li>
       <li><a href="RFIDServer.html#src.model.RfidModel.RfidModel.workingState">workingState (src.model.RfidModel.RfidModel attribute)</a>
 </li>

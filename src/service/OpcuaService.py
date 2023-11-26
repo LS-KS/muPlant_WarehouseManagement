@@ -550,7 +550,13 @@ class OpcuaService(QObject):
         
     @Slot()
     def stopOpcuaService(self):
-        asyncio.run(self.opcuaServerHandle.quit())
+        try:
+            asyncio.run(self.opcuaServerHandle.quit())
+        except Exception as e:
+            #TODO: This is dirty... but no clue how to do it right
+            pass
+        self.online.emit(False)
+        self.event.emit("OpcuaService", "OpcuaService stopped")
 
     @Slot()
     def check_online_status(self):

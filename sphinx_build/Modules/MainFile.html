@@ -39,111 +39,125 @@
 <p>Das main-File ist der Einsprungspunkt des Programms. Es werden eine Instanz der Application und der QML-Engine erstellt.
 Sämtliche Controller und Datenmodelle werden initialisiert.
 Diese Instanzen der Python-Objekte werden als RootContext der QML-Engine hinzugefügt, sodass Sie über den QML-Inhalt angesprochen werden können.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span>
-<span class="linenos">  2</span>
-<span class="linenos">  3</span><span class="sd">&#39;&#39;&#39;</span>
-<span class="linenos">  4</span><span class="sd">µPlant WareHouse Management Software.</span>
-<span class="linenos">  5</span><span class="sd">Bachelor Thesis 2023</span>
-<span class="linenos">  6</span><span class="sd">Author: L.Schink</span>
-<span class="linenos">  7</span><span class="sd">Date Project Start: 20.06.2023</span>
-<span class="linenos">  8</span><span class="sd">Language: Python 3.11</span>
-<span class="linenos">  9</span>
-<span class="linenos"> 10</span><span class="sd">This Software implements warehouse logic from heterogene modular autonomic production site.</span>
-<span class="linenos"> 11</span><span class="sd">The warehouse works autonomous while receiving orders from modbus TCP/IP.</span>
-<span class="linenos"> 12</span><span class="sd">also OPC UA is implemented.</span>
-<span class="linenos"> 13</span>
-<span class="linenos"> 14</span><span class="sd">Uses PySide6 with PyQt6.5.1 for GUI implementation</span>
-<span class="linenos"> 15</span><span class="sd">&#39;&#39;&#39;</span>
-<span class="linenos"> 16</span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="linenos"> 17</span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="linenos"> 18</span><span class="kn">from</span> <span class="nn">PySide6.QtGui</span> <span class="kn">import</span> <span class="n">QGuiApplication</span>
-<span class="linenos"> 19</span><span class="kn">from</span> <span class="nn">PySide6.QtQml</span> <span class="kn">import</span> <span class="n">QQmlApplicationEngine</span>
-<span class="linenos"> 20</span><span class="kn">from</span> <span class="nn">src.controller.invController</span> <span class="kn">import</span> <span class="n">invController</span>
-<span class="linenos"> 21</span><span class="kn">from</span> <span class="nn">src.controller.CommissionController</span> <span class="kn">import</span> <span class="n">CommissionController</span>
-<span class="linenos"> 22</span><span class="kn">from</span> <span class="nn">src.controller.PreferenceController</span> <span class="kn">import</span> <span class="n">PreferenceController</span>
-<span class="linenos"> 23</span><span class="kn">from</span> <span class="nn">src.controller.RfidController</span> <span class="kn">import</span> <span class="n">RfidController</span>
-<span class="linenos"> 24</span><span class="kn">from</span> <span class="nn">src.service.EventlogService</span> <span class="kn">import</span> <span class="n">EventlogService</span>
-<span class="linenos"> 25</span><span class="kn">from</span> <span class="nn">src.service.OpcuaService</span> <span class="kn">import</span> <span class="n">OpcuaService</span>
-<span class="linenos"> 26</span><span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
-<span class="linenos"> 27</span><span class="kn">from</span> <span class="nn">src.service.AgentService</span> <span class="kn">import</span> <span class="n">AgentService</span>
-<span class="linenos"> 28</span><span class="kn">from</span> <span class="nn">src.service.rfid_service</span> <span class="kn">import</span> <span class="n">rfid_service</span>
-<span class="linenos"> 29</span><span class="kn">from</span> <span class="nn">src.service.stocktaking</span> <span class="kn">import</span> <span class="n">Stocktaker</span>
-<span class="linenos"> 30</span><span class="kn">from</span> <span class="nn">src.controller.ABBController</span> <span class="kn">import</span> <span class="n">ABBController</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="linenos">  2</span><span class="sd">µPlant WareHouse Management Software.</span>
+<span class="linenos">  3</span><span class="sd">Bachelor Thesis 2023</span>
+<span class="linenos">  4</span><span class="sd">Author: L.Schink</span>
+<span class="linenos">  5</span><span class="sd">Date Project Start: 20.06.2023</span>
+<span class="linenos">  6</span><span class="sd">Language: Python 3.11</span>
+<span class="linenos">  7</span>
+<span class="linenos">  8</span><span class="sd">This Software implements warehouse logic from heterogene modular autonomic production site.</span>
+<span class="linenos">  9</span><span class="sd">The warehouse works autonomous while receiving orders from modbus TCP/IP.</span>
+<span class="linenos"> 10</span><span class="sd">also OPC UA is implemented.</span>
+<span class="linenos"> 11</span>
+<span class="linenos"> 12</span><span class="sd">Uses PySide6 with PyQt6.5.1 for GUI implementation</span>
+<span class="linenos"> 13</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="linenos"> 14</span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="linenos"> 15</span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="linenos"> 16</span><span class="kn">from</span> <span class="nn">PySide6.QtGui</span> <span class="kn">import</span> <span class="n">QGuiApplication</span>
+<span class="linenos"> 17</span><span class="kn">from</span> <span class="nn">PySide6.QtQml</span> <span class="kn">import</span> <span class="n">QQmlApplicationEngine</span>
+<span class="linenos"> 18</span><span class="kn">from</span> <span class="nn">src.controller.invController</span> <span class="kn">import</span> <span class="n">invController</span>
+<span class="linenos"> 19</span><span class="kn">from</span> <span class="nn">src.controller.CommissionController</span> <span class="kn">import</span> <span class="n">CommissionController</span>
+<span class="linenos"> 20</span><span class="kn">from</span> <span class="nn">src.controller.PreferenceController</span> <span class="kn">import</span> <span class="n">PreferenceController</span>
+<span class="linenos"> 21</span><span class="kn">from</span> <span class="nn">src.controller.RfidController</span> <span class="kn">import</span> <span class="n">RfidController</span>
+<span class="linenos"> 22</span><span class="kn">from</span> <span class="nn">src.service.EventlogService</span> <span class="kn">import</span> <span class="n">EventlogService</span>
+<span class="linenos"> 23</span><span class="kn">from</span> <span class="nn">src.service.OpcuaService</span> <span class="kn">import</span> <span class="n">OpcuaService</span>
+<span class="linenos"> 24</span><span class="kn">from</span> <span class="nn">src.constants.Constants</span> <span class="kn">import</span> <span class="n">Constants</span>
+<span class="linenos"> 25</span><span class="kn">from</span> <span class="nn">src.service.AgentService</span> <span class="kn">import</span> <span class="n">AgentService</span>
+<span class="linenos"> 26</span><span class="kn">from</span> <span class="nn">src.service.rfidservice</span> <span class="kn">import</span> <span class="n">RfidService</span>
+<span class="linenos"> 27</span><span class="kn">from</span> <span class="nn">src.service.stocktaking</span> <span class="kn">import</span> <span class="n">Stocktaker</span>
+<span class="linenos"> 28</span><span class="kn">from</span> <span class="nn">src.controller.ABBController</span> <span class="kn">import</span> <span class="n">ABBController</span>
+<span class="linenos"> 29</span><span class="kn">from</span> <span class="nn">src.viewmodel.stockmodel</span> <span class="kn">import</span> <span class="n">stockmodel</span><span class="p">,</span> <span class="n">tablemodel</span>
+<span class="linenos"> 30</span><span class="kn">from</span> <span class="nn">src.viewmodel.EventViewModel</span> <span class="kn">import</span> <span class="n">EventSortModel</span>
 <span class="linenos"> 31</span>
-<span class="linenos"> 32</span>
-<span class="linenos"> 33</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-<span class="linenos"> 34</span>    <span class="n">app</span> <span class="o">=</span> <span class="n">QGuiApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
-<span class="linenos"> 35</span>    <span class="n">engine</span> <span class="o">=</span> <span class="n">QQmlApplicationEngine</span><span class="p">()</span>
-<span class="linenos"> 36</span>    <span class="n">constants</span> <span class="o">=</span> <span class="n">Constants</span><span class="p">()</span>
-<span class="linenos"> 37</span>    <span class="c1"># create inventoryController with included Data Model and sets itself and viewModels  as rootContext</span>
-<span class="linenos"> 38</span>    <span class="n">inventoryController</span> <span class="o">=</span> <span class="n">invController</span><span class="p">()</span>
-<span class="linenos"> 39</span>
-<span class="linenos"> 40</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;inventoryController&quot;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="p">)</span>
-<span class="linenos"> 41</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;storageModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">storageViewModel</span><span class="p">)</span>
-<span class="linenos"> 42</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productListModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productListViewModel</span><span class="p">)</span>
-<span class="linenos"> 43</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productSummaryModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productSummaryViewModel</span><span class="p">)</span>
-<span class="linenos"> 44</span>
-<span class="linenos"> 45</span>    <span class="c1"># creates EventlogService object and sets itself as rootContext</span>
-<span class="linenos"> 46</span>    <span class="n">eventlogService</span> <span class="o">=</span> <span class="n">EventlogService</span><span class="p">()</span>
-<span class="linenos"> 47</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;eventModel&quot;</span><span class="p">,</span> <span class="n">eventlogService</span><span class="o">.</span><span class="n">eventViewModel</span><span class="p">)</span>
-<span class="linenos"> 48</span>    <span class="n">inventoryController</span><span class="o">.</span><span class="n">eventlogService</span> <span class="o">=</span> <span class="n">eventlogService</span>
-<span class="linenos"> 49</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;eventLogController&quot;</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">)</span>
-<span class="linenos"> 50</span>
-<span class="linenos"> 51</span>    <span class="c1"># creates CommissionController object and sets itself as rootContext</span>
-<span class="linenos"> 52</span>    <span class="n">commissionController</span> <span class="o">=</span>  <span class="n">CommissionController</span><span class="p">(</span><span class="n">inventoryController</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">)</span>
-<span class="linenos"> 53</span>    <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">autoAcceptChildRows</span><span class="p">()</span>
-<span class="linenos"> 54</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;commissionController&quot;</span><span class="p">,</span> <span class="n">commissionController</span><span class="p">)</span>
-<span class="linenos"> 55</span>    <span class="c1"># engine.rootContext().setContextProperty(&#39;commissionModel&#39;, commissionController.commissionFilterProxyModel)</span>
-<span class="linenos"> 56</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;commissionModel&#39;</span><span class="p">,</span> <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionViewModel</span><span class="p">)</span>
-<span class="linenos"> 57</span>
-<span class="linenos"> 58</span>    <span class="c1"># creates preferenceController object and sets itself as rootContext</span>
-<span class="linenos"> 59</span>    <span class="n">preferenceController</span> <span class="o">=</span> <span class="n">PreferenceController</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">)</span>
-<span class="linenos"> 60</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;preferenceController&quot;</span><span class="p">,</span> <span class="n">preferenceController</span><span class="p">)</span>
+<span class="linenos"> 32</span><span class="c1">#TODO: check and correct function of START / STOP Buttons in main.qml - this should quit and reset all services.</span>
+<span class="linenos"> 33</span><span class="c1">#TODO: find out why async OPC UA Server doesnt get destroyed when quit is called.</span>
+<span class="linenos"> 34</span><span class="c1">#TODO: find out why eventlogservice is not callable from OPC UA Server (use signal emitted by opc ua service and connected to eventlogservice.writeEvent())</span>
+<span class="linenos"> 35</span><span class="c1">#TODO: main.qml: When stopped is completed, the start button should be enabled again.</span>
+<span class="linenos"> 36</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos"> 37</span>    <span class="n">app</span> <span class="o">=</span> <span class="n">QGuiApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+<span class="linenos"> 38</span>    <span class="n">engine</span> <span class="o">=</span> <span class="n">QQmlApplicationEngine</span><span class="p">()</span>
+<span class="linenos"> 39</span>    <span class="n">constants</span> <span class="o">=</span> <span class="n">Constants</span><span class="p">()</span>
+<span class="linenos"> 40</span>    <span class="c1"># create inventoryController with included Data Model and sets itself and viewModels  as rootContext</span>
+<span class="linenos"> 41</span>    <span class="n">inventoryController</span> <span class="o">=</span> <span class="n">invController</span><span class="p">()</span>
+<span class="linenos"> 42</span>
+<span class="linenos"> 43</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;inventoryController&quot;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="p">)</span>
+<span class="linenos"> 44</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;storageModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">storageViewModel</span><span class="p">)</span>
+<span class="linenos"> 45</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productListModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productListViewModel</span><span class="p">)</span>
+<span class="linenos"> 46</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;productSummaryModel&#39;</span><span class="p">,</span> <span class="n">inventoryController</span><span class="o">.</span><span class="n">productSummaryViewModel</span><span class="p">)</span>
+<span class="linenos"> 47</span>
+<span class="linenos"> 48</span>    <span class="c1"># creates EventlogService object and sets itself as rootContext</span>
+<span class="linenos"> 49</span>    <span class="n">eventlogService</span> <span class="o">=</span> <span class="n">EventlogService</span><span class="p">()</span>
+<span class="linenos"> 50</span>    <span class="c1">#engine.rootContext().setContextProperty(&quot;eventModel&quot;, eventlogService.eventSortModel)</span>
+<span class="linenos"> 51</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;eventModel&quot;</span><span class="p">,</span> <span class="n">eventlogService</span><span class="o">.</span><span class="n">eventViewModel</span><span class="p">)</span>
+<span class="linenos"> 52</span>    <span class="n">inventoryController</span><span class="o">.</span><span class="n">eventlogService</span> <span class="o">=</span> <span class="n">eventlogService</span>
+<span class="linenos"> 53</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;eventLogController&quot;</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">)</span>
+<span class="linenos"> 54</span>
+<span class="linenos"> 55</span>    <span class="c1"># creates CommissionController object and sets itself as rootContext</span>
+<span class="linenos"> 56</span>    <span class="n">commissionController</span> <span class="o">=</span>  <span class="n">CommissionController</span><span class="p">(</span><span class="n">inventoryController</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">)</span>
+<span class="linenos"> 57</span>    <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionFilterProxyModel</span><span class="o">.</span><span class="n">autoAcceptChildRows</span><span class="p">()</span>
+<span class="linenos"> 58</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;commissionController&quot;</span><span class="p">,</span> <span class="n">commissionController</span><span class="p">)</span>
+<span class="linenos"> 59</span>    <span class="c1"># engine.rootContext().setContextProperty(&#39;commissionModel&#39;, commissionController.commissionFilterProxyModel)</span>
+<span class="linenos"> 60</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s1">&#39;commissionModel&#39;</span><span class="p">,</span> <span class="n">commissionController</span><span class="o">.</span><span class="n">commissionViewModel</span><span class="p">)</span>
 <span class="linenos"> 61</span>
-<span class="linenos"> 62</span>    <span class="c1"># creates AgentService object and sets itself as rootContext</span>
-<span class="linenos"> 63</span>    <span class="n">agentservice</span> <span class="o">=</span> <span class="n">AgentService</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">,</span> <span class="n">preferenceController</span><span class="p">)</span>
-<span class="linenos"> 64</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;agentService&quot;</span><span class="p">,</span> <span class="n">agentservice</span><span class="p">)</span>
+<span class="linenos"> 62</span>    <span class="c1"># creates preferenceController object and sets itself as rootContext</span>
+<span class="linenos"> 63</span>    <span class="n">preferenceController</span> <span class="o">=</span> <span class="n">PreferenceController</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">)</span>
+<span class="linenos"> 64</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;preferenceController&quot;</span><span class="p">,</span> <span class="n">preferenceController</span><span class="p">)</span>
 <span class="linenos"> 65</span>
-<span class="linenos"> 66</span>    <span class="c1"># creates Controller and models for RFID Server Plugin</span>
-<span class="linenos"> 67</span>    <span class="n">rfidController</span> <span class="o">=</span> <span class="n">RfidController</span><span class="p">()</span>
-<span class="linenos"> 68</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;rfidController&quot;</span><span class="p">,</span> <span class="n">rfidController</span><span class="p">)</span>
-<span class="linenos"> 69</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;rfidModel&quot;</span><span class="p">,</span> <span class="n">rfidController</span><span class="o">.</span><span class="n">rfidViewModel</span><span class="p">)</span>
-<span class="linenos"> 70</span>    <span class="c1">#engine.rootContext().setContextProperty(&quot;rfidModel&quot;, rfidController.rfidProxyViewModel)</span>
-<span class="linenos"> 71</span>
-<span class="linenos"> 72</span>    <span class="c1"># creates rfid_service object and sets itself as rootContext</span>
-<span class="linenos"> 73</span>    <span class="n">rfid_service</span> <span class="o">=</span> <span class="n">rfid_service</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">,</span> <span class="n">rfidController</span><span class="p">)</span>
-<span class="linenos"> 74</span>    <span class="n">rfidController</span><span class="o">.</span><span class="n">rfid_service</span> <span class="o">=</span> <span class="n">rfid_service</span>
-<span class="linenos"> 75</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;rfid_service&quot;</span><span class="p">,</span> <span class="n">rfid_service</span><span class="p">)</span>
-<span class="linenos"> 76</span>
-<span class="linenos"> 77</span>    <span class="c1"># Create ABB Controller for IRB 140</span>
-<span class="linenos"> 78</span>    <span class="n">abbController</span> <span class="o">=</span> <span class="n">ABBController</span><span class="p">(</span><span class="n">preferenceController</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">)</span>
-<span class="linenos"> 79</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;abbController&quot;</span><span class="p">,</span> <span class="n">abbController</span><span class="p">)</span>
-<span class="linenos"> 80</span>
-<span class="linenos"> 81</span>    <span class="c1"># creates opcua service</span>
-<span class="linenos"> 82</span>    <span class="n">opcuaService</span> <span class="o">=</span> <span class="n">OpcuaService</span><span class="p">(</span>
-<span class="linenos"> 83</span>        <span class="n">eventlogService</span><span class="o">=</span> <span class="n">eventlogService</span><span class="p">,</span>
-<span class="linenos"> 84</span>        <span class="n">preferenceController</span><span class="o">=</span> <span class="n">preferenceController</span><span class="p">,</span>
-<span class="linenos"> 85</span>        <span class="n">inventory_controller</span><span class="o">=</span> <span class="n">inventoryController</span><span class="p">,</span>
-<span class="linenos"> 86</span>        <span class="n">commission_controller</span><span class="o">=</span> <span class="n">commissionController</span><span class="p">,</span>
-<span class="linenos"> 87</span>        <span class="n">agentservice</span><span class="o">=</span> <span class="n">agentservice</span><span class="p">)</span>
-<span class="linenos"> 88</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;opcuaService&quot;</span><span class="p">,</span> <span class="n">opcuaService</span><span class="p">)</span>
-<span class="linenos"> 89</span>
-<span class="linenos"> 90</span>    <span class="c1"># creates Stocktaker object used in stocktaking plugin</span>
-<span class="linenos"> 91</span>    <span class="n">stocktaker</span> <span class="o">=</span> <span class="n">Stocktaker</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">)</span>
-<span class="linenos"> 92</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;stocktaker&quot;</span><span class="p">,</span> <span class="n">stocktaker</span><span class="p">)</span>
-<span class="linenos"> 93</span>    <span class="n">engine</span><span class="o">.</span><span class="n">addImageProvider</span><span class="p">(</span><span class="s2">&quot;stocktaker&quot;</span><span class="p">,</span> <span class="n">stocktaker</span><span class="p">)</span>
-<span class="linenos"> 94</span>
-<span class="linenos"> 95</span>    <span class="c1"># define load main.qml file to start application</span>
-<span class="linenos"> 96</span>    <span class="n">qml_file</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;view&quot;</span> <span class="o">/</span> <span class="s2">&quot;main.qml&quot;</span><span class="p">)</span>
-<span class="linenos"> 97</span>    <span class="n">engine</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">qml_file</span><span class="p">)</span>
-<span class="linenos"> 98</span>
-<span class="linenos"> 99</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">engine</span><span class="o">.</span><span class="n">rootObjects</span><span class="p">():</span>
-<span class="linenos">100</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="linenos">101</span>
-<span class="linenos">102</span>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">())</span>
-<span class="linenos">103</span>
-<span class="linenos">104</span>
-<span class="linenos">105</span>
+<span class="linenos"> 66</span>    <span class="c1"># creates AgentService object and sets itself as rootContext</span>
+<span class="linenos"> 67</span>    <span class="n">agentservice</span> <span class="o">=</span> <span class="n">AgentService</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">,</span> <span class="n">preferenceController</span><span class="p">)</span>
+<span class="linenos"> 68</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;agentService&quot;</span><span class="p">,</span> <span class="n">agentservice</span><span class="p">)</span>
+<span class="linenos"> 69</span>
+<span class="linenos"> 70</span>    <span class="c1"># creates Controller and models for RFID Server Plugin</span>
+<span class="linenos"> 71</span>    <span class="n">rfidController</span> <span class="o">=</span> <span class="n">RfidController</span><span class="p">()</span>
+<span class="linenos"> 72</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;rfidController&quot;</span><span class="p">,</span> <span class="n">rfidController</span><span class="p">)</span>
+<span class="linenos"> 73</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;rfidModel&quot;</span><span class="p">,</span> <span class="n">rfidController</span><span class="o">.</span><span class="n">rfid_viewmodel</span><span class="p">)</span>
+<span class="linenos"> 74</span>    <span class="c1">#engine.rootContext().setContextProperty(&quot;rfidModel&quot;, rfidController.rfidProxyViewModel)</span>
+<span class="linenos"> 75</span>
+<span class="linenos"> 76</span>    <span class="c1"># creates rfid_service object and sets itself as rootContext</span>
+<span class="linenos"> 77</span>    <span class="n">rfid_service</span> <span class="o">=</span> <span class="n">RfidService</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">,</span> <span class="n">rfidController</span><span class="p">)</span>
+<span class="linenos"> 78</span>    <span class="n">rfidController</span><span class="o">.</span><span class="n">rfid_service</span> <span class="o">=</span> <span class="n">rfid_service</span>
+<span class="linenos"> 79</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;rfid_service&quot;</span><span class="p">,</span> <span class="n">rfid_service</span><span class="p">)</span>
+<span class="linenos"> 80</span>    <span class="n">rfid_service</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">rfidController</span><span class="o">.</span><span class="n">update_model</span><span class="p">)</span>
+<span class="linenos"> 81</span>
+<span class="linenos"> 82</span>    <span class="c1"># Create ABB Controller for IRB 140</span>
+<span class="linenos"> 83</span>    <span class="n">abbController</span> <span class="o">=</span> <span class="n">ABBController</span><span class="p">(</span><span class="n">preferenceController</span><span class="p">,</span> <span class="n">eventlogService</span><span class="p">)</span>
+<span class="linenos"> 84</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;abbController&quot;</span><span class="p">,</span> <span class="n">abbController</span><span class="p">)</span>
+<span class="linenos"> 85</span>
+<span class="linenos"> 86</span>    <span class="c1"># creates opcua service</span>
+<span class="linenos"> 87</span>    <span class="n">opcuaService</span> <span class="o">=</span> <span class="n">OpcuaService</span><span class="p">(</span>
+<span class="linenos"> 88</span>        <span class="n">preferenceController</span><span class="o">=</span> <span class="n">preferenceController</span><span class="p">,</span>
+<span class="linenos"> 89</span>        <span class="n">inventory_controller</span><span class="o">=</span> <span class="n">inventoryController</span><span class="p">,</span>
+<span class="linenos"> 90</span>        <span class="n">commission_controller</span><span class="o">=</span> <span class="n">commissionController</span><span class="p">,</span>
+<span class="linenos"> 91</span>        <span class="n">rfidcontroller</span><span class="o">=</span> <span class="n">rfidController</span><span class="p">,</span>
+<span class="linenos"> 92</span>        <span class="n">agentservice</span><span class="o">=</span> <span class="n">agentservice</span><span class="p">)</span>
+<span class="linenos"> 93</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;opcuaService&quot;</span><span class="p">,</span> <span class="n">opcuaService</span><span class="p">)</span>
+<span class="linenos"> 94</span>    <span class="n">opcuaService</span><span class="o">.</span><span class="n">online</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">rfidController</span><span class="o">.</span><span class="n">notify_opcua</span><span class="p">)</span>
+<span class="linenos"> 95</span>    <span class="n">opcuaService</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventlogService</span><span class="o">.</span><span class="n">writeEvent</span><span class="p">)</span>
+<span class="linenos"> 96</span>    <span class="n">rfidController</span><span class="o">.</span><span class="n">data_to_opcua</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">opcuaService</span><span class="o">.</span><span class="n">handle_rfid_update</span><span class="p">)</span>
+<span class="linenos"> 97</span>
+<span class="linenos"> 98</span>    <span class="c1"># creates Stocktaker object used in stocktaking plugin</span>
+<span class="linenos"> 99</span>    <span class="n">stocktaker</span> <span class="o">=</span> <span class="n">Stocktaker</span><span class="p">(</span><span class="n">eventlogService</span><span class="p">)</span>
+<span class="linenos">100</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;stocktaker&quot;</span><span class="p">,</span> <span class="n">stocktaker</span><span class="p">)</span>
+<span class="linenos">101</span>    <span class="n">engine</span><span class="o">.</span><span class="n">addImageProvider</span><span class="p">(</span><span class="s2">&quot;stocktaker&quot;</span><span class="p">,</span> <span class="n">stocktaker</span><span class="p">)</span>
+<span class="linenos">102</span>
+<span class="linenos">103</span>    <span class="c1">#create stockmodel</span>
+<span class="linenos">104</span>    <span class="n">stock_model</span> <span class="o">=</span> <span class="n">stockmodel</span><span class="p">(</span><span class="n">inv_controller</span><span class="o">=</span><span class="n">inventoryController</span><span class="p">)</span>
+<span class="linenos">105</span>    <span class="n">table_model</span> <span class="o">=</span> <span class="n">tablemodel</span><span class="p">(</span><span class="n">inv_controller</span><span class="o">=</span><span class="n">inventoryController</span><span class="p">)</span>
+<span class="linenos">106</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;storagemodel&quot;</span><span class="p">,</span> <span class="n">stock_model</span><span class="p">)</span>
+<span class="linenos">107</span>    <span class="n">engine</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;tablemodel&quot;</span><span class="p">,</span> <span class="n">table_model</span><span class="p">)</span>
+<span class="linenos">108</span>
+<span class="linenos">109</span>    <span class="c1"># define load main.qml file to start application</span>
+<span class="linenos">110</span>    <span class="n">qml_file</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;view&quot;</span> <span class="o">/</span> <span class="s2">&quot;main.qml&quot;</span><span class="p">)</span>
+<span class="linenos">111</span>    <span class="n">engine</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">qml_file</span><span class="p">)</span>
+<span class="linenos">112</span>
+<span class="linenos">113</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">engine</span><span class="o">.</span><span class="n">rootObjects</span><span class="p">():</span>
+<span class="linenos">114</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">115</span>
+<span class="linenos">116</span>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">())</span>
+<span class="linenos">117</span>
+<span class="linenos">118</span>
+<span class="linenos">119</span>
 </pre></div>
 </div>
 </section>

@@ -30,9 +30,7 @@ from src.viewmodel.stockmodel import stockmodel, tablemodel
 from src.viewmodel.EventViewModel import EventSortModel
 
 #TODO: check and correct function of START / STOP Buttons in main.qml - this should quit and reset all services.
-#TODO: find out why async OPC UA Server doesnt get destroyed when quit is called.
-#TODO: find out why eventlogservice is not callable from OPC UA Server (use signal emitted by opc ua service and connected to eventlogservice.writeEvent())
-#TODO: main.qml: When stopped is completed, the start button should be enabled again.
+#TODO: commissionmodel check 'K1'. 'L1' etc. - fix error that source/target cannot be resolved
 if __name__ == '__main__':
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()
@@ -92,7 +90,7 @@ if __name__ == '__main__':
         agentservice= agentservice)
     engine.rootContext().setContextProperty("opcuaService", opcuaService)
     opcuaService.online.connect(rfidController.notify_opcua)
-    opcuaService.event.connect(eventlogService.writeEvent)
+    opcuaService.event.connect(eventlogService.write_event)
     rfidController.data_to_opcua.connect(opcuaService.handle_rfid_update)
 
     # creates Stocktaker object used in stocktaking plugin

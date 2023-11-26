@@ -117,7 +117,7 @@ Auch wenn danach der Server neu gestartet wird, ist das Verhalten undefiniert!</
 </div>
 <span class="target" id="module-src.service.OpcuaService"></span><dl class="py class">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">OpcuaServerHandle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">inventory_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.invController.invController" title="src.controller.invController.invController"><span class="pre">invController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">commission_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.CommissionController.CommissionController" title="src.controller.CommissionController.CommissionController"><span class="pre">CommissionController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">eventlog_service</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentservice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.AgentService.AgentService" title="src.service.AgentService.AgentService"><span class="pre">AgentService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">opc_service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">OpcuaServerHandle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">inventory_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.invController.invController" title="src.controller.invController.invController"><span class="pre">invController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">commission_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.CommissionController.CommissionController" title="src.controller.CommissionController.CommissionController"><span class="pre">CommissionController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentservice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.AgentService.AgentService" title="src.service.AgentService.AgentService"><span class="pre">AgentService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">opc_service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rfidcontroller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../RFIDServer.html#src.controller.RfidController.RfidController" title="src.controller.RfidController.RfidController"><span class="pre">RfidController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QThread</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.agentVarsChanged">
@@ -133,6 +133,11 @@ Auch wenn danach der Server neu gestartet wird, ist das Verhalten undefiniert!</
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.commissionVarsChanged">
 <span class="sig-name descname"><span class="pre">commissionVarsChanged</span></span><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.commissionVarsChanged" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.event">
+<span class="sig-name descname"><span class="pre">event</span></span><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.event" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -153,7 +158,7 @@ Auch wenn danach der Server neu gestartet wird, ist das Verhalten undefiniert!</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.quit">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.quit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.quit" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">quit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaServerHandle.quit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.quit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Must be implemented for QThread. Stops QThread and deletes it.</p>
 </dd></dl>
 
@@ -180,18 +185,28 @@ and creates an opcua server object.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaServerHandle.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;OpcuaServerHandle&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Signal,</span> <span class="pre">signature=agentVarsChanged(QVariantMap),</span> <span class="pre">parameters=QVariantMap</span>&#160;&#160; <span class="pre">#14</span> <span class="pre">type=Signal,</span> <span class="pre">signature=inventoryVarsChanged(QVariantMap),</span> <span class="pre">parameters=QVariantMap</span>&#160;&#160; <span class="pre">#15</span> <span class="pre">type=Signal,</span> <span class="pre">signature=commissionVarsChanged(QVariantMap),</span> <span class="pre">parameters=QVariantMap</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;OpcuaServerHandle&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Signal,</span> <span class="pre">signature=agentVarsChanged(QVariantMap),</span> <span class="pre">parameters=QVariantMap</span>&#160;&#160; <span class="pre">#14</span> <span class="pre">type=Signal,</span> <span class="pre">signature=inventoryVarsChanged(QVariantMap),</span> <span class="pre">parameters=QVariantMap</span>&#160;&#160; <span class="pre">#15</span> <span class="pre">type=Signal,</span> <span class="pre">signature=commissionVarsChanged(QVariantMap),</span> <span class="pre">parameters=QVariantMap</span>&#160;&#160; <span class="pre">#16</span> <span class="pre">type=Signal,</span> <span class="pre">signature=event(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#17</span> <span class="pre">type=Slot,</span> <span class="pre">signature=_update_rfid_vars(QString,QString,QString,QString,QString,QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString,</span> <span class="pre">QString</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.OpcuaService.OpcuaServerHandle.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaService">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">OpcuaService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventlogService</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">inventory_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.invController.invController" title="src.controller.invController.invController"><span class="pre">invController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">commission_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.CommissionController.CommissionController" title="src.controller.CommissionController.CommissionController"><span class="pre">CommissionController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentservice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.AgentService.AgentService" title="src.service.AgentService.AgentService"><span class="pre">AgentService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QObject</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaService" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">OpcuaService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preferenceController</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.PreferenceController.PreferenceController" title="src.controller.PreferenceController.PreferenceController"><span class="pre">PreferenceController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">inventory_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.invController.invController" title="src.controller.invController.invController"><span class="pre">invController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">commission_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Controller.html#src.controller.CommissionController.CommissionController" title="src.controller.CommissionController.CommissionController"><span class="pre">CommissionController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentservice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.service.AgentService.AgentService" title="src.service.AgentService.AgentService"><span class="pre">AgentService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rfidcontroller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../RFIDServer.html#src.controller.RfidController.RfidController" title="src.controller.RfidController.RfidController"><span class="pre">RfidController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QObject</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaService" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaService.check_online_status">
 <span class="sig-name descname"><span class="pre">check_online_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaService.check_online_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaService.check_online_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaService.event">
+<span class="sig-name descname"><span class="pre">event</span></span><a class="headerlink" href="#src.service.OpcuaService.OpcuaService.event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaService.handle_rfid_update">
+<span class="sig-name descname"><span class="pre">handle_rfid_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipAddr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dsfid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_valid_timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_valid_iid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_valid_dsfid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#OpcuaService.handle_rfid_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.OpcuaService.handle_rfid_update" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -206,7 +221,7 @@ and creates an opcua server object.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.OpcuaService.OpcuaService.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;OpcuaService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=online(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Slot,</span> <span class="pre">signature=startOpcuaService()</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Slot,</span> <span class="pre">signature=stopOpcuaService()</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Slot,</span> <span class="pre">signature=check_online_status()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.OpcuaService.OpcuaService.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;OpcuaService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=online(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=event(QString,QString),</span> <span class="pre">parameters=QString,</span> <span class="pre">QString</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Slot,</span> <span class="pre">signature=startOpcuaService()</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Slot,</span> <span class="pre">signature=stopOpcuaService()</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Slot,</span> <span class="pre">signature=check_online_status()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.OpcuaService.OpcuaService.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -231,6 +246,62 @@ Used in OpcuaServerHandle to create variables in the opcua server.</p>
 <p>wrapper class for inventory variables.</p>
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="src.service.OpcuaService.rfid_vars">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.OpcuaService.</span></span><span class="sig-name descname"><span class="pre">rfid_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/OpcuaService.html#rfid_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.OpcuaService.rfid_vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.rfid_vars.dsfid">
+<span class="sig-name descname"><span class="pre">dsfid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.service.OpcuaService.rfid_vars.dsfid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.rfid_vars.iid">
+<span class="sig-name descname"><span class="pre">iid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.service.OpcuaService.rfid_vars.iid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.rfid_vars.ip">
+<span class="sig-name descname"><span class="pre">ip</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.service.OpcuaService.rfid_vars.ip" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.rfid_vars.ip_id">
+<span class="sig-name descname"><span class="pre">ip_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.service.OpcuaService.rfid_vars.ip_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.rfid_vars.last_valid_dsfid">
+<span class="sig-name descname"><span class="pre">last_valid_dsfid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.service.OpcuaService.rfid_vars.last_valid_dsfid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.rfid_vars.last_valid_iid">
+<span class="sig-name descname"><span class="pre">last_valid_iid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.service.OpcuaService.rfid_vars.last_valid_iid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.rfid_vars.last_valid_timestamp">
+<span class="sig-name descname"><span class="pre">last_valid_timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.service.OpcuaService.rfid_vars.last_valid_timestamp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.rfid_vars.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.service.OpcuaService.rfid_vars.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.rfid_vars.name_id">
+<span class="sig-name descname"><span class="pre">name_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.service.OpcuaService.rfid_vars.name_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.OpcuaService.rfid_vars.timestamp">
+<span class="sig-name descname"><span class="pre">timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.service.OpcuaService.rfid_vars.timestamp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="cameraservice">
 <h2>CameraService<a class="headerlink" href="#cameraservice" title="Permalink to this heading">¶</a></h2>
@@ -249,8 +320,13 @@ returns the obtained image</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.CameraService.ImageProvider.imageSignal">
+<span class="sig-name descname"><span class="pre">imageSignal</span></span><a class="headerlink" href="#src.service.CameraService.ImageProvider.imageSignal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="src.service.CameraService.ImageProvider.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;ImageProvider&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.CameraService.ImageProvider.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;ImageProvider&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Signal,</span> <span class="pre">signature=imageSignal(PyObject),</span> <span class="pre">parameters=PyObject</span>&#160;&#160; <span class="pre">#14</span> <span class="pre">type=Slot,</span> <span class="pre">signature=get_image()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.CameraService.ImageProvider.staticMetaObject" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -260,6 +336,66 @@ returns the obtained image</p>
 <h2>Stocktaking<a class="headerlink" href="#stocktaking" title="Permalink to this heading">¶</a></h2>
 <p>Dieser Service bildet die Inventurprozesse ab. Vom CameraService gelieferte Bilder werden hier
 verarbeitet und ermittelt wie viele Becher in der Lagerzelle wo vorhanden sind.</p>
+<span class="target" id="module-src.service.stocktaking"></span><p>This Python File implements the logic to recognize arUco markers.
+class VideoThread inherits from QThread class. So image capture and image processing code is in seperated thread.
+Processed images are provided to qml by using class videoPlayer which inherits from QQuickImageProvider.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.service.stocktaking.</span></span><span class="sig-name descname"><span class="pre">Stocktaker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventLogService</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#src.service.EventlogService.EventlogService" title="src.service.EventlogService.EventlogService"><span class="pre">EventlogService</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QQuickImageProvider</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.calculate_result_matrix">
+<span class="sig-name descname"><span class="pre">calculate_result_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.calculate_result_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.calculate_result_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Public Method. Calculates the result matrix based on detected markers.
+Emits self.submitResultMatrix signal with result matrix.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.emit_cell_image">
+<span class="sig-name descname"><span class="pre">emit_cell_image</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.emit_cell_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.emit_cell_image" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.emit_pallet_cup_images">
+<span class="sig-name descname"><span class="pre">emit_pallet_cup_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage_cell</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.emit_pallet_cup_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.emit_pallet_cup_images" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.evaluate_gripper">
+<span class="sig-name descname"><span class="pre">evaluate_gripper</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.evaluate_gripper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.evaluate_gripper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Public Method. Obtains image from CameraService.Imageprovider.
+Since marker should take a significant area of the image, no rectification is performed.
+Performs arUco detection after brightness and color adjustment.
+processed image is kept in gripper_image property.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.evaluate_storagecell_cam">
+<span class="sig-name descname"><span class="pre">evaluate_storagecell_cam</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.evaluate_storagecell_cam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.evaluate_storagecell_cam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Public Method. Obtains image from camera via CameraServic.Imageprovider, performs arUco detection.
+Slices the image into sub images related to Storage location.
+Afterwards signals with processed image is emitted to QML Engine.
+Before every step a message is emitted to EventlogService in main screen</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.handle_image_signal">
+<span class="sig-name descname"><span class="pre">handle_image_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.handle_image_signal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.handle_image_signal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.select_marker_parameters">
+<span class="sig-name descname"><span class="pre">select_marker_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/service/stocktaking.html#Stocktaker.select_marker_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.service.stocktaking.Stocktaker.select_marker_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Selects detector settings, from locating integer and string</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.service.stocktaking.Stocktaker.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;Stocktaker&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QQuickImageProvider&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Slot,</span> <span class="pre">signature=evaluate_storagecell_cam()</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Slot,</span> <span class="pre">signature=evaluate_gripper()</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Slot,</span> <span class="pre">signature=emit_pallet_cup_images(int),</span> <span class="pre">parameters=int</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Slot,</span> <span class="pre">signature=emit_cell_image()</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Slot,</span> <span class="pre">signature=_refactor_corners()</span> <span class="pre">)</span></em><a class="headerlink" href="#src.service.stocktaking.Stocktaker.staticMetaObject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="detectoroptimizationservice">
 <h2>DetectorOptimizationService<a class="headerlink" href="#detectoroptimizationservice" title="Permalink to this heading">¶</a></h2>

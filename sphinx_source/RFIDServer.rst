@@ -32,7 +32,7 @@ __________
 Das Plugin nutzt die Serviceklasse `rfid_service` um für einen oder mehrere Listeneinträge der View einen Thread zum
 Auslesen des Lesegeräts zu erstellen.
 
-.. automodule:: src.service.rfid_service
+.. automodule:: src.service.rfidservice
     :members:
     :undoc-members:
     :show-inheritance:

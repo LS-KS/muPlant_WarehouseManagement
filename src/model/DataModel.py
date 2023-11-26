@@ -62,8 +62,8 @@ class Inventory:
     def calcLocations(self, row, col):
         from src.model.CommissionModel import Locations
         for i, loc in enumerate(Locations):
-            if loc.name[0] == 'L':
-                if (int(loc.name[1])-1)//6 == row and (int(loc.name[1])-1)%6 == col:
+            if loc.name[0] == 'L' and loc.name[-1] in ['A', 'B']:
+                if(int(loc.name[1])-1)//6 == row and (int(loc.name[1])-1)%6 == col:
                     return [loc, Locations[(str(loc.name[0:-1])+'B')]]
         return None
 class MobileRobot:

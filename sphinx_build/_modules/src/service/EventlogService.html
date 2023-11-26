@@ -1,17 +1,18 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>src.service.EventlogService &#8212; µPlant Warehouse Management 01.10.2023 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
    
@@ -31,12 +32,12 @@
           <div class="body" role="main">
             
   <h1>Source code for src.service.EventlogService</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">Signal</span><span class="p">,</span> <span class="n">Slot</span><span class="p">,</span> <span class="n">QObject</span>
+<span></span><span class="kn">from</span> <span class="nn">PySide6.QtCore</span> <span class="kn">import</span> <span class="n">Signal</span><span class="p">,</span> <span class="n">Slot</span><span class="p">,</span> <span class="n">QObject</span><span class="p">,</span> <span class="n">Qt</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">src.model.EventModel</span> <span class="kn">import</span> <span class="n">EventMessage</span>
-<span class="kn">from</span> <span class="nn">src.viewmodel.EventViewModel</span> <span class="kn">import</span> <span class="n">EventViewModel</span>
+<span class="kn">from</span> <span class="nn">src.viewmodel.EventViewModel</span> <span class="kn">import</span> <span class="n">EventViewModel</span><span class="p">,</span> <span class="n">EventSortModel</span>
 <div class="viewcode-block" id="EventlogService"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.EventlogService.EventlogService">[docs]</a><span class="k">class</span> <span class="nc">EventlogService</span> <span class="p">(</span><span class="n">QObject</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    Can be instanced in any other class.</span>
 <span class="sd">    creates an event string from two entered strings and emitss a signal.</span>
@@ -44,15 +45,18 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">messages</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eventViewModel</span> <span class="o">=</span> <span class="n">EventViewModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">)</span>
+        <span class="c1">#self.eventSortModel = EventSortModel()</span>
+        <span class="c1">#self.eventSortModel.setSourceModel(self.eventViewModel)</span>
+        <span class="c1">#self.eventSortModel.sort(0, Qt.DescendingOrder)</span>
 
 <div class="viewcode-block" id="EventlogService.createMessage"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.EventlogService.EventlogService.createMessage">[docs]</a>    <span class="k">def</span> <span class="nf">createMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">source</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Creates a string from provided source-string and source-message.</span>
 
@@ -70,7 +74,7 @@
 
 <div class="viewcode-block" id="EventlogService.writeEvent"><a class="viewcode-back" href="../../../Modules/Service.html#src.service.EventlogService.EventlogService.writeEvent">[docs]</a>    <span class="nd">@Slot</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">writeEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        obtains two strings, creates an event message from it and emits the formatted string as signal.</span>
 <span class="sd">        :param source: can be any string</span>
 <span class="sd">        :type source: str</span>
@@ -79,8 +83,7 @@
 <span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">#print(&quot;Eventcontroller: &quot;+message)</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">createMessage</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div></div>
+        <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">createMessage</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
@@ -127,7 +130,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -144,8 +147,8 @@
       &copy;2023, Lennart Schink.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

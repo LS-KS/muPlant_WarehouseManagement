@@ -136,14 +136,14 @@ class RfidService(QObject):
         """
         self.role_names = role_names
         if not self._validate_ip_port(node.ipAddr, node.ipPort):
-            self.eventlog_service.writeEvent("RFIDService.start_node",
+            self.eventlog_service.write_event("RFIDService.start_node",
                                              f"RFID-Node {node.name} mit IP {node.ipAddr} und Port {node.ipPort} konnte nicht gestartet werden. IP oder Port ungültig")
             return
         task = RfidReadertask(node.ipAddr, node.name)
         self.nodes.append([node, index, task])
         task.data.connect(self.handle_data_read)
         task.start()
-        self.eventlog_service.writeEvent("RFIDService.start_node",
+        self.eventlog_service.write_event("RFIDService.start_node",
                                          f"starte RFID-Node {node.name} mit IP {node.ipAddr} und Port {node.ipPort}...")
 
     def handle_data_read(self, ip: str, transponder_type: str, iid: str, dsfid: str, timestamp: str):
@@ -193,11 +193,11 @@ class RfidService(QObject):
             self.nodes[idx][1].stop()
             self.nodes[idx][0].reader = None
             self.nodes.remove(node)
-            self.eventlog_service.writeEvent("RFIDService.stop_node",
+            self.eventlog_service.write_event("RFIDService.stop_node",
                                              f"RFID-Node {node.name} mit IP {node.ipAddr} und Port {node.ipPort} gestoppt.")
             return True
         else:
-            self.eventlog_service.writeEvent("RFIDService.stop_node",
+            self.eventlog_service.write_event("RFIDService.stop_node",
                                              f"RFID-Node {node.name} mit IP {node.ipAddr} und Port {node.ipPort} konnte nicht gestoppt werden. Node nicht gefunden.")
         return False
 
