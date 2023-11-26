@@ -30,6 +30,7 @@ class CommissionState(StrEnum):
     PENDING ='pending'
     PROGRESS = 'in progress'
     DONE = 'done'
+    ERROR = 'error while executing'
 
 class Locations(StrEnum):
     """

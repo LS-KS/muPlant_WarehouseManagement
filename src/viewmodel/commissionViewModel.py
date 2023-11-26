@@ -172,7 +172,7 @@ class CommissionFilterProxyModel(QSortFilterProxyModel):
                 right_data = self.sourceModel().data(right_index, QtCore.Qt.UserRole +1)
 
                 # Define the desired sorting order
-                status_order = ["in progress", "pending", "open", "done"]              
+                status_order = ["in progress", "pending", "open", "done", None]              
                 # Compare the status values based on the desired sorting order
                 return status_order.index(left_data) < status_order.index(right_data)
                 

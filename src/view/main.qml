@@ -161,6 +161,8 @@ Window {
         onClicked: {
             agentService.setupAgentService();
             opcuaService.startOpcuaService();
+            commission_service.start_worker();
+            console.log("Start Button clicked")
             visible = false;
             stopButton.visible = true;
         } 
@@ -179,6 +181,7 @@ Window {
         onClicked: {
             agentService.stopAgentService();
             opcuaService.stopOpcuaService();
+            commission_service.stop();
             visible= false;
             startButton.visible= true;
         }

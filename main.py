@@ -25,12 +25,23 @@ from src.constants.Constants import Constants
 from src.service.AgentService import AgentService
 from src.service.rfidservice import RfidService
 from src.service.stocktaking import Stocktaker
+from src.service.comissionservice import CommissionService
 from src.controller.ABBController import ABBController
 from src.viewmodel.stockmodel import stockmodel, tablemodel
 from src.viewmodel.EventViewModel import EventSortModel
 
 #TODO: check and correct function of START / STOP Buttons in main.qml - this should quit and reset all services.
-#TODO: commissionmodel check 'K1'. 'L1' etc. - fix error that source/target cannot be resolved
+#TODO: CommissionController must take transportable data objects from future not from actual storage. 
+
+#TODO: Implement commissionservice. 
+#TODO: Implement listeners to opcuas agent variables
+#TODO: Connect opcua agent listeners to commissioncontroller
+
+#TODO: Commission handling: Implement functions to edit or delete commissions.
+
+#TODO: Fix crash of MCC Plugin when Plugin is started first time. (second time works always fine)
+
+#TODO: Adjust tests to dynamic data files, so that they will never fail because data files changed. Alternatevly: create test data files from actual data.
 if __name__ == '__main__':
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()
@@ -49,6 +60,14 @@ if __name__ == '__main__':
     engine.rootContext().setContextProperty("eventModel", eventlogService.eventViewModel)
     inventoryController.eventlogService = eventlogService
     engine.rootContext().setContextProperty("eventLogController", eventlogService)
+    
+    # creates preferenceController object and sets itself as rootContext
+    preferenceController = PreferenceController(eventlogService)
+    engine.rootContext().setContextProperty("preferenceController", preferenceController)
+
+    # Create ABB Controller for IRB 140
+    abbController = ABBController(preferenceController, eventlogService)
+    engine.rootContext().setContextProperty("abbController", abbController)
 
     # creates CommissionController object and sets itself as rootContext
     commissionController =  CommissionController(inventoryController, eventlogService)
@@ -57,9 +76,10 @@ if __name__ == '__main__':
     # engine.rootContext().setContextProperty('commissionModel', commissionController.commissionFilterProxyModel)
     engine.rootContext().setContextProperty('commissionModel', commissionController.commissionViewModel)
 
-    # creates preferenceController object and sets itself as rootContext
-    preferenceController = PreferenceController(eventlogService)
-    engine.rootContext().setContextProperty("preferenceController", preferenceController)
+    #creates commission service to handle commissions with opcua and abb controller
+    commission_service = CommissionService(commission_controller = commissionController, abb_controller = abbController, )
+    engine.rootContext().setContextProperty("commission_service", commission_service)
+    commissionController.new_commission.connect(commission_service.handle_new_commission)
 
     # creates AgentService object and sets itself as rootContext
     agentservice = AgentService(eventlogService, preferenceController)
@@ -76,10 +96,6 @@ if __name__ == '__main__':
     rfidController.rfid_service = rfid_service
     engine.rootContext().setContextProperty("rfid_service", rfid_service)
     rfid_service.data.connect(rfidController.update_model)
-
-    # Create ABB Controller for IRB 140
-    abbController = ABBController(preferenceController, eventlogService)
-    engine.rootContext().setContextProperty("abbController", abbController)
 
     # creates opcua service
     opcuaService = OpcuaService(

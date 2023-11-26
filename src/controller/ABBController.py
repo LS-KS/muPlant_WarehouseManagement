@@ -80,6 +80,22 @@ class ABBController(QObject):
             self.notify_busy.emit(self.busy)
             self.eventlog_service.write_event("ABBControlller", f"Error moving Item {source}-->{target}, False returned")
 
+    @Slot(result= bool)
+    def check_ready(self, mock:bool):
+        """
+        Checks if the ABB controller is busy.
+        :return: True if the controller is busy, False otherwise
+        :rtype: bool
+        """
+        if not mock:
+            if self.connected:
+                self.notify_busy.emit(self.busy)
+                return not self.busy
+            else:
+                return False
+        else:
+            return True
+
     def _loadPreferences(self):
         self.ip = self.preference_controller.preferences.abb.ip
         self.port = self.preference_controller.preferences.abb.port

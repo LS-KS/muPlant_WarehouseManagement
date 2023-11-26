@@ -18,6 +18,7 @@ class CommissionController(QObject):
     While operating commissions will be passed to CommisioonController by ModbusService or
     OPCUAService.
     """
+    new_commission = Signal(CommissionData)
     def __init__(self, inventoryController: invController, eventlogService : EventlogService):
         super().__init__(None)
         self.constants = Constants()
@@ -33,6 +34,29 @@ class CommissionController(QObject):
         self.commissionFilterProxyModel.setFilterString("")
         self.commissionFilterProxyModel.sort(6, QtCore.Qt.AscendingOrder)
         self.validateCommissionData()
+
+    @Slot(CommissionData, CommissionState)
+    def change_commission_state(self, commission: CommissionData, state: CommissionState):
+        """
+        Changes the state of a commission.
+        :param commission: commission to change
+        :type commission: CommissionData
+        :param state: new state
+        :type state: CommissionState
+        """
+        for com in self.commissionViewModel.commissionData:
+            if com.id == commission.id:
+                row = self.commissionViewModel.indexOf(com)
+                index = self.commissionViewModel.createIndex(row, 6)
+                res = self.commissionViewModel.setData(index, state)
+                if res : 
+                    self.dumpCommissionData()
+                    self.eventlogService.write_event("CommissionController", f"Commission {commission.id} changed to {state.value}")
+                else:
+                    self.eventlogService.write_event("CommissionController", f"Commission {commission.id} could not be changed to {state.value}")
+                break
+
+
 
 
     @Slot(str, str, str, result=bool)
@@ -432,6 +456,7 @@ class CommissionController(QObject):
             cup=kwargs.get('cup'),
             pallet=kwargs.get('pallet'))
         self.commissionViewModel.add(comission)
+        self.new_commission.emit(comission)
 
 
     def loadCommissionData(self):
