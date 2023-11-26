@@ -33,7 +33,8 @@ from src.viewmodel.EventViewModel import EventSortModel
 #TODO: check and correct function of START / STOP Buttons in main.qml - this should quit and reset all services.
 #TODO: CommissionController must take transportable data objects from future not from actual storage. 
 
-#TODO: Implement commissionservice. 
+#TODO: CommissionContoller must change actual inventory data when commission is done.
+#TODO: When Commission is pending, set transportable object into gripper.
 #TODO: Implement listeners to opcuas agent variables
 #TODO: Connect opcua agent listeners to commissioncontroller
 
