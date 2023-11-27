@@ -9,7 +9,7 @@ from src.model.CommissionModel import CommissionData, CommissionState, Locations
 from src.constants.Constants import Constants
 from src.controller.invController import invController
 from yaml import safe_load, safe_dump
-from src.model.DataModel import Cup, Pallet, Product, StorageElement, Inventory, Workbench
+from src.model.DataModel import Cup, Pallet, Product, StorageElement, Inventory, Workbench, MobileRobot
 from src.service.EventlogService import EventlogService
 
 class CommissionController(QObject):
@@ -25,8 +25,10 @@ class CommissionController(QObject):
         self.inventoryController: invController = inventoryController
         self.eventlogService: EventlogService = eventlogService
         self.commissionViewModel = CommissionViewModel(self.loadCommissionData())
-        self.dumpCommissionData()
         self.commissionFilterProxyModel = CommissionFilterProxyModel()
+        self.inventory_copy: Inventory = None
+        self.workbench_copy: Workbench = None
+        self.dumpCommissionData()
         self.commissionFilterProxyModel.setSourceModel(self.commissionViewModel)
         self.commissionFilterProxyModel.setFilterCaseSensitivity(Qt.CaseInsensitive)
         self.commissionFilterProxyModel.setFilterKeyColumn(0)
@@ -49,15 +51,16 @@ class CommissionController(QObject):
                 row = self.commissionViewModel.indexOf(com)
                 index = self.commissionViewModel.createIndex(row, 6)
                 res = self.commissionViewModel.setData(index, state)
+                if state == CommissionState.PROGRESS:
+                    self.set_to_gripper(commission)
+                elif state == CommissionState.DONE:
+                    self.perform_commission(commission)
                 if res : 
                     self.dumpCommissionData()
                     self.eventlogService.write_event("CommissionController", f"Commission {commission.id} changed to {state.value}")
                 else:
                     self.eventlogService.write_event("CommissionController", f"Commission {commission.id} could not be changed to {state.value}")
                 break
-
-
-
 
     @Slot(str, str, str, result=bool)
     def check_commission(self, source: str, target: str, cup_or_pallet: str) -> bool:
@@ -93,9 +96,6 @@ class CommissionController(QObject):
         result = all(valid)
         return result
 
-
-
-
     @Slot(str, str, str)
     def create_new_commission(self, source: str, target: str, cup_or_pallet: str):
         """
@@ -121,29 +121,29 @@ class CommissionController(QObject):
         target_object = self._get_object_from_location(trg)
         cup = True if cup_or_pallet == "Cup" else False
         pallet = True if cup_or_pallet == "Pallet" else False
-
+        commissions: list[CommissionData] = []
         # case 1
         if src == Locations.ROBOT and trg.name[0] == 'K' and cup:
             if target_object is None:
-                self._create_new_commission(
+                commissions.append(self._create_new_commission(
                     source= src,
                     target= trg,
                     cup= cup,
                     pallet= pallet,
                     object= getattr(source_object, 'id', 0),
-                )
+                ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {trg.value} created")
         elif trg == Locations.ROBOT and src.name[0] == 'K' and cup:
             source_object = self._get_object_from_location(src)
             target_object = self._get_object_from_location(trg)
             if target_object is None:
-                self._create_new_commission(
+                commissions.append(self._create_new_commission(
                     source= src,
                     target= trg,
                     cup= cup,
                     pallet= pallet,
                     object= getattr(target_object, 'id', 0),
-                )
+                ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
 
         # case 2
@@ -151,13 +151,13 @@ class CommissionController(QObject):
             source_object = self._get_object_from_location(src)
             target_object = self._get_object_from_location(trg)
             if target_object is None:
-                self._create_new_commission(
+                commissions.append(self._create_new_commission(
                     source= src,
                     target= trg,
                     cup= cup,
                     pallet= pallet,
                     object= getattr(source_object, 'id', 0),
-                )
+                ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
 
         # case 3
@@ -165,13 +165,13 @@ class CommissionController(QObject):
             source_object = self._get_object_from_location(src)
             target_object = self._get_object_from_location(trg)
             if target_object is None:
-                self._create_new_commission(
-                    source= src.name,
-                    target= trg.name,
+                commissions.append(self._create_new_commission(
+                    source= src,
+                    target= trg,
                     cup= cup,
                     pallet= pallet,
                     object= 0,
-                )
+                ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
 
         # case 4
@@ -182,31 +182,31 @@ class CommissionController(QObject):
             other_workbenchslot = other_workbench + ('A' if target.name[-1] == 'A' else 'B')
             # create first commission storage -> workbench
             if target_object.location is not None and other_workbenchslot is not None:
-                self._create_new_commission(
+                commissions.append(self._create_new_commission(
                     source= Locations[target[0:-1]], # pull pallet from storage
                     target= Locations[other_workbench],
                     cup= False,
                     pallet= True,
                     object= 0,
-                )
+                ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {source} to {target} created")
             # create second commission workbench -> workbench
-            self._create_new_commission(
+            commissions.append(self._create_new_commission(
                 source = Locations[source],
                 target = Locations[other_workbenchslot],
                 cup = True,
                 pallet = False,
                 object = getattr(self._get_object_from_location(source).id,0),
-            )
+            ))
             self.eventlogService.write_event("CommissionController", f"New sub-commission from {source} to {target} created")
             # create third commission workbench -> storage
-            self._create_new_commission(
+            commissions.append(self._create_new_commission(
                 source = Locations[other_workbenchslot[0:-1]],
                 target = Locations[target[0:-1]],
                 cup = False,
                 pallet = True,
                 object = 0,
-            )
+            ))
             self.eventlogService.write_event("CommissionController", f"Final sub-commission from {source} to {target} created")
     
         # case 5
@@ -214,94 +214,94 @@ class CommissionController(QObject):
             source_object = self._get_object_from_location(src)
             target_object = self._get_object_from_location(trg)
             if target_object is None:
-                self._create_new_commission(
+                commissions.append(self._create_new_commission(
                     source= src,
                     target= trg,
                     cup= cup,
                     pallet= pallet,
                     object= getattr(source_object, 'id', 0),
-                )
+                ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {source} to {target} created")
         
         # case 6
         elif src.name[0] == 'L' and trg.name[0] == 'L' and pallet:
             if self._get_object_from_location(Locations['K1']) is None and self._get_object_from_location(Locations['K2']) is None:
-                self._create_new_commission(
+                commissions.append(self._create_new_commission(
                     source= src,
                     target= Locations.K1,
                     cup= cup,
                     pallet= pallet,
                     object= getattr(source_object, 'id', 0),
-                )
+                ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K1'].value} created")
                 if target_object is not None:
-                    self._create_new_commission(
+                    commissions.append(self._create_new_commission(
                         source = trg,
                         target = Locations.K2,
                         cup = cup,
                         pallet = pallet,
                         object = getattr(source_object, 'id', 0),
-                    )
+                    ))
                     self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K2'].value} created")
-                    self._create_new_commission(
+                    commissions.append(self._create_new_commission(
                         source = Locations.K2,
                         target = src,
                         cup = cup,
                         pallet = pallet,
                         object = getattr(source_object, 'id', 0),
-                    )
+                    ))
                     self.eventlogService.write_event("CommissionController", f"New sub-commission from {Locations['K2']} to {src} created")
-                self._create_new_commission(
+                commissions.append(self._create_new_commission(
                     source = Locations.K1,
                     target = trg,
                     cup = cup,
                     pallet = pallet,
                     object = getattr(source_object, 'id', 0),
-                )
+                ))
                 self.eventlogService.write_event("CommissionController", f"Final sub-commission from {Locations['K1'].value} to {src.value} created")
                 
         # case 7
         elif src.name[0] == 'L' and trg.name[0] == 'L' and cup:
             if self._get_object_from_location(trg) is None and self._get_object_from_location(Locations['K1'].name) is None and self._get_object_from_location(Locations['K2'].name) is None:
-                self._create_new_commission(
+                commissions.append(self._create_new_commission(
                     source= src,
                     target= Locations['K1'].name,
                     cup= False,
                     pallet= True,
                     object= 0,
-                )
+                ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K1'].value} created")
-                self._create_new_commission(
+                commissions.append(self._create_new_commission(
                     source = trg,
                     target = Locations['K2'].name,
                     cup = False,
                     pallet = True,
                     object = 0,
-                )
+                ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K2'].value} created")
-                self._create_new_commission(
+                commissions.append(self._create_new_commission(
                     source = Locations['K1'+source[-1]].name,
                     target = Locations['K2'+target[-1]].name,
                     cup = True,
                     pallet = False,
                     object = getattr(source_object, 'id', 0),
-                )
+                ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {Locations['K1'+ source[-1]].value} to {Locations['K2'+ target[-1]].value} created")
-                self._create_new_commission(
+                commissions.append(self._create_new_commission(
                     source = Locations['K2'].name,
                     target = Locations[trg[0:-1]],
                     cup = False,
                     pallet = True,
                     object = 0,
-                )
+                ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {Locations['K2'].value} to {Locations[trg[0:-1]].value} created")
-                self._create_new_commission(
+                commissions.append(self._create_new_commission(
                     source = Locations['K1'].name,
                     target = Locations[src[0:-1]].name,
                     cup = False,
                     pallet = True,
                     object = 0,
-                )
+                ))
                 self.eventlogService.write_event("CommissionController", f"Final sub-commission from {Locations['K1'].name} to {Locations[src[0:-1]].value} created")
         check =self.validateCommissionData()
         if check:
@@ -309,6 +309,51 @@ class CommissionController(QObject):
             self.eventlogService.write_event("CommissionController", f"All commissions valid.")
         else:
             self.eventlogService.write_event("CommissionController", f"Error! Commission invalid.")
+
+    def set_to_gripper(self, commission: CommissionData):
+        """
+        Sets object to gripper.
+        Doesn't perform any check.
+        :param commission: commission to perform
+        :type commission: CommissionData
+        """
+        object: Union[Cup, Pallet] = self._get_object_from_location(commission.source)
+        self.inventoryController.move_to_gripper(object)
+
+    def perform_commission(self, commission: CommissionData):
+        """
+        Performs commissions submitted in actual DataModel.
+        Note that an object that is performing is set to gripper once state changed to PROGRESS.
+
+        In case of a cup to be transported: 
+        Since cups are not allowed to be stored without pallet, it is enough to use _get_object_from_location to get the target pallet object.
+
+        In case of a pallet to be transported:
+        1.) If target is storage, the storageElement object is needed
+        2.) If target is workbench, the pallet must be set to workbench.k1 or workbench.k2
+
+        :param commission: commission to perform
+        :type commissions: CommissionData
+        """
+        object: Union[Cup, Pallet] = self.inventoryController.gripper.object
+        if isinstance(object, Cup):
+            target_location = Locations[commission.target.name[0:-1]] # get Pallet Location
+            target = self._get_object_from_location(target_location)
+            if isinstance(target.location, MobileRobot):
+                self.inventoryController.move_to_robot(object)
+            if isinstance(target.location, Workbench):
+                self.inventoryController.move_to_workbench(object, commission.target)
+            if isinstance(target.location, StorageElement):
+                self.inventoryController.move_to_storage(object)
+            object.setLocation(target)
+        elif isinstance(object, Pallet):
+            if commission.target.name[0] == 'L':
+             self.inventoryController.move_to_storage(object, target=commission.target)
+            elif commission.target.name[0] == 'K':
+                self.inventoryController.move_to_workbench(object, target=commission.target)
+            elif commission.target == Locations.ROBOT:
+                self.inventoryController.move_to_robot(object)
+            
 
     def _get_object_from_location(self, location: Locations) -> Union[Cup, Pallet]:
         """
@@ -321,10 +366,14 @@ class CommissionController(QObject):
         match location:
             case Locations.ROBOT:
                 return getattr(self.inventoryController.mobileRobot, 'cup', default)
+            case Locations.K1:
+                return getattr(self.inventoryController.workbench, 'k1', default)
             case Locations.K1A:
                 return getattr(self.inventoryController.workbench.k1, 'slotA', default)
             case Locations.K1B:
                 return getattr(self.inventoryController.workbench.k1, 'slotB', default)
+            case Locations.K2:
+                return getattr(self.inventoryController.workbench, 'k2', default)
             case Locations.K2A:
                 return getattr(self.inventoryController.workbench.k2, 'slotA', default)
             case Locations.K2B:
@@ -442,22 +491,33 @@ class CommissionController(QObject):
             case Locations.L18B:
                 return getattr(self.inventoryController.inventory.getStoragePallet(2, 5), 'slotB', default)
 
-    def _create_new_commission(self, **kwargs):
+    def _create_new_commission(self, **kwargs) -> CommissionData:
         """
         Creates a new commission and adds it to the commissionViewModel.
         Parameters
-
+        :param source: source location
+        :type source: Locations
+        :param target: target location
+        :type target: Locations
+        :param cup: True if Commission is a cup, False if not
+        :type cup: bool
+        :param pallet: True if Commission is a pallet, False if not
+        :type pallet: bool
+        :param object: object id
+        :type object: int
+        :return: created commission
+        :rtype: CommissionData
         """
-        comission = CommissionData(
+        commission = CommissionData(
             id=self.commissionViewModel.new_comission_id(),
-            source=kwargs.get('source'),
-            target=kwargs.get('target'),
+            source= kwargs.get('source'),
+            target= kwargs.get('target'),
             object=kwargs.get('object'),
             cup=kwargs.get('cup'),
             pallet=kwargs.get('pallet'))
-        self.commissionViewModel.add(comission)
-        self.new_commission.emit(comission)
-
+        self.commissionViewModel.add(commission)
+        self.new_commission.emit(commission)
+        return commission
 
     def loadCommissionData(self):
         commissionData = []
@@ -504,12 +564,14 @@ class CommissionController(QObject):
             })
         with open(Constants().COMMISSIONDATA, 'w') as file:
             safe_dump(data, file)
+
     def get_commissionData(self)-> list[CommissionData]:
         """
         returns commission data stored in CommissionViewModel.
         """
         data = self.commissionViewModel.commissionData
         return data
+    
     def validateCommissionData(self) -> bool:
         """
         This function validates the commission data.
@@ -520,44 +582,45 @@ class CommissionController(QObject):
 
         Returns: True if all commissions are valid, False if not
         """
-        inventory = self._setupInventoryCopy()
-        workbench = self._setupWorkbenchCopy()
+        self.inventory_copy = self._setupInventoryCopy()
+        self.workbench_copy = self._setupWorkbenchCopy()
         valid = True
         for commission in self.commissionViewModel.commissionData:
-            source, target, cup, pallet, object = commission.source, commission.target, commission.cup, commission.pallet, commission.object
-            data = {
-                'commission': commission,
-                'cup': cup,
-                'inventory': inventory,
-                'object': object,
-                'pallet': pallet,
-                'source': source,
-                'valid': valid,
-                'target': target,
-                'workbench': workbench
-            }
+            if commission.state != CommissionState.DONE:
+                source, target, cup, pallet, object = commission.source, commission.target, commission.cup, commission.pallet, commission.object
+                data = {
+                    'commission': commission,
+                    'cup': cup,
+                    'inventory': self.inventory_copy,
+                    'object': object,
+                    'pallet': pallet,
+                    'source': source,
+                    'valid': valid,
+                    'target': target,
+                    'workbench': self.workbench_copy
+                }
 
-            # Check for obvious errors
-            if cup & pallet:
-                self.eventlogService.write_event("CommissionController", f"Commission {commission.id} is invalid: cup and pallet are set")
-                valid = False
-            elif cup == False and pallet == False:
-                self.eventlogService.write_event("CommissionController", f"Commission {commission.id} is invalid: nor cup or pallet are set")
-                valid = False
-            if source == target:
-                self.eventlogService.write_event("CommissionController", f"Commission {commission.id} is invalid: source and target are the same")
-                valid = False
-            # check source location
-            valid = self._commissioncheck_source_location(**data)
-            # check target location
-            valid = self._commissioncheck_target_location(**data)
+                # Check for obvious errors
+                if cup & pallet:
+                    self.eventlogService.write_event("CommissionController", f"Commission {commission.id} is invalid: cup and pallet are set")
+                    valid = False
+                elif cup == False and pallet == False:
+                    self.eventlogService.write_event("CommissionController", f"Commission {commission.id} is invalid: nor cup or pallet are set")
+                    valid = False
+                if source == target:
+                    self.eventlogService.write_event("CommissionController", f"Commission {commission.id} is invalid: source and target are the same")
+                    valid = False
 
-            # perform commission if valid
-            self._commissioncheck_peform(**data)
-            if valid is False:
-                break
+                # check source location
+                valid = self._commissioncheck_source_location(**data)
+                # check target location
+                valid = self._commissioncheck_target_location(**data)
+
+                # perform commission if valid
+                self._commissioncheck_peform(**data)
+                if valid is False:
+                    break
         return valid
-
 
     def _commissioncheck_peform(self, **kwargs):
         """
@@ -572,18 +635,19 @@ class CommissionController(QObject):
         :param workbench:
         :return:
         """
-        valid = kwargs.get('valid')
-        source = kwargs.get('source')
-        target = kwargs.get('target')
-        pallet = kwargs.get('pallet')
-        inventory = kwargs.get('inventory')
-        workbench = kwargs.get('workbench')
-        cup = kwargs.get('cup')
+        valid: bool = kwargs.get('valid')
+        source: Locations = kwargs.get('source')
+        target: Locations = kwargs.get('target')
+        pallet: bool = kwargs.get('pallet')
+        inventory: Inventory = kwargs.get('inventory')
+        workbench: Workbench = kwargs.get('workbench')
+        cup: bool = kwargs.get('cup')
         # commission = kwargs.get('commission')
         # object = kwargs.get('object')
 
         if valid:
             if pallet:
+                # get object from source
                 sEPallet = None
                 if source.name[0] == 'L':
                     source_row = int(source.name[1]) // 6 - 1
@@ -591,16 +655,21 @@ class CommissionController(QObject):
                     sEPallet = inventory.pallets[source_row][source_col].pallet
                 elif source.name[0] == 'K':
                     sEPallet = workbench.k1 if source.name[1] == '1' else workbench.k2
+                # set object to target
                 if target.name[0] == 'L':
-                    target_row = int(target.name[1:-1]) // 6 - 1
-                    target_col = int(target.name[1:-1]) % 6
-                    inventory.pallets[target_row][target_col].pallet = sEPallet
+                    target_row = int(target.name[-1]) // 6 if len(target.name) ==2 else int(target.name[1:-1]) // 6 - 1
+                    target_col = int(target.name[-1]) % 6 -1 if len(target.name) ==2 else int(target.name[1:-1]) % 6
+                    print( f"target_row: {target_row}, target_col: {target_col}")
+                    inventory.setStoragePallet(target_row, target_col, sEPallet)
                 elif target.name[0] == 'K':
                     if target.name[1] == '1':
-                        workbench.k1 = sEPallet
+                        #workbench.k1 = sEPallet
+                        sEPallet.setLocation(workbench.k1)
                     else:
-                        workbench.k2 = sEPallet
+                        #workbench.k2 = sEPallet
+                        sEPallet.setLocation(workbench.k2)
             elif cup:
+                # get object from source
                 sECup = None
                 if source.name[0] == 'L':
                     source_row = int(source.name[1:-1]) // 6 - 1
@@ -615,24 +684,31 @@ class CommissionController(QObject):
                             sECup = workbench.k1.slotB
                     else:
                         sECup = workbench.k2.slotA if source.name[-1] == 'A' else workbench.k2.slotB
+                # set object to target
                 if target.name[0] == 'L':
                     target_row = int(target.name[1]) // 6 - 1
                     target_col = int(target.name[1]) % 6
                     if target.name[-1] == 'A':
-                        inventory.pallets[target_row][target_col].pallet.slotA = sECup
+                        #inventory.pallets[target_row][target_col].pallet.slotA = sECup
+                        sECup.setLocation(inventory.pallets[target_row][target_col].pallet)
                     else:
-                        inventory.pallets[target_row][target_col].pallet.slotB = sECup
+                        #inventory.pallets[target_row][target_col].pallet.slotB = sECup
+                        sECup.setLocation(inventory.pallets[target_row][target_col].pallet)
                 elif target.name[0] == 'K':
                     if target.name[1] == '1':
                         if target.name[-1] == 'A':
-                            workbench.k1.slotA = sECup
+                            #workbench.k1.slotA = sECup
+                            sECup.setLocation(workbench.k1.slotA)
                         if target.name[-1] == 'B':
-                            workbench.k1.slotB = sECup
+                            #workbench.k1.slotB = sECup
+                            sECup.setLocation(workbench.k1.slotB)
                     else:
                         if target.name[-1] == 'A':
-                            workbench.k2.slotA = sECup
+                            #workbench.k2.slotA = sECup
+                            sECup.setLocation(workbench.k2.slotA)
                         else:
-                            workbench.k2.slotB = sECup
+                            #workbench.k2.slotB = sECup
+                            sECup.setLocation(workbench.k2.slotB)
 
     def _commissioncheck_source_location(self, **kwargs):
         valid = kwargs.get('valid')
@@ -880,14 +956,15 @@ class CommissionController(QObject):
         cup = kwargs.get('cup')
 
         locName = target.name
-        number = int(locName[1:-1])
-        row = int(locName[1:-1])//6
-        col = int(locName[1:-1]) % 6 -1
+        row = int(locName[-1]) //6 if len(locName) == 2 else int(locName[1:-1])//6
+        col = int(locName[-1]) %6 -1 if len(locName) == 2 else int(locName[1:-1]) % 6 -1
         sE = inventory.pallets[row][col].pallet
         if pallet and sE is not None:
             self.eventlogService.write_event("CommissionController",
                                             f"Commission {commission.id} is invalid: target location {target.name} is not empty.")
             valid = False
+            return valid
+        elif pallet and sE is None:
             return valid
         elif cup and sE is None:
             self.eventlogService.write_event("CommissionController",
@@ -955,10 +1032,10 @@ class CommissionController(QObject):
                 sE: StorageElement = self.inventoryController.inventory.pallets[row][col]
                 pallet = sE.pallet
                 loc = sE.locations
-                prodA = None
-                prodB = None
-                cupA = None
-                cuB = None
+                prodA = 0
+                prodB = 0
+                cupA = 0
+                cupB = 0
                 if pallet is not None:
                     if pallet.slotA is not None:
                         cupA = pallet.slotA.id

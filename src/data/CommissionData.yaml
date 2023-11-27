@@ -6,3 +6,19 @@
     source: L1
     state: DONE
     target: K1
+- CommissionData:
+    cup: false
+    id: 1
+    object: 0
+    pallet: true
+    source: K1
+    state: DONE
+    target: L1
+- CommissionData:
+    cup: false
+    id: 2
+    object: 0
+    pallet: true
+    source: L1
+    state: DONE
+    target: K1

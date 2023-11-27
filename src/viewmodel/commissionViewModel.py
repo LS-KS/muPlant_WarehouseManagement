@@ -59,12 +59,12 @@ class CommissionViewModel(QtCore.QAbstractTableModel):
         else:
             match col:
                 case 0: return self.commissionData[row].id
-                case 1: return self.commissionData[row].source.value
-                case 2: return self.commissionData[row].target.value
+                case 1: return Locations[self.commissionData[row].source].value if not isinstance(self.commissionData[row].source, Locations) else self.commissionData[row].source.value
+                case 2: return Locations[self.commissionData[row].target].value if not isinstance(self.commissionData[row].target, Locations) else self.commissionData[row].target.value
                 case 3: return self.commissionData[row].object
                 case 4: return "Cup" if self.commissionData[row].cup else ""
                 case 5: return "Pallet" if self.commissionData[row].pallet else ""
-                case 6: return self.commissionData[row].state.value
+                case 6: return CommissionState[self.commissionData[row].state].value if not isinstance(self.commissionData[row].state, CommissionState) else self.commissionData[row].state.value
                 case _: return None
 
     def setData(self, index, value, role=Qt.EditRole):

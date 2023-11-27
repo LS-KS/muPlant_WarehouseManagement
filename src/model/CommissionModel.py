@@ -1,4 +1,7 @@
 from enum import StrEnum
+from typing import Union
+
+from src.model.DataModel import Pallet, Cup
 
 class CommissionData:
     """
@@ -20,7 +23,7 @@ class CommissionData:
         self.cup: bool = cup
         self.pallet: bool = pallet
         self.state: CommissionState = CommissionState.OPEN if state is None else state
-        #print(f"CommissionData: {self.id}, {self.source}, {self.target}, {self.object}")
+        print(f"CommissionData: {self.id}, {self.source}, {self.target}, {self.object}")
 
 class CommissionState(StrEnum):
     """

@@ -31,18 +31,20 @@ from src.viewmodel.stockmodel import stockmodel, tablemodel
 from src.viewmodel.EventViewModel import EventSortModel
 
 #TODO: check and correct function of START / STOP Buttons in main.qml - this should quit and reset all services.
-#TODO: CommissionController must take transportable data objects from future not from actual storage. 
+#TODO: Fix crash of MCC Plugin when Plugin is started first time. (second time works always fine)
 
+#TODO: Commissioncontrolller while program start: check if commissions are handled correctly according to their state.
+#TODO: CommissionController must take transportable data objects from future not from actual storage. 
 #TODO: CommissionContoller must change actual inventory data when commission is done.
 #TODO: When Commission is pending, set transportable object into gripper.
+#TODO: Commission handling: Implement functions to edit or delete commissions.
+
 #TODO: Implement listeners to opcuas agent variables
 #TODO: Connect opcua agent listeners to commissioncontroller
 
-#TODO: Commission handling: Implement functions to edit or delete commissions.
-
-#TODO: Fix crash of MCC Plugin when Plugin is started first time. (second time works always fine)
-
+#TODO: Implement clear button function in eventlog
 #TODO: Adjust tests to dynamic data files, so that they will never fail because data files changed. Alternatevly: create test data files from actual data.
+
 if __name__ == '__main__':
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()

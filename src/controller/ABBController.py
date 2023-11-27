@@ -94,7 +94,8 @@ class ABBController(QObject):
             else:
                 return False
         else:
-            return True
+            self.notify_busy.emit(self.busy)
+            return not self.busy
 
     def _loadPreferences(self):
         self.ip = self.preference_controller.preferences.abb.ip

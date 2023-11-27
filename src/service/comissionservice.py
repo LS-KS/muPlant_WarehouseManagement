@@ -1,9 +1,10 @@
+import asyncio
 from typing import Tuple
 from src.controller.CommissionController import CommissionController
 from src.model.CommissionModel import CommissionData, CommissionState, Locations
 from src.controller.ABBController import ABBController
 from PySide6.QtCore import Qt, QThread, QObject, Signal, Slot, QMutex
-
+import time
 
 class CommissionService(QObject):
 
@@ -44,7 +45,7 @@ class CommissionService(QObject):
 
 class CommissionWorker(QThread):
 
-    commission_finished = Signal(CommissionData)
+    commission_updated = Signal(int, Locations)
     def __init__(self, service: CommissionService, parent=None):
         super().__init__(parent)
         self.commission_service = service
@@ -59,20 +60,33 @@ class CommissionWorker(QThread):
         """
         If a new commission is created, a signal from CommissionController is emitted called 'new_commission'.
         """
-        print(f"CommissionWorker: handle commission {commission.id}")
+        print(f"CommissionWorker: handle commission {commission.id}, run state: {self.is_running}")
         if self.is_running:
             done = False
             while not done:
                 if self.commission_service.abb_controller.check_ready(self.mock):
+                    print("CommissionWorker: Commission ready; update to pending")
                     self.commission_service.commission_controller.change_commission_state(commission, CommissionState.PENDING)
                     source_string, target_string = self._create_abb_strings(commission)
+                    time.sleep(0.5)
+                    print("CommissionWorker: Calculated command strings, slepts well ; update to progress")
                     self.commission_service.commission_controller.change_commission_state(commission, CommissionState.PROGRESS)
                     if not self.mock:
+                        print("CommissionWorker: Moving item using abb controller")
                         self.commission_service.abb_controller.move_item(source_string, target_string)
+                    else:
+                        print("CommissionWorker: Simulating abb movement, set abb controller to busy")
+                        self.commission_service.abb_controller.busy = True
+                    time.sleep(0.5)
+                    print("CommissionWorker: Slept well, update to done")
                     self.commission_service.commission_controller.change_commission_state(commission, CommissionState.DONE)
                     done = True
+                    if self.mock:
+                        print("CommissionWorker: Simulating abb movement, set abb controller to not busy")
+                        self.commission_service.abb_controller.busy = False
             print("CommissionWorker: Commission done")
-        print("CommissionWorker: CommissionWorker not running")
+        else:
+            print("CommissionWorker: CommissionWorker not running")
                 
 
     def _create_abb_strings(self, commission: CommissionData) -> Tuple[str, str]:

@@ -1,6 +1,7 @@
 from PySide6.QtCore import QObject, Signal
 from typing import List
-from src.model.CommissionModel import Locations
+
+
 class Inventory:
     """
     Implements the storage rack in µPlant.
@@ -15,13 +16,14 @@ class Inventory:
     :param invController : InventoryController
 
     """
+
     def __init__(self, controller):
         """
         Initialize inventory object and fills pallets array with StorageElements
         :param controller:
 
         """
-        self.pallets : List[List[StorageElement]] = []
+        self.pallets: List[List[StorageElement]] = []
         self.invController = controller
         for row in range(3):
             self.pallets.append([])
@@ -40,7 +42,8 @@ class Inventory:
         :rtype: Pallet or None if no pallet is stored
         """
         return self.pallets[row][col].pallet
-    def setStoragePallet(self, row, col, pallet):
+
+    def setStoragePallet(self, row: int, col: int, pallet):
         """
         Sets a pallet into the storage at given position.
         Throws ValueError if storage Position is not empty.
@@ -53,19 +56,21 @@ class Inventory:
         if self.pallets[row][col].pallet == pallet:
             return self
         if self.pallets[row][col].pallet is not None:
-            raise ValueError
+            raise ValueError("In this spot is actually already a pallet object!")
         self.pallets[row][col].pallet = pallet
         if pallet is not None:
             if pallet.location is not self.pallets[row][col]:
                 pallet.setLocation(self.pallets[row][col])
-    
+
     def calcLocations(self, row, col):
         from src.model.CommissionModel import Locations
         for i, loc in enumerate(Locations):
             if loc.name[0] == 'L' and loc.name[-1] in ['A', 'B']:
-                if(int(loc.name[1])-1)//6 == row and (int(loc.name[1])-1)%6 == col:
-                    return [loc, Locations[(str(loc.name[0:-1])+'B')]]
+                if (int(loc.name[1]) - 1) // 6 == row and (int(loc.name[1]) - 1) % 6 == col:
+                    return [loc, Locations[(str(loc.name[0:-1]) + 'B')]]
         return None
+
+
 class MobileRobot:
     """
     Implements Mobile Robot class from µPlant.
@@ -74,6 +79,7 @@ class MobileRobot:
     :param cup: stores cup on mobile Robot
     :type cup: Cup
     """
+
     def __init__(self):
         """
         Initializes cup field with None value
@@ -97,6 +103,8 @@ class MobileRobot:
         if cup is not None:
             if cup.location is not self:
                 cup.setLocation(self)
+
+
 class Workbench:
     """
     Implements Workbench class from µPlant.
@@ -107,13 +115,14 @@ class Workbench:
     :param k2: stores pallet on K2 slot
     :type k2: Pallet
     """
+
     def __init__(self):
         """
         Initialize all paarameters with None value
         """
 
-        self.k1 : Pallet = None
-        self.k2 : Pallet = None
+        self.k1: Pallet = None
+        self.k2: Pallet = None
 
     def setK1(self, pallet):
         """
@@ -172,6 +181,8 @@ class Workbench:
                 pallet.setLocation(self)
             if self.k1 == self.k2:
                 self.k1 = None
+
+
 class Gripper(QObject):
     """
     Implements Gripper data class from µPlant industrial robotic arm.
@@ -182,12 +193,14 @@ class Gripper(QObject):
     :param object: Stores either cup object or pallet object (or None)
     :type id: Cup or Pallet (or None)
     """
+
     def __init__(self):
         """
         initialize data object with None value
         """
         self.object = None
-        self.objectChanged = Signal(bool, bool, int, int, str, int, int, str) #isPallet, isCup, cup, prod, productname, cup, row, productname
+        self.objectChanged = Signal(bool, bool, int, int, str, int, int,
+                                    str)  # isPallet, isCup, cup, prod, productname, cup, row, productname
 
     def setObject(self, object):
         """
@@ -236,9 +249,11 @@ class Gripper(QObject):
                 prodNameB = ""
             self.objectChanged.emit(True, False, cupA, prodA, prodNameA, cupB, prodB, prodNameB)
         elif isinstance(self.object, Cup):
-            self.objectChanged.emit(False, True, self.object.id, self.object.product.id, self.object.product.name, self.object.row, self.object.col, self.object.location.name)
+            self.objectChanged.emit(False, True, self.object.id, self.object.product.id, self.object.product.name,
+                                    self.object.row, self.object.col, self.object.location.name)
         else:
             raise ValueError("Object is not a Cup or Pallet object!")
+
 
 class Product:
     """
@@ -261,9 +276,9 @@ class Product:
         :param name: The name of the product
         :type name: str
         """
-        self.id : int = id
-        self.name : str = name
-        self.cups : List[Cup] = []
+        self.id: int = id
+        self.name: str = name
+        self.cups: List[Cup] = []
 
     def withCup(self, cup):
         """
@@ -299,6 +314,7 @@ class Product:
         if cup.product == self:
             cup.setProduct(None)
 
+
 class Cup:
     """
     Implements Cup class from µPlant which exists in two sizes.
@@ -312,7 +328,7 @@ class Cup:
     :type product: Product
     """
 
-    def __init__(self, id: int, product = None):
+    def __init__(self, id: int, product=None):
         """
         Initializes a new instance of the Cup class.
 
@@ -322,12 +338,11 @@ class Cup:
         :type product: Product
         :param location: the location object where the cup is stored (Pallet, MobileRobot, Gripper)
         """
-        self.id : int = id
-        self.product : Product = product
-        self.location : Pallet | MobileRobot | Gripper = None
+        self.id: int = id
+        self.product: Product = product
+        self.location: Pallet | MobileRobot | Gripper = None
         if product != None:
             product.withCup(self)
-
 
     def getID(self):
         """
@@ -387,7 +402,6 @@ class Cup:
             if not self in product.cups:
                 product.cups.append(self)
 
-
     def setLocation(self, location):
         """
         Sets the storage stored the cup is stored in.
@@ -424,6 +438,7 @@ class Cup:
                 oldValue.slotB = None
         return self
 
+
 class Pallet:
     """
     Implements Pallet class from µPlant which stores up tp two cups.
@@ -433,6 +448,7 @@ class Pallet:
     :param location: The location object in which the pallet is stored (Workbench, Gripper, Inventory)
     :param slotA: slot for a Cup object which represents the slot in the front of storage bar.
     :param slotB: slot for a Cup object which represents the slot in the rear of storage bar.    """
+
     def __init__(self):
         """
         Initializes a new instance of the Pallet class with all attributes as None.
@@ -442,9 +458,8 @@ class Pallet:
         :param slotB: slot for a Cup object which represents the slot in the rear of storage bar.
         """
         self.location = None
-        self.slotA : Cup = None
-        self.slotB : Cup = None
-
+        self.slotA: Cup = None
+        self.slotB: Cup = None
 
     def setSlotA(self, cup):
         """
@@ -525,6 +540,7 @@ class Pallet:
                 if storageElement.object is not self:
                     storageElement.setObject(self)
 
+
 class StorageElement:
     """
     StorageElement represents a slot in µPlant storage bar, so there are 18 static objects.
@@ -538,8 +554,8 @@ class StorageElement:
     :param inventory: parent class of StorageElement
     :type inventory: Inventory
     """
-    from src.model.CommissionModel import Locations
-    def __init__(self, row, col, inventory =None):
+
+    def __init__(self, row, col, inventory=None):
         """
         initialize the storage element object.
         :param row: represents the storage bar row
@@ -553,9 +569,9 @@ class StorageElement:
         """
         self.row: int = row
         self.col: int = col
-        self.pallet : Pallet = None
-        self.inventory : Inventory = inventory
-        self.locations : List[Locations]= []
+        self.pallet: Pallet = None
+        self.inventory: Inventory = inventory
+        self.locations: List[Locations] = []
 
     def setPallet(self, pallet):
         """
