@@ -13,6 +13,10 @@ Rectangle{
     radius : 10
     anchors.margins: 5
 
+    CommissionDialog{
+        id: comdiag
+    }
+
     RowLayout{
         id: commHeaders
         height: 30
@@ -118,6 +122,26 @@ Rectangle{
                 return baseRect.width*4/21-5;
             }
             forceLayout();
+        }
+    }
+
+    Image {
+        id: editbutton
+        x: -25
+        width: 20
+        height: 20
+        anchors.right: parent.right
+        anchors.top: parent.top
+        source: "../assets/gear.png"
+        anchors.topMargin: 4
+        anchors.rightMargin: 4
+        fillMode: Image.PreserveAspectFit
+        MouseArea{
+            id: editmouse_area
+            anchors.fill: parent
+            onClicked: {
+                comdiag.open()
+            }
         }
     }
 }
