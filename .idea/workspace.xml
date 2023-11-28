@@ -9,16 +9,15 @@
   <component name="ChangeListManager">
     <list default="true" id="a1bb59e4-14c6-46d3-92d8-82a94a6183ab" name="Changes" comment="setup data signals of rfid_Service. &#10;updated sphinx">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/v17/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/ABBControllerWrapper/.vs/ABBControllerWrapper/v17/.suo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ABBController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ABBController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/CommissionController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/CommissionController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/invController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/invController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/data/CommissionData.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/CommissionData.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/CommissionModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/CommissionModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/DataModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/DataModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/comissionservice.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/comissionservice.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/viewmodel/commissionViewModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/viewmodel/commissionViewModel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/StorageData.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/StorageData.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/AgentService.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/AgentService.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/ProcessView.qml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ProcessView.qml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/ProductView.qml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ProductView.qml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/viewmodel/storageViewModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/viewmodel/storageViewModel.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -313,7 +312,8 @@
       <workItem from="1700237764516" duration="3319000" />
       <workItem from="1700731251935" duration="4159000" />
       <workItem from="1700851722151" duration="14297000" />
-      <workItem from="1701072702060" duration="16254000" />
+      <workItem from="1701072702060" duration="16434000" />
+      <workItem from="1701161136890" duration="368000" />
     </task>
     <task id="LOCAL-00001" summary="implemented Cup and Product">
       <created>1687298522583</created>
@@ -744,7 +744,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1701096366056" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$main.coverage" NAME="main Coverage Results" MODIFIED="1701161372136" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/muPlant_WarehouseManagement$ABBController.coverage" NAME="ABBController Coverage Results" MODIFIED="1700748761952" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/controller" />
   </component>
 </project>

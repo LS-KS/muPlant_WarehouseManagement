@@ -166,18 +166,6 @@ class CommissionFilterProxyModel(QSortFilterProxyModel):
     def setFilterString(self, filterString):
         self.filterString = filterString
 
-    def lessThan(self, left_index, right_index):
-            if left_index.column() == 6:
-                left_data = self.sourceModel().data(left_index, QtCore.Qt.UserRole +1)
-                right_data = self.sourceModel().data(right_index, QtCore.Qt.UserRole +1)
-
-                # Define the desired sorting order
-                status_order = ["in progress", "pending", "open", "done", None]              
-                # Compare the status values based on the desired sorting order
-                return status_order.index(left_data) < status_order.index(right_data)
-                
-            # For other columns, use the default sorting behavior
-            return super().lessThan(left_index, right_index)
     
     def mapToSource(self, proxyIndex: QModelIndex ) -> QModelIndex:
         """

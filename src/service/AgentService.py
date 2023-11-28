@@ -1,4 +1,3 @@
-from src.agentlib.agent import AgentServer
 from src.controller.PreferenceController import PreferenceController
 from src.service.EventlogService import EventlogService
 from PySide6.QtCore import QObject, Signal, Slot
@@ -8,31 +7,33 @@ This Service will provide any necessary functionalities for the muPlant Agent Sy
 """
 
 class AgentService(QObject):
+    """
+    This Service listens to signals from opcuaServices agent variables.
+    #TODO:
+    """
 
     def __init__(self, eventlogService: EventlogService, preferenceController : PreferenceController) -> None:
         super().__init__()
         self.eventlogService: EventlogService = eventlogService
+        self.running: bool = False
         self.preferenceController : PreferenceController = preferenceController
-        self.agentServer: AgentServer = None
+
 
     @Slot()
     def setupAgentService(self):
         """
         sets up AgentService
         """
-        self.agentServer = AgentServer(
-            ip = self.preferenceController.preferences.modBus.ip,
-            port = self.preferenceController.preferences.modBus.port,
-        )
         # TODO: implement OPC Agent Server
-        self.eventlogService.write_event("AgentService", "AgentService setup complete")
+        self.running = True
+        self.eventlogService.write_event("AgentService", "AgentService setup complete (not implemented)")
     
     @Slot()
     def stopAgentService(self):
         """
         Stops running Agentserver
         """
-        self.agentServer.running = False
+        self.running = False
         self.agentServer = None
 
 

@@ -75,13 +75,13 @@ class invController(QObject):
                 raise ValueError("Error could not decode storage(row)")
             if not 0 <= col <= 5:
                 raise ValueError("Error could not decode storage(col)")
-            palletRole = Qt.UserRole + 1
+            palletRole = Qt.DisplayRole + 1
             if slot == "a":
-                cupRole = Qt.UserRole + 2
-                prodRole = Qt.UserRole + 3
+                cupRole = Qt.DisplayRole + 2
+                prodRole = Qt.DisplayRole + 3
             elif slot == "b":
-                cupRole = Qt.UserRole + 5
-                prodRole = Qt.UserRole + 6
+                cupRole = Qt.DisplayRole + 5
+                prodRole = Qt.DisplayRole + 6
             else:
                 raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
             index = self.storageViewModel.createIndex(row, col)
@@ -245,21 +245,21 @@ class invController(QObject):
             del cupB
             del pallet
         index = self.storageViewModel.createIndex(row, col)
-        roleCupA = Qt.UserRole + 2
-        roleProductA = Qt.UserRole + 3
-        roleNameA = Qt.UserRole + 4
-        rolePallet = Qt.UserRole + 1
+        roleCupA = Qt.DisplayRole + 2
+        roleProductA = Qt.DisplayRole + 3
+        roleNameA = Qt.DisplayRole + 4
+        rolePallet = Qt.DisplayRole + 1
         self.storageViewModel.setData(index, 0, role=roleCupA)
-        self.storageViewModel.setData(index, 0, role=Qt.UserRole + 3)
-        self.storageViewModel.setData(index, self.findProductName(0), role=Qt.UserRole + 4)
+        self.storageViewModel.setData(index, 0, role=Qt.DisplayRole + 3)
+        self.storageViewModel.setData(index, self.findProductName(0), role=Qt.DisplayRole + 4)
         self.storageViewModel.setData(index, False, role=rolePallet)
         self.storageViewModel.dataChanged.emit(index, index, [roleCupA, roleProductA, roleNameA, rolePallet])
-        roleCupB = Qt.UserRole + 5
-        roleProductB = Qt.UserRole + 6
-        roleNameB = Qt.UserRole + 7
+        roleCupB = Qt.DisplayRole + 5
+        roleProductB = Qt.DisplayRole + 6
+        roleNameB = Qt.DisplayRole + 7
         self.storageViewModel.setData(index, 0, role=roleCupB)
-        self.storageViewModel.setData(index, 0, role=Qt.UserRole + 6)
-        self.storageViewModel.setData(index, self.findProductName(0), role=Qt.UserRole + 7)
+        self.storageViewModel.setData(index, 0, role=Qt.DisplayRole + 6)
+        self.storageViewModel.setData(index, self.findProductName(0), role=Qt.DisplayRole + 7)
         self.storageViewModel.dataChanged.emit(index, index, [roleCupB, roleProductB, roleNameB, rolePallet])
 
     def __handleStorageChangePallet(self, col, cupID, isPallet, pallet, productID, row, slot):
@@ -291,16 +291,16 @@ class invController(QObject):
         if slot == "a":
             oldproductID = pallet.slotA.product.id
             print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
-            roleCup = Qt.UserRole + 2
-            roleProduct = Qt.UserRole + 3
-            roleName = Qt.UserRole + 4
+            roleCup = Qt.DisplayRole + 2
+            roleProduct = Qt.DisplayRole + 3
+            roleName = Qt.DisplayRole + 4
             cup_obj = pallet.slotA
         elif slot == "b":
             oldproductID = pallet.slotB.product.id
             print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
-            roleCup = Qt.UserRole + 5
-            roleProduct = Qt.UserRole + 6
-            roleName = Qt.UserRole + 7
+            roleCup = Qt.DisplayRole + 5
+            roleProduct = Qt.DisplayRole + 6
+            roleName = Qt.DisplayRole + 7
             cup_obj = pallet.slotB
         else:
             raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
@@ -310,15 +310,15 @@ class invController(QObject):
         cup = self.storageViewModel.setData(index, cupID, role=roleCup)
         product = self.storageViewModel.setData(index, productID, role=roleProduct)
         name = self.storageViewModel.setData(index, self.findProductName(productID), role=roleName)
-        rolePallet = Qt.UserRole + 1
+        rolePallet = Qt.DisplayRole + 1
         pallet = self.storageViewModel.setData(index, isPallet, role=rolePallet)
         self.storageViewModel.dataChanged.emit(index, index, [roleCup, roleProduct, roleName, rolePallet])
         self.idSwapped.emit(product, productID)
         self.eventlogService.write_event("USER", "Inventory Override!")
         oldIndex = self.productListViewModel.indexOf(oldproductID)
-        self.productListViewModel.setData(oldIndex, -1, role=Qt.UserRole + 3)  # reduces quantity of old product by 1
+        self.productListViewModel.setData(oldIndex, -1, role=Qt.DisplayRole + 3)  # reduces quantity of old product by 1
         newIndex = self.productListViewModel.indexOf(productID)
-        self.productListViewModel.setData(newIndex, 1, role=Qt.UserRole + 3)  # increases quantity of new product by 1
+        self.productListViewModel.setData(newIndex, 1, role=Qt.DisplayRole + 3)  # increases quantity of new product by 1
 
     def __decodeStorage(self, palletPresent, storage):
         """
@@ -741,7 +741,15 @@ class invController(QObject):
 
     def move_to_gripper(self, object: Union[Pallet, Cup]):
         """
-        Moves object to gripper. And updates viewodel.
+        Moves object to gripper. And updates viewodel and view.
+
+        Gripper is rendered as a pallet. If only a cup shall be rendered,
+        isCup must be true and isPallet false. cupAID and productAID as well as productAName must be set.
+        all other parameters will be ignored.
+
+        if a cup is transported - this can only be between commissiontable and mobile robot. storage can be ignored in that case. 
+        if a pallet is transported - this can only be between storage and  workbench. mobile robot can be ignored.
+
         :param object: Pallet or Cup object
         :type object: Union[Pallet, Cup]
         :return: None
@@ -749,12 +757,12 @@ class invController(QObject):
         source = object.location
         isPallet = isinstance(object, Pallet)
         isCup = isinstance(object, Cup)
-        cupAID = getattr(object.slotA, "id", 0)
-        productAID = 0 if object.slotA is None else (object.slotA.product, "id", 0)
-        productAName = 0 if object.slotA is None else getattr(object.slotA.product, "name", "Kein Becher")
-        cupBID = getattr(object.slotB, "id", 0)
-        productBID = 0 if object.slotA is None else getattr(object.slotB.product, "id", 0)
-        productBName = 0 if object.slotA is None else getattr(object.slotB.product, "name", "Kein Becher")
+        cupAID =object.id if isCup else getattr(object.slotA, "id", 0)
+        productAID = object.product.id if isCup else (0 if object.slotA is None else (object.slotA.product, "id", 0))
+        productAName = object.product.name if isCup else ( 0 if object.slotA is None else getattr(object.slotA.product, "name", "Kein Becher"))
+        cupBID = 0 if isCup else getattr(object.slotB, "id", 0)
+        productBID = 0 if isCup else (0 if object.slotA is None else getattr(object.slotB.product, "id", 0))
+        productBName = "" if isCup else (0 if object.slotA is None else getattr(object.slotB.product, "name", "Kein Becher"))
         self.gripper.setObject(object)
         self.transmitGripper.emit(isPallet, isCup, cupAID, productAID, productAName, cupBID, productBID, productBName)
         if isPallet:
@@ -797,27 +805,49 @@ class invController(QObject):
                     self.transmitWorkbenchPallet.emit("K2", cup_a_id, pro_a_id, pro_a_name, True, cup_b_id, pro_b_id, pro_b_name)
         if isCup:
             if source == self.mobileRobot: # Mobile Robot
-                self.transmitMobileRobot(0 , 0, "Kein Becher")
-            elif source.location == self.workbench.k1 or source.location == self.workbench.k2: # Workbench
-                storage = "K1" if source.location == self.workbench.k1 else "K2"
-                cup_a_id = getattr(self.workbench.k1.slotA, "id", 0) if source.location == self.workbench.k1 else getattr(self.workbench.k2.slotA, "id", 0)
-                prod_a_id = getattr(self.workbench.k1.slotA.product, "id", 0) if source.location == self.workbench.k1 else getattr(self.workbench.k2.slotA.product, "id", 0)
-                prod_a_name = getattr(self.workbench.k1.slotA.product, "name", "Kein Becher") if source.location == self.workbench.k1 else getattr( self.workbench.k2.slotA.product, "name", "Kein Becher")
-                pallet_present = True if source.location == self.workbench.k1 is not None else False
-                cup_b_id = getattr(self.workbench.k1.slotB, "id", 0) if source.location == self.workbench.k1 else getattr(self.workbench.k2.slotB, "id", 0)
-                prod_b_id = getattr(self.workbench.k1.slotB.product, "id", 0) if source.location == self.workbench.k1 else getattr(self.workbench.k2.slotB.product, "id", 0)
-                prod_b_name = getattr(self.workbench.k1.slotB.product, "name", "Kein Becher") if source.location == self.workbench.k1 else getattr(self.workbench.k2.slotB.product, "name", "Kein Becher")
-                self.transmitWorkbenchPallet.emit(storage, cup_a_id, prod_a_id, prod_a_name, pallet_present, cup_b_id, prod_b_id, prod_b_name)
-            elif isinstance(source.location, StorageElement): # Storage
-                col = source.location.col
-                row = source.location.row
-                self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), True, role=Qt.UserRole + 1)
-                self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), getattr(self.inventory.getStoragePallet(row,col).slotA,"id", 0), role=Qt.UserRole + 2)
-                self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if object.slotA is None else getattr(object.slotA.product,"id",0), role=Qt.UserRole + 3)
-                self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), object.slotA.product.name, role=Qt.UserRole + 4)
-                self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), object.slotB.id, role=Qt.UserRole + 5)
-                self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), object.slotB.product.id, role=Qt.UserRole + 6)
-                self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), object.slotB.product.name, role=Qt.UserRole + 7)
+                self.transmitMobileRobot.emit(0 , 0, "Kein Becher")
+            elif source.location == self.workbench: # Workbench
+                # notify workbench k1 view
+                if self.workbench.k1 is None:
+                    cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+                    cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+                    pallet = False
+                else:
+                    pallet = True
+                    if self.workbench.k1.slotA is None:
+                        cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+                    else:
+                        cupA_id = self.workbench.k1.slotA.id
+                        prodA_id = self.workbench.k1.slotA.product.id
+                        prodA_name = self.workbench.k1.slotA.product.name
+                    if self.workbench.k1.slotB is None:
+                        cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+                    else:
+                        cupB_id = self.workbench.k1.slotB.id
+                        prodB_id = self.workbench.k1.slotB.product.id
+                        prodB_name = self.workbench.k1.slotB.product.name
+                self.transmitWorkbenchPallet.emit( "K1", cupA_id, prodA_id, prodA_name, pallet, cupB_id, prodB_id, prodB_name)
+                # notify workbench k2 view
+                if self.workbench.k2 is None:
+                    cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+                    cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+                    pallet = False
+                else:
+                    pallet = True
+                    if self.workbench.k2.slotA is None:
+                        cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+                    else:
+                        cupA_id = self.workbench.k2.slotA.id
+                        prodA_id = self.workbench.k2.slotA.product.id
+                        prodA_name = self.workbench.k2.slotA.product.name
+                    if self.workbench.k2.slotB is None:
+                        cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+                    else:
+                        cupB_id = self.workbench.k2.slotB.id
+                        prodB_id = self.workbench.k2.slotB.product.id
+                        prodB_name = self.workbench.k2.slotB.product.name
+                self.transmitWorkbenchPallet.emit( "K2", cupA_id, prodA_id, prodA_name, pallet, cupB_id, prodB_id, prodB_name)
+
 
     def move_to_robot(self, object):
         """
@@ -830,7 +860,7 @@ class invController(QObject):
         self.gripper.setObject(None)
         self.transmitMobileRobot.emit(0, 0, 0)
         self.transmitMobileRobot.emit(object.id, object.product.id, object.product.name)
-        self.transmitGripper(False, False, 0, 0, "", 0, 0, "")
+        self.transmitGripper.emit(False, False, 0, 0, "", 0, 0, "")
 
     def move_to_workbench(self, object: Union[Cup, Pallet], target: Locations):
         """
@@ -862,31 +892,49 @@ class invController(QObject):
             string = "K2"
         else:
             return
-        self.gripper.setObject(None)
+        # notify gripper view
         self.transmitGripper.emit(False, False, 0, 0, "", 0, 0, "")
 
-        if string == "K1":
-            self.transmitWorkbenchPallet.emit(
-                "K1",
-                0 if self.workbench.k1.slotA is None else (self.workbench.k1.slotA, "id", 0),
-                0 if self.workbench.k1.slotA is None else (self.workbench.k1.slotA.product, "id", 0),
-                "Kein Becher" if self.workbench.k1.slotA is None else (self.workbench.k1.slotA.product, "name", "Kein Becher"),
-                True,
-                0 if self.workbench.k1.slotB is None else (self.workbench.k1.slotB, "id", 0),
-                0 if self.workbench.k1.slotB is None else (self.workbench.k1.slotB.product, "id", 0),
-                "Kein Becher" if self.workbench.k1.slotB is None else (self.workbench.k1.slotB.product, "name", "Kein Becher")
-            )
-        elif string == "K2":
-            self.transmitWorkbenchPallet.emit(
-                "K2",
-                0 if self.workbench.k2.slotA is None else (self.workbench.k2.slotA, "id", 0),
-                0 if self.workbench.k2.slotA is None else (self.workbench.k2.slotA.product, "id", 0),
-                "Kein Becher" if self.workbench.k2.slotA is None else (self.workbench.k2.slotA.product, "name", "Kein Becher"),
-                True,
-                0 if self.workbench.k2.slotB is None else (self.workbench.k2.slotB, "id", 0),
-                0 if self.workbench.k2.slotB is None else (self.workbench.k2.slotB.product, "id", 0),
-                "Kein Becher" if self.workbench.k2.slotB is None else (self.workbench.k2.slotB.product, "name", "Kein Becher")
-            )
+        # notify workbench k1 view
+        if self.workbench.k1 is None:
+            cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+            cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+            pallet = False
+        else:
+            pallet = True
+            if self.workbench.k1.slotA is None:
+                cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+            else:
+                cupA_id = self.workbench.k1.slotA.id
+                prodA_id = self.workbench.k1.slotA.product.id
+                prodA_name = self.workbench.k1.slotA.product.name
+            if self.workbench.k1.slotB is None:
+                cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+            else:
+                cupB_id = self.workbench.k1.slotB.id
+                prodB_id = self.workbench.k1.slotB.product.id
+                prodB_name = self.workbench.k1.slotB.product.name
+        self.transmitWorkbenchPallet.emit( "K1", cupA_id, prodA_id, prodA_name, pallet, cupB_id, prodB_id, prodB_name)
+        # notify workbench k2 view
+        if self.workbench.k2 is None:
+            cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+            cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+            pallet = False
+        else:
+            pallet = True
+            if self.workbench.k2.slotA is None:
+                cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+            else:
+                cupA_id = self.workbench.k2.slotA.id
+                prodA_id = self.workbench.k2.slotA.product.id
+                prodA_name = self.workbench.k2.slotA.product.name
+            if self.workbench.k2.slotB is None:
+                cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+            else:
+                cupB_id = self.workbench.k2.slotB.id
+                prodB_id = self.workbench.k2.slotB.product.id
+                prodB_name = self.workbench.k2.slotB.product.name
+        self.transmitWorkbenchPallet.emit( "K2", cupA_id, prodA_id, prodA_name, pallet, cupB_id, prodB_id, prodB_name)
     def move_to_storage(self, object, target: Locations):
         """
         Moves Pallet or Cup to storage.
@@ -897,18 +945,31 @@ class invController(QObject):
         :param target: Locations.L1 - Locations.L18 if object is Pallet instance. Locations.L1A - Locations.L18B if object is Cup instance.
         :type target: Locations
         """
-        row = (int)(target.name[-1]) // 6 if len(target.name) == 2 else (int)(target.name[1:-1]) // 6
-        col = (int)(target.name[-1]) % 6-1 if len(target.name) == 2 else(int)(target.name[1:-1]) % 6-1
+        if target.name[-1] in ["A", "B"]:
+            row = ((int)(target.name[1:-1])-1) // 6
+            col = ((int)(target.name[1:-1])-1) % 6
+        else: 
+            row = ((int)(target.name[1:])-1) // 6 
+            col = ((int)(target.name[1:])-1) % 6
         if isinstance(object, Pallet):
-            self.inventory.setStoragePallet(row, col, object)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), True, role=Qt.UserRole + 1)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), getattr(self.inventory.getStoragePallet(row, col).slotA, "id", 0), role=Qt.UserRole + 2)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if object.slotA is None else getattr(object.slotA.product, "id", 0), role=Qt.UserRole + 3)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if object.slotA is None else getattr(object.slotA.product, "name", ""), role=Qt.UserRole + 4)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), getattr(object.slotB, "id", 0), role=Qt.UserRole + 5)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if object.slotB is None else getattr(object.slotB.product,"id",0), role=Qt.UserRole + 6)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if object.slotB is None else getattr(object.slotB.product,"name",""), role=Qt.UserRole + 7)
-
+            self.inventory.setStoragePallet(row, col, object) #object is fine here
+            index = self.storageViewModel.createIndex(row, col) # (K->L) everything fine here	
+            base = Qt.DisplayRole
+            pallet_role, cup_a_id_role, product_a_id_role, product_a_name_role, cup_b_id_role, product_b_id_role, product_b_name_role = base + 1, base + 2, base + 3, base + 4, base + 5, base + 6, base + 7
+            self.storageViewModel.setData(index, True, role=pallet_role)
+            cupA_id = getattr(self.inventory.getStoragePallet(row, col).slotA, "id", 0)
+            self.storageViewModel.setData(index, cupA_id, role=cup_a_id_role)
+            prodA_id = 0 if object.slotA is None else getattr(object.slotA.product, "id", 0)
+            self.storageViewModel.setData(index, prodA_id, role=product_a_id_role)
+            prodA_name = 0 if object.slotA is None else getattr(object.slotA.product, "name", "")
+            self.storageViewModel.setData(index, prodA_name, role=product_a_name_role)
+            cupB_id = getattr(self.inventory.getStoragePallet(row, col).slotB, "id", 0)
+            self.storageViewModel.setData(index, cupB_id, role=cup_b_id_role)
+            prodB_id =  0 if object.slotB is None else getattr(object.slotB.product,"id",0)
+            self.storageViewModel.setData(index,prodB_id, role=product_b_id_role)
+            prodB_name = 0 if object.slotB is None else getattr(object.slotB.product,"name","")
+            self.storageViewModel.setData(index, prodB_name , role=product_b_name_role)
+            self.storageViewModel.dataChanged.emit(index, index, [pallet_role, cup_a_id_role, product_a_id_role, product_a_name_role, cup_b_id_role, product_b_id_role, product_b_name_role])
         elif isinstance(object, Cup):
             if target.name[-1] == "A":
                 self.inventory.getStoragePallet(row, col).setSlotA(object)
@@ -916,11 +977,12 @@ class invController(QObject):
                 self.inventory.getStoragePallet(row, col).setSlotB(object)
             else:
                 return
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), True, role=Qt.UserRole + 1)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), getattr(self.inventory.getStoragePallet(row, col).slotA, "id", 0), role=Qt.UserRole + 2)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotA is None else getattr(self.inventory.getStoragePallet(row, col).slotA.product, "id", 0), role=Qt.UserRole + 3)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotA is None else getattr(self.inventory.getStoragePallet(row, col).slotA.product, "name", ""), role=Qt.UserRole + 4)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), getattr(self.inventory.getStoragePallet(row, col).slotB, "id", 0), role=Qt.UserRole + 5)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotB is None else getattr(self.inventory.getStoragePallet(row, col).slotB.product,"id",0), role=Qt.UserRole + 6)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotB is None else getattr(self.inventory.getStoragePallet(row, col).slotB.product,"name",""), role=Qt.UserRole + 7)
+            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), True, role=Qt.DisplayRole + 1)
+            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), getattr(self.inventory.getStoragePallet(row, col).slotA, "id", 0), role=Qt.DisplayRole + 2)
+            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotA is None else getattr(self.inventory.getStoragePallet(row, col).slotA.product, "id", 0), role=Qt.DisplayRole + 3)
+            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotA is None else getattr(self.inventory.getStoragePallet(row, col).slotA.product, "name", ""), role=Qt.DisplayRole + 4)
+            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), getattr(self.inventory.getStoragePallet(row, col).slotB, "id", 0), role=Qt.DisplayRole + 5)
+            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotB is None else getattr(self.inventory.getStoragePallet(row, col).slotB.product,"id",0), role=Qt.DisplayRole + 6)
+            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotB is None else getattr(self.inventory.getStoragePallet(row, col).slotB.product,"name",""), role=Qt.DisplayRole + 7)
         self.transmitGripper.emit(False, False, 0, 0, "", 0, 0, "")
+        

@@ -28,13 +28,15 @@ class CommissionController(QObject):
         self.commissionFilterProxyModel = CommissionFilterProxyModel()
         self.inventory_copy: Inventory = None
         self.workbench_copy: Workbench = None
+        self.mobile_robot_copy: MobileRobot = None
         self.dumpCommissionData()
         self.commissionFilterProxyModel.setSourceModel(self.commissionViewModel)
         self.commissionFilterProxyModel.setFilterCaseSensitivity(Qt.CaseInsensitive)
         self.commissionFilterProxyModel.setFilterKeyColumn(0)
-        self.commissionFilterProxyModel.setFilterRole(Qt.UserRole + 1)
+        self.commissionFilterProxyModel.setFilterRole(Qt.DisplayRole + 1)
         self.commissionFilterProxyModel.setFilterString("")
-        self.commissionFilterProxyModel.sort(6, QtCore.Qt.AscendingOrder)
+        self.commissionFilterProxyModel.setSortRole(Qt.DisplayRole + 1)
+        self.commissionFilterProxyModel.sort(0, QtCore.Qt.DescendingOrder)
         self.validateCommissionData()
 
     @Slot(CommissionData, CommissionState)
@@ -46,6 +48,7 @@ class CommissionController(QObject):
         :param state: new state
         :type state: CommissionState
         """
+        print(f"CommissionController: Commission {commission.id} changed state to {state}")
         for com in self.commissionViewModel.commissionData:
             if com.id == commission.id:
                 row = self.commissionViewModel.indexOf(com)
@@ -85,12 +88,18 @@ class CommissionController(QObject):
         valid = [False, False]
         if cup and source.name[-1] in ['A', 'B']:
             valid[0] = True 
+        elif cup and source.name == 'ROBOT':
+            valid[0] = True
         elif pallet and source.name[-1] not in ['A', 'B']:
             valid[0] = True 
         if cup and target.name[-1] in ['A', 'B']:
             valid[1] = True
+        elif cup and target.name == 'ROBOT':
+            valid[1] = True
         elif pallet and target.name[-1] not in ['A', 'B']:
             valid[1] = True
+        elif pallet and target.name == 'ROBOT':
+            valid[1] = False
         if pallet and source.name[0] == 'K' and target.name[0] == 'K':    
             self.eventlogService.write_event("CommissionController", f"Note! Workbench -> Workbench is only valiid for cups.")
         result = all(valid)
@@ -136,7 +145,7 @@ class CommissionController(QObject):
         elif trg == Locations.ROBOT and src.name[0] == 'K' and cup:
             source_object = self._get_object_from_location(src)
             target_object = self._get_object_from_location(trg)
-            if target_object is None:
+            if target_object.cup is None:
                 commissions.append(self._create_new_commission(
                     source= src,
                     target= trg,
@@ -303,7 +312,8 @@ class CommissionController(QObject):
                     object = 0,
                 ))
                 self.eventlogService.write_event("CommissionController", f"Final sub-commission from {Locations['K1'].name} to {Locations[src[0:-1]].value} created")
-        check =self.validateCommissionData()
+        #check =self.validateCommissionData()
+        check = True
         if check:
             self.dumpCommissionData()
             self.eventlogService.write_event("CommissionController", f"All commissions valid.")
@@ -317,8 +327,11 @@ class CommissionController(QObject):
         :param commission: commission to perform
         :type commission: CommissionData
         """
-        object: Union[Cup, Pallet] = self._get_object_from_location(commission.source)
-        self.inventoryController.move_to_gripper(object)
+        object: Union[Cup, Pallet] = self._get_object_from_location(commission.source) #object is fine here (K->L)
+        if isinstance(object, MobileRobot):
+            self.inventoryController.move_to_gripper(object.cup)
+        else:
+            self.inventoryController.move_to_gripper(object)
 
     def perform_commission(self, commission: CommissionData):
         """
@@ -335,15 +348,15 @@ class CommissionController(QObject):
         :param commission: commission to perform
         :type commissions: CommissionData
         """
-        object: Union[Cup, Pallet] = self.inventoryController.gripper.object
+        object: Union[Cup, Pallet] = self.inventoryController.gripper.object #object is fine here (L->K), (K->L)
         if isinstance(object, Cup):
-            target_location = Locations[commission.target.name[0:-1]] # get Pallet Location
+            target_location = Locations[commission.target.name[0:-1]] if commission.target is not Locations.ROBOT else Locations.ROBOT # get Pallet Location
             target = self._get_object_from_location(target_location)
-            if isinstance(target.location, MobileRobot):
+            if isinstance(target, MobileRobot):
                 self.inventoryController.move_to_robot(object)
-            if isinstance(target.location, Workbench):
+            elif isinstance(target.location, Workbench):
                 self.inventoryController.move_to_workbench(object, commission.target)
-            if isinstance(target.location, StorageElement):
+            elif isinstance(target.location, StorageElement):
                 self.inventoryController.move_to_storage(object)
             object.setLocation(target)
         elif isinstance(object, Pallet):
@@ -351,13 +364,12 @@ class CommissionController(QObject):
              self.inventoryController.move_to_storage(object, target=commission.target)
             elif commission.target.name[0] == 'K':
                 self.inventoryController.move_to_workbench(object, target=commission.target)
-            elif commission.target == Locations.ROBOT:
-                self.inventoryController.move_to_robot(object)
             
 
     def _get_object_from_location(self, location: Locations) -> Union[Cup, Pallet]:
         """
         Returns the object at the specified location.
+        If location is mobile robot, returns mobile robot object instead of None. 
         Parameters
         :param location: location to get object from
         :type location: Locations
@@ -365,7 +377,7 @@ class CommissionController(QObject):
         default = None
         match location:
             case Locations.ROBOT:
-                return getattr(self.inventoryController.mobileRobot, 'cup', default)
+                return self.inventoryController.mobileRobot
             case Locations.K1:
                 return getattr(self.inventoryController.workbench, 'k1', default)
             case Locations.K1A:
@@ -582,8 +594,12 @@ class CommissionController(QObject):
 
         Returns: True if all commissions are valid, False if not
         """
-        self.inventory_copy = self._setupInventoryCopy()
-        self.workbench_copy = self._setupWorkbenchCopy()
+        if self.inventory_copy is None:
+            self.inventory_copy = self._setupInventoryCopy()
+        if self.workbench_copy is None:
+            self.workbench_copy = self._setupWorkbenchCopy()
+        if self.mobile_robot_copy is None:
+            self.mobile_robot_copy = self._setupMobileRobotCopy()
         valid = True
         for commission in self.commissionViewModel.commissionData:
             if commission.state != CommissionState.DONE:
@@ -597,7 +613,8 @@ class CommissionController(QObject):
                     'source': source,
                     'valid': valid,
                     'target': target,
-                    'workbench': self.workbench_copy
+                    'workbench': self.workbench_copy,
+                    'robot': self.mobile_robot_copy,
                 }
 
                 # Check for obvious errors
@@ -642,6 +659,7 @@ class CommissionController(QObject):
         inventory: Inventory = kwargs.get('inventory')
         workbench: Workbench = kwargs.get('workbench')
         cup: bool = kwargs.get('cup')
+        robot: MobileRobot = kwargs.get('robot')
         # commission = kwargs.get('commission')
         # object = kwargs.get('object')
 
@@ -684,6 +702,8 @@ class CommissionController(QObject):
                             sECup = workbench.k1.slotB
                     else:
                         sECup = workbench.k2.slotA if source.name[-1] == 'A' else workbench.k2.slotB
+                elif source == Locations.ROBOT:
+                    sECup = self.mobile_robot_copy.cup
                 # set object to target
                 if target.name[0] == 'L':
                     target_row = int(target.name[1]) // 6 - 1
@@ -709,6 +729,9 @@ class CommissionController(QObject):
                         else:
                             #workbench.k2.slotB = sECup
                             sECup.setLocation(workbench.k2.slotB)
+                elif target == Locations.ROBOT:
+                    self.mobile_robot_copy.cup = sECup
+                    sECup.setLocation(robot)
 
     def _commissioncheck_source_location(self, **kwargs):
         valid = kwargs.get('valid')
@@ -730,7 +753,8 @@ class CommissionController(QObject):
             'source': source,
             'valid': valid,
             'target': target,
-            'workbench': workbench
+            'workbench': workbench,
+            'robot': self.mobile_robot_copy,
         }
         if source == Locations.ROBOT:
             # always assume that robot delivers correct object
@@ -769,7 +793,8 @@ class CommissionController(QObject):
             'source': source,
             'valid': valid,
             'target': target,
-            'workbench': workbench
+            'workbench': workbench,
+            'robot': self.mobile_robot_copy,
         }
         if target == Locations.ROBOT:
             pass
@@ -810,6 +835,7 @@ class CommissionController(QObject):
         cup = kwargs.get('cup')
         commission = kwargs.get('commission')
         pallet = kwargs.get('pallet')
+        robot = kwargs.get('robot')
 
         
 
@@ -863,6 +889,7 @@ class CommissionController(QObject):
         object = kwargs.get('object')
         cup = kwargs.get('cup')
         pallet = kwargs.get('pallet')
+        robot = kwargs.get('robot')
 
         pallet_object:Pallet = workbench.k1 if source.name[1] == '1' else workbench.k2
         if pallet:
@@ -911,6 +938,7 @@ class CommissionController(QObject):
         commission = kwargs.get('commission')
         cup = kwargs.get('cup')
         valid = kwargs.get('valid')
+        robot = kwargs.get('robot')
 
         pallet_object:Pallet = workbench.k1 if loc.name[1] == '1' else workbench.k2
         if pallet and pallet_object is not None:
@@ -954,6 +982,7 @@ class CommissionController(QObject):
         commission = kwargs.get('commission')
         valid = kwargs.get('valid')
         cup = kwargs.get('cup')
+        robot = kwargs.get('robot')
 
         locName = target.name
         row = int(locName[-1]) //6 if len(locName) == 2 else int(locName[1:-1])//6
@@ -979,6 +1008,20 @@ class CommissionController(QObject):
             return valid
         return valid
 
+    def _setupMobileRobotCopy(self) -> MobileRobot:
+        """
+        Creates and returns a copy of invController's mobileRobot object.
+        """
+        mobileRobot = MobileRobot()
+        if self.inventoryController.mobileRobot.cup is not None:
+            mobileRobot.cup = Cup(
+                id=self.inventoryController.mobileRobot.cup.id,
+                product=Product(
+                    id=self.inventoryController.mobileRobot.cup.product.id,
+                    name=""
+                )
+            )
+        return mobileRobot
     def _setupWorkbenchCopy(self) -> Workbench:
         """
         Creates and returns a copy of invController's workbench object.

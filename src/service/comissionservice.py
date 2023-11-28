@@ -9,6 +9,7 @@ import time
 class CommissionService(QObject):
 
     handle_commission = Signal(CommissionData)
+    update_commission_state = Signal(CommissionData, CommissionState)
     def __init__(self, **kwargs):
         self.commission_worker:CommissionWorker = None
         parent = None
@@ -22,10 +23,12 @@ class CommissionService(QObject):
         print("CommissionService: Creating CommissionWorker")
         self.commission_worker = CommissionWorker(self)
         self.handle_commission.connect(self.commission_worker.process_new_commission)
+        self.commission_worker.commissionstate_changed.connect(self.handel_commission_state_change)
         print("CommissionService: Set CommissionWorker to running")
         self.commission_worker.is_running = True
         print("CommissionService: Handle existing commissions")
         self.handle_existing_commissions()
+
         
     
     def handle_new_commission(self, commission: CommissionData):
@@ -35,6 +38,10 @@ class CommissionService(QObject):
         for commission in self.commission_controller.commissionViewModel.commissionData:
             if commission.state != CommissionState.DONE:
                 self.handle_commission.emit(commission)
+
+    def handel_commission_state_change(self, commission: CommissionData, state: CommissionState):
+        print(f"CommissionService: Commission {commission.id} changed state to {state}")
+        self.update_commission_state.emit(commission, state)
 
     def stop_worker(self):
         print("CommissionService: Stopping worker")
@@ -46,6 +53,7 @@ class CommissionService(QObject):
 class CommissionWorker(QThread):
 
     commission_updated = Signal(int, Locations)
+    commissionstate_changed = Signal(CommissionData, CommissionState)
     def __init__(self, service: CommissionService, parent=None):
         super().__init__(parent)
         self.commission_service = service
@@ -66,20 +74,20 @@ class CommissionWorker(QThread):
             while not done:
                 if self.commission_service.abb_controller.check_ready(self.mock):
                     print("CommissionWorker: Commission ready; update to pending")
-                    self.commission_service.commission_controller.change_commission_state(commission, CommissionState.PENDING)
+                    self.commissionstate_changed.emit(commission, CommissionState.PENDING)
                     source_string, target_string = self._create_abb_strings(commission)
                     time.sleep(0.5)
                     print("CommissionWorker: Calculated command strings, slepts well ; update to progress")
-                    self.commission_service.commission_controller.change_commission_state(commission, CommissionState.PROGRESS)
+                    self.commissionstate_changed.emit(commission, CommissionState.PROGRESS)
                     if not self.mock:
                         print("CommissionWorker: Moving item using abb controller")
                         self.commission_service.abb_controller.move_item(source_string, target_string)
                     else:
                         print("CommissionWorker: Simulating abb movement, set abb controller to busy")
                         self.commission_service.abb_controller.busy = True
-                    time.sleep(0.5)
+                    time.sleep(1.5)
                     print("CommissionWorker: Slept well, update to done")
-                    self.commission_service.commission_controller.change_commission_state(commission, CommissionState.DONE)
+                    self.commissionstate_changed.emit(commission, CommissionState.DONE)
                     done = True
                     if self.mock:
                         print("CommissionWorker: Simulating abb movement, set abb controller to not busy")

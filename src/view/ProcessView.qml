@@ -130,7 +130,7 @@ Rectangle{
             Connections{
                 target: inventoryController
                 function onTransmitWorkbenchPallet(slot, cupIDA, productIDA, productNameA, isPallet, cupIDB, productIDB, productNameB){
-                    //console.log("transmitWorkbenchPallet received in K1");
+                    console.log("transmitWorkbenchPallet received in K1 slot:"+ slot +"cupA-ID: "+ cupIDA +", Product A: "+ productIDA+", " + productNameA+ "Pallet: " +isPallet +"cupB-ID: "+cupIDB+ "Product B: " +productIDB+ ", "+ productNameB);
                     if(slot === "K1"){
                         console.log("K1 transmit");
                         k1.cupA = cupIDA;

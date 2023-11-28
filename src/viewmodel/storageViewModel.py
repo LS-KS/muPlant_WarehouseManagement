@@ -56,15 +56,15 @@ class StorageViewModel(QtCore.QAbstractTableModel):
 
         """
         roles = {
-            QtCore.Qt.UserRole + 1: b'isPallet',
-            QtCore.Qt.UserRole + 2: b'a_CupID',
-            QtCore.Qt.UserRole + 3: b'a_ProductID',
-            QtCore.Qt.UserRole + 4: b'a_Name',
-            QtCore.Qt.UserRole + 5: b'b_CupID',
-            QtCore.Qt.UserRole + 6: b'b_ProductID',
-            QtCore.Qt.UserRole + 7: b'b_Name',
-            QtCore.Qt.UserRole + 8: b'row',
-            QtCore.Qt.UserRole + 9: b'col',
+            QtCore.Qt.DisplayRole + 1: b'isPallet',
+            QtCore.Qt.DisplayRole + 2: b'a_CupID',
+            QtCore.Qt.DisplayRole + 3: b'a_ProductID',
+            QtCore.Qt.DisplayRole + 4: b'a_Name',
+            QtCore.Qt.DisplayRole + 5: b'b_CupID',
+            QtCore.Qt.DisplayRole + 6: b'b_ProductID',
+            QtCore.Qt.DisplayRole + 7: b'b_Name',
+            QtCore.Qt.DisplayRole + 8: b'row',
+            QtCore.Qt.DisplayRole + 9: b'col',
 
         }
         return roles
@@ -77,7 +77,7 @@ class StorageViewModel(QtCore.QAbstractTableModel):
         :param index: Used to index into the model
         :type index: QModelIndex
         :param role: Rolename used to get data from index
-        :type role: QtUserRole +1 byte for each field
+        :type role: QtDisplayRole +1 byte for each field
         :return: returns model data in field or None
 
         """
@@ -86,23 +86,30 @@ class StorageViewModel(QtCore.QAbstractTableModel):
         if not index.isValid() or row >= self.rowCount() or col >= self.columnCount():
             return None
         inventory = self.storageData[row][col]
-        if role == QtCore.Qt.UserRole + 1:
+        if role == QtCore.Qt.DisplayRole + 1:
+            print(f"storageviemodel: data() called and is about to return: isPallet: {inventory[0]} at index: {index.row()}/{index.column()}")
             return inventory[0]
-        if role == QtCore.Qt.UserRole + 2:
+        if role == QtCore.Qt.DisplayRole + 2:
+            print(f"storageviemodel: data() called and is about to return: a_CupID: {inventory[1]} at index: {index.row()}/{index.column()}")
             return inventory[1]
-        if role == QtCore.Qt.UserRole + 3:
+        if role == QtCore.Qt.DisplayRole + 3:
+            print(f"storageviemodel: data() called and is about to return: a_ProductID: {inventory[2]} at index: {index.row()}/{index.column()}")
             return inventory[2]
-        if role == QtCore.Qt.UserRole + 4:
+        if role == QtCore.Qt.DisplayRole + 4:
+            print(f"storageviemodel: data() called and is about to return: a_Name: {inventory[3]} at index: {index.row()}/{index.column()}")
             return inventory[3]
-        if role == QtCore.Qt.UserRole + 5:
+        if role == QtCore.Qt.DisplayRole + 5:
+            print(f"storageviemodel: data() called and is about to return: b_CupID: {inventory[4]} at index: {index.row()}/{index.column()}")
             return inventory[4]
-        if role == QtCore.Qt.UserRole + 6:
+        if role == QtCore.Qt.DisplayRole + 6:
+            print(f"storageviemodel: data() called and is about to return: b_ProductID: {inventory[5]} at index: {index.row()}/{index.column()}")
             return inventory[5]
-        if role == QtCore.Qt.UserRole + 7:
+        if role == QtCore.Qt.DisplayRole + 7:
+            print(f"storageviemodel: data() called and is about to return: b_Name: {inventory[6]} at index: {index.row()}/{index.column()}")
             return inventory[6]
-        if role == QtCore.Qt.UserRole + 8:
+        if role == QtCore.Qt.DisplayRole + 8:
             return inventory[7]
-        if role == QtCore.Qt.UserRole + 9:
+        if role == QtCore.Qt.DisplayRole + 9:
             return inventory[8]
         return None
 
@@ -124,34 +131,35 @@ class StorageViewModel(QtCore.QAbstractTableModel):
         col = index.column()
         if not index.isValid() or row >= self.rowCount() or col >= self.columnCount():
             return False
-        if role == Qt.UserRole + 1:  # isPallet
+        if role == Qt.DisplayRole + 1:  # isPallet
             oldValue = self.storageData[row][col][0]
             self.storageData[row][col][0] = value
             return True
-        if role == Qt.UserRole + 2:  # a_CupID
+        if role == Qt.DisplayRole + 2:  # a_CupID
             oldValue = self.storageData[row][col][1]
             self.storageData[row][col][1] = value
             return True
-        if role == Qt.UserRole + 5:  # b_CupID
+        if role == Qt.DisplayRole + 5:  # b_CupID
             oldValue = self.storageData[row][col][4]
             self.storageData[row][col][4] = value
             return True
-        if role == Qt.UserRole + 3:  # a_productID
+        if role == Qt.DisplayRole + 3:  # a_productID
             oldValue = self.storageData[row][col][2]
             self.storageData[row][col][2] = value
             return True
-        if role == Qt.UserRole + 6:  # b_productID
+        if role == Qt.DisplayRole + 6:  # b_productID
             oldValue = self.storageData[row][col][5]
             self.storageData[row][col][5] = value
             return True
-        if role == Qt.UserRole + 4:  # a_Name
+        if role == Qt.DisplayRole + 4:  # a_Name
             oldValue = self.storageData[row][col][3]
             self.storageData[row][col][3] = value
             return True
-        if role == Qt.UserRole + 7:  # b_Name
+        if role == Qt.DisplayRole + 7:  # b_Name
             oldValue = self.storageData[row][col][6]
             self.storageData[row][col][6] = value
             return True
+        self.dataChanged.emit(index, index, [role])
         return False
 
 

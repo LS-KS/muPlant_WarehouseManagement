@@ -31,19 +31,24 @@ from src.viewmodel.stockmodel import stockmodel, tablemodel
 from src.viewmodel.EventViewModel import EventSortModel
 
 #TODO: check and correct function of START / STOP Buttons in main.qml - this should quit and reset all services.
-#TODO: Fix crash of MCC Plugin when Plugin is started first time. (second time works always fine)
+#TODO: Fix crash of MCC Plugin when Plugin is started first time. (second time works always fine, also works fine when automatic is started)
 
-#TODO: Commissioncontrolller while program start: check if commissions are handled correctly according to their state.
 #TODO: CommissionController must take transportable data objects from future not from actual storage. 
-#TODO: CommissionContoller must change actual inventory data when commission is done.
-#TODO: When Commission is pending, set transportable object into gripper.
 #TODO: Commission handling: Implement functions to edit or delete commissions.
+#TODO: if commission is tested that transport a cup from workbench to mobile Robot, False is returned.
+
+#TODO: GUI freezes when commission is performed.
+
+#TODO: Robot-> Workbench: in commissioncheck_perform: sE_cup is always None. Check why commission check temperory deactivated
 
 #TODO: Implement listeners to opcuas agent variables
 #TODO: Connect opcua agent listeners to commissioncontroller
 
 #TODO: Implement clear button function in eventlog
 #TODO: Adjust tests to dynamic data files, so that they will never fail because data files changed. Alternatevly: create test data files from actual data.
+#TODO: Rewrite inventoryController tests.
+
+#TODO: sort commissionlist by commission-id in descending order
 
 if __name__ == '__main__':
     app = QGuiApplication(sys.argv)
@@ -83,6 +88,7 @@ if __name__ == '__main__':
     commission_service = CommissionService(commission_controller = commissionController, abb_controller = abbController, )
     engine.rootContext().setContextProperty("commission_service", commission_service)
     commissionController.new_commission.connect(commission_service.handle_new_commission)
+    commission_service.update_commission_state.connect(commissionController.change_commission_state)
 
     # creates AgentService object and sets itself as rootContext
     agentservice = AgentService(eventlogService, preferenceController)

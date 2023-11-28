@@ -98,7 +98,7 @@ Rectangle {
                 ColumnLayout{
                    anchors.fill: parent
                    Text{
-                       text:"Cup ID: "+cupA
+                       text:"Cup ID: " + cupA
                        horizontalAlignment: Text.AlignHCenter
                        verticalAlignment: Text.AlignVCenter
                        Layout.fillHeight: true

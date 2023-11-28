@@ -56,8 +56,8 @@ class Inventory:
         if self.pallets[row][col].pallet == pallet:
             return self
         if self.pallets[row][col].pallet is not None:
-            raise ValueError("In this spot is actually already a pallet object!")
-        self.pallets[row][col].pallet = pallet
+            raise ValueError(f"In this spot {row}/{col} is actually already a pallet object {self.pallets[row][col]}!")
+        self.pallets[row][col].pallet = pallet # (K->L) everything fine here
         if pallet is not None:
             if pallet.location is not self.pallets[row][col]:
                 pallet.setLocation(self.pallets[row][col])
