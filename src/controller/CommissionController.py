@@ -19,6 +19,7 @@ class CommissionController(QObject):
     OPCUAService.
     """
     new_commission = Signal(CommissionData)
+    transmitCommission = Signal(int, str, str, str, int) #id, item, source, target, state
     def __init__(self, inventoryController: invController, eventlogService : EventlogService):
         super().__init__(None)
         self.constants = Constants()
@@ -38,6 +39,12 @@ class CommissionController(QObject):
         self.commissionFilterProxyModel.setSortRole(Qt.DisplayRole + 1)
         self.commissionFilterProxyModel.sort(0, QtCore.Qt.DescendingOrder)
         self.validateCommissionData()
+
+    @Slot()
+    def clearDone():
+        for i in range(self.commissionViewModel.commissionData.rowCount()):
+            if self.commissionViewModel.commissionData[i].state == CommissionState.DONE:
+                self.commissionViewModel.commissionDate[i].
 
     @Slot(CommissionData, CommissionState)
     def change_commission_state(self, commission: CommissionData, state: CommissionState):
