@@ -41,10 +41,23 @@ class CommissionController(QObject):
         self.validateCommissionData()
 
     @Slot()
-    def clearDone():
+    def clearDone(self):
         for i in range(self.commissionViewModel.commissionData.rowCount()):
-            if self.commissionViewModel.commissionData[i].state == CommissionState.DONE:
-                self.commissionViewModel.commissionDate[i].
+            commission = self.commissionViewModel.commissionData[i]
+            if commission.state == CommissionState.DONE:
+                self.commissionViewModel.commissionData.remove(commission)
+
+    @Slot(str)
+    def loadCommission(id: str):
+        id = int(id)
+        for commission in self.commissionViewModel.commissionData:
+            if commission.id == id:
+                self.transmitCommission.emit(commission.id, 
+                                             "Cup" if commission.cup else "Pallet", 
+                                             commission.source.name, 
+                                             commission.target.name, 
+                                             commission.state.name)
+                break
 
     @Slot(CommissionData, CommissionState)
     def change_commission_state(self, commission: CommissionData, state: CommissionState):
