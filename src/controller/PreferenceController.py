@@ -24,6 +24,13 @@ class PreferenceController(QObject):
         self.constants = Constants()
         self._loadPreferencesYAML()
 
+    
+    def  get_abb_ip(self):
+        return self.preferences.abb.ip
+    
+    def get_abb_port(self):
+        return self.preferences.abb.port
+
     @Slot(str, int, int)
     def setModBusPreferences(self, ip, port, reconnects):
         """

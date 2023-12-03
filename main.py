@@ -25,8 +25,7 @@ from src.constants.Constants import Constants
 from src.service.AgentService import AgentService
 from src.service.rfidservice import RfidService
 from src.service.stocktaking import Stocktaker
-from src.service.comissionservice import CommissionService
-from src.controller.ABBController import ABBController
+from src.service.abbservice import abbservice
 from src.viewmodel.stockmodel import stockmodel, tablemodel
 from src.viewmodel.EventViewModel import EventSortModel
 
@@ -74,21 +73,15 @@ if __name__ == '__main__':
     engine.rootContext().setContextProperty("preferenceController", preferenceController)
 
     # Create ABB Controller for IRB 140
-    abbController = ABBController(preferenceController, eventlogService)
-    engine.rootContext().setContextProperty("abbController", abbController)
+    abb_service = abbservice(ip= preferenceController.get_abb_ip(), port= preferenceController.get_abb_port())
+    engine.rootContext().setContextProperty("abb_service", abb_service)
 
     # creates CommissionController object and sets itself as rootContext
     commissionController =  CommissionController(inventoryController, eventlogService)
     commissionController.commissionFilterProxyModel.autoAcceptChildRows()
     engine.rootContext().setContextProperty("commissionController", commissionController)
-    # engine.rootContext().setContextProperty('commissionModel', commissionController.commissionFilterProxyModel)
     engine.rootContext().setContextProperty('commissionModel', commissionController.commissionViewModel)
 
-    #creates commission service to handle commissions with opcua and abb controller
-    commission_service = CommissionService(commission_controller = commissionController, abb_controller = abbController, )
-    engine.rootContext().setContextProperty("commission_service", commission_service)
-    commissionController.new_commission.connect(commission_service.handle_new_commission)
-    commission_service.update_commission_state.connect(commissionController.change_commission_state)
 
     # creates AgentService object and sets itself as rootContext
     agentservice = AgentService(eventlogService, preferenceController)
@@ -98,7 +91,6 @@ if __name__ == '__main__':
     rfidController = RfidController()
     engine.rootContext().setContextProperty("rfidController", rfidController)
     engine.rootContext().setContextProperty("rfidModel", rfidController.rfid_viewmodel)
-    #engine.rootContext().setContextProperty("rfidModel", rfidController.rfidProxyViewModel)
 
     # creates rfid_service object and sets itself as rootContext
     rfid_service = RfidService(eventlogService, rfidController)

@@ -159,12 +159,12 @@ Window {
             margins: 10
         }
         onClicked: {
-            agentService.setupAgentService();
-            opcuaService.startOpcuaService();
-            commission_service.start_worker();
-            console.log("Start Button clicked")
             visible = false;
             stopButton.visible = true;
+            agentService.setupAgentService();
+            opcuaService.startOpcuaService();
+            abb_service.start();
+            console.log("Start Button clicked")
         } 
     }
     Button{
@@ -181,7 +181,7 @@ Window {
         onClicked: {
             agentService.stopAgentService();
             opcuaService.stopOpcuaService();
-            commission_service.stop();
+            abb_service.stop();
             visible= false;
             startButton.visible= true;
         }
