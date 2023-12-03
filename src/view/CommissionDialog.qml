@@ -23,7 +23,7 @@ Dialog {
             }
 
             ComboBox {
-                id: comboBox
+                id: idBox
                 Layout.leftMargin: 10
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
@@ -35,11 +35,18 @@ Dialog {
 
 
             Button {
-                id: button
+                id: loadButton
                 text: qsTr("Load")
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
                 Layout.preferredWidth: 111
+
+                Connections {
+                    target: loadButton
+                    onClicked: {
+                        commissionController.loadCommission(idBox.currentText)
+                    }
+                }
             }
 
         }
@@ -56,7 +63,7 @@ Dialog {
 
 
             TextInput {
-                id: textInput
+                id: itemText
                 height: 40
                 text: qsTr("Text Input")
                 font.pixelSize: 12
@@ -69,7 +76,6 @@ Dialog {
             }
 
         }
-
 
         RowLayout {
             Layout.fillWidth: true
@@ -83,6 +89,7 @@ Dialog {
 
 
             TextInput {
+                id: sourceText
                 height: 40
                 text: qsTr("Text Input")
                 font.pixelSize: 12
@@ -95,7 +102,6 @@ Dialog {
             }
 
         }
-
 
         RowLayout {
             Layout.fillWidth: true
@@ -110,6 +116,7 @@ Dialog {
 
             TextInput {
                 height: 40
+                id: targetText
                 text: qsTr("Text Input")
                 font.pixelSize: 12
                 verticalAlignment: Text.AlignVCenter
@@ -121,7 +128,6 @@ Dialog {
             }
 
         }
-
 
         RowLayout {
             Layout.fillWidth: true
@@ -135,7 +141,7 @@ Dialog {
 
 
             ComboBox {
-                id: comboBox1
+                id: stateBox
                 height: 40
                 Layout.leftMargin: 10
                 Layout.fillWidth: true
@@ -156,37 +162,68 @@ Dialog {
             Layout.fillWidth: true
             Layout.fillHeight: false
             Button {
-                id: button1
+                id: okButton
                 height: 40
                 text: qsTr("ok")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.preferredHeight: 40
                 Layout.preferredWidth: 70
+
+                Connections {
+                    target: okButton
+                    onClicked: {
+                        commissionController.overwriteCommission(
+                                    idBox.currentValue,
+                                    itemText.text,
+                                    sourceText.text,
+                                    targetTest.text,
+                                    stateBox.currentIndex
+                                )
+                    }
+                }
             }
 
             Button {
-                id: button2
+                id: rejectButton
                 height: 40
                 text: qsTr("Abbrechen")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.preferredHeight: 40
                 Layout.preferredWidth: 70
+
+                Connections {
+                    target: rejectButton
+                    onClicked: Dialog.close()
+                }
             }
 
             Button {
-                id: button3
+                id: clearDoneButton
                 height: 40
                 text: qsTr("Clear All Done")
+                down: true
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.preferredHeight: 40
                 Layout.preferredWidth: 70
+                Connections {
+                    target: clearDoneButton
+                    onClicked: commissionController.clearDone()
+                }
             }
         }
 
 
     }
-
+    Connections{
+        target: commissionController
+        function onTransmitCommission(id, item, source, target, state){
+            itemText.text = item
+            sourceText.text = source
+            targetText.text = target
+            stateBox.currentIndex = state
+        }
+    }
 }
