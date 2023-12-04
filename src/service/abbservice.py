@@ -246,7 +246,7 @@ class abbsocketworker(QThread):
         Uses UTF-8 encoding for data transmission.
         """
         while self.is_running:
-            self.loop.emit()
+            # self.loop.emit()
             readables, _, _ = select.select([self.server], [], [], 0.1)
             if self.server in readables:
                 client, client_addr = self.server.accept()

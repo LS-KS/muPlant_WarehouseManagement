@@ -213,6 +213,7 @@ class OpcuaServerHandle(QThread):
         for i, (key, value) in enumerate(vars(self.agent_vars).items()):
             if "agentFuncParameter" in key:
                 self.agent_vars.__setattr__(key, None)
+
     @Slot()
     def handle_agent_cleanupresponseids(self):
         for i, (key, value) in enumerate(vars(self.agent_vars).items()):
@@ -329,6 +330,36 @@ class OpcuaServerHandle(QThread):
         """
         return  self.commission_controller.get_commissionData()
     
+    async def _listen_agentvars(self):
+        for i, (key, value) in enumerate(vars(self.agent_vars).items()):
+            node = self.agent_nodes[i][0]
+            var = self.agent_nodes[i][1]
+            self.event.emit("agentlistener","listen agent node: "f"{key}: {node}, {value}, {var}")
+            if key == "agentAgentLockRequest":
+                opc_val = await self.opcuaServer.get_node(var).get_value()
+                if value != opc_val:
+                    value = opc_val
+                    self.agent_stationlockrequest.emit(opc_val)
+                    self.event.emit("agentlistener",f"{key} has changed to {value}!!")
+            elif key == "agentAgentResponseID":
+                opc_val = await self.opcuaServer.get_node(var).get_value()
+                if value != opc_val:
+                    value = opc_val
+                    self.agent_response_ready.emit(opc_val)
+                    self.event.emit("agentlistener",f"{key} has changed to {value}!!")
+            elif key == "agentAgentFunctionReady":
+                opc_val = await self.opcuaServer.get_node(var).get_value()
+                if value != opc_val:
+                    value = opc_val
+                    self.agent_function_ready.emit(opc_val)
+                    self.event.emit("agentlistener",f"{key} has changed to {value}!!")
+            elif key == "agentFunctionID":
+                opc_val = await self.opcuaServer.get_node(var).get_value()
+                if value != opc_val:
+                    value = opc_val
+                    self.agent_function_id.emit(opc_val)
+                    self.event.emit("agentlistener",f"{key} has changed to {value}!!")
+
     async def _update_inventory_vars(self):
         """
         Write new invetory var values to opc server variables in objects of node…
@@ -618,9 +649,14 @@ class OpcuaServerHandle(QThread):
                     await asyncio.sleep(1)
                     # Perform inventory update
                     self._update_inventory_values()
+                    self.event.emit("OpcuaService", "Mainloop: updated inventory")
                     await self._update_inventory_vars()
+                    self.event.emit("OpcuaService", "Mainloop: updated inventory vars")
+                    await self._listen_agentvars()
+                    self.event.emit("OpcuaService", "Mainloop: listened to agentvars")
                     # Perform agent update
                     await self._update_agent_vars()
+                    self.event.emit("OpcuaService", "Mainloop: updated agentvars")
                     # example var
                     new_val = await myvar.get_value() + 0.1
                     await myvar.write_value(new_val)
@@ -854,3 +890,4 @@ class agentlib_worker(QThread):
         self.running = False
         self.wait()
         self.deleteLater()
+
