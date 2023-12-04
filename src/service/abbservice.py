@@ -1,6 +1,6 @@
 from PySide6.QtCore import QObject, Signal, Slot, QThread, QMutex, QMutexLocker
 from PySide6.QtWidgets import QApplication
-from src.model.CommissionModel import CommissionState, Locations
+# from src.model.CommissionModel import CommissionState, Locations
 import socket
 import select
 import sys
@@ -25,13 +25,14 @@ class abbservice(QObject):
         Connects various signals to abbsocketworker slots. Starts worker by emitting start_worker signal. 
         """
         self.worker = abbsocketworker(ip=self.ip, port=self.port)
+        self.transmit_data.connect(self.worker.handle_transmit)
         self.start_worker.connect(self.worker.start)
         self.stop_worker.connect(self.worker.stop)
-        self.transmit_data.connect(self.worker.handle_transmit)
         self.worker.started.connect(self.handle_started)
         self.worker.stopped.connect(self.handle_stopped)
         self.worker.connection.connect(self.handle_connection)
         self.worker.data.connect(self.handle_data)
+        self.worker.notconnected.connect(self.handle_notconnected)
         self.worker.loop.connect(self.handle_loop)
         self.start_worker.emit()
 
@@ -89,6 +90,13 @@ class abbservice(QObject):
         This method is for debug purposes only. It is connected to the abbsocketworker.loop signal and thus is called in every while loop iteration.
         """
         print("Looping")
+    
+    @Slot(str)
+    def handle_notconnected(self, message:str):
+        """
+        This method is connected to the abbsocketworker.notconnected signal and thus is called when no client is connected to the socket.
+        """
+        print(message)
 
     def _create_execute_strings(self, source:str, target:str)->str:
         """
@@ -166,6 +174,7 @@ class abbsocketworker(QThread):
     started = Signal()
     stopped = Signal()
     connection = Signal(str, str)
+    notconnected = Signal(str)
     data = Signal(str)
     loop = Signal()
 
@@ -199,6 +208,7 @@ class abbsocketworker(QThread):
         Overwrites QThread.stop() method. Stops thread and closes socket server.
         Deletes thread object.
         """
+        self.is_running = False
         self.server.close()
         super().quit()
         super().wait()
@@ -253,10 +263,16 @@ class abbsocketworker(QThread):
                         break
                     elif request:
                         self.data.emit(request)
+            elif self.start_transmit:
+                self.notconnected.emit("No client connected")
 
 
 if __name__ == "__main__":
+    import time
     app = QApplication(sys.argv)
     service = abbservice(ip="192.168.180.23" , port=5000)
     service.start()
-    sys.exit(app.xec())
+    service.transmit_data.emit("test")
+    time.sleep(2)
+    service.stop()
+    sys.exit(app.exec())
