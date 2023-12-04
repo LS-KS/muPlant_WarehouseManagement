@@ -6,12 +6,6 @@ TO ADD FUNCTION OR STATION SPECIFIC CODE HERE.
 Copyright 2016, Lars Kistner <LarsKistner@sr4l.de>
 see LICENSE and README for more information
 
-
-CHANGES:
-Lennart Schink 12.10.2023
-replaced threading thread by own OPCUA Service
-src.service.OpcuaService.OpcuaServerhandle class object.
-
 """
 
 # Standard Python
@@ -918,7 +912,6 @@ class AgentServerWorkerBase(BaseAgent, threading.Thread):
     def shutdown(self):
         """cleanly shutdown the worker thread"""
         self.running = False
-
 
 class AgentServer(threading.Thread):
     """

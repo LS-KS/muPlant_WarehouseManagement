@@ -1,6 +1,6 @@
 from PySide6.QtCore import QObject, Signal, Slot, QThread, QMutex, QMutexLocker
 from PySide6.QtWidgets import QApplication
-# from src.model.CommissionModel import CommissionState, Locations
+from src.model.CommissionModel import CommissionState, Locations
 import socket
 import select
 import sys
@@ -8,7 +8,7 @@ import sys
 
 class abbservice(QObject):
 
-    start_worker = Signal()
+    start_worker = Signal() 
     stop_worker = Signal()
     transmit_data = Signal(str)
 
@@ -56,12 +56,12 @@ class abbservice(QObject):
         execute = self._create_execute_strings(source, target)
         self.transmit_data.emit(execute)
     
-    @Slot()
-    def handle_started(self):
+    @Slot(bool, str)
+    def handle_started(self, result, exception):
         """
         This method is connected to the abbsocketworker.started signal and thus is called when the worker is started.
         """
-        print("Service started")
+        print("Service started") if result else print(f"Error while starting: {exception}")
     
     @Slot()
     def handle_stopped(self):
@@ -102,6 +102,8 @@ class abbservice(QObject):
         """
         Create execute strings for IRC5 controller. These are submitted by socket connection.
         string cannot be calculated by formulas, so a dictionary is used to map the locations to string numbers.
+
+
 
         param source: source string from commission, can be created by Locations[idx].name
         type source: str
@@ -171,8 +173,8 @@ class abbservice(QObject):
 
 
 class abbsocketworker(QThread):
-    started = Signal()
-    stopped = Signal()
+    started = Signal(bool, str)
+    stopped = Signal(bool)
     connection = Signal(str, str)
     notconnected = Signal(str)
     data = Signal(str)
@@ -194,12 +196,16 @@ class abbsocketworker(QThread):
         """
         Overwrites QThread.start() method. Creates socket server and starts thread.
         """
-        super().start()
-        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server.bind((self.ip, self.port))
-        self.buffersize = 1024
-        self.server.listen(1)
-        self.is_running = True
+        try:
+            super().start()
+            self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.server.bind((self.ip, self.port))
+            self.buffersize = 1024
+            self.server.listen(1)
+            self.is_running = True
+            self.started.emit(True, "")
+        except Exception as e:
+            self.started.emit(False, str(e))
         
 
     @Slot()

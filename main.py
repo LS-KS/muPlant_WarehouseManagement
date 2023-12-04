@@ -49,6 +49,10 @@ from src.viewmodel.EventViewModel import EventSortModel
 
 #TODO: sort commissionlist by commission-id in descending order
 
+#TODO: Zustand variable must be set in robot as well as Näherungsschalter.
+#TODO: DI5: light barrier
+#TODO: DI3, DI4: proximity switches
+
 if __name__ == '__main__':
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()

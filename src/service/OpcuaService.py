@@ -10,6 +10,7 @@ from src.model.DataModel import  Cup
 from src.model.CommissionModel import CommissionData
 from src.service.EventlogService import EventlogService
 from src.service.AgentService import AgentService
+import time
 
 class agent_vars:
     """
@@ -92,10 +93,12 @@ class agent_vars:
         self.agentRespParameter_30 = None # individual parameters for each response
         self.agentRespParameter_31 = None # individual parameters for each response
         self.agentRespParameter_32 = None # individual parameters for each response
+
 class inventory_vars:
     """
     wrapper class for inventory variables.
     """
+
     def __init__(self):
         self.L1a: Cup = None
         self.L1b: Cup = None
@@ -133,7 +136,9 @@ class inventory_vars:
         self.L17b: Cup = None
         self.L18a: Cup = None
         self.L18b: Cup = None
+
 class rfid_vars:
+
     ip_id:str
     name_id:str
     ip:str
@@ -150,10 +155,17 @@ class rfid_vars:
         self.name_id:str = name
 
 class OpcuaServerHandle(QThread):
+
     agentVarsChanged = Signal(dict)
     inventoryVarsChanged = Signal(dict)
     commissionVarsChanged = Signal(dict)
     event = Signal(str, str)
+
+    agent_function_ready = Signal(int)
+    agent_response_ready = Signal(int)
+    agent_function_id = Signal(int)
+    agent_stationlockrequest = Signal(int)
+
     def __init__(self, preferenceController: PreferenceController, inventory_controller: invController,
                  commission_controller: CommissionController, 
                  agentservice: AgentService, opc_service, rfidcontroller: RfidController, parent = None, ) -> None:
@@ -174,6 +186,117 @@ class OpcuaServerHandle(QThread):
         self.opc_service: OpcuaService = opc_service
         self.running = False
         self.idx = None
+        self.agentworker = agentlib_worker()
+        self.agent_function_id.connect(self.agentworker.handle_function_id)
+        self.agent_function_ready.connect(self.agentworker.handle_function_ready)
+        self.agent_response_ready.connect(self.agentworker.handle_response_ready)
+        self.agent_stationlockrequest.connect(self.agentworker.handle_lock_request)
+        self.agentworker.sig_cleanupfunctionids.connect(self.handle_agent_cleanupfunctionids)
+        self.agentworker.sig_cleanupresponseids.connect(self.handle_agent_cleanupresponseids)
+        self.agentworker.sig_done.connect(self.handle_agent_done)
+        self.agentworker.sig_event.connect(self.event.emit)
+        self.agentworker.sig_functionready.connect(self.handle_agent_functionready)
+        self.agentworker.sig_keepalive.connect(self.handle_agent_keepalive)
+        self.agentworker.sig_lockrequest.connect(self.handle_agent_lockrequest)
+        self.agentworker.sig_responseid.connect(self.handle_agent_responseid)
+        self.agentworker.sig_responseready.connect(self.handle_agent_responseready)
+        self.agentworker.sig_started.connect(self.handle_agent_started)
+        self.agentworker.sig_stationlockid.connect(self.handle_agent_stationlockid)
+        self.agentworker.sig_stationlockrequest.connect(self.handle_agent_stationlockrequest)
+        self.agentworker.sig_stopped.connect(self.handle_agent_stopped)
+        self.agentworker.sig_status.connect(self.handle_agent_status)
+        self.agentworker.sig_unused.connect(self.handle_agent_unused)
+        self.agentworker.sig_working.connect(self.handle_agent_working)
+
+    @Slot()
+    def handle_agent_cleanupfunctionids(self):
+        for i, (key, value) in enumerate(vars(self.agent_vars).items()):
+            if "agentFuncParameter" in key:
+                self.agent_vars.__setattr__(key, None)
+    @Slot()
+    def handle_agent_cleanupresponseids(self):
+        for i, (key, value) in enumerate(vars(self.agent_vars).items()):
+            if "agentRespParameter" in key:
+                self.agent_vars.__setattr__(key, None)
+
+    @Slot(int)
+    def handle_agent_done(self, value):
+        for i, (key, val) in enumerate(vars(self.agent_vars).items()):
+            if "agentDone" in key:
+                self.agent_vars.__setattr__(key, value)
+
+    @Slot(int)
+    def handle_agent_functionready(self, value):
+        for i, (key, val) in enumerate(vars(self.agent_vars).items()):
+            if "agentFunctionReady" in key:
+                self.agent_vars.__setattr__(key, value)
+
+    @Slot(int)
+    def handle_agent_keepalive(self, int):
+        for i, (key, val) in enumerate(vars(self.agent_vars).items()):
+            if "agentKeepAlive" in key:
+                self.agent_vars.__setattr__(key, int)
+
+    @Slot(int)
+    def handle_agent_lockrequest(self, int):
+        for i, (key, val) in enumerate(vars(self.agent_vars).items()):
+            if "agentAgentLockRequest" in key:
+                self.agent_vars.__setattr__(key, int)
+
+    @Slot(int)
+    def handle_agent_responseid(self, value):
+        for i, (key, val) in enumerate(vars(self.agent_vars).items()):
+            if "agentResponseID" in key:
+                self.agent_vars.__setattr__(key, value)
+
+    @Slot(int)
+    def handle_agent_responseready(self, value):
+        for i, (key, val) in enumerate(vars(self.agent_vars).items()):
+            if "agentResponseReady" in key:
+                self.agent_vars.__setattr__(key, value)
+
+    @Slot(bool)
+    def handle_agent_started(self, value):
+        for i, (key, val) in enumerate(vars(self.agent_vars).items()):
+            if "agentWorking" in key:
+                self.agent_vars.__setattr__(key, int(value))
+
+    @Slot(int)
+    def handle_agent_stationlockid(self, value):
+        for i, (key, val) in enumerate(vars(self.agent_vars).items()):
+            if "agentAgentLockID" in key:
+                self.agent_vars.__setattr__(key, int(value))
+
+    @Slot(int)
+    def handle_agent_stationlockrequest(self, value):
+        for i, (key, val) in enumerate(vars(self.agent_vars).items()):
+            if "agentAgentLockRequest" in key:
+                self.agent_vars.__setattr__(key, value)
+
+    @Slot(bool)
+    def handle_agent_stopped(self, value):
+        for i, (key, val) in enumerate(vars(self.agent_vars).items()):
+            if "agentWorking" in key:
+                self.agent_vars.__setattr__(key, int(value))
+
+    @Slot(int)
+    def handle_agent_status(self, value):
+        for i, (key, val) in enumerate(vars(self.agent_vars).items()):
+            if "agentStatus" in key:
+                self.agent_vars.__setattr__(key, value)
+
+    @Slot(bool)
+    def handle_agent_unused(self, value):
+        for i, (key, val) in enumerate(vars(self.agent_vars).items()):
+            if "agentUnused" in key:
+                self.agent_vars.__setattr__(key, int(value))
+
+    @Slot(bool)
+    def handle_agent_working(self, value):
+        for i, (key, val) in enumerate(vars(self.agent_vars).items()):
+            if "agentWorking" in key:
+                self.agent_vars.__setattr__(key, int(value))
+
     def __del__(self):
         """
         Deconstructor for OpcuaServerHandle. Stops opcua server.
@@ -181,6 +304,7 @@ class OpcuaServerHandle(QThread):
         if self.opcuaServer is not None:
             self.opcuaServer.stop()
         print("OpcuaServerHandle deleted")
+
     def _update_inventory_values(self):
         """
         Updates inventory_vars with current inventory by referencing the corresponding cup object.
@@ -198,11 +322,13 @@ class OpcuaServerHandle(QThread):
                         self.inventory_vars.__setattr__(f"{var}b", None)
         except Exception as e:
             self.event.emit("OpcuaService", f"Error while updating inventory values: {e}")
+
     def _load_commission_values_from_model(self) -> list[CommissionData]:
         """
         Load CommissionData from ComissionController's Data.
         """
         return  self.commission_controller.get_commissionData()
+    
     async def _update_inventory_vars(self):
         """
         Write new invetory var values to opc server variables in objects of node…
@@ -222,6 +348,7 @@ class OpcuaServerHandle(QThread):
                 await prod.write_value(prod_val)
         except Exception as e:
             self.event.emit("OpcuaService", f"Error while updating inventory vars: {e}")
+
     async def _create_agent_nodes(self, idx):
         """
         Creates nodes for agent variables.
@@ -319,6 +446,7 @@ class OpcuaServerHandle(QThread):
                 self.agent_nodes.append([node, var])
         except Exception as e:
             self.event.emit("OpcuaService", f"Error while creating agent nodes: {e}")
+
     async def _create_inventory_nodes(self, idx):
         """
         Creates an ua object to hold all inventory objects.
@@ -337,6 +465,7 @@ class OpcuaServerHandle(QThread):
             prod = await subnode.add_variable(idx, str(field) + "_prod",
                                                  0 if value is None else value.product.id)
             self.inventory_nodes.append([subnode, id, prod])
+
     async def _create_commission_nodes(self, idx):
         """
         First create an ua object to hold all commission objects.
@@ -359,6 +488,7 @@ class OpcuaServerHandle(QThread):
             pallet = await subnode.add_variable(idx, "pallet", commission.pallet)
             state = await subnode.add_variable(idx, "state", commission.state.value)
             self.commission_nodes.append([subnode, source, target, object, cup, pallet, state])
+
     async def _create_rfid_nodes(self):
         node = await self.opcuaServer.nodes.objects.add_object(self.idx, "RFID Nodes")
         for rfidnode in self.rfidcontroller.rfid_viewmodel.rfidData:
@@ -372,7 +502,6 @@ class OpcuaServerHandle(QThread):
             rfidvar.last_valid_dsfid = await subnode.add_variable(self.idx, "last_valid_dsfid", str(rfidnode.last_valid_dsfid))
             rfidvar.last_valid_timestamp = await subnode.add_variable(self.idx, "last_valid_timestamp", str(rfidnode.last_valid_timestamp))
             self.rfid_nodes.append(rfidvar)
-
 
     @Slot(str, str, str, str, str, str, str)
     async def _update_rfid_vars(self,ip: str, timestamp: str, iid: str, dsfid: str, last_valid_iid: str, last_valid_dsfid: str, last_valid_timestamp: str):
@@ -409,6 +538,7 @@ class OpcuaServerHandle(QThread):
                         await var.write_value(value)
         except Exception as e:
             self.event.emit("OpcuaService", f"Error while updating agent vars: {e}")
+
     def run(self):
         """
         Must be implemented for QThread. Wraps asyncio function in sync function.
@@ -442,6 +572,7 @@ class OpcuaServerHandle(QThread):
         Example function for opcua server
         """
         return value * 2
+    
     def start(self):
         """
         Must be implemented for QThread. Starts QThread 
@@ -454,6 +585,7 @@ class OpcuaServerHandle(QThread):
         self.opc_service.isRunning = True
         self.opc_service.check_online_status()
         self.event.emit("OpcuaService", "OpcuaServerHandle running")
+
     async def main(self) -> None:
         """
         Main function for opcua server
@@ -495,6 +627,7 @@ class OpcuaServerHandle(QThread):
         except Exception as e:
             self.event.emit("OpcuaService", f"Error in Mainloop: {e}")
             self.opc_service.isRunning = False   
+
     async def setup_server(self):
         """
         setup server object and namespace.
@@ -507,12 +640,14 @@ class OpcuaServerHandle(QThread):
         uri = self.preferenceController.preferences.opcua.namespace
         idx = await self.opcuaServer.register_namespace(uri)
         return idx
+    
     def clear_agent(self):
         """
         Resets all agent variables to default values.
         """
         self.agent_vars = agent_vars()
         self.agent_vars.agentKeepAlive = 10
+
 class OpcuaService(QObject):
     """
     Class for handling opcua server.
@@ -565,3 +700,157 @@ class OpcuaService(QObject):
 
     def handle_rfid_update(self, ipAddr, timestamp, iid, dsfid, last_valid_timestamp, last_valid_iid, last_valid_dsfid):
         asyncio.run(self.opcuaServerHandle._update_rfid_vars(ipAddr, timestamp, iid, dsfid, last_valid_timestamp, last_valid_iid, last_valid_dsfid))
+
+class agentlib_worker(QThread):
+    """ 
+    Re-Implementation of Lars Kistners Agentlib. 
+    Basically a copy with modifications of agentlibs AgentServerWorkerBase class.
+    To make this threadsafe, communication with opcuaservice need to be implemented using signals and slots. 
+    """
+
+    #TODO: handler for stationlockid, stationlockrequest, function_ready, response_ready
+    sig_started = Signal(bool)
+    sig_stopped = Signal(bool)
+    sig_status = Signal(int)
+    sig_keepalive = Signal(int)
+    sig_working = Signal(bool)
+    sig_unused = Signal(bool)
+    sig_lockrequest = Signal(int)
+    sig_functionready = Signal(int)
+    sig_responseready = Signal(int)
+    sig_responseid = Signal(int)
+    sig_done = Signal(int)
+    sig_cleanupfunctionids = Signal()
+    sig_cleanupresponseids = Signal()
+    sig_event = Signal(str, str)
+    sig_stationlockid = Signal(int)
+    sig_stationlockrequest = Signal(int)
+
+    def __init__(self, parent = None):
+        super().__init__(parent)
+        self.last_request :float = 0
+        self.longest_request_time:float = 10
+        self.wait_time_short: float= 1/800
+        self.running: bool = True
+        self.status: int = 0
+        self.working: int = 0
+        self.function_ready:int = 0
+        self.response_ready:int = 0
+        self.function_id:int = 0
+        self.done: int = 0
+        self.stationlockid:int = 0
+        self.stationlockrequest:int = 0
+    
+    @Slot(bool)
+    def handle_running(self, running):
+        self.running = running
+
+    @Slot(int)
+    def handle_function_ready(self, function_ready):
+        self.function_ready = function_ready
+
+    @Slot(int)
+    def handle_response_ready(self, response_ready):
+        self.response_ready = response_ready
+
+    @Slot(int)
+    def handle_function_id(self, function_id):
+        self.function_id = function_id
+    
+    @Slot(int)
+    def handle_lock_request(self, lock_request):
+        self.stationlockrequest = lock_request
+
+    @Slot(int)
+    def handle_lock_id(self, lock_id):
+        self.stationlockid = lock_id
+
+    def start(self):
+        super().start()
+
+    def set_status(self):
+        """set status related variables to there default values."""
+        self.sig_status.emit(self.status)
+        self.sig_keepalive.emit(10)
+        self.sig_working.emit(self.working)
+        self.sig_unused.emit(42)
+        self.sig_lockrequest.emit(0)
+        
+    def reset_function_status(self):
+        """cleanup functions status variables."""
+        self.sig_functionready.emit(0)
+        self.sig_responseready.emit(0)
+        self.sig_done.emit(0)
+
+    def reset_functioncall(self):
+        """cleanup function call variables"""
+        self.sig_cleanupfunctionids.emit()
+
+    def reset_response(self):
+        """cleanup response variables"""
+        self.sig_cleanupresponseids.emit()
+
+    def copy_function_to_response(self, parameters):
+        #TODO: Implement
+        """copy function variables to response variables (debug only)"""
+        self.reset_functioncall()
+        self.mb_write(MMAP_ResponseID, parameters)
+
+    def function_handler(self, function):
+        #TODO: Implement
+        """this is run multiple times per second, here is where the
+        function code handling, processing and appropriate responses
+        are happening."""
+        raise NotImplementedError("You need to implemented this function on your own")
+
+    def handle_requests(self):
+        """check for request and if any forwards them to
+        `function_handler()`, read the log comments bellow and see
+        bachelor thesis of Lars Kistner to understand agent system
+        """
+
+        if self.stationlockid == 0 and self.stationlockrequest == 0:
+            self.sig_event.emit("AgentLib:","No work todo! Set status")
+            self.set_status()
+            self.sleep(self.wait_time_short)
+
+        elif self.stationlockid == 0 and self.stationlockrequest != 0:
+            self.sig_event.emit("Agentlib: ","Requested Lock granted")
+            self.station_lock_id = self.stationlockrequest
+            self.sig_stationlockid.emit(self.stationlockrequest)
+            self.sig_stationlockrequest.emit(0)
+            self.last_request = time.time()
+
+        elif self.done != 0:
+            self.sig_event.emit("Agentlib:","Clean up")
+            self.sig_functionready.emit(0)
+            self.last_request = time.time()
+
+        elif self.function_ready == 1:
+            self.sig_event.emit("Agentlib:","Call function {}".format(str(self.function_id)))
+            try:
+                self.function_handler(self.function_id)
+            except Exception as e:
+                self.sig_event.emit("Agentlib:", str(e))
+                self.sig_responseid.emit(2) # RESPONSE_ID_ERROR
+            self.sig_functionready.emit(0)
+            self.sig_responseready.emit(1)
+        else:
+            if time.time() - self.last_request > self.longest_request_time:
+                self.event.emit("Agentlib:","Agent (ID {}) has lock for too long. Agent dead? Clean up, revoke lock.".format(self.station_lock_id))
+                self.sig_functionready.emit(0)
+                self.sig_done.emit(1)
+
+    def run(self):
+        """start the worker thread"""
+        self.sig_started.emit(True)
+        while self.running:
+            self.handle_requests()
+            self.sleep(self.wait_time_short)
+        self.sig_stopped.emit(True)
+
+    def stop(self):
+        """cleanly shutdown the worker thread"""
+        self.running = False
+        self.wait()
+        self.deleteLater()
