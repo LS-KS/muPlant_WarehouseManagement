@@ -165,6 +165,12 @@ class OpcuaServerHandle(QThread):
     agent_response_ready = Signal(int)
     agent_function_id = Signal(int)
     agent_stationlockrequest = Signal(int)
+    agent_funcParam_1 = Signal(str)
+    agent_funcParam_2 = Signal(str)
+    agent_funcParam_3 = Signal(str)
+    agent_funcParam_4 = Signal(str)
+    agent_funcParam_5 = Signal(str)
+
 
     def __init__(self, preferenceController: PreferenceController, inventory_controller: invController,
                  commission_controller: CommissionController, 
@@ -174,7 +180,7 @@ class OpcuaServerHandle(QThread):
         self.inventory_controller = inventory_controller
         self.commission_controller = commission_controller
         self.opcuaServer: None | Server = None
-        self.agent_vars = agent_vars()
+        self.agent_vars: agent_vars = agent_vars()
         self.agent_nodes: list[int] = []
         self.inventory_vars = inventory_vars()
         self.inventory_nodes: list[int] = []
@@ -191,6 +197,11 @@ class OpcuaServerHandle(QThread):
         self.agent_function_ready.connect(self.agentworker.handle_function_ready)
         self.agent_response_ready.connect(self.agentworker.handle_response_ready)
         self.agent_stationlockrequest.connect(self.agentworker.handle_lock_request)
+        self.agent_funcParam_1.connect(self.agentworker.handle_function_param_1)
+        self.agent_funcParam_2.connect(self.agentworker.handle_function_param_2)
+        self.agent_funcParam_3.connect(self.agentworker.handle_function_param_3)
+        self.agent_funcParam_4.connect(self.agentworker.handle_function_param_4)
+        self.agent_funcParam_5.connect(self.agentworker.handle_function_param_5)
         self.agentworker.sig_cleanupfunctionids.connect(self.handle_agent_cleanupfunctionids)
         self.agentworker.sig_cleanupresponseids.connect(self.handle_agent_cleanupresponseids)
         self.agentworker.sig_done.connect(self.handle_agent_done)
@@ -212,91 +223,147 @@ class OpcuaServerHandle(QThread):
     def handle_agent_cleanupfunctionids(self):
         for i, (key, value) in enumerate(vars(self.agent_vars).items()):
             if "agentFuncParameter" in key:
-                self.agent_vars.__setattr__(key, None)
-
+                node = self.agent_nodes[i][0]
+                node = self.opcuaServer.get_node(node)
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(0))
+                self.agent_vars.__setattr__(key, 0)
+            elif "agentFunctionID" == key:
+                node = self.agent_nodes[i][0]
+                node = self.opcuaServer.get_node(node)
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(0))
+                self.agent_vars.__setattr__(key, 0)
+   
     @Slot()
     def handle_agent_cleanupresponseids(self):
         for i, (key, value) in enumerate(vars(self.agent_vars).items()):
             if "agentRespParameter" in key:
+                value = 0 if value is None else int(value)
                 self.agent_vars.__setattr__(key, None)
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(int(value)))
 
     @Slot(int)
     def handle_agent_done(self, value):
         for i, (key, val) in enumerate(vars(self.agent_vars).items()):
             if "agentDone" in key:
+                self.event.emit("OPCHandle: ", f"done: {value}")
                 self.agent_vars.__setattr__(key, value)
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(value))
 
     @Slot(int)
     def handle_agent_functionready(self, value):
         for i, (key, val) in enumerate(vars(self.agent_vars).items()):
             if "agentFunctionReady" in key:
                 self.agent_vars.__setattr__(key, value)
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(value))
 
     @Slot(int)
-    def handle_agent_keepalive(self, int):
+    def handle_agent_keepalive(self, value):
         for i, (key, val) in enumerate(vars(self.agent_vars).items()):
             if "agentKeepAlive" in key:
                 self.agent_vars.__setattr__(key, int)
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(value))
 
     @Slot(int)
-    def handle_agent_lockrequest(self, int):
+    def handle_agent_lockrequest(self, value):
         for i, (key, val) in enumerate(vars(self.agent_vars).items()):
             if "agentAgentLockRequest" in key:
-                self.agent_vars.__setattr__(key, int)
+                self.agent_vars.agentAgentLockRequest = value
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(value))
 
     @Slot(int)
     def handle_agent_responseid(self, value):
         for i, (key, val) in enumerate(vars(self.agent_vars).items()):
             if "agentResponseID" in key:
                 self.agent_vars.__setattr__(key, value)
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(value))
 
     @Slot(int)
     def handle_agent_responseready(self, value):
         for i, (key, val) in enumerate(vars(self.agent_vars).items()):
             if "agentResponseReady" in key:
                 self.agent_vars.__setattr__(key, value)
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(value))
 
     @Slot(bool)
     def handle_agent_started(self, value):
         for i, (key, val) in enumerate(vars(self.agent_vars).items()):
             if "agentWorking" in key:
                 self.agent_vars.__setattr__(key, int(value))
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(value))
 
     @Slot(int)
     def handle_agent_stationlockid(self, value):
         for i, (key, val) in enumerate(vars(self.agent_vars).items()):
             if "agentAgentLockID" in key:
                 self.agent_vars.__setattr__(key, int(value))
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(value))
 
     @Slot(int)
     def handle_agent_stationlockrequest(self, value):
         for i, (key, val) in enumerate(vars(self.agent_vars).items()):
             if "agentAgentLockRequest" in key:
                 self.agent_vars.__setattr__(key, value)
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(value))
 
     @Slot(bool)
     def handle_agent_stopped(self, value):
         for i, (key, val) in enumerate(vars(self.agent_vars).items()):
             if "agentWorking" in key:
                 self.agent_vars.__setattr__(key, int(value))
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(value))
 
     @Slot(int)
     def handle_agent_status(self, value):
         for i, (key, val) in enumerate(vars(self.agent_vars).items()):
             if "agentStatus" in key:
                 self.agent_vars.__setattr__(key, value)
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(value))
 
     @Slot(bool)
     def handle_agent_unused(self, value):
         for i, (key, val) in enumerate(vars(self.agent_vars).items()):
             if "agentUnused" in key:
                 self.agent_vars.__setattr__(key, int(value))
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(int(value)))
 
     @Slot(bool)
     def handle_agent_working(self, value):
         for i, (key, val) in enumerate(vars(self.agent_vars).items()):
             if "agentWorking" in key:
                 self.agent_vars.__setattr__(key, int(value))
+                var = self.agent_nodes[i][1]
+                var = self.opcuaServer.get_node(var)
+                asyncio.run(var.write_value(int(value)))
 
     def __del__(self):
         """
@@ -334,31 +401,55 @@ class OpcuaServerHandle(QThread):
         for i, (key, value) in enumerate(vars(self.agent_vars).items()):
             node = self.agent_nodes[i][0]
             var = self.agent_nodes[i][1]
-            self.event.emit("agentlistener","listen agent node: "f"{key}: {node}, {value}, {var}")
+            #self.event.emit("agentlistener","listen agent node: "f"{key}: {node}, {value}, {var}")
             if key == "agentAgentLockRequest":
                 opc_val = await self.opcuaServer.get_node(var).get_value()
                 if value != opc_val:
-                    value = opc_val
+                    setattr(self.agent_vars, key, opc_val)
                     self.agent_stationlockrequest.emit(opc_val)
-                    self.event.emit("agentlistener",f"{key} has changed to {value}!!")
+                    self.event.emit("agentlistener",f"{key} has changed from {value} to {getattr(self.agent_vars, key)}!!")
             elif key == "agentAgentResponseID":
                 opc_val = await self.opcuaServer.get_node(var).get_value()
                 if value != opc_val:
-                    value = opc_val
+                    setattr(self.agent_vars, key, opc_val)
                     self.agent_response_ready.emit(opc_val)
-                    self.event.emit("agentlistener",f"{key} has changed to {value}!!")
-            elif key == "agentAgentFunctionReady":
+                    self.event.emit("agentlistener",f"{key} has changed from {value} to {getattr(self.agent_vars, key)}!!")
+            elif key == "agentFunctionReady":
                 opc_val = await self.opcuaServer.get_node(var).get_value()
                 if value != opc_val:
-                    value = opc_val
+                    setattr(self.agent_vars, key, opc_val)
                     self.agent_function_ready.emit(opc_val)
-                    self.event.emit("agentlistener",f"{key} has changed to {value}!!")
+                    self.event.emit("agentlistener",f"{key} has changed from {value} to {getattr(self.agent_vars, key)}!!")
             elif key == "agentFunctionID":
                 opc_val = await self.opcuaServer.get_node(var).get_value()
                 if value != opc_val:
-                    value = opc_val
+                    setattr(self.agent_vars, key, opc_val)
                     self.agent_function_id.emit(opc_val)
-                    self.event.emit("agentlistener",f"{key} has changed to {value}!!")
+                    self.event.emit("agentlistener",f"{key} has changed from {value} to {getattr(self.agent_vars, key)}!!")
+            elif key == "agentFuncParameter_1":
+                opc_val = await self.opcuaServer.get_node(var).get_value()
+                if value != opc_val:
+                    setattr(self.agent_vars, key, opc_val)
+                    self.agent_funcParam_1.emit(opc_val)
+                    self.event.emit("agentlistener",f"{key} has changed from {value} to {getattr(self.agent_vars, key)}!!")
+            elif key == "agentFuncParameter_2":
+                opc_val = await self.opcuaServer.get_node(var).get_value()
+                if value != opc_val:
+                    setattr(self.agent_vars, key, opc_val)
+                    self.agent_funcParam_2.emit(opc_val)
+                    self.event.emit("agentlistener",f"{key} has changed from {value} to {getattr(self.agent_vars, key)}!!")
+            elif key == "agentFuncParameter_3":
+                opc_val = await self.opcuaServer.get_node(var).get_value()
+                if value != opc_val:
+                    setattr(self.agent_vars, key, opc_val)
+                    self.agent_funcParam_3.emit(opc_val)
+                    self.event.emit("agentlistener",f"{key} has changed from {value} to {getattr(self.agent_vars, key)}!!")
+            elif key == "agentFuncParameter_4":
+                opc_val = await self.opcuaServer.get_node(var).get_value()
+                if value != opc_val:
+                    setattr(self.agent_vars, key, opc_val)
+                    self.agent_funcParam_4.emit(opc_val)
+                    self.event.emit("agentlistener",f"{key} has changed from {value} to {getattr(self.agent_vars, key)}!!")
 
     async def _update_inventory_vars(self):
         """
@@ -546,30 +637,6 @@ class OpcuaServerHandle(QThread):
                 self.opcuaServer.get_node(node.last_valid_timestamp).write_value(str(last_valid_timestamp))
         self.event.emit("OpcuaService", "Updated RFID Variables")
 
-    async def _update_agent_vars(self):
-        """
-        Sets agent variables to values in agent_vars back to default values.
-        Sets KeepAlive to 10.
-        TODO: Check consistency if functions are ordered.
-        """
-        try:
-            for i, (key, value) in enumerate(vars(self.agent_vars).items()):
-                node = self.agent_nodes[i][0]
-                var = self.agent_nodes[i][1]
-                node = self.opcuaServer.get_node(node)
-                if i == 4:
-                    self.agent_vars.agentKeepAlive = 10
-                    await var.write_value(self.agent_vars.agentKeepAlive)
-                else:
-                    if value is None or value == False:
-                        await var.write_value(0)
-                    elif value == True:
-                        await var.write_value(1)
-                    else:
-                        await var.write_value(value)
-        except Exception as e:
-            self.event.emit("OpcuaService", f"Error while updating agent vars: {e}")
-
     def run(self):
         """
         Must be implemented for QThread. Wraps asyncio function in sync function.
@@ -646,17 +713,15 @@ class OpcuaServerHandle(QThread):
             # loop
             async with self.opcuaServer:
                 while self.running:
-                    await asyncio.sleep(1)
+                    await asyncio.sleep(0.5)
                     # Perform inventory update
                     self._update_inventory_values()
-                    self.event.emit("OpcuaService", "Mainloop: updated inventory")
+                    #self.event.emit("OpcuaService", "Mainloop: updated inventory")
                     await self._update_inventory_vars()
-                    self.event.emit("OpcuaService", "Mainloop: updated inventory vars")
+                    #self.event.emit("OpcuaService", "Mainloop: updated inventory vars")
+                    # listen to agent variables
                     await self._listen_agentvars()
-                    self.event.emit("OpcuaService", "Mainloop: listened to agentvars")
-                    # Perform agent update
-                    await self._update_agent_vars()
-                    self.event.emit("OpcuaService", "Mainloop: updated agentvars")
+                    #self.event.emit("OpcuaService", "Mainloop: listened to agentvars")
                     # example var
                     new_val = await myvar.get_value() + 0.1
                     await myvar.write_value(new_val)
@@ -761,6 +826,9 @@ class agentlib_worker(QThread):
     sig_event = Signal(str, str)
     sig_stationlockid = Signal(int)
     sig_stationlockrequest = Signal(int)
+    sig_response_1 = Signal(str)
+    sig_response_2 = Signal(str)
+    sig_comission = Signal()
 
     def __init__(self, parent = None):
         super().__init__(parent)
@@ -776,33 +844,59 @@ class agentlib_worker(QThread):
         self.done: int = 0
         self.stationlockid:int = 0
         self.stationlockrequest:int = 0
+        self.function_param_1: str = ""
+        self.function_param_2: str = ""
+        self.function_param_3: str = ""
+        self.function_param_4: str = ""
+        self.function_param_5: str = ""
+        self.response_param_1: str = ""
+        self.response_param_2: str = ""
+
     
+    @Slot(str) 
+    def handle_function_param_1(self, param): self.function_param_1 = param
+    
+    @Slot(str)
+    def handle_function_param_2(self, param): self.function_param_2 = param
+
+    @Slot(str)
+    def handle_function_param_3(self, param): self.function_param_3 = param
+
+    @Slot(str)
+    def handle_function_param_4(self, param): self.function_param_4 = param
+
+    @Slot(str)
+    def handle_function_param_5(self, param): self.function_param_5 = param
+
     @Slot(bool)
-    def handle_running(self, running):
-        self.running = running
+    def handle_running(self, running): self.running = running
 
     @Slot(int)
     def handle_function_ready(self, function_ready):
         self.function_ready = function_ready
+        self.handle_requests()
 
     @Slot(int)
     def handle_response_ready(self, response_ready):
         self.response_ready = response_ready
+        self.handle_requests()
 
     @Slot(int)
     def handle_function_id(self, function_id):
         self.function_id = function_id
+        self.handle_requests()
     
     @Slot(int)
     def handle_lock_request(self, lock_request):
         self.stationlockrequest = lock_request
+        self.handle_requests()
 
     @Slot(int)
     def handle_lock_id(self, lock_id):
         self.stationlockid = lock_id
+        self.handle_requests()
 
-    def start(self):
-        super().start()
+    def start(self): super().start()
 
     def set_status(self):
         """set status related variables to there default values."""
@@ -833,17 +927,58 @@ class agentlib_worker(QThread):
         self.mb_write(MMAP_ResponseID, parameters)
 
     def function_handler(self, function):
-        #TODO: Implement
-        """this is run multiple times per second, here is where the
-        function code handling, processing and appropriate responses
-        are happening."""
+        """
+        Begins a function handling. 
+        From muPlant operator two types of functons can be ordered: 
+        
+        - a transport from robot to storage
+        - a transport from storage to robot. 
+        further a specific cup or a product canbe ordered. 
+
+        The main problem is, that an order can either be prepared or executed. 
+        
+        """
+        self.reset_response()
+        if function == 2:
+            # decode function parameters 
+            security = self.function_param_1 # to be ignored
+            cup = self.function_param_4 == 0b00000001
+            product = self.function_param_4 == 0b00000010
+            cup_id = self.function_param_5 if cup else None
+            product_id = self.function_param_5 if product else None 
+            execute = self.function_param_2 == 2
+            prepare = self.function_param_2 == 1
+            to_storage = self.function_param_3 == 1
+            to_robot = self.function_param_3 == 2
+            # cases
+            if execute:
+                # check if same commission is in commissionlist.
+                # if commission is found, wait until commission is executed and return results
+                pass
+            elif prepare:
+                # write into commissionlist and return done.
+                pass
+            # write rsponse to opc ua
+            self.sig_response_1.emit("test")
+            self.sig_response_2.emit("test")
+        elif function == 3:
+            pass
+        self.function_id = 0
+        self.reset_functioncall()
+        self.done = 1
+        self.stationlockrequest = 0
+        self.stationlockid = 0
+        self.sig_stationlockid.emit(0)
+        self.sig_stationlockrequest.emit(0)
+        self.sig_done.emit(1)
+        self.handle_requests()
         raise NotImplementedError("You need to implemented this function on your own")
 
     def handle_requests(self):
         """check for request and if any forwards them to
         `function_handler()`, read the log comments bellow and see
         bachelor thesis of Lars Kistner to understand agent system
-        """
+        """ 
 
         if self.stationlockid == 0 and self.stationlockrequest == 0:
             self.sig_event.emit("AgentLib:","No work todo! Set status")
@@ -852,18 +987,18 @@ class agentlib_worker(QThread):
 
         elif self.stationlockid == 0 and self.stationlockrequest != 0:
             self.sig_event.emit("Agentlib: ","Requested Lock granted")
-            self.station_lock_id = self.stationlockrequest
+            self.stationlockid = self.stationlockrequest
             self.sig_stationlockid.emit(self.stationlockrequest)
-            self.sig_stationlockrequest.emit(0)
+            self.done = 0
+            self.sig_done.emit(0)
             self.last_request = time.time()
 
-        elif self.done != 0:
-            self.sig_event.emit("Agentlib:","Clean up")
-            self.sig_functionready.emit(0)
-            self.last_request = time.time()
+        elif self.function_id > 0 and self.function_ready == 0:
+            self.sig_event.emit("Agentlib:", "got function ID but function not ready!")
 
         elif self.function_ready == 1:
             self.sig_event.emit("Agentlib:","Call function {}".format(str(self.function_id)))
+            self.sig_done.emit(0)
             try:
                 self.function_handler(self.function_id)
             except Exception as e:
@@ -871,11 +1006,20 @@ class agentlib_worker(QThread):
                 self.sig_responseid.emit(2) # RESPONSE_ID_ERROR
             self.sig_functionready.emit(0)
             self.sig_responseready.emit(1)
+
+        elif self.done != 0:
+            self.sig_event.emit("Agentlib:","Clean up")
+            self.sig_functionready.emit(0)
+            self.last_request = time.time()
+
+
         else:
             if time.time() - self.last_request > self.longest_request_time:
                 self.event.emit("Agentlib:","Agent (ID {}) has lock for too long. Agent dead? Clean up, revoke lock.".format(self.station_lock_id))
                 self.sig_functionready.emit(0)
                 self.sig_done.emit(1)
+        self.sig_event.emit("Agentlib:", f"handle_requests called. Actual status:\nlock id = {self.stationlockid}\nlock request = {self.stationlockrequest}\ndone = {self.done}\nfunction id = {self.function_id}\nfunction ready = {self.function_ready}\nlast request = {self.last_request}")
+
 
     def run(self):
         """start the worker thread"""
