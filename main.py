@@ -48,6 +48,7 @@ from src.viewmodel.EventViewModel import EventSortModel
 #TODO: Rewrite inventoryController tests.
 
 #TODO: sort commissionlist by commission-id in descending order
+#TODO: in CommissionController: if a commission is prepared and gets executed: a method to backtrace the prepared commission is needed. 
 
 #TODO: Zustand variable must be set in robot as well as Näherungsschalter.
 #TODO: DI5: light barrier

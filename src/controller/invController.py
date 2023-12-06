@@ -51,6 +51,7 @@ class invController(QObject):
         """
         print("selectRow called with message: " + message)
         self.productSelected.emit(message)
+    
     @Slot(str, str)
     def loadStorage(self, storage: str, slot: str):
         """
@@ -91,6 +92,7 @@ class invController(QObject):
             productlistIndex = self.productListViewModel.indexOf(product)
             cup = self.storageViewModel.data(index, cupRole)
             self.transmitStorageData.emit(slot, cup, product, isPallet)
+    
     @Slot(str, str)
     def loadWorkbench(self, storage: str, slot: str):
         """
@@ -133,6 +135,7 @@ class invController(QObject):
         else:
             raise ValueError("Storage Value error. Storage must be 'K1' or 'K2'")
         self.transmitWorkbenchData.emit(cupID, productID, isPallet)
+    
     @Slot(bool, bool, int, int, int, int)
     def changeGripper(self, isPallet: bool, isCup:bool, cupAID :int, productAID: int, cupBID: int, productBID: int):
         """
@@ -169,6 +172,7 @@ class invController(QObject):
         self.transmitGripper.emit(isPallet, isCup, cupAID, productAID, productAName, cupBID, productBID, productBName)
         self.eventlogService.write_event("Gripper",
                                         f"\n*** ATTENTION ***\n\n!!! GRIPPER OVERRIDE !!!\n\nLocation: Gripper\n\n*** DANGER ***\n\nThe storage information provided might be incorrect. As a result, the robotic arm will move recklessly, posing a severe risk to human life. There is a high possibility of crashes and flying parts that can cause serious injuries or fatalities.\n\n*** THIS IS A LIFE-THREATENING SITUATION ***\n\n>>>>> CHANGES ARE PERMANENT <<<<<\n\n_____\n")
+    
     @Slot()
     def loadGripper(self):
         """
@@ -220,6 +224,503 @@ class invController(QObject):
         else:
             self.__handleStorageChange(col, pallet, row)
         self._dumpStorage()
+
+    @Slot(str, str, int, int, bool)
+    def changeWorkbench(self, storage: str, slot: str, cup_id: int, product_id: int, pallet_present: bool):
+        """
+        This method changes workbench entry depending on submitted storage.
+        gets the pallet object stored in submitted storage and changes the cup object depending on submitted parameters
+        slot, cupID, productID and isPallet. If isPallet is False, cup object is set to None and sets product of cup object to None.
+        Writes message to eventlogService.
+        Calls _dumpStorage() to save changes to file.
+        :param storage: can be 'K1' or 'K2'
+        :param slot: can be 'a' for front or 'b' for rear slot of pallet object
+        :type slot: str
+        :param cup_id: ID of cup object in data-model
+        :type cup_id: int
+        :param product_id: ID of product object in data-model
+        :type product_id: int
+        :param pallet_present: True if User wants to set a pallet
+        :type pallet_present: bool
+        :return: None
+        """
+        print(f"to set workbench: storage: {storage}, slot: {slot}, cup: {cup_id}, product: {product_id}, isPallet: {pallet_present}")
+        if storage == "K1":
+            pallet = self.workbench.k1
+            if pallet is not None:
+                cup_obj_a = pallet.slotA if pallet.slotA is not None else Cup(0, self.__productFromID(0))
+                cup_obj_b = pallet.slotB if pallet.slotB is not None else Cup(0, self.__productFromID(0))
+                if slot == "a":
+                    pass
+                elif slot == "b":
+                    pass
+                else:
+                    raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
+            else:
+                pallet = Pallet()
+                cup_obj_a = Cup(0, self.__productFromID(0))
+                cup_obj_b = Cup(0, self.__productFromID(0))
+        elif storage == "K2":
+            pallet = self.workbench.k2
+            if pallet is not None:
+                cup_obj_a = pallet.slotA if pallet.slotA is not None else Cup(0, self.__productFromID(0))
+                cup_obj_b = pallet.slotB if pallet.slotB is not None else Cup(0, self.__productFromID(0))
+                if slot == "a":
+                    pass
+                elif slot == "b":
+                    pass
+                else:
+                    raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
+            else:
+                pallet = Pallet()
+                cup_obj_a = Cup(0, self.__productFromID(0))
+                cup_obj_b = Cup(0, self.__productFromID(0))
+        else:
+            raise ValueError("Storage Value error. Storage must be 'K1' or 'K2'")
+        if pallet_present:
+            if slot == "a":
+                cup_obj_a.setID(cup_id)
+                cup_obj_a.setProduct(self.__productFromID(product_id))
+            elif slot == "b":
+                cup_obj_b.setID(cup_id)
+                cup_obj_b.setProduct(self.__productFromID(product_id))
+        else:
+            cup_obj_a.setID(0)
+            cup_obj_a.setProduct(self.__productFromID(0))
+            cup_obj_b.setID(0)
+            cup_obj_b.setProduct(self.__productFromID(0))
+        pallet.setSlotA(cup_obj_a)
+        pallet.setSlotB(cup_obj_b)
+        if storage == "K1":
+            self.workbench.setK1(pallet)
+            cup_a_id = self.workbench.k1.slotA.id
+            prod_a_id = self.workbench.k1.slotA.product.id
+            prod_a_name = self.workbench.k1.slotA.product.name
+            cup_b_id = self.workbench.k1.slotB.id
+            prod_b_id = self.workbench.k1.slotB.product.id
+            prod_b_name = self.workbench.k1.slotB.product.name
+        elif storage == "K2":
+            self.workbench.setK2(pallet)
+            cup_a_id = self.workbench.k2.slotA.id
+            prod_a_id = self.workbench.k2.slotA.product.id
+            prod_a_name = self.workbench.k2.slotA.product.name
+            cup_b_id = self.workbench.k2.slotB.id
+            prod_b_id = self.workbench.k2.slotB.product.id
+            prod_b_name = self.workbench.k2.slotB.product.name
+        else:
+            raise ValueError("Storage Value error. Storage must be 'K1' or 'K2'")
+        self.transmitWorkbenchPallet.emit(storage, cup_a_id, prod_a_id, prod_a_name, pallet_present, cup_b_id, prod_b_id, prod_b_name)
+        self._dumpStorage()
+        print(f"transmitWorkbenchPallet emitted:{storage} {cup_a_id}, {prod_a_id},{prod_a_name}, {pallet_present}, {cup_b_id}, {prod_b_id}, {prod_b_name}")
+        self.eventlogService.write_event("USER", "Workbench override!")
+
+    @Slot(int, int)
+    def changeMobileRobot(self, cupID: int, productID: int):
+        """
+        @Slot(int, int)
+        This method takes data from TurtleDialog. It is used to change the mobile robot's cup and product.
+        Checks the cupID and productID for ValueErrors.
+        Writes changes to inventoryController's mobile Robot object.
+        Emits transmitMobileRobot signal with data stored in self.mobileRobot cup and product data.
+        Writes an event to the eventlogService.
+        :param cupID:
+        :type cupID: int
+        :param productID:
+        :type productID: int
+        :return: None
+        """
+        oldCup = self.mobileRobot.cup
+        if oldCup is not None:
+            oldCup.setProduct(None)
+            oldCup.setLocation(None)
+        del oldCup
+        newCup = Cup(cupID, self.__productFromID(productID))
+        self.mobileRobot.setCup(newCup)
+        cupID = self.mobileRobot.cup.id
+        productID = self.mobileRobot.cup.product.id
+        name = self.__productFromID(productID).name
+        self.transmitMobileRobot.emit(cupID, productID, name)
+        print(f"transmitMobileRobot emitted:{cupID}, {productID}, {name}")
+
+    @Slot(str)
+    def getWorkbenchSlot(self, slot: str):
+        """
+        @Slot(str)
+        This method passes workbench data to the GUI.
+        Decodes Slot ID 'K1' or 'K2' and checks for ValueErrors.
+        Calls transmitWorkbenchPallet signal with data stored in self.workbench.
+        :param slot: Slot 'K1' or 'K2'
+        :type slot: str
+        :return: None
+        """
+        print(f"getWorkbenchSlot: {slot}")
+        if slot == "K1":
+            pallet = self.workbench.k1 if self.workbench.k1 is not None else None
+            if pallet is not None:
+                cupIDA = pallet.slotA
+                productIDA = pallet.slotA.product.getID()
+                isPallet = True
+                cupIDB = pallet.slotB
+                productIDB = pallet.slotB.product.getID()
+            else:
+                cupIDA = 0
+                productIDA = 0
+                isPallet = False
+                cupIDB = 0
+                productIDB = 0
+        elif slot == "K2":
+            pallet = self.workbench.k2 if self.workbench.k2 is not None else None
+            if pallet is not None:
+                cupIDA = pallet.slotA
+                productIDA = pallet.slotA.product.getID()
+                isPallet = True
+                cupIDB = pallet.slotB
+                productIDB = pallet.slotB.product.getID()
+            else:
+                cupIDA = 0
+                productIDA = 0
+                isPallet = False
+                cupIDB = 0
+                productIDB = 0
+        else:
+            raise ValueError("Slot Value error. Slot must be 'K1' or 'K2'")
+        productNameA = self.findProductName(productIDA)
+        productNameB = self.findProductName(productIDB)
+        print(f"getWorkbenchSlot: {slot}, {cupIDA}, {productIDA}, {productNameA}, {isPallet}, {cupIDB}, {productIDB}, {productNameB}")
+        self.transmitWorkbenchPallet.emit(slot, cupIDA, productIDA, productNameA, isPallet, cupIDB, productIDB, productNameB)
+
+    def findProductName(self, id: int):
+        """
+        Method to get product Name from productListModel.
+        It is used to emit the changed name for StorageView.qml
+        :param id:
+        :type id: int
+        :return: product name to corresponding index
+        :rtype str
+        """
+        for index, product in enumerate(self.productList):
+            if product.id == id:
+                return product.name
+        return None
+    
+    def move_to_gripper(self, object: Union[Pallet, Cup]):
+        """
+        Moves object to gripper. And updates viewodel and view.
+
+        Gripper is rendered as a pallet. If only a cup shall be rendered,
+        isCup must be true and isPallet false. cupAID and productAID as well as productAName must be set.
+        all other parameters will be ignored.
+
+        if a cup is transported - this can only be between commissiontable and mobile robot. storage can be ignored in that case. 
+        if a pallet is transported - this can only be between storage and  workbench. mobile robot can be ignored.
+
+        :param object: Pallet or Cup object
+        :type object: Union[Pallet, Cup]
+        :return: None
+        """
+        source = object.location
+        isPallet = isinstance(object, Pallet)
+        isCup = isinstance(object, Cup)
+        cupAID =object.id if isCup else getattr(object.slotA, "id", 0)
+        productAID = object.product.id if isCup else (0 if object.slotA is None else (object.slotA.product, "id", 0))
+        productAName = object.product.name if isCup else ( 0 if object.slotA is None else getattr(object.slotA.product, "name", "Kein Becher"))
+        cupBID = 0 if isCup else getattr(object.slotB, "id", 0)
+        productBID = 0 if isCup else (0 if object.slotA is None else getattr(object.slotB.product, "id", 0))
+        productBName = "" if isCup else (0 if object.slotA is None else getattr(object.slotB.product, "name", "Kein Becher"))
+        self.gripper.setObject(object)
+        self.transmitGripper.emit(isPallet, isCup, cupAID, productAID, productAName, cupBID, productBID, productBName)
+        if isPallet:
+            if isinstance(source, StorageElement):
+                row = source.row
+                col = source.col
+                self.__handleStorageChange(col, None, row)
+            if isinstance(source, Workbench):
+                if self.workbench.k1 is None:
+                    self.transmitWorkbenchPallet.emit("K1", 0, 0, "", False, 0, 0, "")
+                else:
+                    if self.workbench.k1.slotA is None:
+                        cup_a_id, pro_a_id, pro_a_name = 0, 0, "Kein Becher"
+                    else:
+                        cup_a_id = self.workbench.k1.slotA.id
+                        pro_a_id = self.workbench.k1.slotA.product.id
+                        pro_a_name = self.workbench.k1.slotA.product.name
+                    if self.workbench.k1.slotB is None:
+                        cup_b_id, pro_b_id, pro_b_name = 0, 0, "Kein Becher"
+                    else:
+                        cup_b_id = self.workbench.k1.slotB.id
+                        pro_b_id = self.workbench.k1.slotB.product.id
+                        pro_b_name = self.workbench.k1.slotB.product.name
+                    self.transmitWorkbenchPallet.emit("K1", cup_a_id, pro_a_id, pro_a_name, True, cup_b_id, pro_b_id, pro_b_name)
+                if self.workbench.k2 is None:
+                    self.transmitWorkbenchPallet.emit("K2", 0, 0, "", False, 0, 0, "")
+                else:
+                    if self.workbench.k2.slotA is None:
+                        cup_a_id, pro_a_id, pro_a_name = 0, 0, "Kein Becher"
+                    else:
+                        cup_a_id = self.workbench.k2.slotA.id
+                        pro_a_id = self.workbench.k2.slotA.product.id
+                        pro_a_name = self.workbench.k2.slotA.product.name
+                    if self.workbench.k2.slotB is None:
+                        cup_b_id, pro_b_id, pro_b_name = 0, 0, "Kein Becher"
+                    else:
+                        cup_b_id = self.workbench.k2.slotB.id
+                        pro_b_id = self.workbench.k2.slotB.product.id
+                        pro_b_name = self.workbench.k2.slotB.product.name
+                    self.transmitWorkbenchPallet.emit("K2", cup_a_id, pro_a_id, pro_a_name, True, cup_b_id, pro_b_id, pro_b_name)
+        if isCup:
+            if source == self.mobileRobot: # Mobile Robot
+                self.transmitMobileRobot.emit(0 , 0, "Kein Becher")
+            elif source.location == self.workbench: # Workbench
+                # notify workbench k1 view
+                if self.workbench.k1 is None:
+                    cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+                    cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+                    pallet = False
+                else:
+                    pallet = True
+                    if self.workbench.k1.slotA is None:
+                        cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+                    else:
+                        cupA_id = self.workbench.k1.slotA.id
+                        prodA_id = self.workbench.k1.slotA.product.id
+                        prodA_name = self.workbench.k1.slotA.product.name
+                    if self.workbench.k1.slotB is None:
+                        cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+                    else:
+                        cupB_id = self.workbench.k1.slotB.id
+                        prodB_id = self.workbench.k1.slotB.product.id
+                        prodB_name = self.workbench.k1.slotB.product.name
+                self.transmitWorkbenchPallet.emit( "K1", cupA_id, prodA_id, prodA_name, pallet, cupB_id, prodB_id, prodB_name)
+                # notify workbench k2 view
+                if self.workbench.k2 is None:
+                    cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+                    cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+                    pallet = False
+                else:
+                    pallet = True
+                    if self.workbench.k2.slotA is None:
+                        cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+                    else:
+                        cupA_id = self.workbench.k2.slotA.id
+                        prodA_id = self.workbench.k2.slotA.product.id
+                        prodA_name = self.workbench.k2.slotA.product.name
+                    if self.workbench.k2.slotB is None:
+                        cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+                    else:
+                        cupB_id = self.workbench.k2.slotB.id
+                        prodB_id = self.workbench.k2.slotB.product.id
+                        prodB_name = self.workbench.k2.slotB.product.name
+                self.transmitWorkbenchPallet.emit( "K2", cupA_id, prodA_id, prodA_name, pallet, cupB_id, prodB_id, prodB_name)
+
+    def move_to_robot(self, object):
+        """
+        Moves a Cup to mobile robot and updates view.
+        Note that source is always gripper.
+        :param object: Cup object
+        :type object: Cup
+        """
+        object.setLocation(self.mobileRobot)
+        self.gripper.setObject(None)
+        self.transmitMobileRobot.emit(0, 0, 0)
+        self.transmitMobileRobot.emit(object.id, object.product.id, object.product.name)
+        self.transmitGripper.emit(False, False, 0, 0, "", 0, 0, "")
+
+    def move_to_workbench(self, object: Union[Cup, Pallet], target: Locations):
+        """
+        Moves a Cup or a Pallet to workbench and updates view.
+        Note, that source is always gripper.
+
+        :param object: Cup or Pallet object
+        :type object: Union[Cup, Pallet]
+        :param target: Locations.K1 or Locations.K2
+        :type target: Locations
+        """
+        if target == Locations.K1A:
+            self.workbench.k1.setSlotA(object)
+            string = "K1"
+        elif target == Locations.K1B:
+            self.workbench.k1.setSlotB(object)
+            string = "K1"
+        elif target == Locations.K2A:
+            self.workbench.k2.setSlotA(object)
+            string = "K2"
+        elif target == Locations.K2B:
+            self.workbench.k2.setSlotB(object)
+            string = "K2"
+        elif target == Locations.K1:
+            self.workbench.setK1(object)
+            string = "K1"
+        elif target == Locations.K2:
+            self.workbench.setK2(object)
+            string = "K2"
+        else:
+            return
+        # notify gripper view
+        self.transmitGripper.emit(False, False, 0, 0, "", 0, 0, "")
+
+        # notify workbench k1 view
+        if self.workbench.k1 is None:
+            cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+            cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+            pallet = False
+        else:
+            pallet = True
+            if self.workbench.k1.slotA is None:
+                cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+            else:
+                cupA_id = self.workbench.k1.slotA.id
+                prodA_id = self.workbench.k1.slotA.product.id
+                prodA_name = self.workbench.k1.slotA.product.name
+            if self.workbench.k1.slotB is None:
+                cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+            else:
+                cupB_id = self.workbench.k1.slotB.id
+                prodB_id = self.workbench.k1.slotB.product.id
+                prodB_name = self.workbench.k1.slotB.product.name
+        self.transmitWorkbenchPallet.emit( "K1", cupA_id, prodA_id, prodA_name, pallet, cupB_id, prodB_id, prodB_name)
+        # notify workbench k2 view
+        if self.workbench.k2 is None:
+            cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+            cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+            pallet = False
+        else:
+            pallet = True
+            if self.workbench.k2.slotA is None:
+                cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
+            else:
+                cupA_id = self.workbench.k2.slotA.id
+                prodA_id = self.workbench.k2.slotA.product.id
+                prodA_name = self.workbench.k2.slotA.product.name
+            if self.workbench.k2.slotB is None:
+                cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
+            else:
+                cupB_id = self.workbench.k2.slotB.id
+                prodB_id = self.workbench.k2.slotB.product.id
+                prodB_name = self.workbench.k2.slotB.product.name
+        self.transmitWorkbenchPallet.emit( "K2", cupA_id, prodA_id, prodA_name, pallet, cupB_id, prodB_id, prodB_name)
+
+    def move_to_storage(self, object, target: Locations):
+        """
+        Moves Pallet or Cup to storage.
+        view must be updated by updating view model.
+
+        :param object: Pallet or Cup object to be transported
+        :type object: Union[Pallet, Cup]
+        :param target: Locations.L1 - Locations.L18 if object is Pallet instance. Locations.L1A - Locations.L18B if object is Cup instance.
+        :type target: Locations
+        """
+        if target.name[-1] in ["A", "B"]:
+            row = ((int)(target.name[1:-1])-1) // 6
+            col = ((int)(target.name[1:-1])-1) % 6
+        else: 
+            row = ((int)(target.name[1:])-1) // 6 
+            col = ((int)(target.name[1:])-1) % 6
+        if isinstance(object, Pallet):
+            self.inventory.setStoragePallet(row, col, object) #object is fine here
+            index = self.storageViewModel.createIndex(row, col) # (K->L) everything fine here	
+            base = Qt.DisplayRole
+            pallet_role, cup_a_id_role, product_a_id_role, product_a_name_role, cup_b_id_role, product_b_id_role, product_b_name_role = base + 1, base + 2, base + 3, base + 4, base + 5, base + 6, base + 7
+            self.storageViewModel.setData(index, True, role=pallet_role)
+            cupA_id = getattr(self.inventory.getStoragePallet(row, col).slotA, "id", 0)
+            self.storageViewModel.setData(index, cupA_id, role=cup_a_id_role)
+            prodA_id = 0 if object.slotA is None else getattr(object.slotA.product, "id", 0)
+            self.storageViewModel.setData(index, prodA_id, role=product_a_id_role)
+            prodA_name = 0 if object.slotA is None else getattr(object.slotA.product, "name", "")
+            self.storageViewModel.setData(index, prodA_name, role=product_a_name_role)
+            cupB_id = getattr(self.inventory.getStoragePallet(row, col).slotB, "id", 0)
+            self.storageViewModel.setData(index, cupB_id, role=cup_b_id_role)
+            prodB_id =  0 if object.slotB is None else getattr(object.slotB.product,"id",0)
+            self.storageViewModel.setData(index,prodB_id, role=product_b_id_role)
+            prodB_name = 0 if object.slotB is None else getattr(object.slotB.product,"name","")
+            self.storageViewModel.setData(index, prodB_name , role=product_b_name_role)
+            self.storageViewModel.dataChanged.emit(index, index, [pallet_role, cup_a_id_role, product_a_id_role, product_a_name_role, cup_b_id_role, product_b_id_role, product_b_name_role])
+        elif isinstance(object, Cup):
+            if target.name[-1] == "A":
+                self.inventory.getStoragePallet(row, col).setSlotA(object)
+            elif target.name[-1] == "B":
+                self.inventory.getStoragePallet(row, col).setSlotB(object)
+            else:
+                return
+            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), True, role=Qt.DisplayRole + 1)
+            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), getattr(self.inventory.getStoragePallet(row, col).slotA, "id", 0), role=Qt.DisplayRole + 2)
+            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotA is None else getattr(self.inventory.getStoragePallet(row, col).slotA.product, "id", 0), role=Qt.DisplayRole + 3)
+            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotA is None else getattr(self.inventory.getStoragePallet(row, col).slotA.product, "name", ""), role=Qt.DisplayRole + 4)
+            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), getattr(self.inventory.getStoragePallet(row, col).slotB, "id", 0), role=Qt.DisplayRole + 5)
+            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotB is None else getattr(self.inventory.getStoragePallet(row, col).slotB.product,"id",0), role=Qt.DisplayRole + 6)
+            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotB is None else getattr(self.inventory.getStoragePallet(row, col).slotB.product,"name",""), role=Qt.DisplayRole + 7)
+        self.transmitGripper.emit(False, False, 0, 0, "", 0, 0, "")
+
+    def create_mobile_robot_cup(self, cup_id: int, product_id: int)-> bool:
+        """
+        Cheacks wether a cup is in mobile robot. if mobile robot has a cup, 
+        returns False. 
+        If no cup is present in mobile robot, a new Cup object with product is created and
+        set to mobile robot. In this case True is returned
+
+        :param cup_id: The cup_id the new Cup object shall be bear
+        :type cup_id: int
+        :param product_id: The Product_id the new Cup object shall be 
+        :type product_id: int
+        :returns: True if a Cup is created, False if not
+        :rtype: bool
+        """
+        if self.mobileRobot.cup is not None: return False
+        elif self.mobileRobot.cup is None: 
+            cup = Cup(cup_id, self.__productFromID(product_id))
+            cup.setLocation(self.mobileRobot)
+            return True
+        
+    def find_cup(self, cup_id: int, product_id: int)-> Cup:
+        """
+        Finds a cup with either corresponding cup_id or product_id
+        returns the first mathing object.
+        Search order is: mobile robot, commissiontable, storage L1...L18
+
+        :param cup:id: cup_id caller is looking for
+        :type cup_id: int
+        :param product_id: product_id caller is looking for
+        :type product_id: int
+        :returns: First Cup object that matches both arguments
+        :rtype: Cup
+        """
+        cups: list[Cup] = []
+        if self.mobileRobot.cup is not None: cups.append(self.mobileRobot.cup)    
+        if self.workbench.k1 is not None: 
+            cups.append(self.workbench.k1.slotA)
+            cups.append(self.workbench.k1.slotB)
+        if self.workbench.k2 is not None: 
+            cups.append(self.workbench.k2.slotA)
+            cups.append(self.workbench.k2.slotB)
+        for row in range(3):
+            for col in range(6):
+                pallet = self.inventory.getStoragePallet(row, col)
+                if pallet is not None: 
+                    cups.append(pallet.slotA)
+                    cups.append(pallet.slotB)
+        for cup in cups: 
+            if cup_id == 0 and cup is not None:
+                if cup.getProduct().id == product_id: return cup
+            elif cup is not None:
+                if cup.id == cup_id and cup.getProduct().id == product_id: return cup
+        return None
+
+    def find_place_for_cup(self):
+        """
+        Searches in storage locations to find a spot for a cup. 
+
+        :returns: dict{row, col, slot}
+        :rtype: dict{}
+        """
+        for row in range(3):
+            for col in range(6):
+                pallet = self.inventory.getStoragePallet(row, col)
+                if pallet is not None:
+                    if pallet.slotA is None:
+                        return {'row': row, 'col': col, 'slot': 'A' }
+                    elif pallet.slotB is None:
+                        return {'row': row, 'col': col, 'slot': 'B' }
+
+
 
     def __handleStorageChange(self, col, pallet, row):
         """
@@ -346,182 +847,7 @@ class invController(QObject):
             raise ValueError("Error could not decode palletPresent")
         return col, isPallet, row
 
-    @Slot(str, str, int, int, bool)
-    def changeWorkbench(self, storage: str, slot: str, cup_id: int, product_id: int, pallet_present: bool):
-        """
-        This method changes workbench entry depending on submitted storage.
-        gets the pallet object stored in submitted storage and changes the cup object depending on submitted parameters
-        slot, cupID, productID and isPallet. If isPallet is False, cup object is set to None and sets product of cup object to None.
-        Writes message to eventlogService.
-        Calls _dumpStorage() to save changes to file.
-        :param storage: can be 'K1' or 'K2'
-        :param slot: can be 'a' for front or 'b' for rear slot of pallet object
-        :type slot: str
-        :param cup_id: ID of cup object in data-model
-        :type cup_id: int
-        :param product_id: ID of product object in data-model
-        :type product_id: int
-        :param pallet_present: True if User wants to set a pallet
-        :type pallet_present: bool
-        :return: None
-        """
-        print(f"to set workbench: storage: {storage}, slot: {slot}, cup: {cup_id}, product: {product_id}, isPallet: {pallet_present}")
-        if storage == "K1":
-            pallet = self.workbench.k1
-            if pallet is not None:
-                cup_obj_a = pallet.slotA if pallet.slotA is not None else Cup(0, self.__productFromID(0))
-                cup_obj_b = pallet.slotB if pallet.slotB is not None else Cup(0, self.__productFromID(0))
-                if slot == "a":
-                    pass
-                elif slot == "b":
-                    pass
-                else:
-                    raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
-            else:
-                pallet = Pallet()
-                cup_obj_a = Cup(0, self.__productFromID(0))
-                cup_obj_b = Cup(0, self.__productFromID(0))
-        elif storage == "K2":
-            pallet = self.workbench.k2
-            if pallet is not None:
-                cup_obj_a = pallet.slotA if pallet.slotA is not None else Cup(0, self.__productFromID(0))
-                cup_obj_b = pallet.slotB if pallet.slotB is not None else Cup(0, self.__productFromID(0))
-                if slot == "a":
-                    pass
-                elif slot == "b":
-                    pass
-                else:
-                    raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
-            else:
-                pallet = Pallet()
-                cup_obj_a = Cup(0, self.__productFromID(0))
-                cup_obj_b = Cup(0, self.__productFromID(0))
-        else:
-            raise ValueError("Storage Value error. Storage must be 'K1' or 'K2'")
-        if pallet_present:
-            if slot == "a":
-                cup_obj_a.setID(cup_id)
-                cup_obj_a.setProduct(self.__productFromID(product_id))
-            elif slot == "b":
-                cup_obj_b.setID(cup_id)
-                cup_obj_b.setProduct(self.__productFromID(product_id))
-        else:
-            cup_obj_a.setID(0)
-            cup_obj_a.setProduct(self.__productFromID(0))
-            cup_obj_b.setID(0)
-            cup_obj_b.setProduct(self.__productFromID(0))
-        pallet.setSlotA(cup_obj_a)
-        pallet.setSlotB(cup_obj_b)
-        if storage == "K1":
-            self.workbench.setK1(pallet)
-            cup_a_id = self.workbench.k1.slotA.id
-            prod_a_id = self.workbench.k1.slotA.product.id
-            prod_a_name = self.workbench.k1.slotA.product.name
-            cup_b_id = self.workbench.k1.slotB.id
-            prod_b_id = self.workbench.k1.slotB.product.id
-            prod_b_name = self.workbench.k1.slotB.product.name
-        elif storage == "K2":
-            self.workbench.setK2(pallet)
-            cup_a_id = self.workbench.k2.slotA.id
-            prod_a_id = self.workbench.k2.slotA.product.id
-            prod_a_name = self.workbench.k2.slotA.product.name
-            cup_b_id = self.workbench.k2.slotB.id
-            prod_b_id = self.workbench.k2.slotB.product.id
-            prod_b_name = self.workbench.k2.slotB.product.name
-        else:
-            raise ValueError("Storage Value error. Storage must be 'K1' or 'K2'")
-        self.transmitWorkbenchPallet.emit(storage, cup_a_id, prod_a_id, prod_a_name, pallet_present, cup_b_id, prod_b_id, prod_b_name)
-        self._dumpStorage()
-        print(f"transmitWorkbenchPallet emitted:{storage} {cup_a_id}, {prod_a_id},{prod_a_name}, {pallet_present}, {cup_b_id}, {prod_b_id}, {prod_b_name}")
-        self.eventlogService.write_event("USER", "Workbench override!")
-    @Slot(int, int)
-    def changeMobileRobot(self, cupID: int, productID: int):
-        """
-        @Slot(int, int)
-        This method takes data from TurtleDialog. It is used to change the mobile robot's cup and product.
-        Checks the cupID and productID for ValueErrors.
-        Writes changes to inventoryController's mobile Robot object.
-        Emits transmitMobileRobot signal with data stored in self.mobileRobot cup and product data.
-        Writes an event to the eventlogService.
-        :param cupID:
-        :type cupID: int
-        :param productID:
-        :type productID: int
-        :return: None
-        """
-        oldCup = self.mobileRobot.cup
-        if oldCup is not None:
-            oldCup.setProduct(None)
-            oldCup.setLocation(None)
-        del oldCup
-        newCup = Cup(cupID, self.__productFromID(productID))
-        self.mobileRobot.setCup(newCup)
-        cupID = self.mobileRobot.cup.id
-        productID = self.mobileRobot.cup.product.id
-        name = self.__productFromID(productID).name
-        self.transmitMobileRobot.emit(cupID, productID, name)
-        print(f"transmitMobileRobot emitted:{cupID}, {productID}, {name}")
-    @Slot(str)
-    def getWorkbenchSlot(self, slot: str):
-        """
-        @Slot(str)
-        This method passes workbench data to the GUI.
-        Decodes Slot ID 'K1' or 'K2' and checks for ValueErrors.
-        Calls transmitWorkbenchPallet signal with data stored in self.workbench.
-        :param slot: Slot 'K1' or 'K2'
-        :type slot: str
-        :return: None
-        """
-        print(f"getWorkbenchSlot: {slot}")
-        if slot == "K1":
-            pallet = self.workbench.k1 if self.workbench.k1 is not None else None
-            if pallet is not None:
-                cupIDA = pallet.slotA
-                productIDA = pallet.slotA.product.getID()
-                isPallet = True
-                cupIDB = pallet.slotB
-                productIDB = pallet.slotB.product.getID()
-            else:
-                cupIDA = 0
-                productIDA = 0
-                isPallet = False
-                cupIDB = 0
-                productIDB = 0
-        elif slot == "K2":
-            pallet = self.workbench.k2 if self.workbench.k2 is not None else None
-            if pallet is not None:
-                cupIDA = pallet.slotA
-                productIDA = pallet.slotA.product.getID()
-                isPallet = True
-                cupIDB = pallet.slotB
-                productIDB = pallet.slotB.product.getID()
-            else:
-                cupIDA = 0
-                productIDA = 0
-                isPallet = False
-                cupIDB = 0
-                productIDB = 0
-        else:
-            raise ValueError("Slot Value error. Slot must be 'K1' or 'K2'")
-        productNameA = self.findProductName(productIDA)
-        productNameB = self.findProductName(productIDB)
-        print(f"getWorkbenchSlot: {slot}, {cupIDA}, {productIDA}, {productNameA}, {isPallet}, {cupIDB}, {productIDB}, {productNameB}")
-        self.transmitWorkbenchPallet.emit(slot, cupIDA, productIDA, productNameA, isPallet, cupIDB, productIDB, productNameB)
-
-
-    def findProductName(self, id: int):
-        """
-        Method to get product Name from productListModel.
-        It is used to emit the changed name for StorageView.qml
-        :param id:
-        :type id: int
-        :return: product name to corresponding index
-        :rtype str
-        """
-        for index, product in enumerate(self.productList):
-            if product.id == id:
-                return product.name
-        return None
+    
     def __loadData(self):
         """
         Load a productList with product ID and name to have appropriate product data.
@@ -739,250 +1065,5 @@ class invController(QObject):
                 return product
         raise ValueError(f"Id {id} not found!")
 
-    def move_to_gripper(self, object: Union[Pallet, Cup]):
-        """
-        Moves object to gripper. And updates viewodel and view.
-
-        Gripper is rendered as a pallet. If only a cup shall be rendered,
-        isCup must be true and isPallet false. cupAID and productAID as well as productAName must be set.
-        all other parameters will be ignored.
-
-        if a cup is transported - this can only be between commissiontable and mobile robot. storage can be ignored in that case. 
-        if a pallet is transported - this can only be between storage and  workbench. mobile robot can be ignored.
-
-        :param object: Pallet or Cup object
-        :type object: Union[Pallet, Cup]
-        :return: None
-        """
-        source = object.location
-        isPallet = isinstance(object, Pallet)
-        isCup = isinstance(object, Cup)
-        cupAID =object.id if isCup else getattr(object.slotA, "id", 0)
-        productAID = object.product.id if isCup else (0 if object.slotA is None else (object.slotA.product, "id", 0))
-        productAName = object.product.name if isCup else ( 0 if object.slotA is None else getattr(object.slotA.product, "name", "Kein Becher"))
-        cupBID = 0 if isCup else getattr(object.slotB, "id", 0)
-        productBID = 0 if isCup else (0 if object.slotA is None else getattr(object.slotB.product, "id", 0))
-        productBName = "" if isCup else (0 if object.slotA is None else getattr(object.slotB.product, "name", "Kein Becher"))
-        self.gripper.setObject(object)
-        self.transmitGripper.emit(isPallet, isCup, cupAID, productAID, productAName, cupBID, productBID, productBName)
-        if isPallet:
-            if isinstance(source, StorageElement):
-                row = source.row
-                col = source.col
-                self.__handleStorageChange(col, None, row)
-            if isinstance(source, Workbench):
-                if self.workbench.k1 is None:
-                    self.transmitWorkbenchPallet.emit("K1", 0, 0, "", False, 0, 0, "")
-                else:
-                    if self.workbench.k1.slotA is None:
-                        cup_a_id, pro_a_id, pro_a_name = 0, 0, "Kein Becher"
-                    else:
-                        cup_a_id = self.workbench.k1.slotA.id
-                        pro_a_id = self.workbench.k1.slotA.product.id
-                        pro_a_name = self.workbench.k1.slotA.product.name
-                    if self.workbench.k1.slotB is None:
-                        cup_b_id, pro_b_id, pro_b_name = 0, 0, "Kein Becher"
-                    else:
-                        cup_b_id = self.workbench.k1.slotB.id
-                        pro_b_id = self.workbench.k1.slotB.product.id
-                        pro_b_name = self.workbench.k1.slotB.product.name
-                    self.transmitWorkbenchPallet.emit("K1", cup_a_id, pro_a_id, pro_a_name, True, cup_b_id, pro_b_id, pro_b_name)
-                if self.workbench.k2 is None:
-                    self.transmitWorkbenchPallet.emit("K2", 0, 0, "", False, 0, 0, "")
-                else:
-                    if self.workbench.k2.slotA is None:
-                        cup_a_id, pro_a_id, pro_a_name = 0, 0, "Kein Becher"
-                    else:
-                        cup_a_id = self.workbench.k2.slotA.id
-                        pro_a_id = self.workbench.k2.slotA.product.id
-                        pro_a_name = self.workbench.k2.slotA.product.name
-                    if self.workbench.k2.slotB is None:
-                        cup_b_id, pro_b_id, pro_b_name = 0, 0, "Kein Becher"
-                    else:
-                        cup_b_id = self.workbench.k2.slotB.id
-                        pro_b_id = self.workbench.k2.slotB.product.id
-                        pro_b_name = self.workbench.k2.slotB.product.name
-                    self.transmitWorkbenchPallet.emit("K2", cup_a_id, pro_a_id, pro_a_name, True, cup_b_id, pro_b_id, pro_b_name)
-        if isCup:
-            if source == self.mobileRobot: # Mobile Robot
-                self.transmitMobileRobot.emit(0 , 0, "Kein Becher")
-            elif source.location == self.workbench: # Workbench
-                # notify workbench k1 view
-                if self.workbench.k1 is None:
-                    cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
-                    cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
-                    pallet = False
-                else:
-                    pallet = True
-                    if self.workbench.k1.slotA is None:
-                        cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
-                    else:
-                        cupA_id = self.workbench.k1.slotA.id
-                        prodA_id = self.workbench.k1.slotA.product.id
-                        prodA_name = self.workbench.k1.slotA.product.name
-                    if self.workbench.k1.slotB is None:
-                        cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
-                    else:
-                        cupB_id = self.workbench.k1.slotB.id
-                        prodB_id = self.workbench.k1.slotB.product.id
-                        prodB_name = self.workbench.k1.slotB.product.name
-                self.transmitWorkbenchPallet.emit( "K1", cupA_id, prodA_id, prodA_name, pallet, cupB_id, prodB_id, prodB_name)
-                # notify workbench k2 view
-                if self.workbench.k2 is None:
-                    cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
-                    cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
-                    pallet = False
-                else:
-                    pallet = True
-                    if self.workbench.k2.slotA is None:
-                        cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
-                    else:
-                        cupA_id = self.workbench.k2.slotA.id
-                        prodA_id = self.workbench.k2.slotA.product.id
-                        prodA_name = self.workbench.k2.slotA.product.name
-                    if self.workbench.k2.slotB is None:
-                        cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
-                    else:
-                        cupB_id = self.workbench.k2.slotB.id
-                        prodB_id = self.workbench.k2.slotB.product.id
-                        prodB_name = self.workbench.k2.slotB.product.name
-                self.transmitWorkbenchPallet.emit( "K2", cupA_id, prodA_id, prodA_name, pallet, cupB_id, prodB_id, prodB_name)
-
-
-    def move_to_robot(self, object):
-        """
-        Moves a Cup to mobile robot and updates view.
-        Note that source is always gripper.
-        :param object: Cup object
-        :type object: Cup
-        """
-        object.setLocation(self.mobileRobot)
-        self.gripper.setObject(None)
-        self.transmitMobileRobot.emit(0, 0, 0)
-        self.transmitMobileRobot.emit(object.id, object.product.id, object.product.name)
-        self.transmitGripper.emit(False, False, 0, 0, "", 0, 0, "")
-
-    def move_to_workbench(self, object: Union[Cup, Pallet], target: Locations):
-        """
-        Moves a Cup or a Pallet to workbench and updates view.
-        Note, that source is always gripper.
-
-        :param object: Cup or Pallet object
-        :type object: Union[Cup, Pallet]
-        :param target: Locations.K1 or Locations.K2
-        :type target: Locations
-        """
-        if target == Locations.K1A:
-            self.workbench.k1.setSlotA(object)
-            string = "K1"
-        elif target == Locations.K1B:
-            self.workbench.k1.setSlotB(object)
-            string = "K1"
-        elif target == Locations.K2A:
-            self.workbench.k2.setSlotA(object)
-            string = "K2"
-        elif target == Locations.K2B:
-            self.workbench.k2.setSlotB(object)
-            string = "K2"
-        elif target == Locations.K1:
-            self.workbench.setK1(object)
-            string = "K1"
-        elif target == Locations.K2:
-            self.workbench.setK2(object)
-            string = "K2"
-        else:
-            return
-        # notify gripper view
-        self.transmitGripper.emit(False, False, 0, 0, "", 0, 0, "")
-
-        # notify workbench k1 view
-        if self.workbench.k1 is None:
-            cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
-            cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
-            pallet = False
-        else:
-            pallet = True
-            if self.workbench.k1.slotA is None:
-                cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
-            else:
-                cupA_id = self.workbench.k1.slotA.id
-                prodA_id = self.workbench.k1.slotA.product.id
-                prodA_name = self.workbench.k1.slotA.product.name
-            if self.workbench.k1.slotB is None:
-                cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
-            else:
-                cupB_id = self.workbench.k1.slotB.id
-                prodB_id = self.workbench.k1.slotB.product.id
-                prodB_name = self.workbench.k1.slotB.product.name
-        self.transmitWorkbenchPallet.emit( "K1", cupA_id, prodA_id, prodA_name, pallet, cupB_id, prodB_id, prodB_name)
-        # notify workbench k2 view
-        if self.workbench.k2 is None:
-            cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
-            cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
-            pallet = False
-        else:
-            pallet = True
-            if self.workbench.k2.slotA is None:
-                cupA_id, prodA_id, prodA_name = 0, 0, "Kein Becher"
-            else:
-                cupA_id = self.workbench.k2.slotA.id
-                prodA_id = self.workbench.k2.slotA.product.id
-                prodA_name = self.workbench.k2.slotA.product.name
-            if self.workbench.k2.slotB is None:
-                cupB_id, prodB_id, prodB_name = 0, 0, "Kein Becher"
-            else:
-                cupB_id = self.workbench.k2.slotB.id
-                prodB_id = self.workbench.k2.slotB.product.id
-                prodB_name = self.workbench.k2.slotB.product.name
-        self.transmitWorkbenchPallet.emit( "K2", cupA_id, prodA_id, prodA_name, pallet, cupB_id, prodB_id, prodB_name)
-    def move_to_storage(self, object, target: Locations):
-        """
-        Moves Pallet or Cup to storage.
-        view must be updated by updating view model.
-
-        :param object: Pallet or Cup object to be transported
-        :type object: Union[Pallet, Cup]
-        :param target: Locations.L1 - Locations.L18 if object is Pallet instance. Locations.L1A - Locations.L18B if object is Cup instance.
-        :type target: Locations
-        """
-        if target.name[-1] in ["A", "B"]:
-            row = ((int)(target.name[1:-1])-1) // 6
-            col = ((int)(target.name[1:-1])-1) % 6
-        else: 
-            row = ((int)(target.name[1:])-1) // 6 
-            col = ((int)(target.name[1:])-1) % 6
-        if isinstance(object, Pallet):
-            self.inventory.setStoragePallet(row, col, object) #object is fine here
-            index = self.storageViewModel.createIndex(row, col) # (K->L) everything fine here	
-            base = Qt.DisplayRole
-            pallet_role, cup_a_id_role, product_a_id_role, product_a_name_role, cup_b_id_role, product_b_id_role, product_b_name_role = base + 1, base + 2, base + 3, base + 4, base + 5, base + 6, base + 7
-            self.storageViewModel.setData(index, True, role=pallet_role)
-            cupA_id = getattr(self.inventory.getStoragePallet(row, col).slotA, "id", 0)
-            self.storageViewModel.setData(index, cupA_id, role=cup_a_id_role)
-            prodA_id = 0 if object.slotA is None else getattr(object.slotA.product, "id", 0)
-            self.storageViewModel.setData(index, prodA_id, role=product_a_id_role)
-            prodA_name = 0 if object.slotA is None else getattr(object.slotA.product, "name", "")
-            self.storageViewModel.setData(index, prodA_name, role=product_a_name_role)
-            cupB_id = getattr(self.inventory.getStoragePallet(row, col).slotB, "id", 0)
-            self.storageViewModel.setData(index, cupB_id, role=cup_b_id_role)
-            prodB_id =  0 if object.slotB is None else getattr(object.slotB.product,"id",0)
-            self.storageViewModel.setData(index,prodB_id, role=product_b_id_role)
-            prodB_name = 0 if object.slotB is None else getattr(object.slotB.product,"name","")
-            self.storageViewModel.setData(index, prodB_name , role=product_b_name_role)
-            self.storageViewModel.dataChanged.emit(index, index, [pallet_role, cup_a_id_role, product_a_id_role, product_a_name_role, cup_b_id_role, product_b_id_role, product_b_name_role])
-        elif isinstance(object, Cup):
-            if target.name[-1] == "A":
-                self.inventory.getStoragePallet(row, col).setSlotA(object)
-            elif target.name[-1] == "B":
-                self.inventory.getStoragePallet(row, col).setSlotB(object)
-            else:
-                return
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), True, role=Qt.DisplayRole + 1)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), getattr(self.inventory.getStoragePallet(row, col).slotA, "id", 0), role=Qt.DisplayRole + 2)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotA is None else getattr(self.inventory.getStoragePallet(row, col).slotA.product, "id", 0), role=Qt.DisplayRole + 3)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotA is None else getattr(self.inventory.getStoragePallet(row, col).slotA.product, "name", ""), role=Qt.DisplayRole + 4)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), getattr(self.inventory.getStoragePallet(row, col).slotB, "id", 0), role=Qt.DisplayRole + 5)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotB is None else getattr(self.inventory.getStoragePallet(row, col).slotB.product,"id",0), role=Qt.DisplayRole + 6)
-            self.storageViewModel.setData(self.storageViewModel.createIndex(row, col), 0 if self.inventory.getStoragePallet(row, col).slotB is None else getattr(self.inventory.getStoragePallet(row, col).slotB.product,"name",""), role=Qt.DisplayRole + 7)
-        self.transmitGripper.emit(False, False, 0, 0, "", 0, 0, "")
+    
         

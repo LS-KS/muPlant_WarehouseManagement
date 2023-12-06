@@ -29,6 +29,7 @@ class CommissionState(StrEnum):
     """
     Enum for CommissionData State
     """
+    PREPARE = 'prepare'
     OPEN = 'open'
     PENDING ='pending'
     PROGRESS = 'in progress'

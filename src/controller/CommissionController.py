@@ -20,6 +20,7 @@ class CommissionController(QObject):
     """
     new_commission = Signal(CommissionData)
     transmitCommission = Signal(int, str, str, str, int) #id, item, source, target, state
+    prepared_commission = Signal(bool)
     def __init__(self, inventoryController: invController, eventlogService : EventlogService):
         super().__init__(None)
         self.constants = Constants()
@@ -42,7 +43,7 @@ class CommissionController(QObject):
 
     @Slot()
     def clearDone(self):
-        for i in range(self.commissionViewModel.commissionData.rowCount()):
+        for i in range(self.commissionViewModel.rowCount()):
             commission = self.commissionViewModel.commissionData[i]
             if commission.state == CommissionState.DONE:
                 self.commissionViewModel.commissionData.remove(commission)
@@ -125,8 +126,59 @@ class CommissionController(QObject):
         result = all(valid)
         return result
 
+    @Slot(bool, bool, bool, bool, bool, bool, int, int )
+    def handle_opcua_commission(self, prepare:bool, execute: bool, to_storage: bool, to_robot: bool, cup: bool, product: bool, cup_id: int, product_id: int):
+        """
+        Converts commission data from opcua service into modeldata that can be used to create the 
+        create_new_commission() method. 
+
+        If execute is True, this methods checks wether before a similar commission was created to be prepared. 
+
+        If to_storage is True, inventoryControllers method create_mobile_robot_cup() is called to create the corresponding data in mobile robot.
+        Afterwards it determines where to store the cup by using inventoryControllers find_place_for_cup() method. 
+
+        If to_robot is True, inventoryControllers method find_cup() is called to determine the storage location. 
+        """
+        self.eventlogService.write_event("CommissionController:", f"Received a commission from OPCUAService with prepare: {prepare}, execute: {execute}, to_storage: {to_storage}, to_robot: {to_robot}, cup: {cup}, product: {product}, cup_id: {cup_id}, product_id: {product_id}")
+        if to_storage: 
+            ret = self.inventoryController.create_mobile_robot_cup(cup_id= cup_id, product_id= product_id)
+            if not ret: self.eventlogService.write_event("CommissionController:", "Cup at mobile robot could not be created: robot not empty.")
+            source = "ROBOT" 
+            target = self.inventoryController.find_place_for_cup()
+            row, col, slot = target['row'], target['col'], target['slot']
+            target = f"L{row*6+col+1}{slot}"
+            self.eventlogService.write_event("CommissionController", f"About to create a new commission from robot: source: {source}, target: {target}, prepare: {prepare}, execute: {execute}")
+            self.create_new_commission(source=source, target = target, cup_or_pallet = "Cup", prepare = prepare, execute = execute)
+        if to_robot:
+            cup: Cup = self.inventoryController.find_cup(cup_id=cup_id, product_id=product_id)
+            if cup is None:
+                self.eventlogService.write_event("CommissionController", "Could not find any cup to create commission.") 
+                return False
+            pallet:Pallet = cup.location
+            if pallet.location == self.inventoryController.workbench:
+                col = 1 if pallet == self.inventoryController.workbench.k1 else 2 if pallet == self.inventoryController.workbench.k2 else None
+                slot = 'A' if pallet.slotA == cup else 'B' if pallet.slotB == cup else None
+                if col is None or slot is None: 
+                    self.eventlogService.write_event("CommissionController", "Could not decode storage and thus could not create a commission.")
+                    return False
+                source = f"K{col}{slot}"
+            elif isinstance(pallet.location, StorageElement):
+                row = pallet.location.row
+                col = pallet.location.col
+                slot = 'A' if pallet.slotA == cup else 'B' if pallet.slotB == cup else None
+                if slot is None: 
+                    self.eventlogService.write_event("CommissionController", "Could not decode pallet slot and thus could not create a commission")
+                    return False
+                source = f"L{row*6+col+1}{slot}" 
+            target = "ROBOT"
+            self.eventlogService.write_event("CommissionController", f"About to create a new commission to robot: source: {source}, target: {target}, prepare: {prepare}, execute: {execute}")
+            self.create_new_commission(source = source, target = target, cup_or_pallet ="Cup", prepare=prepare, execute = execute)
+            if prepare:
+                self.prepared_commission.emit(True)
+
+
     @Slot(str, str, str)
-    def create_new_commission(self, source: str, target: str, cup_or_pallet: str):
+    def create_new_commission(self, source: str, target: str, cup_or_pallet: str, prepare:bool = False, execute = True):
         """
         Creates a new commission and adds it to the commissionViewModel.
         Cases: 
@@ -137,6 +189,7 @@ class CommissionController(QObject):
         5.) storage -> workbench (cup | pallet, at least one slot for pallet in workbench empty) : 1 commission
         6.) storage -> storage (pallet only, with empty workbench) : 4 commissions (1. storage -> workbench, 2. storage -> workbench, 3. workbench -> storage, 4. workbench -> storage)
         7.) storage -> storage (cup only, empty workbench, target pallet slot is empty) : 5 commissions (1. storage -> workbench (pallet), 2. storage -> workbench (pallet), 3. workbench -> workbench (cup), 4. workbench -> storage (pallet), 5. workbench -> storage (pallet))
+        8.) storage -> robot (cup only, at least one slot empty in kommission table): 3 commissions (1. storage-> workbench(pallet), 2. workbench -> robot (cup), 3. workbench -> storage (pallet))
         :param source: source location
         :type source: str
         :param target: target location
@@ -172,9 +225,9 @@ class CommissionController(QObject):
                     cup= cup,
                     pallet= pallet,
                     object= getattr(target_object, 'id', 0),
+                    prepare = prepare and not execute
                 ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
-
         # case 2
         elif src.name[0] == 'K' and trg.name[0] == 'K' and cup:
             source_object = self._get_object_from_location(src)
@@ -186,9 +239,9 @@ class CommissionController(QObject):
                     cup= cup,
                     pallet= pallet,
                     object= getattr(source_object, 'id', 0),
+                    prepare = prepare and not execute
                 ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
-
         # case 3
         elif src.name[0] == 'K' and trg.name[0] == 'L' and pallet:
             source_object = self._get_object_from_location(src)
@@ -200,9 +253,9 @@ class CommissionController(QObject):
                     cup= cup,
                     pallet= pallet,
                     object= 0,
+                    prepare = prepare and not execute
                 ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
-
         # case 4
         elif src.name[0] == 'K' and trg.name[0] == 'L' and cup:
             source_object = self._get_object_from_location(src)
@@ -217,6 +270,7 @@ class CommissionController(QObject):
                     cup= False,
                     pallet= True,
                     object= 0,
+                    prepare = prepare and not execute
                 ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {source} to {target} created")
             # create second commission workbench -> workbench
@@ -235,9 +289,9 @@ class CommissionController(QObject):
                 cup = False,
                 pallet = True,
                 object = 0,
+                prepare = prepare and not execute
             ))
             self.eventlogService.write_event("CommissionController", f"Final sub-commission from {source} to {target} created")
-    
         # case 5
         elif src.name[0] == 'L' and trg.name[0] == 'K' and pallet:
             source_object = self._get_object_from_location(src)
@@ -249,9 +303,9 @@ class CommissionController(QObject):
                     cup= cup,
                     pallet= pallet,
                     object= getattr(source_object, 'id', 0),
+                    prepare = prepare and not execute
                 ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {source} to {target} created")
-        
         # case 6
         elif src.name[0] == 'L' and trg.name[0] == 'L' and pallet:
             if self._get_object_from_location(Locations['K1']) is None and self._get_object_from_location(Locations['K2']) is None:
@@ -261,6 +315,7 @@ class CommissionController(QObject):
                     cup= cup,
                     pallet= pallet,
                     object= getattr(source_object, 'id', 0),
+                    prepare = prepare and not execute
                 ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K1'].value} created")
                 if target_object is not None:
@@ -270,6 +325,7 @@ class CommissionController(QObject):
                         cup = cup,
                         pallet = pallet,
                         object = getattr(source_object, 'id', 0),
+                        prepare = prepare and not execute
                     ))
                     self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K2'].value} created")
                     commissions.append(self._create_new_commission(
@@ -278,6 +334,7 @@ class CommissionController(QObject):
                         cup = cup,
                         pallet = pallet,
                         object = getattr(source_object, 'id', 0),
+                        prepare = prepare and not execute
                     ))
                     self.eventlogService.write_event("CommissionController", f"New sub-commission from {Locations['K2']} to {src} created")
                 commissions.append(self._create_new_commission(
@@ -286,9 +343,9 @@ class CommissionController(QObject):
                     cup = cup,
                     pallet = pallet,
                     object = getattr(source_object, 'id', 0),
+                    prepare = prepare and not execute
                 ))
                 self.eventlogService.write_event("CommissionController", f"Final sub-commission from {Locations['K1'].value} to {src.value} created")
-                
         # case 7
         elif src.name[0] == 'L' and trg.name[0] == 'L' and cup:
             if self._get_object_from_location(trg) is None and self._get_object_from_location(Locations['K1'].name) is None and self._get_object_from_location(Locations['K2'].name) is None:
@@ -298,6 +355,7 @@ class CommissionController(QObject):
                     cup= False,
                     pallet= True,
                     object= 0,
+                    prepare = prepare and not execute
                 ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K1'].value} created")
                 commissions.append(self._create_new_commission(
@@ -306,6 +364,7 @@ class CommissionController(QObject):
                     cup = False,
                     pallet = True,
                     object = 0,
+                    prepare = prepare and not execute
                 ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K2'].value} created")
                 commissions.append(self._create_new_commission(
@@ -314,6 +373,7 @@ class CommissionController(QObject):
                     cup = True,
                     pallet = False,
                     object = getattr(source_object, 'id', 0),
+                    prepare = prepare and not execute
                 ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {Locations['K1'+ source[-1]].value} to {Locations['K2'+ target[-1]].value} created")
                 commissions.append(self._create_new_commission(
@@ -322,6 +382,7 @@ class CommissionController(QObject):
                     cup = False,
                     pallet = True,
                     object = 0,
+                    prepare = prepare and not execute
                 ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {Locations['K2'].value} to {Locations[trg[0:-1]].value} created")
                 commissions.append(self._create_new_commission(
@@ -330,8 +391,28 @@ class CommissionController(QObject):
                     cup = False,
                     pallet = True,
                     object = 0,
+                    prepare = prepare and not execute
                 ))
                 self.eventlogService.write_event("CommissionController", f"Final sub-commission from {Locations['K1'].name} to {Locations[src[0:-1]].value} created")
+        elif src.name[0] == 'L' and trg == Locations.ROBOT:
+            if self._get_object_from_location(Locations['K1'].name) is None:
+                commissions.append(self._create_new_commission(
+                    source= Locations[src.name[0:-1]],
+                    target= Locations.K1,
+                    cup= False,
+                    pallet= True,
+                    object= 0,
+                ))
+                self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K1'].value} created")
+                commissions.append(self._create_new_commission(
+                    source= Locations.K1,
+                    target= trg,
+                    cup= True,
+                    pallet= False,
+                    object= 0,
+                    prepare = prepare and not execute
+                ))
+                self.eventlogService.write_event("CommissionController", f"Final commission from {src.value} to {Locations['K1'].value} created")
         #check =self.validateCommissionData()
         check = True
         if check:
@@ -383,8 +464,7 @@ class CommissionController(QObject):
             if commission.target.name[0] == 'L':
              self.inventoryController.move_to_storage(object, target=commission.target)
             elif commission.target.name[0] == 'K':
-                self.inventoryController.move_to_workbench(object, target=commission.target)
-            
+                self.inventoryController.move_to_workbench(object, target=commission.target)     
 
     def _get_object_from_location(self, location: Locations) -> Union[Cup, Pallet]:
         """
@@ -546,7 +626,8 @@ class CommissionController(QObject):
             target= kwargs.get('target'),
             object=kwargs.get('object'),
             cup=kwargs.get('cup'),
-            pallet=kwargs.get('pallet'))
+            pallet=kwargs.get('pallet'),
+            state= CommissionState.PREPARE if kwargs.get('prepare') else CommissionState.OPEN)
         self.commissionViewModel.add(commission)
         self.new_commission.emit(commission)
         return commission
@@ -577,7 +658,7 @@ class CommissionController(QObject):
         return commissionData
 
     def sortComissionData(self, commissionData):
-        statusOrder = ["in progress", "pending", "open", "done"]
+        statusOrder = ["in progress","prepare", "pending", "open", "done"]
         commissionData.sort(key=lambda commission: statusOrder.index(commission.state.value))
 
     def dumpCommissionData(self):
@@ -749,7 +830,7 @@ class CommissionController(QObject):
                         else:
                             #workbench.k2.slotB = sECup
                             sECup.setLocation(workbench.k2.slotB)
-                elif target == Locations.ROBOT:
+                elif target == Locations.ROBOT and sECup is not None:
                     self.mobile_robot_copy.cup = sECup
                     sECup.setLocation(robot)
 

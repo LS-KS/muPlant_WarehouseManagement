@@ -87,6 +87,7 @@ Rectangle{
                 property bool isPending: model.state === "pending"
                 property bool inProgress: model.state ==="in progress"
                 property bool isFinished: model.state === "done"
+                property bool prepared: model.state ==="prepare"
                 font.bold: inProgress
                 font.pointSize: inProgress? 15 : 14
                 color: delegateText.isPending ? "#1F82B2" : inProgress? "#C6055A" : isFinished? "grey": "black"
