@@ -28,6 +28,8 @@ from src.service.stocktaking import Stocktaker
 from src.service.abbservice import abbservice
 from src.viewmodel.stockmodel import stockmodel, tablemodel
 from src.viewmodel.EventViewModel import EventSortModel
+
+
 ################################################# COMMISSION MODEL ########################################################################
 #TODO: new variable to determine wether the Robot shall be drove fast or slow depending on water inside the cup or not. 
 #TODO: Communication with IRC5 wether the robot will wait at certain destinations to take a picture from gripper cam. 
@@ -54,6 +56,8 @@ from src.viewmodel.EventViewModel import EventSortModel
 #TODO: Test overview cam together with GUI
 #TODO: Test gripper cam together with GUI
 #TODO: Implement image handling so that the user can confirm/change inventory changes. 
+#TODO: Implement 'Details' Button logic as a Dialog. 
+#TODO: Buttons are not visible beause window's height is too large. 
 
 ###################################################### Nice to have #######################################################################
 #TODO: CommissionController must take transportable data objects from future not from actual storage. 
