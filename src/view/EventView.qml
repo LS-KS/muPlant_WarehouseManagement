@@ -82,7 +82,7 @@ Rectangle{
             margins: 10
         }
         onClicked: {
-            eventLogTextArea.text = ""
+            eventModel.clear()
         }
 
     }

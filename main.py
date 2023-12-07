@@ -29,30 +29,25 @@ from src.service.abbservice import abbservice
 from src.viewmodel.stockmodel import stockmodel, tablemodel
 from src.viewmodel.EventViewModel import EventSortModel
 
-#TODO: check and correct function of START / STOP Buttons in main.qml - this should quit and reset all services.
-#TODO: Fix crash of MCC Plugin when Plugin is started first time. (second time works always fine, also works fine when automatic is started)
 
-#TODO: CommissionController must take transportable data objects from future not from actual storage. 
-#TODO: if commission is tested that transport a cup from workbench to mobile Robot, False is returned.
-
+#TODO: fix commission handling with abbservice
+#TODO: in CommissionController: if a commission is prepared and gets executed: a method to backtrace the prepared commission is needed. Only affects commissions to/from robot
 #TODO: GUI freezes when commission is performed.
 
-#TODO: Robot-> Workbench: in commissioncheck_perform: sE_cup is always None. Check why commission check temperory deactivated
+#TODO: Connect opcua agent listeners to commissioncontroller when commission is called as execute
 
-#TODO: Implement listeners to opcuas agent variables
-#TODO: Connect opcua agent listeners to commissioncontroller
-
-#TODO: Implement clear button function in eventlog
-#TODO: Adjust tests to dynamic data files, so that they will never fail because data files changed. Alternatevly: create test data files from actual data.
-#TODO: Rewrite inventoryController tests.
-
-#TODO: sort commissionlist: done or not done. 
-#TODO: in CommissionController: if a commission is prepared and gets executed: a method to backtrace the prepared commission is needed. 
-
+########################################################## IRC5 ###########################################################################
 #TODO: Zustand variable must be set in robot as well as Näherungsschalter.
 #TODO: DI5: light barrier
 #TODO: DI3, DI4: proximity switches
 #TODO: Signal from Robot before waiting at camera position
+###################################################### Nice to have #######################################################################
+#TODO: CommissionController must take transportable data objects from future not from actual storage. 
+#TODO: if commission is tested that transport a cup from workbench to mobile Robot, False is returned.
+#TODO: Robot-> Workbench: in commissioncheck_perform: sE_cup is always None. Check why commission check temperory deactivated
+#TODO: Adjust tests to dynamic data files, so that they will never fail because data files changed. Alternatevly: create test data files from actual data.
+#TODO: Rewrite inventoryController tests.
+
 if __name__ == '__main__':
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()

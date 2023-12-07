@@ -2,6 +2,8 @@ from PySide6.QtCore import Signal, Slot, QObject
 from PySide6.QtCore import Qt, QAbstractTableModel, QByteArray, QModelIndex, QSortFilterProxyModel
 from src.model.EventModel import EventMessage
 from typing import List, Dict, Any, Optional, Union
+
+
 class EventViewModel(QAbstractTableModel):
 
     def __init__(self, messages):
@@ -58,6 +60,17 @@ class EventViewModel(QAbstractTableModel):
             elif section == 2:
                 return "Message"
         return super().headerData(section, orientation, role)
+
+    @Slot()
+    def clear(self):
+        """
+        Method gets called from user GUI. 
+        clears the Model. 
+        """
+        self.beginRemoveRows(QModelIndex(), 0, self.rowCount(QModelIndex())-1)
+        self.messages.clear()
+        self.endRemoveRows()
+        print("Cleared eventModel")
     
 class EventSortModel(QSortFilterProxyModel):
     
