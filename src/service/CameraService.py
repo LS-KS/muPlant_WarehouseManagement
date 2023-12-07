@@ -34,23 +34,23 @@ class ImageProvider(QThread):
         # initialize IDS API library
         ids_peak.Library.Initialize()
         self.device_manager = ids_peak.DeviceManager.Instance()
-        #print(f"CameraService.ImageProvider._get_image(), devicemanager at {str(self.device_manager)}")
+        print(f"CameraService.ImageProvider._get_image(), devicemanager at {str(self.device_manager)}")
 
         try:
             # try to update device manager
             self.device_manager.Update()
             if self.device_manager.Devices().empty():
-                #print("CameraService.ImageProvider.Setup: No device found. Exiting Camera Setup.")
+                print("CameraService.ImageProvider.Setup: No device found. Exiting Camera Setup.")
                 return
             else:
                 # print all availlable devices in cli
-                """
+
                 for i, device in enumerate(self.device_manager.Devices()):
                     print(str(i) + ": " + device.ModelName() + " ("
                           + device.ParentInterface().DisplayName() + "; "
                           + device.ParentInterface().ParentSystem().DisplayName() + "v."
                           + device.ParentInterface().ParentSystem().Version() + ")")
-                """
+
                 # open device
                 self.device = self.device_manager.Devices()[cam].OpenDevice(ids_peak.DeviceAccessType_Control)
 
@@ -58,8 +58,8 @@ class ImageProvider(QThread):
                 self.nodemap_remote_device = self.device.RemoteDevice().NodeMaps()[0]
 
                 # print model name and user id
-                # print("CameraService.ImageProvider.Setup:\nModel Name: " + self.nodemap_remote_device.FindNode("DeviceModelName").Value())
-                """
+                print("CameraService.ImageProvider.Setup:\nModel Name: " + self.nodemap_remote_device.FindNode("DeviceModelName").Value())
+
                 try:
                     print("User ID: " + self.nodemap_remote_device.FindNode("DeviceUserID").Value())
                 except ids_peak.Exception:
@@ -77,11 +77,11 @@ class ImageProvider(QThread):
                           + str(self.nodemap_remote_device.FindNode("HeightMax").Value()))
                 except ids_peak.Exception:
                     print("Max. resolution (w x h): (unknown)")
-                """
+ 
                 # set up datastream and open datastream
                 self.data_streams = self.device.DataStreams()
                 if self.data_streams.empty():
-                    # print("CameraService.ImageProvider.extractImage: No data stream found")
+                    print("CameraService.ImageProvider.extractImage: No data stream found")
                     return
                 self.data_stream = self.device.DataStreams()[0].OpenDataStream()
                 self.nodemap_datastream = self.data_stream.NodeMaps()[0]
@@ -99,20 +99,20 @@ class ImageProvider(QThread):
                             return
                             # print(f"CameraService.ImageProvider.extractImage: Error while revoking buffers: {str(e)}")
                         payload_size = self.nodemap_remote_device.FindNode("PayloadSize").Value()
-                        #print(f"CaneraService.ImageProvider.extractImage: {payload_size}")
+                        print(f"CaneraService.ImageProvider.extractImage: {payload_size}")
                         num_buffers_min_required = self.data_stream.NumBuffersAnnouncedMinRequired()
-                        #print(f"number of minimum buffers required: {num_buffers_min_required}")
+                        print(f"number of minimum buffers required: {num_buffers_min_required}")
                         # Allocate and announce buffers
                         try:
                             for count in range(num_buffers_min_required):
                                 buffer = self.data_stream.AllocAndAnnounceBuffer(payload_size)
                                 self.data_stream.QueueBuffer(buffer)
                         except Exception as e:
+                            print(f"CameraService.ImageProvider.extractImage: Error while allocating buffer: {str(e)}")
                             return
-                            # print(f"CameraService.ImageProvider.extractImage: Error while allocating buffer: {str(e)}")
                 except Exception as e:
+                    print(f"CameraService.ImageProvider.extractImage: Error while announcing buffers: {str(e)}")
                     return
-                    # print(f"CameraService.ImageProvider.extractImage: Error while announcing buffers: {str(e)}")
 
                 # Start acquisition
                 try:
@@ -120,8 +120,8 @@ class ImageProvider(QThread):
                     self.nodemap_remote_device.FindNode("TLParamsLocked").SetValue(1)
                     self.nodemap_remote_device.FindNode("AcquisitionStart").Execute()
                 except Exception as e:
+                    print(f"CameraServicee.ImageProvider.extractImage: Error while starting acquisition: {str(e)}")
                     return
-                    # print(f"CameraServicee.ImageProvider.extractImage: Error while starting acquisition: {str(e)}")
 
                 # receive image
                 try:
@@ -135,8 +135,8 @@ class ImageProvider(QThread):
                 except Exception as e:
                     print(str(e))
         except:
+            print("CameraService.ImageProvide.Setup: Error while updating device manager")
             return
-            # print("CameraService.ImageProvide.Setup: Error while updating device manager")
         finally:
             ids_peak.Library.Close()
 
@@ -155,7 +155,7 @@ class ImageProvider(QThread):
                 self.image = image
             else:
                 self.image = None
-                # print(f"CameraService.ImageProvider._get_image_esp: Error while getting image from ESP32 CAM. Status code: {response.status_code}")
+                print(f"CameraService.ImageProvider._get_image_esp: Error while getting image from ESP32 CAM. Status code: {response.status_code}")
         except Exception as e:
             self.image = None
             print(f"CameraService.ImageProvider._get_image_esp: Error while getting image from ESP32 CAM: {str(e)}")

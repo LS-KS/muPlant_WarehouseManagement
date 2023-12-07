@@ -194,7 +194,7 @@ ApplicationWindow{
                 id: overviewcamButton
                 text: "Overview Camera"
                 onClicked: {
-                    console.log("Called overview camera - not implemented yet")
+                    stocktaker.evaluate_storagecell_cam()
                 }
                 Layout.fillWidth: true
             }

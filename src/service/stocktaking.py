@@ -43,6 +43,7 @@ class Stocktaker(QQuickImageProvider):
         self.submitResultMatrix = Signal(list)
     
     def handle_image_signal(self, image: np.ndarray):
+        print(f"Image received {image}")
         self.image = image
 
     def __del__(self):
@@ -61,8 +62,8 @@ class Stocktaker(QQuickImageProvider):
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Start obtaining image from camera...")
         self.image = self.cameraService.get_image(0)
         self.raw_image = np.copy(self.image)
-        plt.imshow(self.image, cmap= 'gray')
-        plt.show()
+        #plt.imshow(self.image, cmap= 'gray')
+        #plt.show()
         if self.image is None:
             self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "No image obtained from camera! Stocktaking aborted.")
             return
