@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 from yaml import  load, Loader
 
 class Stocktaker(QQuickImageProvider):
-
+    allow_accept_stock = Signal(bool) # send with True to enable Accent button in stocktaking
     def __init__(self, eventLogService: None | EventlogService):
         super().__init__(QQmlImageProviderBase.Image, QQmlImageProviderBase.ForceAsynchronousImageLoading)
         self.cameraService = ImageProvider()
@@ -47,6 +47,7 @@ class Stocktaker(QQuickImageProvider):
 
     def __del__(self):
         print("Stocktaker: Destructor called")
+    
     @Slot()
     def evaluate_storagecell_cam(self):
         """
@@ -174,6 +175,7 @@ class Stocktaker(QQuickImageProvider):
         else:
             parameters = cv2.aruco.DetectorParameters()
         return parameters
+    
     def calculate_result_matrix(self):
         """
         Public Method. Calculates the result matrix based on detected markers.
@@ -185,16 +187,19 @@ class Stocktaker(QQuickImageProvider):
         # TODO: Calclulate 6x6x2 result matrix
         # TODO: reformat result matrix to make it qml accessible
         # TODO: emit signal
+    
     @Slot(int)
     def emit_pallet_cup_images(self, storage_cell):
         pass
         # TODO get images from storage_cell number
         # TODO emit images
+    
     @Slot()
     def emit_cell_image(self):
         pass
         # TODO get image from cell
         # TODO emit image
+    
     @Slot()
     def _refactor_corners(self, corners, ids):
         """
@@ -213,6 +218,7 @@ class Stocktaker(QQuickImageProvider):
         if ids is not None:
             markers[1].append(corners)
         return markers
+    
     def _get_shelf_markers(self, markers):
         """
         Private method to extract shelf-markers from marker list
@@ -233,6 +239,7 @@ class Stocktaker(QQuickImageProvider):
                 shelf_corners.append(corners[i])
                 shelf_ids.append(id)
         return shelf_corners, shelf_ids
+    
     def _get_pallet_markers(self, markers):
         """
         Private method to extract all pallet markers from marker list.
@@ -254,6 +261,7 @@ class Stocktaker(QQuickImageProvider):
                     pallet_markers.append(corners[i])
                     pallet_ids.append(id)
         return pallet_markers, pallet_ids
+    
     def _get_cup_markers(self, markers):
         """
         Private method to extract all cup markers from marker list.
@@ -276,6 +284,7 @@ class Stocktaker(QQuickImageProvider):
                     cup_markers.append(corners[i])
                     cup_ids.append(id)
         return cup_markers, cup_ids
+    
     def _get_storage_element_markers(self, markers):
         """
         Private method to extract all markers related to a storage from marker list.
@@ -297,6 +306,7 @@ class Stocktaker(QQuickImageProvider):
                 storageelement_markers.append(corners[i])
                 storageelement_ids.append(id)
         return storageelement_markers, storageelement_ids
+    
     def _get_transformation_corners(self, shelf_markers):
         """
         Private method, calculates the inner shelf markers and a resulting rectangle corners.
@@ -345,6 +355,7 @@ class Stocktaker(QQuickImageProvider):
             return x_corners, y_corners, y_min, y_max, True
         else:
             return x_corners, y_corners, y_min, y_max, False
+    
     def _transform_image(self,im_source, x_corners, y_corners, y_glob_min, y_glob_max):
         """
         Private method. uses skimage lib to rectify image using submitted corners.
@@ -382,6 +393,7 @@ class Stocktaker(QQuickImageProvider):
         plt.title("transformed image")
         plt.show(cmap= 'gray')
         return image, tform3
+    
     def _detect_markers(self, parameters: None | cv2.aruco.DetectorParameters = None, section = None, section_id= 0, cups = False):
         """
         uses cv2's detectMarkers()  to recognize arUco marker.
@@ -408,6 +420,7 @@ class Stocktaker(QQuickImageProvider):
                 self.detected_cups.append(marker_content)
             print(f"detection id {section_id+1}: {marker_content}, {len(markers[1])}")
             return markers, section
+    
     def _draw_markers(self, corners, ids, color, section = None, section_id=0):
         """
         draw given markers in given color.
@@ -429,6 +442,7 @@ class Stocktaker(QQuickImageProvider):
                 else:
                     section = cv2.rectangle(img= section, pt1= (int(marker[0][0]), int(marker[0][1])), pt2= (int(marker[2][0]), int(marker[2][1])), color= color, thickness= 30)
                     return section
+    
     def _slice_storage(self, image):
         """
         Private Method. Slices the image in storage elements.
@@ -460,6 +474,7 @@ class Stocktaker(QQuickImageProvider):
         self.sections = sections
         self.cups = cups
         self.pallets = pallets
+    
     def _automatic_brightness_and_contrast(self,image,  clip_hist_percent):
         """
         Autoadjusting color and brightness for better marker detection.
@@ -515,6 +530,7 @@ class Stocktaker(QQuickImageProvider):
             return img
         else:
             return gray
+    
     def _loadDetectorConf(self, imgtype: str, area: int, type: str) -> cv2.aruco.DetectorParameters:
         """
         Loads the parameter configuration for marker detection from a yaml file which might has been fitted by genetic algorithm.

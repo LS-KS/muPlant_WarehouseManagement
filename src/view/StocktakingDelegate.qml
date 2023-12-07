@@ -12,6 +12,8 @@ Rectangle {
     property int new_cupA: 0
     property int new_cupB: 0
     property bool tested: true
+    property int row : -1
+    property int col : -1
     border.width: 3
     radius: 5
     color: "#00ffffff"
@@ -37,7 +39,7 @@ Rectangle {
         anchors.topMargin: verticalMargin
         anchors.bottomMargin: verticalMargin
         Text {
-            text: qsTr("Bestand")
+            text: qsTr("Stock")
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: previous_stock.verticalMargin
         }
@@ -62,6 +64,7 @@ Rectangle {
                 anchors.centerIn: parent
                 text: qsTr("Cup-ID: " + main_rect.previous_cupA)
             }
+            opacity: main_rect.previous_cupA == 0 ? 0.5 : 1
         }
         Rectangle{
             id: previous_slot_b
@@ -85,6 +88,7 @@ Rectangle {
                 anchors.centerIn: parent
                 text: qsTr("Cup-ID: " + main_rect.previous_cupB)
             }
+            opacity: main_rect.previous_cupB == 0 ? 0.5 : 1
         }
     }
     Rectangle{
@@ -150,6 +154,7 @@ Rectangle {
                     rightMargin: new_slot_a.horizontalMargin/2
                 }
             }
+            opacity: main_rect.new_cupA == 0 ? 0.5 : 1
         }
         Rectangle{
             id: new_slot_b
@@ -185,11 +190,12 @@ Rectangle {
                     rightMargin: new_slot_a.horizontalMargin/2
                 }
             }
+            opacity: main_rect.new_cupB == 0 ? 0.5 : 1
         }
     }
    Button{
        id: showButton
-       text: "Details"
+       text: "Detail"
        anchors{
            horizontalCenter: parent.horizontalCenter
            bottom: parent.bottom
@@ -198,7 +204,7 @@ Rectangle {
        height: 30
        width: 60
        onClicked: {
-           console.log("Not implemented ... yet")
+           console.log("row: "+ main_rect.row + ", col: " + main_rect.col)
        }
    }
 }

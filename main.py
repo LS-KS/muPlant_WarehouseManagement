@@ -57,7 +57,6 @@ from src.viewmodel.EventViewModel import EventSortModel
 #TODO: Test gripper cam together with GUI
 #TODO: Implement image handling so that the user can confirm/change inventory changes. 
 #TODO: Implement 'Details' Button logic as a Dialog. 
-#TODO: Buttons are not visible beause window's height is too large. 
 
 ###################################################### Nice to have #######################################################################
 #TODO: CommissionController must take transportable data objects from future not from actual storage. 

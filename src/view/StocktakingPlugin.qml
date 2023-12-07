@@ -15,13 +15,13 @@ ApplicationWindow{
         Layout.fillWidth: true
         TableView{
             id: storagevisu
-            Layout.minimumHeight: 750
+            Layout.minimumHeight: 600
             rowSpacing: 5
             columnSpacing: 5
             model: storagemodel
             Layout.fillWidth: true
             Layout.fillHeight: false
-            Layout.preferredHeight: 600
+            Layout.preferredHeight: 3*180
             delegate:Row{
                 id: stockrow
                 Layout.fillHeight: true
@@ -30,7 +30,7 @@ ApplicationWindow{
                 Rectangle{
                     id: stocklabel
                     width: 50
-                    height: 200
+                    height: 180
                     color: "#00ffffff"
                     visible: model.column === 0
                     anchors.verticalCenter: parent.verticalCenter
@@ -80,8 +80,8 @@ ApplicationWindow{
                         Layout.fillWidth: true
                     }
                     StocktakingDelegate{
-                        height: 200
-                        width: 200
+                        height: 180
+                        width: 180
                         previous_pallet: model.previous_pallet
                         previous_cupA: model.previous_cupA
                         previous_cupB: model.previous_cupB
@@ -89,6 +89,8 @@ ApplicationWindow{
                         new_cupA: model.new_cupA
                         new_cupB: model.new_cupB
                         tested: model.tested
+                        row: model.row
+                        col: model.column
                     }
                     Layout.fillWidth: true
                     Layout.fillHeight: true
@@ -97,8 +99,8 @@ ApplicationWindow{
         }
         ListView{
             id: tablevisu
-            Layout.minimumHeight: 250
-            Layout.maximumHeight: 250
+            Layout.minimumHeight: 160
+            Layout.maximumHeight: 180
             Layout.preferredHeight: 10
             Layout.fillWidth: true
             Layout.fillHeight:true
@@ -112,7 +114,7 @@ ApplicationWindow{
                 Rectangle{
                     id: tablelabel
                     width: 50
-                    height: 200
+                    height: 180
                     color: "#00ffffff"
                     visible: model.row === 0
                     anchors.verticalCenter: parent.verticalCenter
@@ -166,8 +168,8 @@ ApplicationWindow{
                         Layout.fillWidth: true
                     }
                     StocktakingDelegate{
-                        height: 200
-                        width: 200
+                        height: 180
+                        width: 180
                         previous_pallet: model.previous_pallet
                         previous_cupA: model.previous_cupA
                         previous_cupB: model.previous_cupB
@@ -216,10 +218,17 @@ ApplicationWindow{
             Button{
                 id: acceptButton
                 text: "Accept and Overwrite Inventory"
+                enabled: false
                 onClicked:{
                     console.log("called accept - not implemented yet")
                 }
                 Layout.fillWidth: true
+                Connections{
+                    target: stocktaker
+                    function onAllow_accept_stock(ret){
+                        acceptButton.enabled = ret
+                    }
+                }
             }
             Button{
                 id: autoButton
