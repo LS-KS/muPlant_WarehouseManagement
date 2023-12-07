@@ -1,3 +1,4 @@
+from typing import Union
 from src.model.CommissionModel import CommissionData, Locations, CommissionState
 from PySide6.QtCore import QSortFilterProxyModel, Slot, Qt, QModelIndex
 from PySide6 import QtCore
@@ -67,7 +68,7 @@ class CommissionViewModel(QtCore.QAbstractTableModel):
                 case 6: return CommissionState[self.commissionData[row].state].value if not isinstance(self.commissionData[row].state, CommissionState) else self.commissionData[row].state.value
                 case _: return None
 
-    def setData(self, index, value, role=Qt.EditRole):
+    def setData(self, index, value, role=Qt.DisplayRole):
         """
         Sets the role data for the item at index to value.
         **UNTESTED**
@@ -137,7 +138,7 @@ class CommissionViewModel(QtCore.QAbstractTableModel):
         """
 
         for index, commission in enumerate(self.commissionData):
-            if commissionID == commission:
+            if commissionID == commission.id:
                 return index
 
     def new_comission_id(self):
@@ -147,6 +148,19 @@ class CommissionViewModel(QtCore.QAbstractTableModel):
         :rtype: int
         """
         return max((commission.id for commission in self.commissionData), default= -1)+1
+    
+    def removeRows(self, row: int, count: int, parent: QModelIndex= QModelIndex()) -> bool:
+        if row < 0 or row+count > self.rowCount():
+            return False
+        else:
+            try:
+                self.beginRemoveRows(parent, row, row + count)
+                del self.commissionData[row:row+count]
+                self.endRemoveRows()
+                return True
+            except Exception as e:
+                print(e)
+                return False
 
 
 class CommissionFilterProxyModel(QSortFilterProxyModel):

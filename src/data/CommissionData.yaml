@@ -1,19 +1,11 @@
 - CommissionData:
-    cup: true
-    id: 1
+    cup: false
+    id: 4
     object: 0
-    pallet: false
-    source: K1
-    state: PREPARE
-    target: ROBOT
-- CommissionData:
-    cup: true
-    id: 3
-    object: 0
-    pallet: false
-    source: K1
-    state: PREPARE
-    target: ROBOT
+    pallet: true
+    source: L1
+    state: OPEN
+    target: K1
 - CommissionData:
     cup: true
     id: 5
@@ -24,25 +16,81 @@
     target: ROBOT
 - CommissionData:
     cup: false
-    id: 0
+    id: 6
     object: 0
     pallet: true
     source: L1
     state: OPEN
     target: K1
 - CommissionData:
+    cup: true
+    id: 7
+    object: 0
+    pallet: false
+    source: K1
+    state: OPEN
+    target: ROBOT
+- CommissionData:
     cup: false
-    id: 2
+    id: 8
     object: 0
     pallet: true
     source: L1
     state: OPEN
     target: K1
 - CommissionData:
+    cup: true
+    id: 9
+    object: 0
+    pallet: false
+    source: K1
+    state: PREPARE
+    target: ROBOT
+- CommissionData:
     cup: false
-    id: 4
+    id: 10
     object: 0
     pallet: true
     source: L1
     state: OPEN
     target: K1
+- CommissionData:
+    cup: true
+    id: 11
+    object: 0
+    pallet: false
+    source: K1
+    state: PREPARE
+    target: ROBOT
+- CommissionData:
+    cup: false
+    id: 12
+    object: 0
+    pallet: true
+    source: L1
+    state: OPEN
+    target: K1
+- CommissionData:
+    cup: true
+    id: 13
+    object: 0
+    pallet: false
+    source: K1
+    state: PREPARE
+    target: ROBOT
+- CommissionData:
+    cup: false
+    id: 14
+    object: 0
+    pallet: true
+    source: L1
+    state: OPEN
+    target: K1
+- CommissionData:
+    cup: true
+    id: 15
+    object: 0
+    pallet: false
+    source: K1
+    state: PREPARE
+    target: ROBOT

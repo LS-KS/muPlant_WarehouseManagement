@@ -138,8 +138,6 @@ Dialog {
                 font.pointSize: 12
                 Layout.preferredWidth: 100
             }
-
-
             ComboBox {
                 id: stateBox
                 height: 40
@@ -174,10 +172,10 @@ Dialog {
                     target: okButton
                     onClicked: {
                         commissionController.overwriteCommission(
-                                    idBox.currentValue,
+                                    idBox.currentText,
                                     itemText.text,
                                     sourceText.text,
-                                    targetTest.text,
+                                    targetText.text,
                                     stateBox.currentIndex
                                 )
                     }

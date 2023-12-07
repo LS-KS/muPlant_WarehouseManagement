@@ -278,7 +278,7 @@ class OpcuaServerHandle(QThread):
                 self.agent_vars.__setattr__(key, value)
                 var = self.agent_nodes[i][1]
                 var = self.opcuaServer.get_node(var)
-                asyncio.run(var.write_value(ua.LocalizedText(value)))
+                asyncio.run(var.write_value(value))
     
     @Slot(str)
     def handle_sig_response_2(self, value):
@@ -605,8 +605,6 @@ class OpcuaServerHandle(QThread):
                 if writable[str(field)]:
                     await var.set_writable()
                 self.agent_nodes.append([node, var])
-                if field.__str__() in "agentRespParam":
-                    await var.add_data_type(ua.LocalizedText) # doesnt work
         except Exception as e:
             self.event.emit("OpcuaService", f"Error while creating agent nodes: {e}")
 
@@ -1023,8 +1021,7 @@ class agentlib_worker(QThread):
     def fetch_function_result(self, result):
         # write rsponse to opc ua and clean up
         self.sig_event.emit("agentworker", f"fetch_function_result: {result}")
-        self.sig_response_1.emit(str)
-        self.sig_response_2.emit("test")
+        self.sig_response_1.emit(int(result))
         self.function_id = 0
         self.reset_functioncall()
         self.done = 1

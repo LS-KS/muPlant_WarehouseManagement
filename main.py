@@ -33,7 +33,6 @@ from src.viewmodel.EventViewModel import EventSortModel
 #TODO: Fix crash of MCC Plugin when Plugin is started first time. (second time works always fine, also works fine when automatic is started)
 
 #TODO: CommissionController must take transportable data objects from future not from actual storage. 
-#TODO: Commission handling: Implement functions to edit or delete commissions.
 #TODO: if commission is tested that transport a cup from workbench to mobile Robot, False is returned.
 
 #TODO: GUI freezes when commission is performed.
@@ -47,13 +46,13 @@ from src.viewmodel.EventViewModel import EventSortModel
 #TODO: Adjust tests to dynamic data files, so that they will never fail because data files changed. Alternatevly: create test data files from actual data.
 #TODO: Rewrite inventoryController tests.
 
-#TODO: sort commissionlist by commission-id in descending order
+#TODO: sort commissionlist: done or not done. 
 #TODO: in CommissionController: if a commission is prepared and gets executed: a method to backtrace the prepared commission is needed. 
 
 #TODO: Zustand variable must be set in robot as well as Näherungsschalter.
 #TODO: DI5: light barrier
 #TODO: DI3, DI4: proximity switches
-
+#TODO: Signal from Robot before waiting at camera position
 if __name__ == '__main__':
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()

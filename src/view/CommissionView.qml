@@ -124,6 +124,12 @@ Rectangle{
             }
             forceLayout();
         }
+        Connections{
+            target: commissionModel
+            function onDataChanged(){
+                view.forceLayout()
+            }
+        }
     }
 
     Image {

@@ -33,23 +33,28 @@ class CommissionController(QObject):
         self.mobile_robot_copy: MobileRobot = None
         self.dumpCommissionData()
         self.commissionFilterProxyModel.setSourceModel(self.commissionViewModel)
-        self.commissionFilterProxyModel.setFilterCaseSensitivity(Qt.CaseInsensitive)
-        self.commissionFilterProxyModel.setFilterKeyColumn(0)
-        self.commissionFilterProxyModel.setFilterRole(Qt.DisplayRole + 1)
-        self.commissionFilterProxyModel.setFilterString("")
-        self.commissionFilterProxyModel.setSortRole(Qt.DisplayRole + 1)
-        self.commissionFilterProxyModel.sort(0, QtCore.Qt.DescendingOrder)
+        print([commission.id for commission in self.commissionViewModel.commissionData])
+        self.sortComissionData()
+        print([commission.id for commission in self.commissionViewModel.commissionData])
         self.validateCommissionData()
 
     @Slot()
     def clearDone(self):
+        leftidx = None
         for i in range(self.commissionViewModel.rowCount()):
             commission = self.commissionViewModel.commissionData[i]
             if commission.state == CommissionState.DONE:
-                self.commissionViewModel.commissionData.remove(commission)
+                leftidx = i
+                break
+        rightidx = self.commissionViewModel.rowCount()
+        self.commissionViewModel.beginRemoveRows(QModelIndex(), leftidx, rightidx)
+        ret = self.commissionViewModel.removeRows(leftidx, rightidx-leftidx)
+        self.commissionViewModel.endRemoveRows()
+        print(f"result of removing rows: {ret}, leftidx: {leftidx}, rightidx {rightidx}")
+        self.dumpCommissionData()
 
     @Slot(str)
-    def loadCommission(id: str):
+    def loadCommission(self, id: str):
         id = int(id)
         for commission in self.commissionViewModel.commissionData:
             if commission.id == id:
@@ -59,6 +64,46 @@ class CommissionController(QObject):
                                              commission.target.name, 
                                              commission.state.name)
                 break
+
+    @Slot(str, str, str, str, str)
+    def overwriteCommission(self, id:str, item:str, source:str, target:str, state:str ):
+        """
+        QML List Model has the following entries
+        ListElement{ index: "OPEN"; text: "open"}
+        ListElement{ index: "PENDING"; text: "pending"}
+        ListElement{ index: "PROGRESS"; text: "in progress"}
+        ListElement{ index: "DONE"; text: "done"}
+
+        :param id: primary key of a commission
+        :type id: str which represents an integer
+        :param item: 'Cup' or 'Pallet'
+        :type item: str
+        :param source: source string which represents Locations.name value
+        :type source: str
+        :param target: target string which represents Locations.name value
+        :type target: str
+        :param state: state string which represents CommissionState.name value
+        :type state: str
+        """
+        print(id, item, source, target, state)
+        states = [CommissionState.OPEN, CommissionState.PENDING, CommissionState.PROGRESS,CommissionState.DONE]
+        source = Locations[source]
+        target = Locations[target]
+        state = states[int(state)]
+        index = self.commissionViewModel.indexOf(int(id))
+        if None in [index, state, target, source]:
+            print(f"Failed to decode: index:{index}, state: {state}, target: {target}, source: {source}")
+            return
+        else: 
+            srcindex = self.commissionViewModel.createIndex(index, 1)
+            self.commissionViewModel.setData(srcindex, source)
+            trgindex = self.commissionViewModel.createIndex(index, 2)
+            self.commissionViewModel.setData(trgindex, target)
+            stateindex = self.commissionViewModel.createIndex(index, 6)
+            self.commissionViewModel.setData(stateindex, state)
+        self.sortComissionData()
+        self.dumpCommissionData()
+
 
     @Slot(CommissionData, CommissionState)
     def change_commission_state(self, commission: CommissionData, state: CommissionState):
@@ -175,7 +220,6 @@ class CommissionController(QObject):
             self.create_new_commission(source = source, target = target, cup_or_pallet ="Cup", prepare=prepare, execute = execute)
             if prepare:
                 self.prepared_commission.emit(True)
-
 
     @Slot(str, str, str)
     def create_new_commission(self, source: str, target: str, cup_or_pallet: str, prepare:bool = False, execute = True):
@@ -654,12 +698,11 @@ class CommissionController(QObject):
                     state
                 ))
                 #print(commissionData[-1].source.value)
-            self.sortComissionData(commissionData)
         return commissionData
 
-    def sortComissionData(self, commissionData):
-        statusOrder = ["in progress","prepare", "pending", "open", "done"]
-        commissionData.sort(key=lambda commission: statusOrder.index(commission.state.value))
+    def sortComissionData(self):
+        self.commissionViewModel.commissionData.sort(key = lambda x: (x.state == CommissionState.DONE, x.id))
+        # [print(x.state) for i, x in enumerate(self.commissionViewModel.commissionData)]
 
     def dumpCommissionData(self):
         data = []
