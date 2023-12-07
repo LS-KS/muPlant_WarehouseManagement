@@ -200,8 +200,8 @@ class abbsocketworker(QThread):
             super().start()
             self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.server.bind((self.ip, self.port))
-            self.buffersize = 1024
-            self.server.listen(1)
+            self.buffersize = 4096
+            self.server.listen() # backlog parameter optional since Python 3.5
             self.is_running = True
             self.started.emit(True, "")
         except Exception as e:
