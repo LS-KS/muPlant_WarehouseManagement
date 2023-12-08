@@ -36,7 +36,7 @@ from src.viewmodel.EventViewModel import EventSortModel
 
 ############################################### COMMISSION CONTROLLER #####################################################################
 #TODO: in CommissionController: if a commission is prepared and gets executed: a method to backtrace the prepared commission is needed. Only affects commissions to/from robot
-
+#TODO: Check commissions if robot->storage. If prepare: All commissions must be prepare. 
 ##################################################### ABB SERVICE #########################################################################
 #TODO: fix commission handling with abbservice
 #TODO: GUI freezes when commission is performed.
@@ -57,6 +57,7 @@ from src.viewmodel.EventViewModel import EventSortModel
 #TODO: Test gripper cam together with GUI
 #TODO: Implement image handling so that the user can confirm/change inventory changes. 
 #TODO: Implement 'Details' Button logic as a Dialog. 
+#TODO: Fix ImageSignal from CameraService, so that stocktaking.image is not None after image acquisition.
 
 ###################################################### Nice to have #######################################################################
 #TODO: CommissionController must take transportable data objects from future not from actual storage. 
