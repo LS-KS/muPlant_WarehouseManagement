@@ -192,6 +192,7 @@
         "test/test_inventory.py",
         "test/test_inventoryController.py",
         "src/view/StocktakingDelegate.qml",
-        "src/view/CommissionDialog.qml"
+        "src/view/CommissionDialog.qml",
+        "src/view/StocktakingDetail.qml"
     ]
 }

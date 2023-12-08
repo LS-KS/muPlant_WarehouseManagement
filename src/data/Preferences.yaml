@@ -7,5 +7,5 @@ clientUrl: opc.tcp://localhost:4860/freeopcua/server/
 modbusip: 127.0.0.0
 modbusport: 65
 modbusreconnects: 90
-opcuaEndpoint: opc.tcp://localhost:4870/freeopcua/server/
+opcuaEndpoint: opc.tcp://141.51.45.176:4870/freeopcua/server/
 opcuaNamespace: http://examples.freeopcua.github.io

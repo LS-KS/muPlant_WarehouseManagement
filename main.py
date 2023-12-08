@@ -37,6 +37,7 @@ from src.viewmodel.EventViewModel import EventSortModel
 ############################################### COMMISSION CONTROLLER #####################################################################
 #TODO: in CommissionController: if a commission is prepared and gets executed: a method to backtrace the prepared commission is needed. Only affects commissions to/from robot
 #TODO: Check commissions if robot->storage. If prepare: All commissions must be prepare. 
+
 ##################################################### ABB SERVICE #########################################################################
 #TODO: fix commission handling with abbservice
 #TODO: GUI freezes when commission is performed.
@@ -44,6 +45,7 @@ from src.viewmodel.EventViewModel import EventSortModel
 
 #################################################### OPC UA SERVICE #######################################################################
 #TODO: Connect opcua agent listeners to commissioncontroller when commission is called as execute
+#TODO: refactor nodes: Just one namespace, function and response as array (two vars) 
 
 ########################################################## IRC5 ###########################################################################
 #TODO: Find out how to select IRC5 via MAC address using socket package

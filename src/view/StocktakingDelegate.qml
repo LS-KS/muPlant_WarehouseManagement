@@ -19,6 +19,12 @@ Rectangle {
     color: "#00ffffff"
     border.color: tested? "#00ff00": "#ff0000"
 
+    StocktakingDetail{
+        id: detaildiag
+        row: main_rect.row
+        col: main_rect.col
+    }
+
     Rectangle{
         id: previous_stock
         property double horizontalMargin: 0.03*parent.width
@@ -205,6 +211,7 @@ Rectangle {
        width: 60
        onClicked: {
            console.log("row: "+ main_rect.row + ", col: " + main_rect.col)
+           detaildiag.open()
        }
    }
 }

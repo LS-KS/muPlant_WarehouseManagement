@@ -194,7 +194,11 @@ ApplicationWindow{
                 id: overviewcamButton
                 text: "Overview Camera"
                 onClicked: {
-                    stocktaker.evaluate_storagecell_cam()
+                    text: "running..."
+                    enabled: false
+                    stocktaker.callOverviewCam()
+                    text: "Overview Camera"
+                    enabled: true
                 }
                 Layout.fillWidth: true
             }

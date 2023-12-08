@@ -22,9 +22,11 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from yaml import  load, Loader
-
+import time
+import asyncio
 class Stocktaker(QQuickImageProvider):
     allow_accept_stock = Signal(bool) # send with True to enable Accent button in stocktaking
+    call_overview = Signal()
     def __init__(self, eventLogService: None | EventlogService):
         super().__init__(QQmlImageProviderBase.Image, QQmlImageProviderBase.ForceAsynchronousImageLoading)
         self.cameraService = ImageProvider()
@@ -41,14 +43,51 @@ class Stocktaker(QQuickImageProvider):
         self.submitPalletImage = Signal(QImage)
         self.submitCupImage = Signal(QImage)
         self.submitResultMatrix = Signal(list)
+        self.call_overview.connect(self.handle_overview_call)
     
+    def handle_overview_call(self):
+        asyncio.ensure_future(self.evaluate_storagecell_cam())
+
     def handle_image_signal(self, image: np.ndarray):
         print(f"Image received {image}")
-        self.image = image
+        self.image = image.copy()
 
     def __del__(self):
         print("Stocktaker: Destructor called")
     
+    @Slot(int, int)
+    def getSlotA(self, row: int, col: int) -> QImage:
+        print("called slotA")
+        idx = 6*col + row
+        if self.cups[idx] is not None:
+            image = QImage(cups[idx])
+            return image
+        else:
+            return QImage()
+        
+    @Slot(int, int)
+    def getSlotB(self, row:int, col: int) ->QImage:
+        print("called slotB")
+        idx = 6*col + row
+        if self.cups[idx] is not None:
+            image = QImage(self.cups[idx])
+            return image
+        else:
+            return QImage()
+
+    @Slot(int, int)
+    def getPallet(self, row: int, col: int)->QImage:
+        print("called getPallet")
+        idx = 6*col + row
+        if self.pallets[idx] is not None:
+            image = QImage(self.pallets[idx])
+            return image
+        else:
+            return QImage()
+    @Slot()
+    def callOverviewCam(self):
+        self.call_overview.emit()
+        
     @Slot()
     def evaluate_storagecell_cam(self):
         """
@@ -60,10 +99,17 @@ class Stocktaker(QQuickImageProvider):
 
         self.detected_cups = []
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Start obtaining image from camera...")
-        self.image = self.cameraService.get_image(0)
+        self.cameraService.get_image(0)
         self.raw_image = np.copy(self.image)
         #plt.imshow(self.image, cmap= 'gray')
         #plt.show()
+        waiting = 0
+        while waiting < 1000:
+            if self.image is None:
+                time.sleep(0.01)
+                waiting +=1
+            else: break
+
         if self.image is None:
             self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "No image obtained from camera! Stocktaking aborted.")
             return
@@ -390,9 +436,9 @@ class Stocktaker(QQuickImageProvider):
         x_max = int(x_max)
         image = image[y_glob_min + 550: y_glob_max + 520, x_min + 300 : x_max - 180]
         cv2.imwrite("temp/transformed.png", image)
-        plt.imshow(image, cmap= 'gray')
-        plt.title("transformed image")
-        plt.show(cmap= 'gray')
+        #plt.imshow(image, cmap= 'gray')
+        #plt.title("transformed image")
+        #plt.show(cmap= 'gray')
         return image, tform3
     
     def _detect_markers(self, parameters: None | cv2.aruco.DetectorParameters = None, section = None, section_id= 0, cups = False):
@@ -408,7 +454,7 @@ class Stocktaker(QQuickImageProvider):
             self.image = cv2.cvtColor(self.image, cv2.COLOR_RGB2GRAY) if self.image.ndim == 3 else self.image
             (corners, ids, rejected) = cv2.aruco.detectMarkers(self.image, self.constants.ARUCODICT, parameters= parameters )
             markers = self._refactor_corners(corners, ids)
-            print(f"detection: {markers[0]}, {len(markers[1])}")
+            # print(f"detection: {markers[0]}, {len(markers[1])}")
             return markers, self.image
         else:
             section = cv2.cvtColor(section, cv2.COLOR_RGB2GRAY) if section.ndim == 3 else section

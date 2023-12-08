@@ -193,7 +193,9 @@ Dialog {
 
                 Connections {
                     target: rejectButton
-                    onClicked: Dialog.close()
+                    function onClicked() {
+                        Dialog.close()
+                    }
                 }
             }
 
