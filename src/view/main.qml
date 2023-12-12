@@ -91,7 +91,7 @@ Window {
 
             }
             Action {
-                text: qsTr("&tocktaking Application")
+                text: qsTr("&Stocktaking Application")
                 onTriggered: {
                     console.log("stocktaker action triggered")
                     var stocktakerComponent = Qt.createComponent("StocktakingPlugin.qml")

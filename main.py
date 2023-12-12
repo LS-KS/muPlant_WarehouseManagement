@@ -60,6 +60,8 @@ from src.viewmodel.EventViewModel import EventSortModel
 #TODO: Implement image handling so that the user can confirm/change inventory changes. 
 #TODO: Implement 'Details' Button logic as a Dialog. 
 #TODO: Fix ImageSignal from CameraService, so that stocktaking.image is not None after image acquisition.
+#TODO: Fix Overlap ov image Rectangles and cancel button in Detail Dialog
+#TODO: DetailDialog in Comission Pallets may rag out of visible screen area
 
 ###################################################### Nice to have #######################################################################
 #TODO: CommissionController must take transportable data objects from future not from actual storage. 
@@ -101,7 +103,6 @@ if __name__ == '__main__':
     engine.rootContext().setContextProperty("commissionController", commissionController)
     engine.rootContext().setContextProperty('commissionModel', commissionController.commissionViewModel)
 
-
     # creates AgentService object and sets itself as rootContext
     agentservice = AgentService(eventlogService, preferenceController)
     engine.rootContext().setContextProperty("agentService", agentservice)
@@ -139,6 +140,7 @@ if __name__ == '__main__':
     table_model = tablemodel(inv_controller=inventoryController)
     engine.rootContext().setContextProperty("storagemodel", stock_model)
     engine.rootContext().setContextProperty("tablemodel", table_model)
+    stocktaker.set_stockmodel(stock_model)
 
     # define load main.qml file to start application
     qml_file =  str(Path(__file__).resolve().parent / "src" / "view" / "main.qml")

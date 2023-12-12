@@ -9,7 +9,7 @@ Processed images are provided to qml by using class videoPlayer which inherits f
 
 import cv2
 import skimage.util
-from PySide6.QtGui import QImage
+from PySide6.QtGui import QImage, QPixmap
 from PySide6.QtCore import Signal, Slot, Qt, QThread, QObject
 from PySide6.QtQuick import QQuickImageProvider
 from PySide6.QtQml import QQmlImageProviderBase
@@ -24,9 +24,12 @@ import matplotlib.pyplot as plt
 from yaml import  load, Loader
 import time
 import asyncio
+import re
 class Stocktaker(QQuickImageProvider):
     allow_accept_stock = Signal(bool) # send with True to enable Accent button in stocktaking
     call_overview = Signal()
+    transmit_data_to_plugin = Signal(int, int, bool, int, int) # row, col, pallet, cupa id, cupb id
+
     def __init__(self, eventLogService: None | EventlogService):
         super().__init__(QQmlImageProviderBase.Image, QQmlImageProviderBase.ForceAsynchronousImageLoading)
         self.cameraService = ImageProvider()
@@ -36,17 +39,18 @@ class Stocktaker(QQuickImageProvider):
         self.raw_image = []
         self.image = []
         self.sections = []
-        self.cups = []
+        self.cupsA = []
         self.pallets = []
         self.gripper_id = 0
         self.detected_cups = []
+        self.stockmodel = None
         self.submitPalletImage = Signal(QImage)
         self.submitCupImage = Signal(QImage)
         self.submitResultMatrix = Signal(list)
         self.call_overview.connect(self.handle_overview_call)
     
     def handle_overview_call(self):
-        asyncio.ensure_future(self.evaluate_storagecell_cam())
+        self.evaluate_storagecell_cam()
 
     def handle_image_signal(self, image: np.ndarray):
         print(f"Image received {image}")
@@ -55,22 +59,53 @@ class Stocktaker(QQuickImageProvider):
     def __del__(self):
         print("Stocktaker: Destructor called")
     
-    @Slot(int, int)
+    def set_stockmodel(self, stockmodel):
+        self.stockmodel = stockmodel
+
+    @Slot(int, int, result=QImage)
     def getSlotA(self, row: int, col: int) -> QImage:
         print("called slotA")
         idx = 6*col + row
-        if self.cups[idx] is not None:
-            image = QImage(cups[idx])
+        print(f"idx: {idx}")
+        if idx == -7:
+            return QImage()
+        elif idx >= len(self.cupsA):
+            return QImage()
+        elif self.cupsA[idx] is not None:
+            print(f"image: {image}")
+            image = QImage(self.cupsA[idx])
             return image
         else:
             return QImage()
+
+    def requestImage(self, id:str, size, requestedSize)->QImage:
+        print(f"called an Image {id}, {size}, {requestedSize}")
+        strings = id.split('_')
+        row, col, slot = int(strings[0]), int(strings[1]), strings[2][0]
+        idx = 6*row + col
+        print(f"idx: {idx}")
+        if(slot =="Pallet"):
+            print(f"imagedata: {self.pallets[idx]}")
+            image = QImage(self.pallets[idx])
+            print(f"pallet image: {image}")
+            return image
+        elif slot == 'A' and idx < len(self.cupsA) :
+            print(f"imagedata: {self.cupsA[idx]}")
+            image = QImage(self.cupsA[idx]) if self.cupsA[idx] is not None else QImage()
+            print(f"image: {image}")
+            return image
+        else:
+            return QImage()
+
+    def requestPixmap(self, id, size, requestedSize)->QPixmap:
+        pass
         
     @Slot(int, int)
     def getSlotB(self, row:int, col: int) ->QImage:
         print("called slotB")
         idx = 6*col + row
-        if self.cups[idx] is not None:
-            image = QImage(self.cups[idx])
+        if self.cupsA[idx] is not None:
+            image = QImage(self.cupsA[idx])
             return image
         else:
             return QImage()
@@ -84,6 +119,7 @@ class Stocktaker(QQuickImageProvider):
             return image
         else:
             return QImage()
+    
     @Slot()
     def callOverviewCam(self):
         self.call_overview.emit()
@@ -159,23 +195,24 @@ class Stocktaker(QQuickImageProvider):
             cv2.imwrite(f"temp/pallet_{i + 1}.png", pallet)
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Pallets finished. Start marker detection in cups...")
         print("Detection in cups:")
-        for i, cup in enumerate(self.cups):
+        for i, cup in enumerate(self.cupsA):
             parameters= self.select_marker_parameters(
                 i= i,
                 imtype= 'gray',
                 target= 'cup')
-            self.cups[i] = self._automatic_brightness_and_contrast(
+            self.cupsA[i] = self._automatic_brightness_and_contrast(
                 image= cup,
                 clip_hist_percent=1)
-            markers, self.cups[i] = self._detect_markers(
+            markers, self.cupsA[i] = self._detect_markers(
                 section=cup,
                 section_id=i,
                 cups=True,
                 parameters=parameters)
             cups, ids = self._get_cup_markers(markers)
-            self.cups[i] = self._draw_markers(cups, ids, (255,255,255), cup, i)
+            self.cupsA[i] = self._draw_markers(cups, ids, (255,255,255), cup, i)
             cv2.imwrite(f"temp/cup{i + 1}.png", cup)
-        print(self.detected_cups)
+        print(f"cups: {self.detected_cups}")
+        print(f"pallets: {self.pallets}")
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Cups finished. Start calculating result matrix...")
         self.calculate_result_matrix()
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Result matrix calculated. Process finished.")
@@ -519,7 +556,7 @@ class Stocktaker(QQuickImageProvider):
                 pallets.append(pallet_area)
 
         self.sections = sections
-        self.cups = cups
+        self.cupsA = cups
         self.pallets = pallets
     
     def _automatic_brightness_and_contrast(self,image,  clip_hist_percent):

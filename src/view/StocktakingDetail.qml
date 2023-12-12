@@ -108,10 +108,14 @@ Dialog {
             }
         }
     }
-    Component.onCompleted: {
-        console.log("try to load Images")
-        slotAImage.source = stocktaker.getSlotA(main_rect.row, main_rect.col)
-        slotBImage.source = stocktaker.getSlotB(main_rect.row, main_rect.col)
-        palletImage.source = stocktaker.getPallet(main_rect.row, main_rect.col)
+    onAboutToShow: {
+        console.log("try to load Images for "+ main_rect.row+ ", "+main_rect.col)
+        let a_sourcestring = "image://stocktaker/"+ main_rect.row + "_" + main_rect.col +"_A.png"
+        let b_sourcestring = "image://stocktaker/"+ main_rect.row + "_" + main_rect.col +"_B.png"
+        let pallet_string = "image://stocktaker/" + main_rect.row + "_" + main_rect.col +"_Pallet.png"
+        console.log("string for slot A: "+ a_sourcestring )
+        console.log(b_sourcestring)
+        slotAImage.source = a_sourcestring
+        palletImage.source = pallet_string
     }
 }
