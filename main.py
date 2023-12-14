@@ -36,7 +36,7 @@ from src.viewmodel.EventViewModel import EventSortModel
 
 ############################################### COMMISSION CONTROLLER #####################################################################
 #TODO: in CommissionController: if a commission is prepared and gets executed: a method to backtrace the prepared commission is needed. Only affects commissions to/from robot
-#TODO: Check commissions if robot->storage. If prepare: All commissions must be prepare. 
+#TODO: Check commissions if robot->storage. If prepare: All commissions must be prepare. ???
 
 ##################################################### ABB SERVICE #########################################################################
 #TODO: fix commission handling with abbservice
