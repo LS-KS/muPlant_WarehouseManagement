@@ -38,28 +38,26 @@ from src.viewmodel.EventViewModel import EventSortModel
 
 ##################################################### ABB SERVICE #########################################################################
 #TODO: fix commission handling with abbservice
-#TODO: GUI freezes when commission is performed.
-#TODO: refactor run method to use recvfrom(). This way the byteobject comes together with ip adress to determine the sender. Link: https://docs.python.org/3/library/socket.html#socket-objects
+#TODO: refactor run method to use recvfrom(). This way the byteobject comes together with ip adress to determine the sender. Link: https://docs.python.org/3/library/socket.html#socket-objects <--- unclear if socket will work
 
 #################################################### OPC UA SERVICE #######################################################################
-#TODO: Connect opcua agent listeners to commissioncontroller when commission is called as execute
-#TODO: refactor nodes: Just one namespace, function and response as array (two vars) 
+#TODO: Connect opcua agent listeners to commissioncontroller when commission is called as execute <--
+#TODO: refactor nodes: Just one namespace, function and response as array (two vars) <-- 
 
 ########################################################## IRC5 ###########################################################################
-#TODO: Find out how to select IRC5 via MAC address using socket package
-#TODO: Zustand variable must be set in robot as well as Näherungsschalter.
-#TODO: DI5: light barrier
-#TODO: DI3, DI4: proximity switches
-#TODO: Signal from Robot before waiting at camera position
+#TODO: With Axel: Find out how to select IRC5 via MAC address using socket package 
+#TODO: With Axel: Zustand variable must be set in robot as well as Näherungsschalter.
+#TODO: With Axel: DI5: light barrier
+#TODO: With Axel: DI3, DI4: proximity switches
+#TODO: With Axel: Signal from Robot before waiting at camera position
 
 ####################################################### STOCKTAKING #######################################################################
-#TODO: Test overview cam together with GUI
 #TODO: Test gripper cam together with GUI
-#TODO: Implement image handling so that the user can confirm/change inventory changes. 
-#TODO: Functions for OK Button in StocktakingDetail.qml
-#TODO: Fix image indexing when details are called form K1/K2
-#TODO: Once images are loaded, they cannot be updated. Fix this !!!
-#TODO: When camera evaluation is finished, emit the ID-data to GUI. 
+#TODO: Implement image handling so that the user can confirm/change inventory changes. <---- 
+#TODO: Functions for OK Button in StocktakingDetail.qml <---
+#TODO: Fix image indexing when details are called form K1/K2 <----
+#TODO: Once images are loaded, they cannot be updated. Fix this !!! <----
+#TODO: When camera evaluation is finished, emit the ID-data to GUI. <-----
 
 ######################################################### OTHER ###########################################################################
 #TODO: Print new pallet markers and attach them onto the pallets
