@@ -1,11 +1,9 @@
 from typing import Union
-
 from src.viewmodel.commissionViewModel import CommissionViewModel, CommissionFilterProxyModel
-
 from PySide6.QtCore import QSortFilterProxyModel, Slot, Qt
 from PySide6 import QtCore
 from PySide6.QtCore import QModelIndex, QObject, Signal, Slot
-from src.model.CommissionModel import CommissionData, CommissionState, Locations
+from src.model.CommissionModel import CommissionData, CommissionState, Locations, Velocity
 from src.constants.Constants import Constants
 from src.controller.invController import invController
 from yaml import safe_load, safe_dump
@@ -103,7 +101,6 @@ class CommissionController(QObject):
             self.commissionViewModel.setData(stateindex, state)
         self.sortComissionData()
         self.dumpCommissionData()
-
 
     @Slot(CommissionData, CommissionState)
     def change_commission_state(self, commission: CommissionData, state: CommissionState):
@@ -257,6 +254,7 @@ class CommissionController(QObject):
                     cup= cup,
                     pallet= pallet,
                     object= getattr(source_object, 'id', 0),
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {trg.value} created")
         elif trg == Locations.ROBOT and src.name[0] == 'K' and cup:
@@ -269,7 +267,8 @@ class CommissionController(QObject):
                     cup= cup,
                     pallet= pallet,
                     object= getattr(target_object, 'id', 0),
-                    prepare = prepare and not execute
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
         # case 2
@@ -283,7 +282,8 @@ class CommissionController(QObject):
                     cup= cup,
                     pallet= pallet,
                     object= getattr(source_object, 'id', 0),
-                    prepare = prepare and not execute
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
         # case 3
@@ -297,7 +297,8 @@ class CommissionController(QObject):
                     cup= cup,
                     pallet= pallet,
                     object= 0,
-                    prepare = prepare and not execute
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
         # case 4
@@ -314,7 +315,8 @@ class CommissionController(QObject):
                     cup= False,
                     pallet= True,
                     object= 0,
-                    prepare = prepare and not execute
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {source} to {target} created")
             # create second commission workbench -> workbench
@@ -347,7 +349,8 @@ class CommissionController(QObject):
                     cup= cup,
                     pallet= pallet,
                     object= getattr(source_object, 'id', 0),
-                    prepare = prepare and not execute
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {source} to {target} created")
         # case 6
@@ -359,7 +362,8 @@ class CommissionController(QObject):
                     cup= cup,
                     pallet= pallet,
                     object= getattr(source_object, 'id', 0),
-                    prepare = prepare and not execute
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K1'].value} created")
                 if target_object is not None:
@@ -369,7 +373,8 @@ class CommissionController(QObject):
                         cup = cup,
                         pallet = pallet,
                         object = getattr(source_object, 'id', 0),
-                        prepare = prepare and not execute
+                        prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                     ))
                     self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K2'].value} created")
                     commissions.append(self._create_new_commission(
@@ -378,7 +383,8 @@ class CommissionController(QObject):
                         cup = cup,
                         pallet = pallet,
                         object = getattr(source_object, 'id', 0),
-                        prepare = prepare and not execute
+                        prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                     ))
                     self.eventlogService.write_event("CommissionController", f"New sub-commission from {Locations['K2']} to {src} created")
                 commissions.append(self._create_new_commission(
@@ -387,7 +393,8 @@ class CommissionController(QObject):
                     cup = cup,
                     pallet = pallet,
                     object = getattr(source_object, 'id', 0),
-                    prepare = prepare and not execute
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"Final sub-commission from {Locations['K1'].value} to {src.value} created")
         # case 7
@@ -399,7 +406,8 @@ class CommissionController(QObject):
                     cup= False,
                     pallet= True,
                     object= 0,
-                    prepare = prepare and not execute
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K1'].value} created")
                 commissions.append(self._create_new_commission(
@@ -408,7 +416,8 @@ class CommissionController(QObject):
                     cup = False,
                     pallet = True,
                     object = 0,
-                    prepare = prepare and not execute
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K2'].value} created")
                 commissions.append(self._create_new_commission(
@@ -417,7 +426,8 @@ class CommissionController(QObject):
                     cup = True,
                     pallet = False,
                     object = getattr(source_object, 'id', 0),
-                    prepare = prepare and not execute
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {Locations['K1'+ source[-1]].value} to {Locations['K2'+ target[-1]].value} created")
                 commissions.append(self._create_new_commission(
@@ -426,7 +436,8 @@ class CommissionController(QObject):
                     cup = False,
                     pallet = True,
                     object = 0,
-                    prepare = prepare and not execute
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {Locations['K2'].value} to {Locations[trg[0:-1]].value} created")
                 commissions.append(self._create_new_commission(
@@ -435,7 +446,8 @@ class CommissionController(QObject):
                     cup = False,
                     pallet = True,
                     object = 0,
-                    prepare = prepare and not execute
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"Final sub-commission from {Locations['K1'].name} to {Locations[src[0:-1]].value} created")
         elif src.name[0] == 'L' and trg == Locations.ROBOT:
@@ -446,6 +458,7 @@ class CommissionController(QObject):
                     cup= False,
                     pallet= True,
                     object= 0,
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New sub-commission from {src.value} to {Locations['K1'].value} created")
                 commissions.append(self._create_new_commission(
@@ -454,7 +467,8 @@ class CommissionController(QObject):
                     cup= True,
                     pallet= False,
                     object= 0,
-                    prepare = prepare and not execute
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"Final commission from {src.value} to {Locations['K1'].value} created")
         #check =self.validateCommissionData()
@@ -671,7 +685,8 @@ class CommissionController(QObject):
             object=kwargs.get('object'),
             cup=kwargs.get('cup'),
             pallet=kwargs.get('pallet'),
-            state= CommissionState.PREPARE if kwargs.get('prepare') else CommissionState.OPEN)
+            state= CommissionState.PREPARE if kwargs.get('prepare') else CommissionState.OPEN,
+            velocity = kwargs.get('velocity'))
         self.commissionViewModel.add(commission)
         self.new_commission.emit(commission)
         return commission
@@ -688,14 +703,16 @@ class CommissionController(QObject):
                 state = CommissionState[line['CommissionData']['state']]
                 cup = bool(line['CommissionData']['cup'])
                 pallet = bool(line['CommissionData']['pallet'])
+                velocity = Velocity[line['CommissionData']['velocity']]
                 commissionData.append(CommissionData(
-                    int(line['CommissionData']['id']),
-                    source,
-                    target,
-                    int(line['CommissionData']['object']),
-                    cup,
-                    pallet,
-                    state
+                    id = int(line['CommissionData']['id']),
+                    source= source,
+                    target=target,
+                    object=int(line['CommissionData']['object']),
+                    cup=cup,
+                    pallet=pallet,
+                    velocity=velocity,
+                    state=state
                 ))
                 #print(commissionData[-1].source.value)
         return commissionData
@@ -716,6 +733,7 @@ class CommissionController(QObject):
                     'cup': commission.cup,
                     'pallet': commission.pallet,
                     'state': commission.state.name,
+                    'velocity' : commission.velocity.name,
                 }
             })
         with open(Constants().COMMISSIONDATA, 'w') as file:
@@ -1166,6 +1184,7 @@ class CommissionController(QObject):
                 )
             )
         return mobileRobot
+    
     def _setupWorkbenchCopy(self) -> Workbench:
         """
         Creates and returns a copy of invController's workbench object.

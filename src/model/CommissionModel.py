@@ -15,7 +15,7 @@ class CommissionData:
     pallet: bool - True if pallet is part of commission
     state: CommissionState(StrEnum) - state of commission
     """
-    def __init__(self, id, source, target, object, cup, pallet, state = None):
+    def __init__(self, id, source, target, object, cup, pallet, velocity, state = None):
         self.id: int = id
         self.source: Locations = source
         self.target: Locations = target
@@ -23,7 +23,15 @@ class CommissionData:
         self.cup: bool = cup
         self.pallet: bool = pallet
         self.state: CommissionState = CommissionState.OPEN if state is None else state
+        self.velocity: Velocity = velocity
         print(f"CommissionData: {self.id}, {self.source}, {self.target}, {self.object}")
+
+class Velocity(StrEnum):
+    """
+    Enum to determine weather the robot shall drive fast or slow
+    """
+    FAST = "fast, no water in cup"
+    SLOW = "slow, water in cup"
 
 class CommissionState(StrEnum):
     """
