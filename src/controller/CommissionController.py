@@ -223,14 +223,16 @@ class CommissionController(QObject):
         """
         Creates a new commission and adds it to the commissionViewModel.
         Cases: 
-        1.) robot -> workbench (vice versa, cup only) : 1 commission
-        2.) workbench -> workbench (cup only, 2 pallets at workbench, target empty) : 1 commissions
-        3.) workbench -> storage (vice versa, pallet only, with empty target) : 1 commissions
-        4.) workbench -> storage (cup) : 3 commissions (1. storage -> workbench (pallet with empty slot), 2. workbench-> workbench(cup) 3. workbench -> storage (pallet together with cup))
-        5.) storage -> workbench (cup | pallet, at least one slot for pallet in workbench empty) : 1 commission
-        6.) storage -> storage (pallet only, with empty workbench) : 4 commissions (1. storage -> workbench, 2. storage -> workbench, 3. workbench -> storage, 4. workbench -> storage)
-        7.) storage -> storage (cup only, empty workbench, target pallet slot is empty) : 5 commissions (1. storage -> workbench (pallet), 2. storage -> workbench (pallet), 3. workbench -> workbench (cup), 4. workbench -> storage (pallet), 5. workbench -> storage (pallet))
-        8.) storage -> robot (cup only, at least one slot empty in kommission table): 3 commissions (1. storage-> workbench(pallet), 2. workbench -> robot (cup), 3. workbench -> storage (pallet))
+        1.) robot -> workbench (cup only) : 1 commission
+        2.) workbench -> robot (cup only) : 1 commission 
+        3.) workbench -> workbench (cup only, 2 pallets at workbench, target empty) : 1 commissions
+        4.) workbench -> storage (vice versa, pallet only, with empty target) : 1 commissions
+        5.) workbench -> storage (cup) : 3 commissions (1. storage -> workbench (pallet with empty slot), 2. workbench-> workbench(cup) 3. workbench -> storage (pallet together with cup))
+        6.) storage -> workbench (cup | pallet, at least one slot for pallet in workbench empty) : 1 commission
+        7.) storage -> storage (pallet only, with empty workbench) : 4 commissions (1. storage -> workbench, 2. storage -> workbench, 3. workbench -> storage, 4. workbench -> storage)
+        8.) storage -> storage (cup only, empty workbench, target pallet slot is empty) : 5 commissions (1. storage -> workbench (pallet), 2. storage -> workbench (pallet), 3. workbench -> workbench (cup), 4. workbench -> storage (pallet), 5. workbench -> storage (pallet))
+        9.) storage -> robot (cup only, at least one slot empty in workbench): 3 commissions (1. storage-> workbench(pallet), 2. workbench -> robot (cup), 3. workbench -> storage (pallet))
+        10.) robot -> storagte (cup only, at least one cup slot empty in workbench)
         :param source: source location
         :type source: str
         :param target: target location
@@ -245,7 +247,7 @@ class CommissionController(QObject):
         cup = True if cup_or_pallet == "Cup" else False
         pallet = True if cup_or_pallet == "Pallet" else False
         commissions: list[CommissionData] = []
-        # case 1
+        # case 1 Cup from Robot to workbench
         if src == Locations.ROBOT and trg.name[0] == 'K' and cup:
             if target_object is None:
                 commissions.append(self._create_new_commission(
@@ -257,6 +259,7 @@ class CommissionController(QObject):
                     velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {trg.value} created")
+        # case 2 Cup from workbench to robot
         elif trg == Locations.ROBOT and src.name[0] == 'K' and cup:
             source_object = self._get_object_from_location(src)
             target_object = self._get_object_from_location(trg)
@@ -271,7 +274,7 @@ class CommissionController(QObject):
                     velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
-        # case 2
+        # case 3 cup between workbench
         elif src.name[0] == 'K' and trg.name[0] == 'K' and cup:
             source_object = self._get_object_from_location(src)
             target_object = self._get_object_from_location(trg)
@@ -286,7 +289,7 @@ class CommissionController(QObject):
                     velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
-        # case 3
+        # case 4 pallet from workbench to storage
         elif src.name[0] == 'K' and trg.name[0] == 'L' and pallet:
             source_object = self._get_object_from_location(src)
             target_object = self._get_object_from_location(trg)
@@ -301,7 +304,7 @@ class CommissionController(QObject):
                     velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {src.value} to {src.value} created")
-        # case 4
+        # case 5 Cup from workbench to storage
         elif src.name[0] == 'K' and trg.name[0] == 'L' and cup:
             source_object = self._get_object_from_location(src)
             target_object = self._get_object_from_location(trg)
@@ -338,7 +341,7 @@ class CommissionController(QObject):
                 prepare = prepare and not execute
             ))
             self.eventlogService.write_event("CommissionController", f"Final sub-commission from {source} to {target} created")
-        # case 5
+        # case 6 Pallet from storage to workbench
         elif src.name[0] == 'L' and trg.name[0] == 'K' and pallet:
             source_object = self._get_object_from_location(src)
             target_object = self._get_object_from_location(trg)
@@ -353,7 +356,7 @@ class CommissionController(QObject):
                     velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"New commission from {source} to {target} created")
-        # case 6
+        # case 7 Pallet from storage to storage
         elif src.name[0] == 'L' and trg.name[0] == 'L' and pallet:
             if self._get_object_from_location(Locations['K1']) is None and self._get_object_from_location(Locations['K2']) is None:
                 commissions.append(self._create_new_commission(
@@ -397,7 +400,7 @@ class CommissionController(QObject):
                     velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"Final sub-commission from {Locations['K1'].value} to {src.value} created")
-        # case 7
+        # case 8 Cup from storage to storage
         elif src.name[0] == 'L' and trg.name[0] == 'L' and cup:
             if self._get_object_from_location(trg) is None and self._get_object_from_location(Locations['K1'].name) is None and self._get_object_from_location(Locations['K2'].name) is None:
                 commissions.append(self._create_new_commission(
@@ -450,7 +453,8 @@ class CommissionController(QObject):
                     velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"Final sub-commission from {Locations['K1'].name} to {Locations[src[0:-1]].value} created")
-        elif src.name[0] == 'L' and trg == Locations.ROBOT:
+        # case 9 Cup from storage to robot
+        elif src.name[0] == 'L' and trg == Locations.ROBOT and cup:
             if self._get_object_from_location(Locations['K1'].name) is None:
                 commissions.append(self._create_new_commission(
                     source= Locations[src.name[0:-1]],
@@ -471,6 +475,68 @@ class CommissionController(QObject):
                     velocity = Velocity.SLOW,
                 ))
                 self.eventlogService.write_event("CommissionController", f"Final commission from {src.value} to {Locations['K1'].value} created")
+        # case 10 Cup from robot to storage
+        elif src == Locations.ROBOT and trg.name[0] == 'L' and cup:
+            # if there is no cup free and at least one pallet slot empty, get a suitable pallet from storage. 
+            
+            # check k1
+            k1 = self._get_object_from_location(Locations.K1)
+            if k1 is not None: k1_a, k1b = k1.slotA, k1.slotB
+            else: k1_a, k1_b = None, None
+
+            # check k2
+            k2 = self._get_object_from_location(Locations.K2)
+            if k2 is not None: k2_a, k2_b = k2.slotA, k2.slotB
+            else: k2_a, k2_b = None, None
+
+            # no pallet at workbench? --> get one with an empty slot from storage
+            # one pallet there but full, other empty? --> get one with an empty slot from storage
+            if (k1, k2 == None, None) or (k1 == None and k2_a is not None and k2_b is not None) or (k2 == None and k1_a is not None and k1_b is not None):
+                # get a suitable pallet from storage
+                location = None
+                for i in range(18):
+                    pallet = self._get_object_from_location(location=Locations[f'L{i}'].name)
+                    if pallet is not None: 
+                        if pallet.slotA is None or pallet.slotB is None: 
+                            location = 'L1'
+                            break
+                comtrg = Locations.K1 if k1 == None else Locations.K2,
+                storage = Locations[location].name,
+                slot = 'A' if pallet.slotA is None else pallet.slotB
+                # get pallet to workbench
+                self.create_new_commission(
+                    source = storage,
+                    target = comtrg,
+                    cup = False, 
+                    pallet = True,
+                    object = 0,
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW
+                )
+                # get cup from robot to pallet
+                self.create_new_commission(
+                    source = Locations.ROBOT,
+                    target = Locations[comtrg+slot],
+                    cup = True, 
+                    pallet = False,
+                    object = 0,
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW
+                )
+                # put Pallet back to storage
+                self.create_new_commission(
+                    source = Locations[comtrg],
+                    target = Locations[storage],
+                    cup = False, 
+                    pallet = True,
+                    object = 0,
+                    prepare = prepare and not execute,
+                    velocity = Velocity.SLOW
+                )
+            elif all(x is None for x in [k1, k2, k1_a, k1_b, k2_a, k2_b]):
+                # DESPERATION!!!!!!!!!
+                return
+
         #check =self.validateCommissionData()
         check = True
         if check:

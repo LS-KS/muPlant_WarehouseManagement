@@ -31,12 +31,10 @@ from src.viewmodel.EventViewModel import EventSortModel
 
 
 ################################################# COMMISSION MODEL ########################################################################
-#TODO: new variable to determine wether the Robot shall be drove fast or slow depending on water inside the cup or not. 
 #TODO: Communication with IRC5 wether the robot will wait at certain destinations to take a picture from gripper cam. 
 
 ############################################### COMMISSION CONTROLLER #####################################################################
 #TODO: in CommissionController: if a commission is prepared and gets executed: a method to backtrace the prepared commission is needed. Only affects commissions to/from robot
-#TODO: Check commissions if robot->storage. If prepare: All commissions must be prepare. ???
 
 ##################################################### ABB SERVICE #########################################################################
 #TODO: fix commission handling with abbservice
