@@ -62,6 +62,11 @@ from src.viewmodel.EventViewModel import EventSortModel
 #TODO: Fix image indexing when details are called form K1/K2
 #TODO: Once images are loaded, they cannot be updated. Fix this !!!
 #TODO: When camera evaluation is finished, emit the ID-data to GUI. 
+#TODO: Fix image slicing for pallet detection.
+
+######################################################### OTHER ###########################################################################
+#TODO: Print new pallet markers and attach them onto the pallets
+#TODO: Print new cup markers and attach them on the cups
 
 ###################################################### Nice to have #######################################################################
 #TODO: CommissionController must take transportable data objects from future not from actual storage. 

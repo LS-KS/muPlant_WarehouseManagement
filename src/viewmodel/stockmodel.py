@@ -125,7 +125,7 @@ class stockmodel(QtCore.QAbstractTableModel):
         :return: True if the data was successfully set, False otherwise.
         :rtype: bool
         """
-        if index.role> self.rowCount() or index.column() > self.columnCount():
+        if index.row> self.rowCount() or index.column() > self.columnCount():
             return False
         if role == QtCore.Qt.DisplayRole + 1:
             self.model[index.row()][index.column()].previous_pallet = value

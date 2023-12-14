@@ -139,7 +139,7 @@ class Stocktaker(QQuickImageProvider):
         elif slot.__contains__('B')  and self.cupsB[idx] is not None:
             image = QImage(self.cupsB[idx].tobytes(), self.cupsB[idx].shape[1], self.cupsB[idx].shape[0], QImage.Format_Grayscale8)
         return image
-    
+            
     @Slot()
     def callOverviewCam(self):
         """
@@ -209,7 +209,7 @@ class Stocktaker(QQuickImageProvider):
                 parameters= parameters)
             pallets, ids = self._get_pallet_markers(markers) 
             self.pallets[i] = self._draw_markers(corners = pallets, ids=ids, color=(255,0,0), section=self.pallets[i], section_id=i)
-            cv2.imwrite(f"temp/pallet_{i + 1}.png", pallet)
+            cv2.imwrite(f"src/service/temp/pallet_{i + 1}.png", pallet)
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Pallets finished. Start marker detection in cups...")
         print("Detection in cups:")
         for i, cup in enumerate(self.cupsA):
@@ -227,7 +227,7 @@ class Stocktaker(QQuickImageProvider):
                 parameters=parameters)
             cups, ids = self._get_cup_markers(markers)
             self.cupsA[i] = self._draw_markers(corners = cups, ids=ids, color= (255,255,255), section= self.cupsA[i], section_id=i)
-            cv2.imwrite(f"temp/cup{i + 1}.png", cup)
+            cv2.imwrite(f"src/service/temp/cup{i + 1}.png", cup)
         print(f"cup-ids: {self.detected_cups}")
         print(f"cups: {self.cupsA}")
         print(f"pallets: {self.pallets}")
@@ -571,7 +571,7 @@ class Stocktaker(QQuickImageProvider):
                 # threshold = 190
                 # section = cv2.threshold(section, threshold, 255, cv2.THRESH_BINARY)[1]
                 cup_area = section [int(section.shape[0]*0.2) : int(section.shape[0]*0.5), 0:int(section.shape[1])]
-                pallet_area =section [int(section.shape[0]*0.6) : int(section.shape[0]*0.9), 0:int(section.shape[1])]
+                pallet_area =section [int(section.shape[0]*0.5) : int(section.shape[0]*0.8), 0:int(section.shape[1])]
                 self.sections[6*y+x] = section
                 self.cupsA[6*y+x] = cup_area
                 self.pallets[6*y+x] = pallet_area
