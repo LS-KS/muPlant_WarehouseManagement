@@ -24,7 +24,7 @@ Dialog {
                     text: "Pallet: Detected ID: " + main_rect.pallet_id
                 }
                 Rectangle{
-                    width: main_rect.width -10
+                    width: main_rect.width -15
                     height: 250
                     radius: 5
                     border.width: 2
@@ -47,7 +47,7 @@ Dialog {
                     text: "Slot A: Detected ID: " + main_rect.slotid_a
                 }
                 Rectangle{
-                    width: main_rect.width/2 -10
+                    width: main_rect.width/2 -15
                     height: 125
                     radius: 5
                     border.width: 2
@@ -68,7 +68,7 @@ Dialog {
                     text: "Slot B: Detected ID: "+ main_rect.slotid_b
                 }
                 Rectangle{
-                    width: main_rect.width/2 -10
+                    width: main_rect.width/2 -15
                     height: 125
                     radius: 5
                     border.width: 2
@@ -83,18 +83,25 @@ Dialog {
         }
         RowLayout{
             Button{
-                id: okButton
-                text: "Ok"
-                onClicked: console.log("nothing here ... yet")
+                id: loadButton
+                text: "load data..."
+                onClicked: loadImages()
                 Layout.preferredHeight: 40
                 Layout.preferredWidth: main_rect.width/4
             }
             Button{
+                id: okButton
+                text: "Ok"
+                onClicked: console.log("nothing here ... yet")
+                Layout.preferredHeight: 40
+                Layout.preferredWidth: main_rect.width/5
+            }
+            Button{
                 id: cancelButton
                 text: "Cancel"
-                onClicked: console.log("nothing here.... yet")
+                onClicked: main_rect.close()
                 Layout.preferredHeight: 40
-                Layout.preferredWidth: main_rect.width/4
+                Layout.preferredWidth: main_rect.width/5
             }
             Button{
                 id: saveButton
@@ -103,18 +110,21 @@ Dialog {
                 enabled: false
                 onClicked: console.log("nothing here.... yet")
                 Layout.preferredHeight: 40
-                Layout.preferredWidth: main_rect.width/3
+                Layout.preferredWidth: main_rect.width/5
                 Layout.alignment: Qt.AlignRight
             }
         }
     }
     onAboutToShow: {
-        console.log("try to load Images for "+ main_rect.row+ ", "+main_rect.col)
-        let a_sourcestring = "image://stocktaker/"+ main_rect.row + "_" + main_rect.col +"_A.png"
-        let b_sourcestring = "image://stocktaker/"+ main_rect.row + "_" + main_rect.col +"_B.png"
-        let pallet_string = "image://stocktaker/" + main_rect.row + "_" + main_rect.col +"_Pallet.png"
-        console.log("string for slot A: "+ a_sourcestring )
-        console.log(b_sourcestring)
+        loadImages()
+    }
+    function loadImages(){
+        //console.log("try to load Images for "+ main_rect.row+ ", "+main_rect.col)
+        let a_sourcestring = "image://stockimage/"+ main_rect.row + "_" + main_rect.col +"_A.png"
+        let b_sourcestring = "image://stockimage/"+ main_rect.row + "_" + main_rect.col +"_B.png"
+        let pallet_string = "image://stockimage/" + main_rect.row + "_" + main_rect.col +"_Pallet.png"
+        //console.log("string for slot A: "+ a_sourcestring )
+        //console.log(b_sourcestring)
         slotAImage.source = a_sourcestring
         slotBImage.source = b_sourcestring
         palletImage.source = pallet_string

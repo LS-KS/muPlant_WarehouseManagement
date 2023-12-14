@@ -58,10 +58,10 @@ from src.viewmodel.EventViewModel import EventSortModel
 #TODO: Test overview cam together with GUI
 #TODO: Test gripper cam together with GUI
 #TODO: Implement image handling so that the user can confirm/change inventory changes. 
-#TODO: Implement 'Details' Button logic as a Dialog. 
-#TODO: Fix ImageSignal from CameraService, so that stocktaking.image is not None after image acquisition.
-#TODO: Fix Overlap ov image Rectangles and cancel button in Detail Dialog
-#TODO: DetailDialog in Comission Pallets may rag out of visible screen area
+#TODO: Functions for OK Button in StocktakingDetail.qml
+#TODO: Fix image indexing when details are called form K1/K2
+#TODO: Once images are loaded, they cannot be updated. Fix this !!!
+#TODO: When camera evaluation is finished, emit the ID-data to GUI. 
 
 ###################################################### Nice to have #######################################################################
 #TODO: CommissionController must take transportable data objects from future not from actual storage. 
@@ -133,7 +133,7 @@ if __name__ == '__main__':
     # creates Stocktaker object used in stocktaking plugin
     stocktaker = Stocktaker(eventlogService)
     engine.rootContext().setContextProperty("stocktaker", stocktaker)
-    engine.addImageProvider("stocktaker", stocktaker)
+    engine.addImageProvider("stockimage", stocktaker)
 
     #create stockmodel
     stock_model = stockmodel(inv_controller=inventoryController)

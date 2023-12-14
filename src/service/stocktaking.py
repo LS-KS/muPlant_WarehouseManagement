@@ -68,7 +68,8 @@ class Stocktaker(QQuickImageProvider):
         self.raw_image = []
         self.image = []
         self.sections = [None] * 18
-        self.cupsA = [None] * 18 
+        self.cupsA = [None] * 18
+        self.cupsB = [None] * 18 
         self.pallets = [None] * 18
         self.gripper_id = None
         self.detected_cups = [None]*18
@@ -113,6 +114,7 @@ class Stocktaker(QQuickImageProvider):
         """
         Method of QQuickImageProvider. Returns an image based on which is 
         part of the url calculated in QML File StocktakerDetail.qml
+        The image must be set as bytestrings.
 
         :param id: url of image without image://stocktaker/, so basically a filename of an image
         :type id: str
@@ -125,61 +127,18 @@ class Stocktaker(QQuickImageProvider):
         """
         print(f"called an Image {id}, {size}, {requestedSize}")
         strings = id.split('_')
-        row, col, slot = int(strings[0]), int(strings[1]), strings[2][0]
+        row, col, slot = int(strings[0]), int(strings[1]), strings[2]
         idx = 6*row + col
         print(f"idx: {idx}")
-        if(slot =="Pallet"):
-            print(f"imagedata: {self.pallets[idx]}")
-            image = QImage(self.pallets[idx])
-            print(f"pallet image: {image}")
-            return image
-        elif slot == 'A' and idx < len(self.cupsA) :
-            print(f"imagedata: {self.cupsA[idx]}")
-            image = QImage(self.cupsA[idx]) if self.cupsA[idx] is not None else QImage()
-            print(f"image: {image}")
-            return image
-        else:
-            return QImage()
-        
-    @Slot(int, int)
-    def getSlotB(self, row:int, col: int) ->QImage:
-        """
-        Slot method that returns the image for Slot B.
-
-        :param row: The row index.
-        :type row: int
-        :param col: The column index.
-        :type col: int
-        :return: The image for Slot B.
-        :rtype: QImage
-        """
-        print("called slotB")
-        idx = 6*col + row
-        if self.cupsA[idx] is not None:
-            image = QImage(self.cupsA[idx])
-            return image
-        else:
-            return QImage()
-
-    @Slot(int, int)
-    def getPallet(self, row: int, col: int)->QImage:
-        """
-        Slot method that returns the image for a pallet.
-
-        :param row: The row index.
-        :type row: int
-        :param col: The column index.
-        :type col: int
-        :return: The image for the pallet.
-        :rtype: QImage
-        """
-        print("called getPallet")
-        idx = 6*col + row
-        if self.pallets[idx] is not None:
-            image = QImage(self.pallets[idx])
-            return image
-        else:
-            return QImage()
+        arr = np.ones((250,250), dtype=np.uint8)*127
+        image = QImage(arr.tobytes(), arr.shape[1], arr.shape[0], QImage.Format_Grayscale8)
+        if slot.__contains__('Pallet') and self.pallets[idx] is not None:
+            image = QImage(self.pallets[idx].tobytes(), self.pallets[idx].shape[1], self.pallets[idx].shape[0], QImage.Format_Grayscale8)
+        elif slot.__contains__('A')  and self.cupsA[idx] is not None:
+            image = QImage(self.cupsA[idx].tobytes(), self.cupsA[idx].shape[1], self.cupsA[idx].shape[0], QImage.Format_Grayscale8)
+        elif slot.__contains__('B')  and self.cupsB[idx] is not None:
+            image = QImage(self.cupsB[idx].tobytes(), self.cupsB[idx].shape[1], self.cupsB[idx].shape[0], QImage.Format_Grayscale8)
+        return image
     
     @Slot()
     def callOverviewCam(self):
@@ -203,13 +162,6 @@ class Stocktaker(QQuickImageProvider):
         self.raw_image = np.copy(self.image)
         #plt.imshow(self.image, cmap= 'gray')
         #plt.show()
-        waiting = 0
-        while waiting < 1000:
-            if self.image is None:
-                time.sleep(0.01)
-                waiting +=1
-            else: break
-
         if self.image is None:
             self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "No image obtained from camera! Stocktaking aborted.")
             return
@@ -242,6 +194,7 @@ class Stocktaker(QQuickImageProvider):
         self._slice_storage(self.raw_image)
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Slicing finished. Start marker detection in sections...")
         print("Detection in pallets:")
+        # until here no cups/ pallets are none
         for i, pallet in enumerate(self.pallets):
             parameters = self.select_marker_parameters(
                 i= i,
@@ -254,8 +207,8 @@ class Stocktaker(QQuickImageProvider):
                 section=pallet,
                 section_id=i,
                 parameters= parameters)
-            pallets, ids = self._get_pallet_markers(markers)
-            self.pallets[i] = self._draw_markers(pallets, ids, (255,0,0), pallet, i)
+            pallets, ids = self._get_pallet_markers(markers) 
+            self.pallets[i] = self._draw_markers(corners = pallets, ids=ids, color=(255,0,0), section=self.pallets[i], section_id=i)
             cv2.imwrite(f"temp/pallet_{i + 1}.png", pallet)
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Pallets finished. Start marker detection in cups...")
         print("Detection in cups:")
@@ -273,9 +226,10 @@ class Stocktaker(QQuickImageProvider):
                 cups=True,
                 parameters=parameters)
             cups, ids = self._get_cup_markers(markers)
-            self.cupsA[i] = self._draw_markers(cups, ids, (255,255,255), cup, i)
+            self.cupsA[i] = self._draw_markers(corners = cups, ids=ids, color= (255,255,255), section= self.cupsA[i], section_id=i)
             cv2.imwrite(f"temp/cup{i + 1}.png", cup)
-        print(f"cups: {self.detected_cups}")
+        print(f"cup-ids: {self.detected_cups}")
+        print(f"cups: {self.cupsA}")
         print(f"pallets: {self.pallets}")
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Cups finished. Start calculating result matrix...")
         self.calculate_result_matrix()
@@ -554,12 +508,16 @@ class Stocktaker(QQuickImageProvider):
         if type(section) is type(None):
             self.image = cv2.cvtColor(self.image, cv2.COLOR_RGB2GRAY) if self.image.ndim == 3 else self.image
             (corners, ids, rejected) = cv2.aruco.detectMarkers(self.image, self.constants.ARUCODICT, parameters= parameters )
+            image = cv2.aruco.drawDetectedMarkers(self.image, corners, ids)
+            cv2.imwrite("overview_raw.png", image)
             markers = self._refactor_corners(corners, ids)
             # print(f"detection: {markers[0]}, {len(markers[1])}")
             return markers, self.image
         else:
             section = cv2.cvtColor(section, cv2.COLOR_RGB2GRAY) if section.ndim == 3 else section
             (corners, ids, rejected) = cv2.aruco.detectMarkers(section, self.constants.ARUCODICT, parameters= parameters )
+            image = cv2.aruco.drawDetectedMarkers(self.image, corners, ids)
+            cv2.imwrite("temp/overview_raw.png", image)
             markers = self._refactor_corners(corners, ids)
             marker_content = markers[0][0]
             if marker_content is not None:
@@ -584,12 +542,14 @@ class Stocktaker(QQuickImageProvider):
         if len(corners) > 0:
             corners = [x[0] for x in corners]
             for i, marker in enumerate(corners):
-                if type(section) == type(None):
+                if type(section) is None:
                     self.image = cv2.rectangle(img= self.image, pt1= (int(marker[0][0]), int(marker[0][1])), pt2= (int(marker[2][0]), int(marker[2][1])), color= color, thickness= 30)
                     return self.image
                 else:
                     section = cv2.rectangle(img= section, pt1= (int(marker[0][0]), int(marker[0][1])), pt2= (int(marker[2][0]), int(marker[2][1])), color= color, thickness= 30)
                     return section
+        else:
+            return section if section is not None else self.image
     
     def _slice_storage(self, image):
         """
@@ -598,9 +558,6 @@ class Stocktaker(QQuickImageProvider):
         :return: List of image slices
         :rtype: list
         """
-        sections = []
-        cups = []
-        pallets = []
         x_dim = image.shape[1]
         y_dim = image.shape[0]
         # print(f"x: {x_dim}, y: {y_dim}")
@@ -615,14 +572,10 @@ class Stocktaker(QQuickImageProvider):
                 # section = cv2.threshold(section, threshold, 255, cv2.THRESH_BINARY)[1]
                 cup_area = section [int(section.shape[0]*0.2) : int(section.shape[0]*0.5), 0:int(section.shape[1])]
                 pallet_area =section [int(section.shape[0]*0.6) : int(section.shape[0]*0.9), 0:int(section.shape[1])]
-                sections.append(section)
-                cups.append(cup_area)
-                pallets.append(pallet_area)
+                self.sections[6*y+x] = section
+                self.cupsA[6*y+x] = cup_area
+                self.pallets[6*y+x] = pallet_area
 
-        self.sections = sections
-        self.cupsA = cups
-        self.pallets = pallets
-    
     def _automatic_brightness_and_contrast(self,image,  clip_hist_percent):
         """
         Autoadjusting color and brightness for better marker detection.
