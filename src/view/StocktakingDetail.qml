@@ -116,6 +116,7 @@ Dialog {
         console.log("string for slot A: "+ a_sourcestring )
         console.log(b_sourcestring)
         slotAImage.source = a_sourcestring
+        slotBImage.source = b_sourcestring
         palletImage.source = pallet_string
     }
 }

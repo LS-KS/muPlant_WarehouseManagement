@@ -26,11 +26,40 @@ import time
 import asyncio
 import re
 class Stocktaker(QQuickImageProvider):
+    """
+    Stocktaker class that inherits from QQuickImageProvider.
+    Manages stocktaking operations and provides images to the QML interface.
+
+    :atttr cameraService: The camera service instance which gathers images from all implemented cameras.
+    :atttr constants: The constants instance which provides all constant values of the application.
+    :atttr eventlogService: The eventlog service instance which logs all events of the application.
+    :atttr raw_image: The raw image from the camera. This variable is overwritten everytime a new image is received. This one is not used in image processing
+    :atttr image: The image from the camera. This variable is overwritten everytime a new image is received. This one is used in image processing it is not used for slicing and final detection of cups and pallet.
+    :atttr sections: The sections of the image. This variable is overwritten everytime a new image is received. This one is used for slicing and final detection of cups and pallet.
+    :atttr cupsA: list of image slices which shows cup markers. This variable is overwritten everytime a new image is received. This one is used for slicing and final detection of cups in front of every pallet in storage.
+    :atttr pallets: list of image slices which shows pallet markers. This variable is overwritten everytime a new image is received. This one is used for slicing and final detection of pallets in storage.
+    :atttr gripper_id: The id of an object currently located at the gripper.
+    :atttr detected_cups: list of detected cup ids.
+    :atttr stockmodel: The stock model instance which provides all stock data to the gui except images (because for this an imageprovider is needed).
+    :atttr submitPalletImage: Signal that emits a pallet image.
+    :atttr submitCupImage: Signal that emits a cup image.
+    :atttr submitResultMatrix: Signal that emits the result matrix. 
+    :atttr allow_accept_stock: Signal that emits a bool value to enable the accept button in stocktaking.
+    :atttr call_overview: Signal that emits a call to the overview camera.
+    :atttr transmit_data_to_plugin: Signal that emits data to the plugin.
+    """
+
     allow_accept_stock = Signal(bool) # send with True to enable Accent button in stocktaking
     call_overview = Signal()
     transmit_data_to_plugin = Signal(int, int, bool, int, int) # row, col, pallet, cupa id, cupb id
 
     def __init__(self, eventLogService: None | EventlogService):
+        """
+        Constructor for the Stocktaker class.
+
+        :param eventLogService: EventlogService instance for logging events.
+        :type eventLogService: None or EventlogService
+        """
         super().__init__(QQmlImageProviderBase.Image, QQmlImageProviderBase.ForceAsynchronousImageLoading)
         self.cameraService = ImageProvider()
         self.cameraService.imageSignal.connect(self.handle_image_signal)
@@ -38,11 +67,11 @@ class Stocktaker(QQuickImageProvider):
         self.eventlogService = eventLogService
         self.raw_image = []
         self.image = []
-        self.sections = []
-        self.cupsA = []
-        self.pallets = []
-        self.gripper_id = 0
-        self.detected_cups = []
+        self.sections = [None] * 18
+        self.cupsA = [None] * 18 
+        self.pallets = [None] * 18
+        self.gripper_id = None
+        self.detected_cups = [None]*18
         self.stockmodel = None
         self.submitPalletImage = Signal(QImage)
         self.submitCupImage = Signal(QImage)
@@ -50,35 +79,50 @@ class Stocktaker(QQuickImageProvider):
         self.call_overview.connect(self.handle_overview_call)
     
     def handle_overview_call(self):
+        """
+        Slot method that handles the overview call signal.
+        Calls the evaluate_storagecell_cam method.
+        """
         self.evaluate_storagecell_cam()
 
     def handle_image_signal(self, image: np.ndarray):
+        """
+        Slot method that handles the image signal from the camera service.
+
+        :param image: The received image from the camera.
+        :type image: np.ndarray
+        """
         print(f"Image received {image}")
         self.image = image.copy()
 
     def __del__(self):
+        """
+        Destructor for the Stocktaker class.
+        """
         print("Stocktaker: Destructor called")
     
     def set_stockmodel(self, stockmodel):
+        """
+        Sets the stock model for the Stocktaker.
+
+        :param stockmodel: The stock model to be set.
+        """
         self.stockmodel = stockmodel
 
-    @Slot(int, int, result=QImage)
-    def getSlotA(self, row: int, col: int) -> QImage:
-        print("called slotA")
-        idx = 6*col + row
-        print(f"idx: {idx}")
-        if idx == -7:
-            return QImage()
-        elif idx >= len(self.cupsA):
-            return QImage()
-        elif self.cupsA[idx] is not None:
-            print(f"image: {image}")
-            image = QImage(self.cupsA[idx])
-            return image
-        else:
-            return QImage()
-
     def requestImage(self, id:str, size, requestedSize)->QImage:
+        """
+        Method of QQuickImageProvider. Returns an image based on which is 
+        part of the url calculated in QML File StocktakerDetail.qml
+
+        :param id: url of image without image://stocktaker/, so basically a filename of an image
+        :type id: str
+        :param size: size of the image --- dont need to care about thie (until now)
+        :type size: QSize
+        :param requestedSize: requested size of the image --- dont need to care about thie (until now)
+        :type requestedSize: QSize
+        :return: The requested image.
+        :rtype: QImage
+        """
         print(f"called an Image {id}, {size}, {requestedSize}")
         strings = id.split('_')
         row, col, slot = int(strings[0]), int(strings[1]), strings[2][0]
@@ -96,12 +140,19 @@ class Stocktaker(QQuickImageProvider):
             return image
         else:
             return QImage()
-
-    def requestPixmap(self, id, size, requestedSize)->QPixmap:
-        pass
         
     @Slot(int, int)
     def getSlotB(self, row:int, col: int) ->QImage:
+        """
+        Slot method that returns the image for Slot B.
+
+        :param row: The row index.
+        :type row: int
+        :param col: The column index.
+        :type col: int
+        :return: The image for Slot B.
+        :rtype: QImage
+        """
         print("called slotB")
         idx = 6*col + row
         if self.cupsA[idx] is not None:
@@ -112,6 +163,16 @@ class Stocktaker(QQuickImageProvider):
 
     @Slot(int, int)
     def getPallet(self, row: int, col: int)->QImage:
+        """
+        Slot method that returns the image for a pallet.
+
+        :param row: The row index.
+        :type row: int
+        :param col: The column index.
+        :type col: int
+        :return: The image for the pallet.
+        :rtype: QImage
+        """
         print("called getPallet")
         idx = 6*col + row
         if self.pallets[idx] is not None:
@@ -122,6 +183,10 @@ class Stocktaker(QQuickImageProvider):
     
     @Slot()
     def callOverviewCam(self):
+        """
+        Slot method that calls the overview camera.
+        Emits the call_overview signal.
+        """
         self.call_overview.emit()
         
     @Slot()
@@ -132,7 +197,6 @@ class Stocktaker(QQuickImageProvider):
         Afterwards signals with processed image is emitted to QML Engine.
         Before every step a message is emitted to EventlogService in main screen
         """
-
         self.detected_cups = []
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Start obtaining image from camera...")
         self.cameraService.get_image(0)
