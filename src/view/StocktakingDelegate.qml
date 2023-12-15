@@ -112,6 +112,7 @@ Rectangle {
             bottom: parent.bottom
             right: parent.right
         }
+        opacity: main_rect.new_pallet? 1 : 0.1
         anchors.leftMargin: horizontalMargin/2
         anchors.rightMargin: horizontalMargin
         anchors.topMargin: verticalMargin

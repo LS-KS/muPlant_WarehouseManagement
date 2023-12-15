@@ -54,10 +54,10 @@ from src.viewmodel.EventViewModel import EventSortModel
 
 ####################################################### STOCKTAKING #######################################################################
 #TODO: Test gripper cam together with GUI
+#TODO: Find out why emitted IDs show only '-1' instead of real values
 #TODO: Implement image handling so that the user can confirm/change inventory changes. <---- 
 #TODO: Functions for OK Button in StocktakingDetail.qml <---
 #TODO: Fix image indexing when details are called from K1/K2 <----
-#TODO: When camera evaluation is finished, emit the ID-data to GUI. <-----
 
 ######################################################### OTHER ###########################################################################
 #TODO: Print new pallet markers and attach them onto the pallets
@@ -138,7 +138,7 @@ if __name__ == '__main__':
     #create stockmodel
     stock_model = stockmodel(inv_controller=inventoryController)
     table_model = tablemodel(inv_controller=inventoryController)
-    engine.rootContext().setContextProperty("storagemodel", stock_model)
+    engine.rootContext().setContextProperty("stockmodel", stock_model)
     engine.rootContext().setContextProperty("tablemodel", table_model)
     stocktaker.set_stockmodel(stock_model)
 

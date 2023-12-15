@@ -10,17 +10,19 @@ Processed images are provided to qml by using class videoPlayer which inherits f
 import cv2
 import skimage.util
 from PySide6.QtGui import QImage, QPixmap
-from PySide6.QtCore import Signal, Slot, Qt, QThread, QObject
+from PySide6.QtCore import Signal, Slot, Qt, QThread, QObject, QModelIndex
+from PySide6 import QtCore
 from PySide6.QtQuick import QQuickImageProvider
 from PySide6.QtQml import QQmlImageProviderBase
 from src.service.CameraService import ImageProvider
 from src.service.CameraService import ImageProvider
 from src.constants.Constants import Constants
 from src.service.EventlogService import EventlogService
+from src.viewmodel.stockmodel import stockmodel
 from skimage import transform
 import numpy as np
 import math
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from yaml import  load, Loader
 import time
 import asyncio
@@ -75,7 +77,7 @@ class Stocktaker(QQuickImageProvider):
         self.cupsA_ids = [None]*18
         self.cupsB_ids = [None]*18
         self.pallet_ids = [None]*18
-        self.stockmodel = None
+        self.stockmodel: stockmodel = None
         self.submitPalletImage = Signal(QImage)
         self.submitCupImage = Signal(QImage)
         self.submitResultMatrix = Signal(list)
@@ -242,6 +244,17 @@ class Stocktaker(QQuickImageProvider):
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Cups finished. Start calculating result matrix...")
         self.calculate_result_matrix()
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Result matrix calculated. Process finished.")
+        for x in range(18):
+            row = x // 6
+            col = x % 6
+            cupa_id = 0 if self.cupsA_ids[x] is None else self.cupsA_ids[x]
+            cupb_id = 0 if self.cupsB_ids[x] is None else self.cupsB_ids[x]
+            pallet = False if self.pallet_ids[x] is None else True
+            index: QModelIndex = self.stockmodel.createIndex(row, col)
+            self.stockmodel.setData(index, cupa_id, QtCore.Qt.DisplayRole + 5 )
+            self.stockmodel.setData(index, cupb_id, QtCore.Qt.DisplayRole + 6 )
+            self.stockmodel.setData(index, pallet,  QtCore.Qt.DisplayRole + 4 )
+
 
     @Slot()
     def evaluate_gripper(self):

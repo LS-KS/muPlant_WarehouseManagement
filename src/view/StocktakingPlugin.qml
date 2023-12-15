@@ -13,6 +13,7 @@ ApplicationWindow{
         anchors.fill: parent
         Layout.fillHeight: true
         Layout.fillWidth: true
+        Layout.margins: 10
         RowLayout{
             spacing: 20
             TableView{
@@ -20,7 +21,7 @@ ApplicationWindow{
                 Layout.minimumHeight: 600
                 rowSpacing: 5
                 columnSpacing: 5
-                model: storagemodel
+                model: stockmodel
                 Layout.fillWidth: true
                 Layout.fillHeight: false
                 Layout.preferredHeight: 3*180
@@ -98,14 +99,21 @@ ApplicationWindow{
                         Layout.fillHeight: true
                     }
                 }
+                Connections{
+                    target: stockmodel
+                    function onDataChanged(){
+                        console.log("data changed")
+                    }
+                }
             }
             ListView{
                 id: tablevisu
                 Layout.minimumHeight: 160
                 Layout.maximumHeight: 180
                 Layout.preferredHeight: 10
-                Layout.fillWidth: true
-                Layout.fillHeight:true
+                Layout.preferredWidth: 400
+                Layout.fillWidth: false
+                Layout.fillHeight: true
                 model: tablemodel
                 orientation: Qt.Horizontal
                 delegate: Row{

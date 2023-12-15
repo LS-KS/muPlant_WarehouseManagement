@@ -90,7 +90,7 @@ class stockmodel(QtCore.QAbstractTableModel):
         :rtype: Union[str, int, bool, None]
 
         """
-        print(f"stockmodel.data: {index.row()}, {index.column()}, {role}")
+        #print(f"stockmodel.data: {index.row()}, {index.column()}, {role}")
         if index.row()> self.rowCount() or index.column() > self.columnCount():
             return None
         if role == QtCore.Qt.DisplayRole + 1:
@@ -107,7 +107,7 @@ class stockmodel(QtCore.QAbstractTableModel):
             val =  self.model[index.row()][index.column()].new_cupB
         if role == QtCore.Qt.DisplayRole + 7:
             val =  self.model[index.row()][index.column()].tested
-        print(f" -> returned: {val}")
+        #print(f" -> returned: {val}")
         return val
     
     def setData(self, index: QModelIndex, value: Union[str, int, bool, None], role: int) -> bool:
@@ -125,30 +125,26 @@ class stockmodel(QtCore.QAbstractTableModel):
         :return: True if the data was successfully set, False otherwise.
         :rtype: bool
         """
-        if index.row> self.rowCount() or index.column() > self.columnCount():
+        if index.row()> self.rowCount() or index.column() > self.columnCount():
             return False
         if role == QtCore.Qt.DisplayRole + 1:
             self.model[index.row()][index.column()].previous_pallet = value
-            return True
         if role == QtCore.Qt.DisplayRole + 2:
             self.model[index.row()][index.column()].previous_cupA = value
-            return True
+            self.dataChanged.emit(index, index, role)
         if role == QtCore.Qt.DisplayRole + 3:
             self.model[index.row()][index.column()].previous_cupB = value
-            return True
         if role == QtCore.Qt.DisplayRole + 4:
             self.model[index.row()][index.column()].new_pallet = value
-            return True
         if role == QtCore.Qt.DisplayRole + 5:
             self.model[index.row()][index.column()].new_cupA = value
-            return True
         if role == QtCore.Qt.DisplayRole + 6:
             self.model[index.row()][index.column()].new_cupB = value
-            return True
         if role == QtCore.Qt.DisplayRole + 7:
             self.model[index.row()][index.column()].tested = value
-            return True
-        return False
+        self.dataChanged.emit(index, index)
+        print(f"setData called and emitted dataChanged {index, value, role}")
+        return True
 
     def roleNames(self):
         """
@@ -252,26 +248,19 @@ class tablemodel(QtCore.QAbstractListModel):
             return False
         if role == QtCore.Qt.DisplayRole + 1:
             self.model[index.row()].previous_pallet = value
-            return True
         if role == QtCore.Qt.DisplayRole + 2:
             self.model[index.row()].previous_cupA = value
-            return True
         if role == QtCore.Qt.DisplayRole + 3:
             self.model[index.row()].previous_cupB = value
-            return True
         if role == QtCore.Qt.DisplayRole + 4:
             self.model[index.row()][index.column()].new_pallet = value
-            return True
         if role == QtCore.Qt.DisplayRole + 5:
             self.model[index.row()].new_cupA = value
-            return True
         if role == QtCore.Qt.DisplayRole + 6:
             self.model[index.row()].new_cupB = value
-            return True
         if role == QtCore.Qt.DisplayRole + 7:
             self.model[index.row()].tested = value
-            return True
-        return False
+        self.dataChanged.emit()
     
     def roleNames(self):
         """
