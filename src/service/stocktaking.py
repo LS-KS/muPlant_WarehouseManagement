@@ -523,11 +523,12 @@ class Stocktaker(QQuickImageProvider):
         :return: list of markers
         :rtype: list
         """
-        parameters : cv2.aruco.DetectorParameters = cv2.aruco.DetectorParameters() if parameters is None else parameters
-
+        #parameters : cv2.aruco.DetectorParameters = cv2.aruco.DetectorParameters() if parameters is None else parameters
+        parameters = cv2.aruco.DetectorParameters()
         assert self.image is not None
         if type(section) is type(None):
             self.image = cv2.cvtColor(self.image, cv2.COLOR_RGB2GRAY) if self.image.ndim == 3 else self.image
+            self.image = cv2.GaussianBlur(self.image, (5, 5), 0)
             (corners, ids, rejected) = cv2.aruco.detectMarkers(self.image, self.constants.ARUCODICT, parameters= parameters )
             image = cv2.aruco.drawDetectedMarkers(self.image, corners, ids)
             cv2.imwrite("overview_raw.png", image)
@@ -536,6 +537,7 @@ class Stocktaker(QQuickImageProvider):
             return markers, self.image
         else:
             section = cv2.cvtColor(section, cv2.COLOR_RGB2GRAY) if section.ndim == 3 else section
+            section = cv2.GaussianBlur(section, (5, 5), 0)
             (corners, ids, rejected) = cv2.aruco.detectMarkers(section, self.constants.ARUCODICT, parameters= parameters )
             image = cv2.aruco.drawDetectedMarkers(self.image, corners, ids)
             cv2.imwrite("temp/overview_raw.png", image)

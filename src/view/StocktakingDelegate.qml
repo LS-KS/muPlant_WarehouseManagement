@@ -119,7 +119,7 @@ Rectangle {
         anchors.bottomMargin: verticalMargin
         Image {
             id: slot_icon
-            property bool valid: main_rect.previous_cupB === main_rect.new_cupB
+            property bool valid: main_rect.previous_pallet === main_rect.new_pallet
             visible: main_rect.tested
             source: valid? "../assets/icon_tick_circle.png" : "../assets/icon_exclamation_red.png"
             anchors{
@@ -151,7 +151,7 @@ Rectangle {
             }
             Image {
                 id: slot_a_icon
-                property bool valid: main_rect.previous_cupB === main_rect.new_cupB
+                property bool valid: main_rect.previous_cupA === main_rect.new_cupA
                 visible: main_rect.tested
                 source: valid? "../assets/icon_tick_circle.png" : "../assets/icon_exclamation_red.png"
                 anchors{
