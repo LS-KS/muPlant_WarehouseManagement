@@ -31,6 +31,7 @@ Dialog {
                     border.color: 'black'
                     Image{
                         id: palletImage
+                        property int counter: 0
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectFit
                     }
@@ -54,6 +55,7 @@ Dialog {
                     border.color: 'black'
                     Image{
                         id: slotAImage
+                        property int counter: 0
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectFit
                     }
@@ -75,8 +77,11 @@ Dialog {
                     border.color: 'black'
                     Image{
                         id: slotBImage
+                        property int counter: 0
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectFit
+                        cache: false
+
                     }
                 }
             }
@@ -85,7 +90,7 @@ Dialog {
             Button{
                 id: loadButton
                 text: "load data..."
-                onClicked: loadImages()
+                onClicked: main_rect.loadImages()
                 Layout.preferredHeight: 40
                 Layout.preferredWidth: main_rect.width/4
             }
@@ -119,12 +124,23 @@ Dialog {
         loadImages()
     }
     function loadImages(){
-        //console.log("try to load Images for "+ main_rect.row+ ", "+main_rect.col)
-        let a_sourcestring = "image://stockimage/"+ main_rect.row + "_" + main_rect.col +"_A.png"
-        let b_sourcestring = "image://stockimage/"+ main_rect.row + "_" + main_rect.col +"_B.png"
-        let pallet_string = "image://stockimage/" + main_rect.row + "_" + main_rect.col +"_Pallet.png"
-        //console.log("string for slot A: "+ a_sourcestring )
-        //console.log(b_sourcestring)
+        /*
+        Simply to set the same sourrce string again won't update the images.
+        Trick is to call the virtual load() function in C++ backend which is protected.
+        There is no other known way to do this than to change the source string.
+        Honestly, one single counter would have also worked.
+        In earlier Qt Versions it was possible to doo that with bool properties which are toggled everytime the image shall get loaded.
+        Since Qt6 this is not possible. Even if the cache is 0 (maybe 0 stands for infinity?!?)
+
+        The counters are increased everytime this function is called. This is fine since the python backend splits the string by '_' and
+        compares the last string with __contains__.
+        */
+        slotAImage.counter += 1
+        let a_sourcestring = "image://stockimage/"+ main_rect.row + "_" + main_rect.col +"_A.png" + slotAImage.counter
+        slotBImage.counter += 1
+        let b_sourcestring = "image://stockimage/"+ main_rect.row + "_" + main_rect.col +"_B.png" + slotBImage.counter
+        palletImage.counter += 1
+        let pallet_string = "image://stockimage/" + main_rect.row + "_" + main_rect.col +"_Pallet.png" + slotBImage.counter
         slotAImage.source = a_sourcestring
         slotBImage.source = b_sourcestring
         palletImage.source = pallet_string

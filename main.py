@@ -56,7 +56,7 @@ from src.viewmodel.EventViewModel import EventSortModel
 #TODO: Implement image handling so that the user can confirm/change inventory changes. <---- 
 #TODO: Functions for OK Button in StocktakingDetail.qml <---
 #TODO: Fix image indexing when details are called form K1/K2 <----
-#TODO: Once images are loaded, they cannot be updated. Fix this !!! <----
+#TODO: Once images are loaded, they cannot be updated. Maybe set sourcestrings as property ? <----
 #TODO: When camera evaluation is finished, emit the ID-data to GUI. <-----
 
 ######################################################### OTHER ###########################################################################

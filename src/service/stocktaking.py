@@ -133,10 +133,13 @@ class Stocktaker(QQuickImageProvider):
         arr = np.ones((250,250), dtype=np.uint8)*127
         image = QImage(arr.tobytes(), arr.shape[1], arr.shape[0], QImage.Format_Grayscale8)
         if slot.__contains__('Pallet') and self.pallets[idx] is not None:
+            print("grab pallet image")
             image = QImage(self.pallets[idx].tobytes(), self.pallets[idx].shape[1], self.pallets[idx].shape[0], QImage.Format_Grayscale8)
         elif slot.__contains__('A')  and self.cupsA[idx] is not None:
+            print("grab image for slot A")
             image = QImage(self.cupsA[idx].tobytes(), self.cupsA[idx].shape[1], self.cupsA[idx].shape[0], QImage.Format_Grayscale8)
         elif slot.__contains__('B')  and self.cupsB[idx] is not None:
+            print("grab image for slot B")
             image = QImage(self.cupsB[idx].tobytes(), self.cupsB[idx].shape[1], self.cupsB[idx].shape[0], QImage.Format_Grayscale8)
         return image
             
