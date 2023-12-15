@@ -72,7 +72,9 @@ class Stocktaker(QQuickImageProvider):
         self.cupsB = [None] * 18 
         self.pallets = [None] * 18
         self.gripper_id = None
-        self.detected_cups = [None]*18
+        self.cupsA_ids = [None]*18
+        self.cupsB_ids = [None]*18
+        self.pallet_ids = [None]*18
         self.stockmodel = None
         self.submitPalletImage = Signal(QImage)
         self.submitCupImage = Signal(QImage)
@@ -95,12 +97,6 @@ class Stocktaker(QQuickImageProvider):
         """
         print(f"Image received {image}")
         self.image = image.copy()
-
-    def __del__(self):
-        """
-        Destructor for the Stocktaker class.
-        """
-        print("Stocktaker: Destructor called")
     
     def set_stockmodel(self, stockmodel):
         """
@@ -142,7 +138,15 @@ class Stocktaker(QQuickImageProvider):
             print("grab image for slot B")
             image = QImage(self.cupsB[idx].tobytes(), self.cupsB[idx].shape[1], self.cupsB[idx].shape[0], QImage.Format_Grayscale8)
         return image
-            
+
+    @Slot(int, int) # row, col
+    def requestIDData(self, row, col):
+        idx = 6*row + col
+        pallet = True if self.pallet_ids[idx] is not None else False
+        cupa_id = 0 if self.cupsA_ids[idx] is None else self.cupsA_ids[idx]
+        cupb_id = 0 if self.cupsB_ids[idx] is None else self.cupsB_ids[idx]
+        self.transmit_data_to_plugin.emit(row, col, pallet, cupa_id, cupb_id)# row, col, pallet, cupa id, cupb id
+
     @Slot()
     def callOverviewCam(self):
         """
@@ -159,7 +163,7 @@ class Stocktaker(QQuickImageProvider):
         Afterwards signals with processed image is emitted to QML Engine.
         Before every step a message is emitted to EventlogService in main screen
         """
-        self.detected_cups = []
+        self.cupsA_ids = []
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Start obtaining image from camera...")
         self.cameraService.get_image(0)
         self.raw_image = np.copy(self.image)
@@ -211,6 +215,7 @@ class Stocktaker(QQuickImageProvider):
                 section_id=i,
                 parameters= parameters)
             pallets, ids = self._get_pallet_markers(markers) 
+            self.pallet_ids[i] = ids[0] if len(ids )>0 else None
             self.pallets[i] = self._draw_markers(corners = pallets, ids=ids, color=(255,0,0), section=self.pallets[i], section_id=i)
             cv2.imwrite(f"src/service/temp/pallet_{i + 1}.png", pallet)
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Pallets finished. Start marker detection in cups...")
@@ -231,7 +236,7 @@ class Stocktaker(QQuickImageProvider):
             cups, ids = self._get_cup_markers(markers)
             self.cupsA[i] = self._draw_markers(corners = cups, ids=ids, color= (255,255,255), section= self.cupsA[i], section_id=i)
             cv2.imwrite(f"src/service/temp/cup{i + 1}.png", cup)
-        print(f"cup-ids: {self.detected_cups}")
+        print(f"cup-ids: {self.cupsA_ids}")
         print(f"cups: {self.cupsA}")
         print(f"pallets: {self.pallets}")
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Cups finished. Start calculating result matrix...")
@@ -246,7 +251,7 @@ class Stocktaker(QQuickImageProvider):
         Performs arUco detection after brightness and color adjustment.
         processed image is kept in gripper_image property.
         """
-        self.detected_cups = []
+        self.cupsA_ids = []
         self.eventlogService.write_event("Stocktaker.evaluate_gripper", "Start obtaining image from camera...")
         try:
             self.cameraService.get_image(2)
@@ -526,7 +531,7 @@ class Stocktaker(QQuickImageProvider):
             if marker_content is not None:
                 marker_content = marker_content[0][0]
             if cups:
-                self.detected_cups.append(marker_content)
+                self.cupsA_ids.append(marker_content)
             print(f"detection id {section_id+1}: {marker_content}, {len(markers[1])}")
             return markers, section
     
@@ -673,10 +678,10 @@ if __name__ == '__main__':
     for i in range(5):
         stocktaker.evaluate_storagecell_cam()
         if i == 0:
-            cups = stocktaker.detected_cups
+            cups = stocktaker.cupsA_ids
         else:
-            if len(stocktaker.detected_cups) >=1:
-                cups = [stocktaker.detected_cups[j] if stocktaker.detected_cups[j] is not None else cups[j] for j in
+            if len(stocktaker.cupsA_ids) >=1:
+                cups = [stocktaker.cupsA_ids[j] if stocktaker.cupsA_ids[j] is not None else cups[j] for j in
                         range(len(cups))]
             else:
                 i-=1

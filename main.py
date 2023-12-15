@@ -50,13 +50,13 @@ from src.viewmodel.EventViewModel import EventSortModel
 #TODO: With Axel: DI5: light barrier
 #TODO: With Axel: DI3, DI4: proximity switches
 #TODO: With Axel: Signal from Robot before waiting at camera position
+#TODO: With Axel: Refactor Strings emitted to abb robot arm. 
 
 ####################################################### STOCKTAKING #######################################################################
 #TODO: Test gripper cam together with GUI
 #TODO: Implement image handling so that the user can confirm/change inventory changes. <---- 
 #TODO: Functions for OK Button in StocktakingDetail.qml <---
-#TODO: Fix image indexing when details are called form K1/K2 <----
-#TODO: Once images are loaded, they cannot be updated. Maybe set sourcestrings as property ? <----
+#TODO: Fix image indexing when details are called from K1/K2 <----
 #TODO: When camera evaluation is finished, emit the ID-data to GUI. <-----
 
 ######################################################### OTHER ###########################################################################

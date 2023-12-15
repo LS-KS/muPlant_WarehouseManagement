@@ -10,7 +10,7 @@ Dialog {
     property int col: -1
     property int slotid_a: -1
     property int slotid_b: -1
-    property int pallet_id: -1
+    property bool pallet_detected: false
 
 
     ColumnLayout{
@@ -21,7 +21,7 @@ Dialog {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Text{
                     id: palletText
-                    text: "Pallet: Detected ID: " + main_rect.pallet_id
+                    text: "Pallet detected: " + main_rect.pallet_detected
                 }
                 Rectangle{
                     width: main_rect.width -15
@@ -123,6 +123,19 @@ Dialog {
     onAboutToShow: {
         loadImages()
     }
+    Connections{
+        target: stocktaker
+        function onTransmit_data_to_plugin(row, col, pallet, cupa_id, cupb_id){
+            //all parameters are int, except pallet which is bool
+            if (row === main_rect.row && col === main_rect.col){
+                main_rect.slotid_a = cupa_id
+                main_rect.slotid_b = cupb_id
+                main_rect.pallet_detected = pallet
+            }
+
+        }
+    }
+
     function loadImages(){
         /*
         Simply to set the same sourrce string again won't update the images.
@@ -135,6 +148,10 @@ Dialog {
         The counters are increased everytime this function is called. This is fine since the python backend splits the string by '_' and
         compares the last string with __contains__.
         */
+
+        // Call stocktaking slot to emit id data.
+        stocktaker.requestIDData(main_rect.row, main_rect.col)
+
         slotAImage.counter += 1
         let a_sourcestring = "image://stockimage/"+ main_rect.row + "_" + main_rect.col +"_A.png" + slotAImage.counter
         slotBImage.counter += 1
