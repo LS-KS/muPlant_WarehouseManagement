@@ -132,13 +132,16 @@ class Stocktaker(QQuickImageProvider):
         image = QImage(arr.tobytes(), arr.shape[1], arr.shape[0], QImage.Format_Grayscale8)
         if slot.__contains__('Pallet') and self.pallets[idx] is not None:
             print("grab pallet image")
-            image = QImage(self.pallets[idx].tobytes(), self.pallets[idx].shape[1], self.pallets[idx].shape[0], QImage.Format_Grayscale8)
+            arr = np.array(self.pallets[idx])
+            image = QImage(arr.tobytes(), self.pallets[idx].shape[1], self.pallets[idx].shape[0], self.pallets[idx].shape[1], QImage.Format_Indexed8)
         elif slot.__contains__('A')  and self.cupsA[idx] is not None:
             print("grab image for slot A")
-            image = QImage(self.cupsA[idx].tobytes(), self.cupsA[idx].shape[1], self.cupsA[idx].shape[0], QImage.Format_Grayscale8)
+            arr = np.array(self.cupsA[idx])
+            image = QImage(arr.tobytes(), self.cupsA[idx].shape[1], self.cupsA[idx].shape[0], self.cupsA[idx].shape[1] , QImage.Format_Indexed8)
+            print(f"image shape: {arr.shape}")
         elif slot.__contains__('B')  and self.cupsB[idx] is not None:
             print("grab image for slot B")
-            image = QImage(self.cupsB[idx].tobytes(), self.cupsB[idx].shape[1], self.cupsB[idx].shape[0], QImage.Format_Grayscale8)
+            image = QImage(self.cupsB[idx].tobytes(), self.cupsB[idx].shape[1], self.cupsB[idx].shape[0], self.cupsB[idx].shape[1], QImage.Format_Indexed8)
         return image
 
     @Slot(int, int) # row, col
@@ -192,7 +195,11 @@ class Stocktaker(QQuickImageProvider):
             self.image = image
             image, tform3 = self._transform_image(self.raw_image, x_corners, y_corners, y_min, y_max)
             self.raw_image = image
+            cv2.imwrite("warped.png", image)
             self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Image transformation finished. Start detecting slicing...")
+        elif x_corners[3] == 0 and x_corners[2] >0:
+            x_corners[3] = 1356
+            y_corners[3] = 1163
         else:
             self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Not enough shelf markers found!\n"
                                                                                    f"x_corners: {x_corners}\n"
@@ -227,17 +234,19 @@ class Stocktaker(QQuickImageProvider):
                 i= i,
                 imtype= 'gray',
                 target= 'cup')
-            self.cupsA[i] = self._automatic_brightness_and_contrast(
-                image= cup,
-                clip_hist_percent=1)
+            #self.cupsA[i] = self._automatic_brightness_and_contrast(
+            #    image= cup,
+            #    clip_hist_percent=1)
+            upscaled = cv2.resize(self.cupsA[i], (int(self.cupsA[i].shape[1]*1.5),int(self.cupsA[i].shape[0]*1.5) ))
+            upscaled = upscaled[:, int(0.2*upscaled.shape[1]): int(0.8*upscaled.shape[1])]
             markers, self.cupsA[i] = self._detect_markers(
-                section=cup,
+                section=upscaled,
                 section_id=i,
                 cups=True,
                 parameters=parameters)
             cups, ids = self._get_cup_markers(markers)
-            self.cupsA[i] = self._draw_markers(corners = cups, ids=ids, color= (255,255,255), section= self.cupsA[i], section_id=i)
-            cv2.imwrite(f"src/service/temp/cup{i + 1}.png", cup)
+            self.cupsA[i] = self._draw_markers(corners = cups, ids=ids, color= (255,255,255), section= upscaled, section_id=i)
+            cv2.imwrite(f"src/service/temp/cup{i + 1}.png", upscaled)
         print(f"cup-ids: {self.cupsA_ids}")
         print(f"cups: {self.cupsA}")
         print(f"pallets: {self.pallets}")
@@ -254,7 +263,6 @@ class Stocktaker(QQuickImageProvider):
             self.stockmodel.setData(index, cupa_id, QtCore.Qt.DisplayRole + 5 )
             self.stockmodel.setData(index, cupb_id, QtCore.Qt.DisplayRole + 6 )
             self.stockmodel.setData(index, pallet,  QtCore.Qt.DisplayRole + 4 )
-
 
     @Slot()
     def evaluate_gripper(self):
@@ -453,19 +461,19 @@ class Stocktaker(QQuickImageProvider):
                 x = min(x_vals) if i in (0, 3) else max(x_vals)
                 y = min(y_vals) if i in (0, 1) else max(y_vals)
                 if i == 0 and x < 1600:
-                    if y < 1000:
-                        x_corners[i] = x
-                        y_corners[i] = y
-                elif i == 1 and x > 3000:
-                    if 900 < y < 1500:
-                        x_corners[i] = x
-                        y_corners[i] = y
-                elif i == 2 and x > 3000:
                     if 1500 < y < 2000:
                         x_corners[i] = x
                         y_corners[i] = y
-                elif i == 3 and x < 1500:
-                    if y > 800:
+                elif i == 1 and x > 4000:
+                    if 1500 < y < 2000:
+                        x_corners[i] = x
+                        y_corners[i] = y
+                elif i == 2 and x > 3500:
+                    if 2000 < y < 2700:
+                        x_corners[i] = x
+                        y_corners[i] = y
+                elif i == 3 and x < 2000:
+                    if 2000< y < 2700:
                         x_corners[i] = x
                         y_corners[i] = y
                 if y < y_min:
@@ -492,7 +500,7 @@ class Stocktaker(QQuickImageProvider):
         y_glob_min = int(y_glob_min)
         y_glob_max = int(y_glob_max)
         dx = max(x_corners) - min(x_corners)
-        dy = max(y_corners) - min(y_corners)
+        dy = max(y_corners) - min(y_corners) 
         hx = math.sqrt(dx ** 2 + dy ** 2)
         dh = hx/105
         hy = dh*31
@@ -510,7 +518,7 @@ class Stocktaker(QQuickImageProvider):
         # print(f"calculated global boundaries: y: {y_glob_min, y_glob_max}, x: {x_min, x_max}")
         x_min = int(x_min)
         x_max = int(x_max)
-        image = image[y_glob_min + 550: y_glob_max + 520, x_min + 300 : x_max - 180]
+        image = image[y_glob_min-850: y_glob_max-550, x_min+300 : x_max-250]
         cv2.imwrite("temp/transformed.png", image)
         #plt.imshow(image, cmap= 'gray')
         #plt.title("transformed image")
@@ -526,10 +534,11 @@ class Stocktaker(QQuickImageProvider):
         #parameters : cv2.aruco.DetectorParameters = cv2.aruco.DetectorParameters() if parameters is None else parameters
         parameters = cv2.aruco.DetectorParameters()
         assert self.image is not None
+        arucodict = self.constants.CUPDICT if cups==True else self.constants.PALLETDICT
         if type(section) is type(None):
             self.image = cv2.cvtColor(self.image, cv2.COLOR_RGB2GRAY) if self.image.ndim == 3 else self.image
             self.image = cv2.GaussianBlur(self.image, (5, 5), 0)
-            (corners, ids, rejected) = cv2.aruco.detectMarkers(self.image, self.constants.ARUCODICT, parameters= parameters )
+            (corners, ids, rejected) = cv2.aruco.detectMarkers(self.image, arucodict, parameters= parameters )
             image = cv2.aruco.drawDetectedMarkers(self.image, corners, ids)
             cv2.imwrite("overview_raw.png", image)
             markers = self._refactor_corners(corners, ids)
@@ -538,9 +547,9 @@ class Stocktaker(QQuickImageProvider):
         else:
             section = cv2.cvtColor(section, cv2.COLOR_RGB2GRAY) if section.ndim == 3 else section
             section = cv2.GaussianBlur(section, (5, 5), 0)
-            (corners, ids, rejected) = cv2.aruco.detectMarkers(section, self.constants.ARUCODICT, parameters= parameters )
-            image = cv2.aruco.drawDetectedMarkers(self.image, corners, ids)
-            cv2.imwrite("temp/overview_raw.png", image)
+            (corners, ids, rejected) = cv2.aruco.detectMarkers(section, arucodict, parameters= parameters )
+            section = cv2.aruco.drawDetectedMarkers(section, corners, ids)
+            cv2.imwrite("overview_raw.png", section)
             markers = self._refactor_corners(corners, ids)
             marker_content = markers[0][0]
             if marker_content is not None:
@@ -588,13 +597,18 @@ class Stocktaker(QQuickImageProvider):
             for x in range(6):
                 y_min = int(y*y_dim/3)
                 y_max = int((y+1)*y_dim/3) if (y+1)*y_dim/3 <= y_dim else int(y_dim)
+                y_max 
                 x_min = int(x*x_dim/6)
                 x_max = int((x+1)*x_dim/6) if ((x+1)*x_dim/6) <= x_dim else int(x_dim)
                 section = image[y_min: y_max, x_min : x_max]
                 # threshold = 190
                 # section = cv2.threshold(section, threshold, 255, cv2.THRESH_BINARY)[1]
-                cup_area = section [int(section.shape[0]*0.2) : int(section.shape[0]*0.5), 0:int(section.shape[1])]
-                pallet_area =section [int(section.shape[0]*0.5) : int(section.shape[0]*0.8), 0:int(section.shape[1])]
+                if y == 2:
+                    cup_area = section [int(section.shape[0]*0.25) : int(section.shape[0]*0.5), 0:int(section.shape[1])]
+                    pallet_area =section [int(section.shape[0]*0.6) : int(section.shape[0]*0.9), 0:int(section.shape[1])]
+                else: 
+                    cup_area = section [int(section.shape[0]*0.15) : int(section.shape[0]*0.4), 0:int(section.shape[1])]
+                    pallet_area =section [int(section.shape[0]*0.5) : int(section.shape[0]*0.8), 0:int(section.shape[1])]
                 self.sections[6*y+x] = section
                 self.cupsA[6*y+x] = cup_area
                 self.pallets[6*y+x] = pallet_area

@@ -18,7 +18,8 @@ class Constants:
         self.PREFERENCES = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "Preferences.yaml"
         #self.PREFERENCES = "src/data/Preferences.yaml"
         self.RFID_DATA = Path(__file__).resolve().parent.parent.parent / "src" / "data" / "RfidData.yaml"
-        self.ARUCODICT = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
+        self.PALLETDICT = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
+        self.CUPDICT = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
         self.SHELF_ARUCO = 0
         self.PALLET_ARUCO = 1
         self.CUP_ARUCO = np.arange(5, 45, 1)
