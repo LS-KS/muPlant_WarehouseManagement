@@ -239,6 +239,18 @@ class Stocktaker(QQuickImageProvider):
             #    clip_hist_percent=1)
             upscaled = cv2.resize(self.cupsA[i], (int(self.cupsA[i].shape[1]*2),int(self.cupsA[i].shape[0]*2) ))
             upscaled = upscaled[:, int(0.2*upscaled.shape[1]): int(0.8*upscaled.shape[1])]
+            upscaled = cv2.GaussianBlur(upscaled, (5,5), 0)
+            _, upscaled = cv2.threshold(upscaled, 127, 255, cv2.THRESH_BINARY)
+
+            if i == 17:
+                x_max = int(0.9 * upscaled.shape[0])
+                y_max = int(0.7*upscaled.shape[1])
+                upscaled = upscaled[0 : y_max, 0:x_max]
+            elif i == 16:
+                x_min = int(0.3*upscaled.shape[0])
+                y_min = int(0.15*upscaled.shape[1])
+                y_max = int(0.7*upscaled.shape[1])
+                upscaled = upscaled[y_min:y_max, x_min:]
             markers, self.cupsA[i] = self._detect_markers(
                 section=upscaled,
                 section_id=i,

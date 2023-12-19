@@ -83,10 +83,10 @@
     productID_b: 1
     row: 1
 - - col: 0
-    cupID_a: 0
+    cupID_a: 15
     cupID_b: 0
     isPalletPresent: true
-    productID_a: 0
+    productID_a: 1
     productID_b: 0
     row: 2
   - col: 1
