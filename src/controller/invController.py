@@ -790,19 +790,29 @@ class invController(QObject):
             pallet.setSlotB(Cup(0, self.__productFromID(0)))
             self.inventory.setStoragePallet(row, col, pallet)
         if slot == "a":
-            oldproductID = pallet.slotA.product.id
+            if pallet.slotA is not None: 
+                oldproductID = pallet.slotA.product.id
+            else: oldproductID = None
             print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
             roleCup = Qt.DisplayRole + 2
             roleProduct = Qt.DisplayRole + 3
             roleName = Qt.DisplayRole + 4
             cup_obj = pallet.slotA
+            if cup_obj is None: 
+                cup_obj = Cup(cupID, self.__productFromID(productID))
+                pallet.setSlotA(cup_obj)
         elif slot == "b":
-            oldproductID = pallet.slotB.product.id
+            if pallet.slotB is not None: 
+                oldproductID = pallet.slotB.product.id
+            else: oldproductID = None
             print(f"to set storage: row: {row}, col: {col}, cup: {cupID}, slot: {slot}, product: {productID}")
             roleCup = Qt.DisplayRole + 5
             roleProduct = Qt.DisplayRole + 6
             roleName = Qt.DisplayRole + 7
             cup_obj = pallet.slotB
+            if cup_obj is None: 
+                cup_obj = Cup(cupID, self.__productFromID(productID))
+                pallet.setSlotB(cup_obj)
         else:
             raise ValueError("Slot Value error. Slot must be 'a' or 'b'")
         prod_obj = self.__productFromID(productID) # get existing product object from data-model by id
@@ -816,8 +826,9 @@ class invController(QObject):
         self.storageViewModel.dataChanged.emit(index, index, [roleCup, roleProduct, roleName, rolePallet])
         self.idSwapped.emit(product, productID)
         self.eventlogService.write_event("USER", "Inventory Override!")
-        oldIndex = self.productListViewModel.indexOf(oldproductID)
-        self.productListViewModel.setData(oldIndex, -1, role=Qt.DisplayRole + 3)  # reduces quantity of old product by 1
+        if oldproductID:
+            oldIndex = self.productListViewModel.indexOf(oldproductID)
+            self.productListViewModel.setData(oldIndex, -1, role=Qt.DisplayRole + 3)  # reduces quantity of old product by 1
         newIndex = self.productListViewModel.indexOf(productID)
         self.productListViewModel.setData(newIndex, 1, role=Qt.DisplayRole + 3)  # increases quantity of new product by 1
 

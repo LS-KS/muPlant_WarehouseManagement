@@ -12,8 +12,26 @@ Rectangle {
     property int new_cupA: 0
     property int new_cupB: 0
     property bool tested: true
+    property bool allow_eval: false
+    property bool allow_evalA: false
+    property bool allow_evalB: false
     property int row : -1
     property int col : -1
+    onNew_cupAChanged: {
+        console.log("cupA changed to: "+ new_cupA)
+        allow_evalA = true
+    }
+
+    onNew_cupBChanged: {
+        console.log("cupB changed to: "+ new_cupB)
+        allow_evalB =true
+    }
+
+    onNew_palletChanged: {
+        console.log("pallet changed to: "+ new_pallet + " while old pallet value = " + previous_pallet)
+        allow_eval = true
+    }
+
     border.width: 3
     radius: 5
     color: "#00ffffff"
@@ -68,7 +86,7 @@ Rectangle {
             Text {
                 id: prev_slota_cuptext
                 anchors.centerIn: parent
-                text: qsTr("Cup-ID: " + main_rect.previous_cupA)
+                text: "Cup-ID: " + main_rect.previous_cupA
             }
             opacity: main_rect.previous_cupA == 0 ? 0.5 : 1
         }
@@ -92,7 +110,7 @@ Rectangle {
             Text {
                 id: prev_slotb_cuptext
                 anchors.centerIn: parent
-                text: qsTr("Cup-ID: " + main_rect.previous_cupB)
+                text: "Cup-ID: " + main_rect.previous_cupB
             }
             opacity: main_rect.previous_cupB == 0 ? 0.5 : 1
         }
@@ -120,7 +138,7 @@ Rectangle {
         Image {
             id: slot_icon
             property bool valid: main_rect.previous_pallet === main_rect.new_pallet
-            visible: main_rect.tested
+            visible: main_rect.allow_eval
             source: valid? "../assets/icon_tick_circle.png" : "../assets/icon_exclamation_red.png"
             anchors{
                 horizontalCenter: parent.horizontalCenter
@@ -147,12 +165,12 @@ Rectangle {
             Text {
                 id: new_slota_cuptext
                 anchors.centerIn: parent
-                text: qsTr("Cup-ID: "+ main_rect.new_cupA)
+                text: "Cup-ID: "+ main_rect.new_cupA
             }
             Image {
                 id: slot_a_icon
                 property bool valid: main_rect.previous_cupA === main_rect.new_cupA
-                visible: main_rect.tested
+                visible: main_rect.allow_evalA
                 source: valid? "../assets/icon_tick_circle.png" : "../assets/icon_exclamation_red.png"
                 anchors{
                     right: parent.right
@@ -183,12 +201,12 @@ Rectangle {
             Text {
                 id: new_slotb_cuptext
                 anchors.centerIn: parent
-                text: qsTr("Cup-ID: "+ main_rect.new_cupB)
+                text: "Cup-ID: "+ main_rect.new_cupB
             }
             Image {
                 id: slot_b_icon
                 property bool valid: main_rect.previous_cupB === main_rect.new_cupB
-                visible: main_rect.tested
+                visible: main_rect.allow_evalB
                 source: valid? "../assets/icon_tick_circle.png" : "../assets/icon_exclamation_red.png"
                 anchors{
                     right: parent.right
@@ -200,7 +218,7 @@ Rectangle {
             opacity: main_rect.new_cupB == 0 ? 0.5 : 1
         }
     }
-   Button{
+    Button{
        id: showButton
        text: "Detail"
        anchors{

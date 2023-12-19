@@ -99,12 +99,6 @@ ApplicationWindow{
                         Layout.fillHeight: true
                     }
                 }
-                Connections{
-                    target: stockmodel
-                    function onDataChanged(){
-                        console.log("data changed")
-                    }
-                }
             }
             ListView{
                 id: tablevisu

@@ -237,7 +237,7 @@ class Stocktaker(QQuickImageProvider):
             #self.cupsA[i] = self._automatic_brightness_and_contrast(
             #    image= cup,
             #    clip_hist_percent=1)
-            upscaled = cv2.resize(self.cupsA[i], (int(self.cupsA[i].shape[1]*1.5),int(self.cupsA[i].shape[0]*1.5) ))
+            upscaled = cv2.resize(self.cupsA[i], (int(self.cupsA[i].shape[1]*2),int(self.cupsA[i].shape[0]*2) ))
             upscaled = upscaled[:, int(0.2*upscaled.shape[1]): int(0.8*upscaled.shape[1])]
             markers, self.cupsA[i] = self._detect_markers(
                 section=upscaled,
@@ -250,8 +250,6 @@ class Stocktaker(QQuickImageProvider):
         print(f"cup-ids: {self.cupsA_ids}")
         print(f"cups: {self.cupsA}")
         print(f"pallets: {self.pallets}")
-        self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Cups finished. Start calculating result matrix...")
-        self.calculate_result_matrix()
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Result matrix calculated. Process finished.")
         for x in range(18):
             row = x // 6
@@ -261,8 +259,9 @@ class Stocktaker(QQuickImageProvider):
             pallet = False if self.pallet_ids[x] is None else True
             index: QModelIndex = self.stockmodel.createIndex(row, col)
             self.stockmodel.setData(index, cupa_id, QtCore.Qt.DisplayRole + 5 )
-            self.stockmodel.setData(index, cupb_id, QtCore.Qt.DisplayRole + 6 )
+            # self.stockmodel.setData(index, cupb_id, QtCore.Qt.DisplayRole + 6 )
             self.stockmodel.setData(index, pallet,  QtCore.Qt.DisplayRole + 4 )
+            #print(f"Detection result for row: {row}, col: {col}: Pallet: {pallet}, cupA: {cupa_id}, cupB: {cupb_id}")
 
     @Slot()
     def evaluate_gripper(self):
@@ -306,18 +305,6 @@ class Stocktaker(QQuickImageProvider):
         else:
             parameters = cv2.aruco.DetectorParameters()
         return parameters
-    
-    def calculate_result_matrix(self):
-        """
-        Public Method. Calculates the result matrix based on detected markers.
-        Emits self.submitResultMatrix signal with result matrix.
-        """
-        # TODO: Get pallet data
-
-        # TODO: Get cup data
-        # TODO: Calclulate 6x6x2 result matrix
-        # TODO: reformat result matrix to make it qml accessible
-        # TODO: emit signal
     
     @Slot(int)
     def emit_pallet_cup_images(self, storage_cell):

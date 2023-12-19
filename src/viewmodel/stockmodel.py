@@ -90,7 +90,7 @@ class stockmodel(QtCore.QAbstractTableModel):
         :rtype: Union[str, int, bool, None]
 
         """
-        #print(f"stockmodel.data: {index.row()}, {index.column()}, {role}")
+        
         if index.row()> self.rowCount() or index.column() > self.columnCount():
             return None
         if role == QtCore.Qt.DisplayRole + 1:
@@ -102,12 +102,12 @@ class stockmodel(QtCore.QAbstractTableModel):
         if role == QtCore.Qt.DisplayRole + 4:
             val =  self.model[index.row()][index.column()].new_pallet
         if role == QtCore.Qt.DisplayRole + 5:
-            val =  self.model[index.row()][index.column()].new_cupA
+            val =  int(self.model[index.row()][index.column()].new_cupA)
         if role == QtCore.Qt.DisplayRole + 6:
-            val =  self.model[index.row()][index.column()].new_cupB
+            val =  int(self.model[index.row()][index.column()].new_cupB)
         if role == QtCore.Qt.DisplayRole + 7:
             val =  self.model[index.row()][index.column()].tested
-        #print(f" -> returned: {val}")
+        print(f"stockmodel.data: {index.row()}, {index.column()}, {role}-> returned: {val}")
         return val
     
     def setData(self, index: QModelIndex, value: Union[str, int, bool, None], role: int) -> bool:
@@ -143,7 +143,7 @@ class stockmodel(QtCore.QAbstractTableModel):
         if role == QtCore.Qt.DisplayRole + 7:
             self.model[index.row()][index.column()].tested = value
         self.dataChanged.emit(index, index)
-        print(f"setData called and emitted dataChanged {index, value, role}")
+        # print(f"setData called and emitted dataChanged {index, value, role}")
         return True
 
     def roleNames(self):

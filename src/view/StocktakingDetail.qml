@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Dialogs
 Dialog {
-    id: main_rect
+    id: dialog_rect
     width: 300
     height: 465
     property int row: -1
@@ -11,7 +11,6 @@ Dialog {
     property int slotid_a: -1
     property int slotid_b: -1
     property bool pallet_detected: false
-
 
     ColumnLayout{
         RowLayout{
@@ -21,10 +20,10 @@ Dialog {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Text{
                     id: palletText
-                    text: "Pallet detected: " + main_rect.pallet_detected
+                    text: "Pallet detected: " + dialog_rect.pallet_detected
                 }
                 Rectangle{
-                    width: main_rect.width -15
+                    width: dialog_rect.width -15
                     height: 250
                     radius: 5
                     border.width: 2
@@ -45,10 +44,10 @@ Dialog {
                 id: slotA
                 Text{
                     id: slotAText
-                    text: "Slot A: Detected ID: " + main_rect.slotid_a
+                    text: "Slot A: Detected ID: " + dialog_rect.slotid_a
                 }
                 Rectangle{
-                    width: main_rect.width/2 -15
+                    width: dialog_rect.width/2 -15
                     height: 125
                     radius: 5
                     border.width: 2
@@ -67,10 +66,10 @@ Dialog {
                 id: slotB
                 Text{
                     id: slotBtext
-                    text: "Slot B: Detected ID: "+ main_rect.slotid_b
+                    text: "Slot B: Detected ID: "+ dialog_rect.slotid_b
                 }
                 Rectangle{
-                    width: main_rect.width/2 -15
+                    width: dialog_rect.width/2 -15
                     height: 125
                     radius: 5
                     border.width: 2
@@ -90,23 +89,23 @@ Dialog {
             Button{
                 id: loadButton
                 text: "load data..."
-                onClicked: main_rect.loadImages()
+                onClicked: dialog_rect.loadImages()
                 Layout.preferredHeight: 40
-                Layout.preferredWidth: main_rect.width/4
+                Layout.preferredWidth: dialog_rect.width/4
             }
             Button{
                 id: okButton
                 text: "Ok"
                 onClicked: console.log("nothing here ... yet")
                 Layout.preferredHeight: 40
-                Layout.preferredWidth: main_rect.width/5
+                Layout.preferredWidth: dialog_rect.width/5
             }
             Button{
                 id: cancelButton
                 text: "Cancel"
-                onClicked: main_rect.close()
+                onClicked: dialog_rect.close()
                 Layout.preferredHeight: 40
-                Layout.preferredWidth: main_rect.width/5
+                Layout.preferredWidth: dialog_rect.width/5
             }
             Button{
                 id: saveButton
@@ -115,7 +114,7 @@ Dialog {
                 enabled: false
                 onClicked: console.log("nothing here.... yet")
                 Layout.preferredHeight: 40
-                Layout.preferredWidth: main_rect.width/5
+                Layout.preferredWidth: dialog_rect.width/5
                 Layout.alignment: Qt.AlignRight
             }
         }
@@ -127,10 +126,10 @@ Dialog {
         target: stocktaker
         function onTransmit_data_to_plugin(row, col, pallet, cupa_id, cupb_id){
             //all parameters are int, except pallet which is bool
-            if (row === main_rect.row && col === main_rect.col){
-                main_rect.slotid_a = cupa_id
-                main_rect.slotid_b = cupb_id
-                main_rect.pallet_detected = pallet
+            if (row === dialog_rect.row && col === dialog_rect.col){
+                dialog_rect.slotid_a = cupa_id
+                dialog_rect.slotid_b = cupb_id
+                dialog_rect.pallet_detected = pallet
             }
 
         }
@@ -150,14 +149,14 @@ Dialog {
         */
 
         // Call stocktaking slot to emit id data.
-        stocktaker.requestIDData(main_rect.row, main_rect.col)
+        stocktaker.requestIDData(dialog_rect.row, dialog_rect.col)
 
         slotAImage.counter += 1
-        let a_sourcestring = "image://stockimage/"+ main_rect.row + "_" + main_rect.col +"_A.png" + slotAImage.counter
+        let a_sourcestring = "image://stockimage/"+ dialog_rect.row + "_" + dialog_rect.col +"_A.png" + slotAImage.counter
         slotBImage.counter += 1
-        let b_sourcestring = "image://stockimage/"+ main_rect.row + "_" + main_rect.col +"_B.png" + slotBImage.counter
+        let b_sourcestring = "image://stockimage/"+ dialog_rect.row + "_" + dialog_rect.col +"_B.png" + slotBImage.counter
         palletImage.counter += 1
-        let pallet_string = "image://stockimage/" + main_rect.row + "_" + main_rect.col +"_Pallet.png" + slotBImage.counter
+        let pallet_string = "image://stockimage/" + dialog_rect.row + "_" + dialog_rect.col +"_Pallet.png" + slotBImage.counter
         slotAImage.source = a_sourcestring
         slotBImage.source = b_sourcestring
         palletImage.source = pallet_string

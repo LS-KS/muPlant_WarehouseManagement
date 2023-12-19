@@ -54,10 +54,10 @@ from src.viewmodel.EventViewModel import EventSortModel
 
 ####################################################### STOCKTAKING #######################################################################
 #TODO: Test gripper cam together with GUI
-#TODO: Find out why emitted IDs show only '-1' instead of real values
 #TODO: Implement image handling so that the user can confirm/change inventory changes. <---- 
 #TODO: Functions for OK Button in StocktakingDetail.qml <---
 #TODO: Fix image indexing when details are called from K1/K2 <----
+#TODO: Update Stockmodel if any updates to inventory occur!
 
 ######################################################### OTHER ###########################################################################
 #TODO: Print new pallet markers and attach them onto the pallets

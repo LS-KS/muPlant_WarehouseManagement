@@ -1,86 +1,86 @@
 - - col: 0
-    cupID_a: 25
-    cupID_b: 69
+    cupID_a: 29
+    cupID_b: 41
     isPalletPresent: true
-    productID_a: 10
-    productID_b: 13
+    productID_a: 1
+    productID_b: 1
     row: 0
   - col: 1
-    cupID_a: 0
+    cupID_a: 35
     cupID_b: 0
     isPalletPresent: true
-    productID_a: 0
+    productID_a: 1
     productID_b: 0
     row: 0
   - col: 2
-    cupID_a: 0
+    cupID_a: 45
     cupID_b: 0
     isPalletPresent: true
-    productID_a: 0
+    productID_a: 1
     productID_b: 0
     row: 0
   - col: 3
-    cupID_a: 0
+    cupID_a: 37
     cupID_b: 0
     isPalletPresent: true
-    productID_a: 0
+    productID_a: 1
     productID_b: 0
     row: 0
   - col: 4
-    cupID_a: 0
+    cupID_a: 36
     cupID_b: 0
     isPalletPresent: true
-    productID_a: 0
+    productID_a: 1
     productID_b: 0
     row: 0
   - col: 5
-    cupID_a: 0
+    cupID_a: 30
     cupID_b: 0
     isPalletPresent: true
-    productID_a: 0
+    productID_a: 1
     productID_b: 0
     row: 0
 - - col: 0
-    cupID_a: 0
-    cupID_b: 1
+    cupID_a: 49
+    cupID_b: 44
     isPalletPresent: true
-    productID_a: 0
+    productID_a: 1
     productID_b: 1
     row: 1
   - col: 1
-    cupID_a: 0
-    cupID_b: 2
+    cupID_a: 48
+    cupID_b: 46
     isPalletPresent: true
-    productID_a: 0
+    productID_a: 1
     productID_b: 1
     row: 1
   - col: 2
-    cupID_a: 0
-    cupID_b: 3
+    cupID_a: 47
+    cupID_b: 31
     isPalletPresent: true
-    productID_a: 0
+    productID_a: 1
     productID_b: 1
     row: 1
   - col: 3
-    cupID_a: 15
-    cupID_b: 7
+    cupID_a: 40
+    cupID_b: 34
     isPalletPresent: true
-    productID_a: 23
-    productID_b: 9
+    productID_a: 1
+    productID_b: 1
     row: 1
   - col: 4
-    cupID_a: 10
-    cupID_b: 4
+    cupID_a: 8
+    cupID_b: 39
     isPalletPresent: true
     productID_a: 1
     productID_b: 1
     row: 1
   - col: 5
-    cupID_a: 0
-    cupID_b: 0
-    isPalletPresent: false
-    productID_a: 0
-    productID_b: 0
+    cupID_a: 32
+    cupID_b: 43
+    isPalletPresent: true
+    productID_a: 1
+    productID_b: 1
     row: 1
 - - col: 0
     cupID_a: 0
@@ -90,24 +90,24 @@
     productID_b: 0
     row: 2
   - col: 1
-    cupID_a: 0
+    cupID_a: 7
     cupID_b: 0
     isPalletPresent: true
-    productID_a: 0
+    productID_a: 1
     productID_b: 0
     row: 2
   - col: 2
-    cupID_a: 0
-    cupID_b: 5
-    isPalletPresent: true
-    productID_a: 0
-    productID_b: 1
-    row: 2
-  - col: 3
-    cupID_a: 0
+    cupID_a: 24
     cupID_b: 0
     isPalletPresent: true
-    productID_a: 0
+    productID_a: 1
+    productID_b: 0
+    row: 2
+  - col: 3
+    cupID_a: 16
+    cupID_b: 0
+    isPalletPresent: true
+    productID_a: 1
     productID_b: 0
     row: 2
   - col: 4
@@ -119,7 +119,7 @@
     row: 2
   - col: 5
     cupID_a: 9
-    cupID_b: 8
+    cupID_b: 33
     isPalletPresent: true
     productID_a: 1
     productID_b: 1
