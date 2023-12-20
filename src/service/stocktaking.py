@@ -172,8 +172,6 @@ class Stocktaker(QQuickImageProvider):
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Start obtaining image from camera...")
         self.cameraService.get_image(0)
         self.raw_image = np.copy(self.image)
-        #plt.imshow(self.image, cmap= 'gray')
-        #plt.show()
         if self.image is None:
             self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "No image obtained from camera! Stocktaking aborted.")
             return
@@ -210,7 +208,6 @@ class Stocktaker(QQuickImageProvider):
         self._slice_storage(self.raw_image)
         self.eventlogService.write_event("Stocktaker.evaluate_storagecell_cam", "Slicing finished. Start marker detection in sections...")
         print("Detection in pallets:")
-        # until here no cups/ pallets are none
         for i, pallet in enumerate(self.pallets):
             parameters = self.select_marker_parameters(
                 i= i,
@@ -246,7 +243,7 @@ class Stocktaker(QQuickImageProvider):
                 cups=True,
                 parameters=parameters)
             cups, ids = self._get_cup_markers(markers)
-            self.cupsA[i] = self._draw_markers(corners = cups, ids=ids, color= (255,255,255), section= upscaled, section_id=i)
+            #self.cupsA[i] = self._draw_markers(corners = cups, ids=ids, color= (255,255,255), section= upscaled, section_id=i)
             cv2.imwrite(f"src/service/temp/cup{i + 1}.png", upscaled)
         print(f"cup-ids: {self.cupsA_ids}")
         print(f"cups: {self.cupsA}")
@@ -536,6 +533,8 @@ class Stocktaker(QQuickImageProvider):
             section = cv2.cvtColor(section, cv2.COLOR_RGB2GRAY) if section.ndim == 3 else section
             section = cv2.GaussianBlur(section, (5, 5), 0)
             (corners, ids, rejected) = cv2.aruco.detectMarkers(section, arucodict, parameters= parameters )
+            if ids is None: 
+                (corners, ids, section) = self.undistort(section)
             section = cv2.aruco.drawDetectedMarkers(section, corners, ids)
             cv2.imwrite("overview_raw.png", section)
             markers = self._refactor_corners(corners, ids)
@@ -547,6 +546,72 @@ class Stocktaker(QQuickImageProvider):
             print(f"detection id {section_id+1}: {marker_content}, {len(markers[1])}")
             return markers, section
     
+    def undistort(self, image):
+        # find marker in rejected contours
+        arucodict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
+        corners, ids, rejected = cv2.aruco.detectMarkers(image, arucodict)
+        if ids is not None: 
+            image = np.array(image, dtype = np.uint8)
+            return corners, ids, image
+        marker = []
+        for obj in rejected:
+            ob=obj[0] 
+            x = [ y[0] for y in ob]
+            y = [ y[1] for y in ob]
+            dx = max(x) - min(x)
+            dy = max(y) - min(y)
+            if dx/image.shape[0] > 0.3: 
+                marker = ob
+        x_vals = [ y[0] for y in marker]
+        y_vals = [ y[1] for y in marker]
+
+        # find upper left corner
+        x_origin = image.shape[1]
+        y_origin = 0
+        for i,val in enumerate(x_vals):
+            if val < x_origin and y_vals[i] < 0.8* max(y_vals):
+                x_origin = val
+                y_origin = y_vals[i]
+        x_origin = int(x_origin)
+        y_origin = int(y_origin)
+
+        # calculate offsets
+        offsets = []
+        for x in range(int(max(x_vals) - x_origin)): #loop over marker with
+            # determine y-offset
+            idx = x_origin + x
+            val = image[ y_origin, idx]
+            offset = 0
+            rim = False
+            if val == 255 and any(image[y_origin: int(max(y_vals)), idx]==0) :
+                while rim == False:
+                    var = image[int(y_origin) + offset ,idx]
+                    if image[int(y_origin) + offset , idx] == 0:
+                        rim = True
+                    else:
+                        offset +=1
+                offsets.append(offset)
+            elif val == 0 and any(image[:,idx] == 255):
+                while rim == False:
+                    var = image[int(y_origin) + offset , idx]
+                    if image[int(y_origin) + offset , idx] == 255:
+                        rim = True
+                    else:
+                        offset -=1
+                offsets.append(offset)
+            else:
+                offsets.append(offset)
+
+        for x in range(int(max(x_vals) - x_origin)):
+            idx = x + x_origin
+            if offsets[x] > 0:
+                image[0: image.shape[0]- offsets[x], idx ] = image[offsets[x]:, idx]
+            else:
+                image[-offsets[x]:, idx] = image[0 :image.shape[0]+offsets[x], idx]
+        corners, ids, rejected = cv2.aruco.detectMarkers(image, arucodict)
+        image = np.array(image, dtype=np.uint8)
+        return corners, ids, image
+
     def _draw_markers(self, corners, ids, color, section = None, section_id=0):
         """
         draw given markers in given color.
