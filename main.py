@@ -58,6 +58,7 @@ from src.viewmodel.EventViewModel import EventSortModel
 #TODO: Functions for OK Button in StocktakingDetail.qml <---
 #TODO: Fix image indexing when details are called from K1/K2 <----
 #TODO: Update Stockmodel if any updates to inventory occur!
+#TODO: Method to rectify markers is not error proof (e.g. it excepts when no image is submitted or x_vals are empty)
 
 ######################################################### OTHER ###########################################################################
 #TODO: Print new pallet markers and attach them onto the pallets

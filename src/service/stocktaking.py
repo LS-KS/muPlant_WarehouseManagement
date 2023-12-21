@@ -333,6 +333,8 @@ class Stocktaker(QQuickImageProvider):
             markers[0].append(ids)
         if ids is not None:
             markers[1].append(corners)
+        if corners is None and markers is None: 
+            return None
         return markers
     
     def _get_shelf_markers(self, markers):
@@ -538,7 +540,8 @@ class Stocktaker(QQuickImageProvider):
             section = cv2.aruco.drawDetectedMarkers(section, corners, ids)
             cv2.imwrite("overview_raw.png", section)
             markers = self._refactor_corners(corners, ids)
-            marker_content = markers[0][0]
+            if markers is not None: 
+                marker_content = markers[0][0]
             if marker_content is not None:
                 marker_content = marker_content[0][0]
             if cups:
@@ -564,7 +567,8 @@ class Stocktaker(QQuickImageProvider):
                 marker = ob
         x_vals = [ y[0] for y in marker]
         y_vals = [ y[1] for y in marker]
-
+        if len(x_vals) == 0 or len(y_vals) == 0:
+            return None, None, image
         # find upper left corner
         x_origin = image.shape[1]
         y_origin = 0
@@ -657,7 +661,7 @@ class Stocktaker(QQuickImageProvider):
                 # threshold = 190
                 # section = cv2.threshold(section, threshold, 255, cv2.THRESH_BINARY)[1]
                 if y == 0:
-                    cup_area = section [int(section.shape[0]*0.15) : int(section.shape[0]*0.35), int(0.35*section.shape[1]):int(section.shape[1]*0.75)]
+                    cup_area = section [int(section.shape[0]*0.15) : int(section.shape[0]*0.4), int(0.35*section.shape[1]):int(section.shape[1]*0.75)]
                     pallet_area =section [int(section.shape[0]*0.5) : int(section.shape[0]*0.8), 0:int(section.shape[1])]
                 elif y ==1:
                     cup_area = section [int(section.shape[0]*0.23) : int(section.shape[0]*0.4), int(0.35*section.shape[1]):int(section.shape[1]*0.75)]
